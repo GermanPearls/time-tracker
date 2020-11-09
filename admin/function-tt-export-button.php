@@ -17,13 +17,13 @@
 if ( !defined('ABSPATH') ) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include_once $path . '/wp-load.php';
-    require_once $path . '/wp-content/plugins/time-tracker/inc/class-time-tracker-activator-tables.php';
 }
 
 
 if ( ($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST["type"]) ){
-
-    require_once $path . '/wp-content/plugins/time-tracker/admin/function-tt-export-tables.php';
+	
+	require_once WP_CONTENT_DIR . '/plugins/time-tracker/inc/class-time-tracker-activator-tables.php';
+    require_once WP_CONTENT_DIR . '/plugins/time-tracker/admin/function-tt-export-tables.php';
 
     tt_export_tables();
     
