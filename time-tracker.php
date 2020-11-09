@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Time Tracker
- * Plugin URI:        https://www.logicallytech.com/services/wordpress-plugins/
+ * Plugin URI:        https://www.logicallytech.com/services/wordpress-plugins/time-tracker/
  * Description:       A project, task and time tracking program for freelancers.
  * Version:           1.0.0
  * Requires at least: 5.3
