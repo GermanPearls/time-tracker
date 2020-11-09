@@ -1,0 +1,63 @@
+<?php
+/**
+ * Class Time_Tracker_Shortcode_Error_Alert
+ *
+ * SHORTCODE TO DISPLAY CLIENT LIST TABLE
+ * 
+ * @since 1.0
+ * 
+ */
+
+defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
+
+/**
+ * If class doesn't already exist
+ * 
+ */
+if ( ! class_exists('Time_Tracker_Shortcode_Error_Alert') ) {
+
+    /**
+     * Class
+     * 
+     */  
+    class Time_Tracker_Shortcode_Error_Alert {
+
+        
+        /**
+         * Class Variables
+         * 
+         */         
+        public $shortcode = 'tt_error_alert';
+
+        
+        /**
+         * Constructor
+         * 
+         */
+        public function __construct() {
+            add_shortcode( $this->shortcode, array( $this, 'error_alert_shortcode' ) );
+        }
+
+
+        /**
+         * Shortcode callback
+         * 
+         */
+        public function error_alert_shortcode() {
+            $alert = new Time_Tracker_SQL_Result_Display_Message;
+            $message = $alert->display_message();
+            return $message;
+        }
+    
+
+        /**
+         * Return results
+         * 
+         */
+        public function get_shortcode() {
+            return $this->shortcode;
+        }
+    } //class
+} //if class exists
+
+$Time_Tracker_Shortcode_Error_Alert = new Time_Tracker_Shortcode_Error_Alert();
