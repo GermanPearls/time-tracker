@@ -22,7 +22,6 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         public static $mail_meta = array();
         public static $mail_2_meta = array();
         public static $msg_meta = array();
-		public static $additional_settings = "";
         
         /**
          * Constructor
@@ -44,7 +43,6 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             self::get_mail_meta();
             self::get_mail_2_meta();
             self::get_msg_meta();
-			self::get_additional_settings();
             self::create_forms();
         }
 
@@ -71,7 +69,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
                         add_post_meta($post_id, '_mail', self::$mail_meta);
                         add_post_meta($post_id, '_mail_2', self::$mail_2_meta);
                         add_post_meta($post_id, '_messages', self::$msg_meta);
-                        add_post_meta($post_id, '_additional_settings', self::$additional_settings);                    
+                        add_post_meta($post_id, '_additional_settings', null);                    
                         add_post_meta($post_id, '_locale', self::get_user_location() );
                     }
                 } //check form doesn't already exist
@@ -376,16 +374,6 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
 
 
         /**
-         * Get Additional Settings
-         * 
-         */
-        public static function get_additional_settings() {
-            $settings = "skip_mail: on";  
-            self::$additional_settings = $settings;
-        }
-		
-		
-		/**
          * Get Mail Meta
          * 
          */

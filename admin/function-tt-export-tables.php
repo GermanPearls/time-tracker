@@ -19,10 +19,9 @@
     if ( !defined('ABSPATH') ) {
         $path = $_SERVER['DOCUMENT_ROOT'];
         include_once $path . '/wp-load.php';
+        require_once $path . '/wp-content/plugins/time-tracker/inc/class-time-tracker-activator-tables.php';
     }
-	 
-    require_once WP_CONTENT_DIR . '/plugins/time-tracker/inc/class-time-tracker-activator-tables.php';
-    
+
     $table_list = Time_Tracker_Activator_Tables::get_table_list();
 
     $path = ABSPATH . "../tt_logs/";

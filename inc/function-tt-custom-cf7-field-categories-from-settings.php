@@ -54,7 +54,7 @@ function custom_add_form_tag_client_sub_category() {
  * 
  */
 function custom_add_form_tag_bill_to_name() {
-    wpcf7_add_form_tag( 'bill_to_names', 'custom_bill_to_name_form_tag_handler', array('name-attr'=>true));
+    wpcf7_add_form_tag( 'bill_to_name', 'custom_bill_to_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -112,14 +112,10 @@ function custom_bill_to_name_form_tag_handler($tag) {
  */
 function custom_category_form_tag_handler( $tag, $type ) {
 
-    //Get categories from Time Tracker options saved in WP DB
+    //Get work categories from Time Tracker settings page
     $settings = get_option('time-tracker');
-	if ($settings) {
-		$list = $settings[$type];
-    	$array = explode("\r\n", $list);
-	} else {
-		$array = array("N/A");
-	}
+    $list = $settings[$type];
+    $array = $array = explode("\r\n", $list);
 
     $atts = array(
         'type' => 'text',

@@ -17,6 +17,7 @@
 if ( !defined('ABSPATH') ) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include_once $path . '/wp-load.php';
+    require_once $path . '/wp-content/plugins/time-tracker/inc/class-time-tracker-delete.php';
 }
 
 
@@ -24,7 +25,6 @@ if ( ($_SERVER['REQUEST_METHOD'] = 'POST') && isset($_POST["type"]) ){
 
     if ($_POST["type"] == "confirmed") {
 
-		require_once WP_CONTENT_DIR . '/plugins/time-tracker/inc/class-time-tracker-delete.php';
         Time_Tracker_Deletor::delete_all();
         
     }
