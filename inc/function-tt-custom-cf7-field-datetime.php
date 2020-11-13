@@ -36,8 +36,12 @@ function custom_datetime_form_tag_handler( $tag ) {
   $tag = new WPCF7_FormTag($tag);
   $class = wpcf7_form_controls_class($tag->type);
 
-  date_default_timezone_set('America/New_York');
-  $now = date('n/j/y g:i A');
+  $now = new DateTime();
+  $tz = get_option('timezone_string');
+  if ($tz) {
+  	$now = $now->setTimezone(new DateTimeZone($tz));		
+  }
+  $now = $now->format('n/j/y g:i A');
 
   $atts = array(
     'type' => 'datetime',
