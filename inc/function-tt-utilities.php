@@ -110,7 +110,7 @@ function get_month_name_from_number($monthnumber) {
  */
 function tt_get_form_id($form_name) {
     //$forms = WPCF7_ContactForm::find(array("title" => $form_name));
-    $forms = get_posts(array(
+	$forms = get_posts(array(
         'title'=> $form_name,
         'post_type' => 'wpcf7_contact_form'
     ), ARRAY_A);

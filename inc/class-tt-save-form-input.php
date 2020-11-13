@@ -52,10 +52,10 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $this->task_id = $this->get_task_id($data);
             
             //Connect to 2nd Database
-            //$this->tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
-
-
-            /**
+            //$this->tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);			
+            
+			
+			/**
              * Add new task
              * 
              */
