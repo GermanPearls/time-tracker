@@ -211,16 +211,21 @@ function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {
     $now = new DateTime;
     //there was a sql error
     if( ($lasterror !== "") and ($lasterror !== null) ) {
-        log_sql('SQL ERROR: In file ' . $filename . ', function: ' . $functionname);
-        log_sql('SQL String: ' . $lastquery);
-        log_sql('SQL Error Details: ' . $lasterror);
+		if (WP_DEBUG_LOG) {
+        	log_sql('SQL ERROR: In file ' . $filename . ', function: ' . $functionname);
+        	log_sql('SQL String: ' . $lastquery);
+        	log_sql('SQL Error Details: ' . $lasterror);
+		}
         //save to options table to alert user
         update_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
     
     //it was a success!
     } else {
-        log_sql('SQL SUCCESS. SQL String: ' . $lastquery);
-        $option = get_option('time-tracker-sql-result');
+        if (WP_DEBUG_LOG) {
+			log_sql('SQL SUCCESS. SQL String: ' . $lastquery);
+		}
+		
+		$option = get_option('time-tracker-sql-result');
         
         //if option already was a success, just update the date
         if ($option['result'] == 'success') {
@@ -243,15 +248,17 @@ function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {
  * 
  */
 function log_sql($msg) {
-    $log_folder = ABSPATH . "../tt_logs/sql_log";
-    if (!file_exists($log_folder)) {
-        mkdir($log_folder, 0777, true);
-    }
-    $log_filename = $log_folder . '/sql_log_' . date('d-M-Y') . '.log';
-    $now = new DateTime();
-    $now->setTimeZone(new DateTimeZone(wp_timezone_string()));
-    $log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
-    file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
+    if (WP_DEBUG_LOG) {
+		$log_folder = ABSPATH . "../tt_logs/sql_log";
+		if (!file_exists($log_folder)) {
+			mkdir($log_folder, 0777, true);
+		}
+		$log_filename = $log_folder . '/sql_log_' . date('d-M-Y') . '.log';
+		$now = new DateTime();
+		$now->setTimeZone(new DateTimeZone(wp_timezone_string()));
+		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
+		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
+	}
 }
 
 
@@ -260,15 +267,17 @@ function log_sql($msg) {
  * 
  */
 function log_cron($msg) {
-    $log_folder = ABSPATH . "../tt_logs/cron_log";
-    if (!file_exists($log_folder)) {
-        mkdir($log_folder, 0777, true);
-    }
-    $log_filename = $log_folder . '/cron_log_' . date('d-M-Y') . '.log';
-    $now = new DateTime();
-    $now->setTimeZone(new DateTimeZone(wp_timezone_string()));
-    $log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
-    file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
+    if (WP_DEBUG_LOG) {
+		$log_folder = ABSPATH . "../tt_logs/cron_log";
+		if (!file_exists($log_folder)) {
+			mkdir($log_folder, 0777, true);
+		}
+		$log_filename = $log_folder . '/cron_log_' . date('d-M-Y') . '.log';
+		$now = new DateTime();
+		$now->setTimeZone(new DateTimeZone(wp_timezone_string()));
+		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
+		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
+	}
 }
 
 
@@ -277,13 +286,15 @@ function log_cron($msg) {
  * 
  */
 function log_tt_misc($msg) {
-    $log_folder = ABSPATH . "../tt_logs/misc_log";
-    if (!file_exists($log_folder)) {
-        mkdir($log_folder, 0777, true);
-    }
-    $log_filename = $log_folder . '/misc_log_' . date('d-M-Y') . '.log';
-    $now = new DateTime();
-    $now->setTimeZone(new DateTimeZone(wp_timezone_string()));
-    $log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
-    file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
+    if (WP_DEBUG_LOG) {
+		$log_folder = ABSPATH . "../tt_logs/misc_log";
+		if (!file_exists($log_folder)) {
+			mkdir($log_folder, 0777, true);
+		}
+		$log_filename = $log_folder . '/misc_log_' . date('d-M-Y') . '.log';
+		$now = new DateTime();
+		$now->setTimeZone(new DateTimeZone(wp_timezone_string()));
+		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
+		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
+	}
 }
