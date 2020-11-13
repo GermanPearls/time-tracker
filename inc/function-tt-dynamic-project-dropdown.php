@@ -14,11 +14,11 @@
  * Fixes call to undefined function error when calling plugin_dir_url below
  * 
  */
-if ( !defined('ABSPATH') ) {
+//if ( !defined('ABSPATH') ) {
     //If wordpress isn't loaded load it up.
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include_once $path . '/wp-load.php';
-}
+ //   $path = $_SERVER['DOCUMENT_ROOT'];
+  //  include_once $path . '/wp-load.php';
+//}
 
 
 /**

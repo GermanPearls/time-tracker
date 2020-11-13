@@ -70,6 +70,14 @@ No, to set up Time Tracker simply install it and setup your options like work ca
  
 Yes, the screens of Time Tracker display your information in easy to read tables where you can easily edit information.
 
+= Can I use Time Tracker on a multi-site installation? =
+ 
+Time Tracker hasn't yet been tested on a multi-site application.
+
+= WordPress is installed in a subfolder / subdirectory, will Time Tracker still work? =
+ 
+Time Tracker hasn't yet been tested in this setup.
+
 == Screenshots ==
  
 1. The homepage of Time Tracker with quicklinks to important pages. Note: All front facing pages are private by default.
