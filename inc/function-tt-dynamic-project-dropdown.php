@@ -11,17 +11,6 @@
 
 
 /**
- * Fixes call to undefined function error when calling plugin_dir_url below
- * 
- */
-if ( !defined('ABSPATH') ) {
-    //If wordpress isn't loaded load it up.
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include_once $path . '/wp-load.php';
-}
-
-
-/**
  * Fixes call to undefined function error when calling get_client_id_from_name function
  * 
  */
