@@ -115,7 +115,11 @@ function custom_category_form_tag_handler( $tag, $type ) {
     //Get work categories from Time Tracker settings page
     $settings = get_option('time-tracker');
     $list = $settings[$type];
-    $array = $array = explode("\r\n", $list);
+	if ($settings) {
+		$array = $array = explode("\r\n", $list);
+	} else {
+		$array = array("N/A");
+	}
 
     $atts = array(
         'type' => 'text',
