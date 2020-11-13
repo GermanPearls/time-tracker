@@ -93,7 +93,7 @@ if ( !class_exists( 'Client_List' ) ) {
                 $table .= "<td id=\"client-name\" class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
                 $table .= "<td id=\"contact\" class=\"not-editable\">" . nl2br(stripslashes($item->Contact)) . "</td>";
                 $table .= "<td id=\"email\" class=\"not-editable\">" . nl2br(stripslashes($item->Email)) . "</td>";
-                $table .= "<td id=\"phone\" class=\"not-editable\">" . nl2br(stripslashes($item->PStatus)) . "</td>";
+                $table .= "<td id=\"phone\" class=\"not-editable\">" . nl2br(stripslashes($item->Phone)) . "</td>";
                 $table .= "<td id=\"bill-to\" class=\"not-editable\">" . nl2br(stripslashes($item->BillTo)) . "</td>";
                 $table .= "<td id=\"source\" class=\"not-editable\">" . nl2br(stripslashes($item->Source)) . "</td>";
                 $table .= "<td id=\"source-details\" class=\"not-editable\">" . nl2br(stripslashes($item->SourceDetails)) . "</td>";
