@@ -26,6 +26,22 @@ function tt_admin_menu_home() {
             </div>
             <?php
          }
+	     if ( !get_option('timezone_string') ) {
+            ?>
+            <div class="tt-indent">
+               <h2>ALERT</h2>
+				<p class="tt-important">You don't have a timezone set in your WordPress settings. All time logs will show UTC time. To use your local timezone, update your timezone in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>.</p>
+            </div>
+            <?php
+         }
+		 if ( get_option('timezone_string') == "UTC" ) {
+            ?>
+            <div class="tt-indent">
+               <h2>Time Zone Check</h2>
+				<p class="tt-important">You have a default time zone of <?php echo get_option('timezone_string'); ?> set in WordPress.  All your time logs will show in this time. If this is not correct, please update your timezone in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>.</p>
+            </div>
+            <?php
+         }
          ?>
       <button onclick="location.href='/time-tracker';" class="tt-admin-to-front button-primary ">Time Tracker Home</button>
       <form action="options.php" method="post" id="tt-options">
