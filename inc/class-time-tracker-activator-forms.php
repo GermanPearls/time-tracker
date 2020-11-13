@@ -219,7 +219,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
                 [tel contact-telephone] </label>
             
             <label> Bill To
-                [bill_to_names bill-to ie:bill-to-names-dropdown] </label>
+                [bill_to_name bill-to ie:bill-to-name-dropdown] </label>
             
             <label> Source
                 [client_category client-source id:client-source-dropdown] </label>
