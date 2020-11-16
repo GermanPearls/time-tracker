@@ -11,54 +11,76 @@
  * 
  */
 
-////date_default_timezone_set((wp_timezone_string()));
-
 
 /**
  * 
  * 
  */
-if ( $_SERVER['REQUEST_METHOD'] = 'POST' and isset($_POST["id_field"]) ) {
+function tt_update_table_function() {
+	
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST["id_field"]) ) {
 
-    //Connect to 2nd Database
-    //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
-    global $wpdb;
+		if ( check_ajax_referer( 'tt_update_table_nonce', 'security' )) {
+					
+			//Connect to 2nd Database
+			//$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
+			global $wpdb;
 
-    $record = [
-        $_POST["id_field"] => $_POST["id"]
-    ];
+			$record = [
+				$_POST["id_field"] => $_POST["id"]
+			];
 
-    //deal with date entries, must be inserted into database in yyyy-mm-dd format
-    if ( strpos(strtolower($_POST["field"]), "date") ) {
+			//deal with date entries, must be inserted into database in yyyy-mm-dd format
+			if ( strpos(strtolower($_POST["field"]), "date") ) {
 
-        //convert the date entered from t a string to a date/time object
-        $date_entered = new DateTime($_POST["value"]);
+				//convert the date entered from t a string to a date/time object
+				$date_entered = new DateTime($_POST["value"]);
 
-        //use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
-        $date_in_sql_format = $date_entered->format('Y') . "-" . $date_entered->format('m') . "-" . $date_entered->format('d');
-        
-        $data = [
-            $_POST["field"] => $date_in_sql_format
-        ];
-        //the last argument, %s, tells the function to keep the data in string format
-        $result = $wpdb->update($_POST["table"], $data, $record);
-        catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-      
-    //pass everything else along to the wp update function
-    } else {
+				//use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
+				$date_in_sql_format = $date_entered->format('Y') . "-" . $date_entered->format('m') . "-" . $date_entered->format('d');
 
-        //if updated value includes <br> that were automatically inserted remove them to avoid doulbe line breaks
-        if ( strpos($_POST["value"], "<br>")) {
-            $updated_value = str_replace("<br>", "", $_POST["value"]);
-        } else {
-            $updated_value = $_POST["value"];
-        }
-        
-        $data = [
-            $_POST["field"] => $updated_value
-        ];
-        $result = $wpdb->update($_POST["table"], $data, $record);
-        catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-    }
+				$data = [
+					$_POST["field"] => $date_in_sql_format
+				];
+				//the last argument, %s, tells the function to keep the data in string format
+				$result = $wpdb->update($_POST["table"], $data, $record);
+				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
 
-} //was _POST reqeust
+			//pass everything else along to the wp update function
+			} else {
+
+				//if updated value includes <br> that were automatically inserted remove them to avoid doulbe line breaks
+				if ( strpos($_POST["value"], "<br>")) {
+					$updated_value = str_replace("<br>", "", $_POST["value"]);
+				} else {
+					$updated_value = $_POST["value"];
+				}
+
+				$data = [
+					$_POST["field"] => $updated_value
+				];
+				$result = $wpdb->update($_POST["table"], $data, $record);
+				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+			}
+
+			//return result to ajax call
+			if ($wpdb->last_error !== "") {
+				$return = array(
+					'success' => 'false',
+					'details' => 'update table: ' . $_POST["table"] . ', where  ' . $_POST["id_field"] . "=" . $_POST["id"] . ', update field: ' . $_POST["field"] . " to value: " . $updated_value,
+					'message' => $wpdb->last_error
+				);
+				wp_send_json_error($return, 500);
+			} else {
+				$return = array(
+					'success' => 'true',
+					'details' => 'private',
+					'message' => 'Success, database updated.'
+				);
+				wp_send_json_success($return, 200);			
+			}
+			
+		} //was _POST request
+	} //check nonce
+	die();
+}
