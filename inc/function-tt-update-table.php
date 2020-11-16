@@ -11,20 +11,7 @@
  * 
  */
 
-
-//defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
-
-/**
- * If wordpress isn't loaded load it up
- * 
- */
-if ( !defined('ABSPATH') ) {
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include_once $path . '/wp-load.php';
-}
-
-
-date_default_timezone_set((wp_timezone_string()));
+////date_default_timezone_set((wp_timezone_string()));
 
 
 /**
