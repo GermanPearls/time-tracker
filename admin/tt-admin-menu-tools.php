@@ -24,7 +24,7 @@ function tt_admin_menu_tools() {
             Use this to manually backup your time tracker data.<br/>
             The tables will be exported and saved on a file in your website's root directory.
          </p>
-         <button onclick="export_tt_data(&quot;backup&quot;)" class="button-primary">Backup Now</button>
+         <button onclick="export_tt_data(&#34;backup&#34;)" class="button-primary">Backup Now</button>
          <hr/>
          <h2>Delete All Data</h2>
          <p>
