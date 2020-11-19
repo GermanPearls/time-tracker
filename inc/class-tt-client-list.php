@@ -84,21 +84,23 @@ if ( !class_exists( 'Client_List' ) ) {
                 if ($item->DateAdded == "0000-00-00 00:00:00") {
                     $date_added_formatted = "";
                 } else {
-                    $date_added_formatted = date_format(DateTimeImmutable::createFromFormat("Y-m-d G:i:s", $item->DateAdded), "n/j/y");
+                    $date_added_formatted = date_format(DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->DateAdded)), "n/j/y");
                 }
                         
                 //create row
                 $table .= "<tr>";
-                $table .= "<td id=\"client-id\" class=\"not-editable\">" . $item->ClientID . "</td>";
-                $table .= "<td id=\"client-name\" class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
-                $table .= "<td id=\"contact\" class=\"not-editable\">" . nl2br(stripslashes($item->Contact)) . "</td>";
-                $table .= "<td id=\"email\" class=\"not-editable\">" . nl2br(stripslashes($item->Email)) . "</td>";
-                $table .= "<td id=\"phone\" class=\"not-editable\">" . nl2br(stripslashes($item->Phone)) . "</td>";
-                $table .= "<td id=\"bill-to\" class=\"not-editable\">" . nl2br(stripslashes($item->BillTo)) . "</td>";
-                $table .= "<td id=\"source\" class=\"not-editable\">" . nl2br(stripslashes($item->Source)) . "</td>";
-                $table .= "<td id=\"source-details\" class=\"not-editable\">" . nl2br(stripslashes($item->SourceDetails)) . "</td>";
-                $table .= "<td id=\"comments\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . $item->CComments . ")\">" . nl2br(stripslashes($item->CComments)) . "</td>";
-                $table .= "<td id=\"date-added\" class=\"not-editable\">" . $date_added_formatted . "</td>";
+                $table .= "<td id=\"client-id\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->ClientID)) . "</td>";
+                //$table .= "<td id=\"client-name\" class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
+                $table .= "<td id=\"client-name\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Company)) . "</td>";
+                $table .= "<td id=\"contact\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Contact)) . "</td>";
+                $table .= "<td id=\"email\" class=\"not-editable\">" . esc_html(sanitize_email($item->Email)) . "</td>";
+                $table .= "<td id=\"phone\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Phone)) . "</td>";
+                $table .= "<td id=\"bill-to\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->BillTo)) . "</td>";
+                $table .= "<td id=\"source\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Source)) . "</td>";
+                $table .= "<td id=\"source-details\" class=\"not-editable\">" . wp_kses_post(nl2br($item->SourceDetails)) . "</td>";
+                //$table .= "<td id=\"comments\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . $item->CComments . ")\">" . nl2br(stripslashes($item->CComments)) . "</td>";
+                $table .= "<td id=\"comments\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . wp_kses_post(nl2br($item->CComments)) . ")\">" . wp_kses_post(nl2br($item->CComments)) . "</td>";
+                $table .= "<td id=\"date-added\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($date_added_formatted)) . "</td>";
                 $table .="</tr>";
 
             } // foreach client loop
