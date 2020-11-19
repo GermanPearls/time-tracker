@@ -34,7 +34,13 @@ function tt_categories_bill_to_names_callback() {
     Examples: Self, Client, Third Party Business Name<br>
     Enter one per line.<br><br>
     <textarea id="tt-bill-to" name="time-tracker[bill-to-names]" rows="5" cols="30" class="tt-options-form" form="tt-options" onkeypress="return tt_add_line_break(event);"><?php
-    echo isset( $setting['bill-to-names'] ) ? esc_html( $setting['bill-to-names'] ) : ''; ?></textarea><br></div>
+    $btn = trim(sanitize_textarea_field($setting['bill-to-names']));
+    if (isset( $btn )) {
+        echo esc_html($btn);
+    } else {
+        echo '';
+    }
+    ?></textarea><br></div>
     <hr>
     <?php
 }
@@ -55,7 +61,13 @@ function tt_categories_work_categories_callback() {
     Examples: Website Design, Social Media Management, Website Updates.<br>
     Enter one category on each line.<br><br>
     <textarea id="tt-categories" name="time-tracker[work-categories]" rows="10" cols="30" class="tt-options-form" form="tt-options" onkeypress="return tt_add_line_break(event);"><?php
-    echo isset( $setting['work-categories'] ) ? esc_html( $setting['work-categories'] ) : ''; ?></textarea><br></div>
+    $wc = trim(sanitize_textarea_field($setting['work-categories']));
+    if (isset( $wc )) {
+        echo esc_html($wc);
+    } else {
+        echo '';
+    }
+    ?></textarea><br></div>
     <hr>
     <?php
 }
@@ -76,7 +88,13 @@ function tt_categories_client_categories_callback() {
     Examples: Paid Ad, Organic Search, Referral.<br>
     Enter one choice on each line.<br><br>
     <textarea id="tt-csource" name="time-tracker[client-categories]" rows="10" cols="30" class="tt-options-form" form="tt-options" onkeypress="return tt_add_line_break(event);"><?php
-    echo isset( $setting['client-categories'] ) ? esc_html( $setting['client-categories'] ) : ''; ?></textarea><br></div>
+    $cc = trim(sanitize_textarea_field($setting['client-categories']));
+    if (isset( $cc )) {
+        echo esc_html($cc);
+    } else {
+        echo '';
+    }
+    ?></textarea><br></div>
     <hr>
     <?php   
 }
@@ -97,7 +115,13 @@ function tt_categories_client_sub_categories_callback() {
     Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client<br>
     Enter one choice on each line.<br><br>
     <textarea id="tt-client-sub-categories" name="time-tracker[client-sub-categories]" rows="10" cols="30" class="tt-options-form" form="tt-options" onkeypress="return tt_add_line_break(event);"><?php
-    echo isset( $setting['client-sub-categories'] ) ? esc_html( $setting['client-sub-categories'] ) : ''; ?></textarea><br></div>
+    $csc = sanitize_textarea_field($setting['client-sub-categories']);
+    if (isset( $csc )) {
+        echo esc_html($csc);
+    } else {
+        echo '';
+    }
+    ?></textarea><br></div>
     <br>
     <?php
 }

@@ -55,10 +55,12 @@ if ( ! class_exists('Time_Tracker_SQL_Result_Display_Message') ) {
          * 
          */
         private function get_message() {
-            if ($this->option['result'] == 'failure') {
+            $result = sanitize_text_field($this->option['result']);
+            $msg = sanitize_text_field($this->option['updated']);
+            if ($result == 'failure') {
                 $display = "<div class=\"error-message\" id=\"sql-error-alert\">";
                 $display .= "ALERT: There was a SQL error recently (";
-                $display .= $this->option['updated'];
+                $display .= $msg;
                 $display .= ") Please check the SQL logs or contact support for assistance.";
                 $display .= "<button onclick=\"tt_clear_sql_error()\" class=\"clear-error\">Clear Error</button>";
                 $display .= "</div>";

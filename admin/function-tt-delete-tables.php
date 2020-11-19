@@ -13,9 +13,11 @@
 
 function tt_delete_data_function() {
 
-	if ( ($_SERVER['REQUEST_METHOD'] = 'POST') && isset($_POST["type"]) ){
+	if ( ($_SERVER['REQUEST_METHOD'] = 'POST') && isset($_POST['type']) ){
 
-    	if ($_POST["type"] == "confirmed") {
+		$type = sanitize_text_field($_POST['type']);
+
+    	if ($type == 'confirmed') {
     	
 			if (check_ajax_referer('tt_delete_data_nonce', 'security')) {
 

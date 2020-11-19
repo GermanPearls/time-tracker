@@ -26,7 +26,8 @@ function tt_admin_menu_home() {
             </div>
             <?php
          }
-	     if ( !get_option('timezone_string') ) {
+         $tz = sanitize_text_field(get_option('timezone_string'));
+	     if ( !$tz ) {
             ?>
             <div class="tt-indent">
                <h2>ALERT</h2>
@@ -34,11 +35,11 @@ function tt_admin_menu_home() {
             </div>
             <?php
          }
-		 if ( get_option('timezone_string') == "UTC" ) {
+		 if ( $tz == "UTC" ) {
             ?>
             <div class="tt-indent">
                <h2>Time Zone Check</h2>
-				<p class="tt-important">You have a default time zone of <?php echo get_option('timezone_string'); ?> set in WordPress.  All your time logs will show in this time. If this is not correct, please update your timezone in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>.</p>
+				<p class="tt-important">You have a default time zone of <?php echo esc_textarea($tz); ?> set in WordPress.  All your time logs will show in this time. If this is not correct, please update your timezone in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>.</p>
             </div>
             <?php
          }
