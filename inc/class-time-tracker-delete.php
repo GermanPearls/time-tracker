@@ -48,9 +48,8 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function define_dependents() {
-            $path = $_SERVER['DOCUMENT_ROOT'];
-            require_once $path . '/wp-content/plugins/time-tracker/inc/class-time-tracker-activator-tables.php';
-            require_once $path . '/wp-content/plugins/time-tracker/admin/function-tt-export-tables.php';
+            require_once 'class-time-tracker-activator-tables.php';
+            require_once __DIR__ . '/../admin/function-tt-export-tables.php';
         }
 
 
@@ -59,11 +58,22 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function backup_everything() {
-            tt_export_tables();
+            tt_export_data_function();
         }
 
 
         /**
+         * Delete Tables - User Data - Only (From button on admin screen)
+         * 
+         */
+        public static function delete_tables_only() {
+            self::define_dependents();
+            self::backup_everything();
+            self::delete_tables(); //done with wpdb tables
+        }
+		
+		
+		/**
          * Delete Tables
          * 
          */
@@ -86,7 +96,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          */
         public static function remove_foreign_keys_from_tables() {
             global $wpdb;
-            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            //require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
             $foreign_keys = array(
                 "tt_time" => "FK_TimeTableToTaskTable",
                 "tt_time" => "FK_TimeTableToClientTable",
@@ -98,8 +108,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
             );
             foreach($foreign_keys as $table => $key) {
                 $removeFK = "ALTER TABLE " . $table . " DROP FOREIGN KEY " . $key;
-                dbDelta($removeFK);
-                //catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                //dbDelta($removeFK);
+                $wpdb->query($removeFK);
+				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
             }
         }
         

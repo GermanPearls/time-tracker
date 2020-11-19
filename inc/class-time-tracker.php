@@ -189,8 +189,9 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_ADMIN . 'tt-admin-menu-tools.php');
 
       //CLASSES and FUNCTIONS
-      //include_once(TT_PLUGIN_DIR_ADMIN . 'function-tt-export-button.php'); //do we need this?
+      include_once(TT_PLUGIN_DIR_ADMIN . 'function-tt-export-button.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'function-tt-export-tables.php');
+      include_once(TT_PLUGIN_DIR_ADMIN . 'function-tt-delete-tables.php');
 
       //SHORTCODES
      
@@ -219,7 +220,7 @@ if ( ! class_exists('Time_Tracker') ) {
       
       //SAVE PATH TO SCRIPTS FOR USE IN JS
       wp_localize_script('export_tt_data', 'wp_ajax_object_tt_export_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_data_nonce')));
-      wp_localize_script('delete_tt_data', 'getDirectory', array('pluginURL' => plugins_url('',TT_PLUGIN_DIR_ADMIN)));
+      wp_localize_script('delete_tt_data', 'wp_ajax_object_tt_delete_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_data_nonce')));
     }
 
     
@@ -229,7 +230,8 @@ if ( ! class_exists('Time_Tracker') ) {
      */    
     private function add_scripts_admin() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
-	  add_action('wp_ajax_tt_export_data', 'tt_export_data_function');
+	  add_action('wp_ajax_tt_export_data', 'tt_export_button_function');
+	  add_action('wp_ajax_tt_delete_data', 'tt_delete_data_function');
 		
       //ADMIN SCRIPTS
       add_action('admin_enqueue_scripts', array($this,'time_tracker_scripts_admin'));
