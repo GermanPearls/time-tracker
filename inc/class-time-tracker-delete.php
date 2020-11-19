@@ -49,6 +49,8 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          */
         public static function define_dependents() {
             require_once 'class-time-tracker-activator-tables.php';
+            require_once 'class-time-tracker-activator-pages.php';
+            require_once 'class-time-tracker-activator-forms.php';
             require_once __DIR__ . '/../admin/function-tt-export-tables.php';
         }
 
@@ -107,9 +109,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
                 "tt_project" => "FK_ProjectTableToClientTable" 
             );
             foreach($foreign_keys as $table => $key) {
-                $removeFK = "ALTER TABLE " . $table . " DROP FOREIGN KEY " . $key;
+                $altertable = "ALTER TABLE " . $table;
                 //dbDelta($removeFK);
-                $wpdb->query($removeFK);
+                $wpdb->query($wpdb->prepare($altertable . ' DROP FOREIGN KEY %s', $key));
 				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
             }
         }
@@ -120,7 +122,8 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function delete_pages() {
-            $tt_pages = array(
+            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array;
+            /*$tt_pages = array(
                 'clients',
                 'new-client',
                 'new-project',
@@ -133,9 +136,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
                 'task-detail',
                 'task-list',
                 'time-log'
-            );
+            );*/
             foreach ($tt_pages as $tt_page) {
-                self::delete_tt_subpage($tt_page);
+                self::delete_tt_subpage($tt_page['slug']);
             }
             self::delete_tt_main_page();
         }
@@ -170,17 +173,18 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function delete_forms() {
-            $tt_forms = array(
+            $tt_forms = Time_Tracker_Activator_Forms::create_form_details_array;
+            /*$tt_forms = array(
                 'Add New Client',
                 'Add New Project',
                 'Add New Recurring Task',
                 'Add New Task',
                 'Add Time Entry',
                 'Filter Time'
-            );
+            );*/
             foreach ($tt_forms as $tt_form) {
                 //delete form
-                $form = tt_get_form_id($tt_form);
+                $form = tt_get_form_id($tt_form['Title']);
                 if ($form) {
                     self::delete_form($form);
                 }

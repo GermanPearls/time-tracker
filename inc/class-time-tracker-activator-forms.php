@@ -181,6 +181,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             array_push($all_details, $details);
 
             self::$form_details = $all_details;
+            return $all_details;
         }
 
 

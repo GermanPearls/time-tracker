@@ -62,8 +62,6 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
          * Tie into WP's dbDelta to aid in updates
          */
         private static function setup_tables($table_list) {
-            //dbDelta function only works with wordpress database, trick it to work with TT database temporarily, then switch it back
-            //Ref: https://codex.wordpress.org/Creating_Tables_with_Plugins
             global $wpdb;
             //$original_wpdb = $wpdb;
             //$wpdb = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);

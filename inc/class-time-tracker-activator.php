@@ -31,9 +31,9 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             self::cf7_plugin_activated();
             if (self::$cf7_active) {
                 include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
-                require_once(plugin_dir_path( __FILE__ ) . '/class-time-tracker-activator-tables.php');
-                require_once(plugin_dir_path( __FILE__ ) . '/class-time-tracker-activator-forms.php');
-                require_once(plugin_dir_path( __FILE__ ) . '/class-time-tracker-activator-pages.php');
+                require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
+                require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
+                require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-pages.php');
                 Time_Tracker_Activator_Tables::setup();
                 Time_Tracker_Activator_Forms::setup();
                 Time_Tracker_Activator_Pages::setup();
