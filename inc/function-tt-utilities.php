@@ -67,27 +67,40 @@ function tt_convert_to_decimal_time($hours, $minutes) {
 
 
 /**
- * Takes a date (or date and time) and formats it for front end display, (ie: short date)
+ * Takes a date (or date and time) and formats it for front end display, (ie: short date, with or without time)
+ * Can be formatted to date and time or date, depending on user passed variable
+ * type = output type
  * 
  */
 function tt_format_date_for_display($date_entry, $type) {
+    //if date is empty - return nothing
+    if ( ($date_entry == "0000-00-00%") or ($date_entry == "0000-00-00") ) {
+        return "";
+    } else {    
+        //check if it's only a date coming in, create date object
+        $dateinput = DateTime::createFromFormat("Y-m-d", $date_entry);
+        
+        //if that didn't work, check if you can create a date object from a date and time format
+        if (!$dateinput) {
+            $dateinput = DateTime::createFromFormat("Y-m-d H:i:s", $date_entry);
+
+            //if that didn't work, not sure what it is, return nothing
+            if (!$dateinput) {
+                return "";
+            }
+        }
+    }
+
+    //format based on output choice
     if ($type == "date_and_time") {
-        if ($date_entry == "0000-00-00%") {
-            $date_formatted = "";
-        } else {
-            $date_formatted = date_format(DateTime::createFromFormat("Y-m-d H:i:s", $date_entry), "n/j/y g:i a");
-        } 
+        return date_format($dateinput, "n/j/y g:i a"); 
     } //date and time
 
     if ($type == "date_only") {
-        if ($date_entry == "0000-00-00%") {
-            $date_formatted = "";
-        } else {
-            $date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $date_entry), "n/j/y");
-        } 
+        return date_format($dateinput, "n/j/y"); 
     } //date only
 
-    return $date_formatted;
+    return "";
 }
 
 
