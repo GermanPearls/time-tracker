@@ -40,7 +40,7 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
         */
         public function after_save() {
             ?>
-            <script type="text/javascript">
+            <script type='text/javascript'>
     
                 document.addEventListener('DOMContentLoaded', function () {  //make sure doc is done loading before looking for element
                 
@@ -56,11 +56,11 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
                             }
                         }
 
-                        if (formtype == "filter") {
+                        if (formtype == 'filter') {
                             tt_filter_time_log(event);
                         
                         //if it's a time tracker form submission, go back to tt homepage after submit
-                        } else if ( str.includes("time-tracker") ) {
+                        } else if ( str.includes('time-tracker') ) {
                             location = tthome;
                         }
                     
