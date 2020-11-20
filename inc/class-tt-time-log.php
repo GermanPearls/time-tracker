@@ -72,7 +72,9 @@ if ( !class_exists( 'Time_Log' ) ) {
          */
         private function create_sql_string() {   
             global $wpdb;                      
-            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate, Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes, Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
+            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
+                    Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
+                    Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
                 LEFT JOIN tt_client
                     ON tt_time.ClientID = tt_client.ClientID
@@ -83,47 +85,65 @@ if ( !class_exists( 'Time_Log' ) ) {
             //note the isset checks if the variable is set and is not null
             //https://stackoverflow.com/a/29497620
             $wherecriteria = "";
-            if ( (isset($_GET['client'])) and (urldecode($_GET['client']) <>"") and (urldecode($_GET['client']) <> null) ) {
-                $wherecriteria = $wpdb->prepare('WHERE tt_client.Company LIKE %s', urldecode($_GET['client']));
-            }
-            if ( (isset($_GET['notes'])) and (urldecode($_GET['notes']) <>"") and (urldecode($_GET['notes']) <> null) ) {
-                //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
-                $wild = "%";
-                $search_string = urldecode($_GET['notes']);
-                $search_like = $wild . $wpdb->esc_like( $search_string ) . $wild;
-                if ($wherecriteria == "") {
-                    $wherecriteria = "WHERE ";
-                } else {
-                    $wherecriteria .= " AND "; 
-                }
-                $wherecriteria .= $wpdb->prepare('tt_time.TNotes LIKE %s', $search_like);
-            }
-            //sometimes null is getting passed as a string
-            if ( (isset($_GET['task'])) and (urldecode($_GET['task']) <>"") and (urldecode($_GET['task']) <> null) and (urldecode($_GET['task']) <> "null") ) {
-                if ($wherecriteria == "") {
-                    $wherecriteria = "WHERE ";
-                } else {
-                    $wherecriteria .= " AND ";                    
-                }
-                $wherecriteria .= $wpdb->prepare('tt_task.TaskID = %s', urldecode($_GET['task']));
-            }
             
-            if ( isset($_GET['start']) and (urldecode($_GET['start']) <>"") ) {
-                if ($wherecriteria == "") {
-                    $wherecriteria = "WHERE ";
-                } else {
-                    $wherecriteria .= " AND ";
+            if (isset($_GET['client'])) {
+                $client = sanitize_text_field($_GET['client']);
+                if ( ($client <>"") and ($client <> null) ) {
+                    $wherecriteria = $wpdb->prepare('WHERE tt_client.Company LIKE %s', $client);
                 }
-                $wherecriteria .= $wpdb->prepare('tt_time.StartTime >= %s', $_GET['start']);
             }
 
-            if ( isset($_GET['end'])  and (urldecode($_GET['end']) <>"") ) {
-                if ($wherecriteria == "") {
-                    $wherecriteria = "WHERE ";
-                } else {
-                    $wherecriteria .= " AND ";
+            if (isset($_GET['notes'])) {
+                $notes = sanitize_text_field($_GET['notes']);
+                if ( ($notes <>"") and ($notes <> null) ) {
+                    //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
+                    $wild = "%";
+                    $search_string = $notes;
+                    $search_like = $wild . $wpdb->esc_like( $search_string ) . $wild;
+                    if ($wherecriteria == "") {
+                        $wherecriteria = "WHERE ";
+                    } else {
+                        $wherecriteria .= " AND "; 
+                    }
+                    $wherecriteria .= $wpdb->prepare('tt_time.TNotes LIKE %s', $search_like);
                 }
-                $wherecriteria .= $wpdb->prepare('tt_time.StartTime <= %s', $_GET['end']);
+            }
+
+            if (isset($_GET['task'])) {
+                //sometimes null is getting passed as a string
+                $task = sanitize_text_field($_GET['task']);
+                if ( ($task <>"") and ($task <> null) and ($task <> "null") ) {
+                    if ($wherecriteria == "") {
+                        $wherecriteria = "WHERE ";
+                    } else {
+                        $wherecriteria .= " AND ";                    
+                    }
+                    $wherecriteria .= $wpdb->prepare('tt_task.TaskID = %s', $task);
+                }
+            }
+            
+            if ( isset($_GET['start'])) {
+                $start = sanitize_text_field($_GET['start']);
+                if ( $start <>"" ) {
+                    if ($wherecriteria == "") {
+                        $wherecriteria = "WHERE ";
+                    } else {
+                        $wherecriteria .= " AND ";
+                    }
+                    $wherecriteria .= $wpdb->prepare('tt_time.StartTime >= %s', $start);
+                }
+            }
+
+            if ( isset($_GET['end'])) {
+                $end = sanitize_text_field($_GET['end']);
+                if ( $end <>"" ) {
+                    if ($wherecriteria == "") {
+                        $wherecriteria = "WHERE ";
+                    } else {
+                        $wherecriteria .= " AND ";
+                    }
+                    $wherecriteria .= $wpdb->prepare('tt_time.StartTime <= %s', $end);
+                }
             }
 
             $orderby = "ORDER BY tt_time.StartTime DESC";
@@ -165,32 +185,42 @@ if ( !class_exists( 'Time_Log' ) ) {
 
             //Create body
             foreach ($this->open_items as $item) {
+                $timeid = sanitize_text_field($item->TimeID);
+                $taskid = sanitize_text_field($item->TaskID);
+                $starttime = tt_format_date_for_display(sanitize_text_field($item->StartTime), 'date_and_time');
+                $endtime = tt_format_date_for_display(sanitize_text_field($item->EndTime), 'date_and_time');
+
                 //create row
                 $table .= "<tr>";
-                $table .= "<td class=\"not-editable\">" . $item->TimeID . "</td>";
-                $table .= "<td class=\"not-editable\">" . $item->ClientID . "</td>";
-                $table .= "<td class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TaskID'," . $item->TimeID . ")\">" . $item->TaskID . "</td>";
-                $table .= "<td class=\"not-editable\">" . nl2br(stripslashes($item->TDescription)) . "</td>";
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'StartTime'," . $item->TimeID . ")\">" . tt_format_date_for_display($item->StartTime, 'date_and_time') . "</td>";
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'EndTime'," . $item->TimeID . ")\">" . tt_format_date_for_display($item->EndTime, 'date_and_time') . "</td>";
-                $hours_logged = $item->LoggedHours + round($item->LoggedMinutes/60,2);
-                if ( ($item->TTimeEstimate !=null) and (substr($item->TTimeEstimate,0,-3) != "00:00") ) {
-                    $time_estimate_parts = explode(":", $item->TTimeEstimate);
+                $table .= "<td class=\"not-editable\">" . esc_textarea($timeid) . "</td>";
+                $table .= "<td class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->ClientID)) . "</td>";
+                $table .= "<td class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TaskID'," . esc_attr($timeid) . ")\">" . esc_textarea($taskid) . "</td>";
+                $table .= "<td class=\"not-editable\">" . wp_kses_post(nl2br($item->TDescription)) . "</td>";
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'StartTime'," . esc_attr($timeid) . ")\">" . esc_textarea($starttime) . "</td>";
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'EndTime'," . esc_attr($timeid) . ")\">" . esc_textarea($endtime) . "</td>";
+                
+                $loggedhrs = sanitize_text_field($item->LoggedHours);
+                $loggedmin = sanitize_text_field($item->LoggedMinutes);
+                $timeest = sanitize_text_field($item->TTimeEstimate);
+                $hours_logged = $loggedhrs + round($loggedmin/60,2);
+                if ( ($timeest !=null) and (substr($timeest,0,-3) != "00:00") ) {
+                    $time_estimate_parts = explode(":", $timeest);
                     $time_estimate_fraction = round((float)$time_estimate_parts[0] + ((float)$time_estimate_parts[1]/60),2);
                     $percent_time_logged = " / " . $time_estimate_fraction . "<br/>" . round($hours_logged / $time_estimate_fraction * 100) . "%";
                 } else {
                     $time_estimate_fraction = "";
                     $percent_time_logged = "";
                 }
-                $table .= "<td class=\"not-editable\">" . $hours_logged . $percent_time_logged . "</td>";
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . $item->TaskID . ")\">" . $item->TStatus . "</td>";
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . $item->TimeID . ")\">" . $item->Invoiced . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . $item->TimeID . ")\">" . $item->InvoiceNumber . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . $item->TimeID . ")\">" . $item->InvoicedTime . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . $item->TimeID . ")\">" . nl2br(stripslashes($item->InvoiceComments)) . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . $item->TimeID . ")\">" . nl2br(stripslashes($item->TNotes)) . "</td>";                
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'FollowUp'," . $item->TimeID . ")\">" . nl2br(stripslashes($item->FollowUp)) . "</td>"; 
+
+                $table .= "<td class=\"not-editable\">" . wp_kses_post($hours_logged . $percent_time_logged) . "</td>";
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->TStatus)) . "</td>";
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->Invoiced)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->InvoiceNumber)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->InvoicedTime)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($taskid) . ")\">" . wp_kses_post(nl2br($item->InvoiceComments)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($taskid) . ")\">" . wp_kses_post(nl2br($item->TNotes)) . "</td>";                
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'FollowUp'," . esc_attr($taskid) . ")\">" . wp_kses_post(nl2br($item->FollowUp)) . "</td>"; 
                 $table .="</tr>";
             } // foreach loop
 

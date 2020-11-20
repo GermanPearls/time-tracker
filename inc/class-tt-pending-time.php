@@ -41,7 +41,9 @@ if ( !class_exists( 'Pending_Time' ) ) {
             //Connect to Time Tracker Database
             //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
-            $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate, Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes, Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
+            $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate,
+                    Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
+                    Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
                 LEFT JOIN tt_client
                     ON tt_time.ClientID = tt_client.ClientID
@@ -61,27 +63,33 @@ if ( !class_exists( 'Pending_Time' ) ) {
          */
         private function get_time_grouped_by_billto() {
             $pending_time = $this->get_pending_time_from_db();
-            $lastbillto = "not started";
-            foreach ($pending_time as $item) {
-                if ($item['BillTo'] == "") {
-                    $billto = "Unknown";
-                } else {
-                    $billto = $item['BillTo'];
-                }
-                
-                //create new key if first time seeing this bill to
-                if ($lastbillto != $billto) {
-                    $grouped_time[$billto][0] = $item;
-                } else {
-                    //or just add to the array under this key
-                    array_push($grouped_time[$billto], $item);
-                }
+            if ($pending_time) {
+                $lastbillto = "not started";
+                foreach ($pending_time as $item) {
+                    $this_item_billto = sanitize_text_field($item['BillTo']);
 
-                if ($item['BillTo'] == "") {
-                    $lastbillto = "Unknown";
-                } else {
-                    $lastbillto = $item['BillTo'];
+                    if ($this_item_billto == "") {
+                        $billto = "Unknown";
+                    } else {
+                        $billto = $this_item_billto;
+                    }
+                    
+                    //create new key if first time seeing this bill to
+                    if ($lastbillto != $billto) {
+                        $grouped_time[$billto][0] = $item;
+                    } else {
+                        //or just add to the array under this key
+                        array_push($grouped_time[$billto], $item);
+                    }
+
+                    //if ($this_item_billto == "") {
+                    //    $lastbillto = "Unknown";
+                    //} else {
+                    $lastbillto = $billto;
+                    //}
                 }
+            } else {
+                $grouped_time = array();
             }
             return $grouped_time;
         }
@@ -93,28 +101,32 @@ if ( !class_exists( 'Pending_Time' ) ) {
          */
         public function display_pending_time() {
             $grouped_time = $this->get_time_grouped_by_billto();
+            if ($grouped_time) {
 
-            //TABLE OF CONTENTS - WITH LINKS
-            $html = "<strong>Click a Link to Jump to That Section</strong>";
-            $html .= "<ul>";
-            foreach ($grouped_time as $billtoname => $time_details) {
-                if ($billtoname != null) {
-                    $html .= "<li><a href=\"#" . $billtoname . "\">Pending Time to Bill To: " . $billtoname . "</a></li>";
-                } else {
-                    $html .= "<li><a href=\"#None\">No Bill To Specified</a></li>";
+                //TABLE OF CONTENTS - WITH LINKS
+                $html = "<strong>Click a Link to Jump to That Section</strong>";
+                $html .= "<ul>";
+                foreach ($grouped_time as $billtoname => $time_details) {
+                    if ($billtoname != null) {
+                        $html .= "<li><a href=\"#" . esc_url($billtoname) . "\">Pending Time to Bill To: " . esc_textarea($billtoname) . "</a></li>";
+                    } else {
+                        $html .= "<li><a href=\"#None\">No Bill To Specified</a></li>";
+                    }
                 }
-            }
-            $html.= "</ul>";
-            $html .= "<br/>";
+                $html.= "</ul>";
+                $html .= "<br/>";
 
-            //DETAILS
-            foreach ($grouped_time as $billtoname => $time_details) {
-                if ($billtoname != null) {    
-                    $html .= "<h2 id=\"" . $billtoname . "\">Pending Time, Bill To: " . $billtoname . "</h2>";
-                } else {
-                    $html .= "<h2 id=\"None\">Pending Time, No Bill To Specified</h2>";
+                //DETAILS
+                foreach ($grouped_time as $billtoname => $time_details) {
+                    if ($billtoname != null) {    
+                        $html .= "<h2 id=\"" . esc_attr($billtoname) . "\">Pending Time, Bill To: " . esc_textarea($billtoname) . "</h2>";
+                    } else {
+                        $html .= "<h2 id=\"None\">Pending Time, No Bill To Specified</h2>";
+                    }
+                    $html .= $this->create_table($time_details);
                 }
-                $html .= $this->create_table($time_details);
+            } else {
+                $html = "All caught up!";
             }
             return $html;
         }
@@ -148,20 +160,29 @@ if ( !class_exists( 'Pending_Time' ) ) {
             $table .= "<th>Notes</th>";
             $table .= "</tr></thead>";
 
-            $previous_client = $time_entries[0]['Company'];
+            $previous_client = sanitize_text_field($time_entries[0]['Company']);
 
             //Create body
             foreach ($time_entries as $item) {
-                if ($previous_client !== $item['Company']) {
+                $client = sanitize_text_field($item['Company']);
+                $logged_hours = sanitize_text_field($item['LoggedHours']);
+                $logged_minutes = sanitize_text_field($item['LoggedMinutes']);
+                $time_estimate = sanitize_text_field($item['TTimeEstimate']);
+                $taskid = sanitize_text_field($item['TaskID']);
+                $timeid = sanitize_text_field($item['TimeID']);
+                $starttime = sanitize_text_field($item['StartTime']);
+                $endtime = sanitize_text_field($item['EndTime']);
+
+                if ($previous_client !== $client) {
                     $table .= "<tr><td class=\"divider-row\" colspan=\"12\"></td></tr>";
                 }
 
-                $ticket = $item['TaskID'] . "-" . $item['TDescription'];
+                $ticket = $taskid . "-" . $item['TDescription'];
         
-                $time_fraction_logged = (float)$item['LoggedHours'] + round((float)$item['LoggedMinutes']/60,2);
-                $time_logged = tt_convert_to_string_time((float)$item['LoggedHours'], (float)$item['LoggedMinutes']);
-                if (($item['TTimeEstimate'] != null) && ($item['TTimeEstimate'] != 0)) {
-                    $time_estimate_parts = explode(":", $item['TTimeEstimate']);
+                $time_fraction_logged = (float)$logged_hours + round((float)$logged_minutes/60,2);
+                $time_logged = tt_convert_to_string_time((float)$logged_hours, (float)$logged_minutes);
+                if (($time_estimate != null) && ($time_estimate != 0)) {
+                    $time_estimate_parts = explode(":", $time_estimate);
                     $time_estimate_as_number = tt_convert_to_decimal_time($time_estimate_parts[0], $time_estimate_parts[1]);
                     $percent_time_logged = " / " . $time_estimate_as_number . "<br/>" . round($time_fraction_logged / $time_estimate_as_number * 100) . "%";
                 } else {
@@ -170,22 +191,22 @@ if ( !class_exists( 'Pending_Time' ) ) {
 
                 //create row
                 $table .= "<tr>";           
-                $table .= "<td id=\"client\" class=\"not-editable\">" . nl2br(stripslashes($item['Company'])) . "</td>";
-                $table .= "<td id=\"task-id\" class=\"not-editable\">" . $item['TaskID'] . "</td>";
-                $table .= "<td id=\"task-description\" class=\"not-editable\">"  . nl2br(stripslashes($item['TDescription'])) . "</td>";
-                $table .= "<td id=\"start-time\" class=\"not-editable\">" . tt_format_date_for_display($item['StartTime'], "date_and_time") . "</td>";
-                $table .= "<td id=\"end-time\" class=\"not-editable\">" . tt_format_date_for_display($item['EndTime'], "date_and_time") . "</td>";
+                $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea($client) . "</td>";
+                $table .= "<td id=\"task-id\" class=\"not-editable\">" . esc_textarea($taskid) . "</td>";
+                $table .= "<td id=\"task-description\" class=\"not-editable\">"  . wp_kses_post(nl2br($item['TDescription'])) . "</td>";
+                $table .= "<td id=\"start-time\" class=\"not-editable\">" . esc_textarea(tt_format_date_for_display($starttime, "date_and_time")) . "</td>";
+                $table .= "<td id=\"end-time\" class=\"not-editable\">" . esc_textarea(tt_format_date_for_display($endtime, "date_and_time")) . "</td>";
                 $table .= "<td id=\"time-logged\" class=\"not-editable\">" . $time_logged . "<br/>" . $time_fraction_logged . " hrs" . $percent_time_logged . "</td>";
-                $table .= "<td id=\"invoiced\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . $item['TimeID'] . ")\">" . $item['Invoiced'] . "</td>";
-                $table .= "<td id=\"invoice-number\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . $item['TimeID'] . ")\">" . $item['InvoiceNumber'] . "</td>";
-                $table .= "<td id=\"invoiced-time\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . $item['TimeID'] . ")\">" . $item['InvoicedTime'] . "</td>";
-                $table .= "<td id=\"invoice-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . $item['TimeID'] . ")\">" . nl2br(stripslashes($item['InvoiceComments'])) . "</td>";
-                $table .= "<td id=\"status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . $item['TaskID'] . "), updateDatabase(this, 'time', 'TimeID', 'NewTaskStatus'," . $item['TimeID'] . ")\">" . $item['NewTaskStatus'] . "</td>";
-                $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . $item['TimeID'] . ")\">" . nl2br(stripslashes($item['TNotes'])) . "</td>";
+                $table .= "<td id=\"invoiced\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['Invoiced'])) . "</td>";
+                $table .= "<td id=\"invoice-number\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoiceNumber'])) . "</td>";
+                $table .= "<td id=\"invoiced-time\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoicedTime'])) . "</td>";
+                $table .= "<td id=\"invoice-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['InvoiceComments'])) . "</td>";
+                $table .= "<td id=\"status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . "), updateDatabase(this, 'time', 'TimeID', 'NewTaskStatus'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['NewTaskStatus'])) . "</td>";
+                $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['TNotes'])) . "</td>";
                 //close out row
                 $table .="</tr>";
 
-                $previous_client = $item['Company'];
+                $previous_client = $client;
 
             } // foreach loop
 

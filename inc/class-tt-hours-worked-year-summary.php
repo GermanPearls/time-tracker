@@ -43,16 +43,20 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             $grouped_time = array();
             if (!empty($this->hours_worked)) {
                 foreach ($this->hours_worked as $item) {
+                    $workyear = sanitize_text_field($item['WorkYear']);
+                    $workmonth = sanitize_text_field($item['WorkMonth']);
+                    $billto = sanitize_text_field($item['BillTo']);
+
                     //only summarize current year
-                    if ($item['WorkYear'] == date('Y')) {
+                    if ($workyear == date('Y')) {
                         //get month of current item
-                        $workmonth = $item['WorkMonth'];
+                        $workmonth = $workmonth;
                         
                         //get bill to of current item
-                        if ($item['BillTo'] == "") {
+                        if ($billto == "") {
                             $billto = "Unknown";
                         } else {
-                            $billto = $item['BillTo'];
+                            $billto = $billto;
                         }
 
                         $grouped_time[$workmonth][$billto][] = $item;
@@ -82,18 +86,23 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                         $totalminutes = 0;
                         $billedtime = 0;
                         foreach ($billto_array as $item) {
-                            $totalminutes = $totalminutes + $item['MinutesWorked'];
-                            $totalhours = $totalhours + $item['HoursWorked'];
-                            $billedtime = $billedtime + $item['BilledTime'];                        
+                            $min_worked = sanitize_text_field($item['MinutesWorked']) ? sanitize_text_field($item['MinutesWorked']) : 0;
+                            $hr_worked = sanitize_text_field($item['HoursWorked']) ? sanitize_text_field($item['HoursWorked']) : 0;
+                            $inv_time = sanitize_text_field($item['BilledTime']) ? sanitize_text_field($item['BilledTime']) : 0;
+                            $totalminutes = $totalminutes + $min_worked;
+                            $totalhours = $totalhours + $hr_worked;
+                            $billedtime = $billedtime + $inv_time;                        
                         } //total hours from each detailed record inside billto name array
                         //save the total from the last bill to in a new array
+                        $workmonth = sanitize_text_field($item['WorkMonth']);
+                        $billto = sanitize_text_field($item['BillTo']);
                         $decimal_time_worked = tt_convert_to_decimal_time($totalhours, $totalminutes);
-                        $totaled_time[$item['WorkMonth']][$item['BillTo']]['TimeWorked'] = round($decimal_time_worked,1);
-                        $totaled_time[$item['WorkMonth']][$item['BillTo']]['TimeInvoiced'] = round($billedtime,1);
+                        $totaled_time[$workmonth][$billto]['TimeWorked'] = round($decimal_time_worked,1);
+                        $totaled_time[$workmonth][$billto]['TimeInvoiced'] = round($billedtime,1);
                         if ($decimal_time_worked == 0) {
-                            $totaled_time[$item['WorkMonth']][$item['BillTo']]['PercentTimeInvoiced'] = 0;
+                            $totaled_time[$workmonth][$billto]['PercentTimeInvoiced'] = 0;
                         } else {
-                            $totaled_time[$item['WorkMonth']][$item['BillTo']]['PercentTimeInvoiced'] = round($billedtime/$decimal_time_worked*100,0);
+                            $totaled_time[$workmonth][$billto]['PercentTimeInvoiced'] = round($billedtime/$decimal_time_worked*100,0);
                         }
                         //cumulative total for month (of all bill tos)
                         $monthhoursworked = $monthhoursworked + $decimal_time_worked;
@@ -104,9 +113,10 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                             $monthpercenthoursinvoiced = round($monthhoursinvoiced/$monthhoursworked*100,0);
                         }
                     } //loop bill to name inside this month
-                    $totaled_time[$item['WorkMonth']]['Total']['TimeWorked'] = $monthhoursworked;
-                    $totaled_time[$item['WorkMonth']]['Total']['TimeInvoiced'] = $monthhoursinvoiced;
-                    $totaled_time[$item['WorkMonth']]['Total']['PercentTimeInvoiced'] = $monthpercenthoursinvoiced;
+                    $workmonth = sanitize_text_field($item['WorkMonth']);
+                    $totaled_time[$workmonth]['Total']['TimeWorked'] = $monthhoursworked;
+                    $totaled_time[$workmonth]['Total']['TimeInvoiced'] = $monthhoursinvoiced;
+                    $totaled_time[$workmonth]['Total']['PercentTimeInvoiced'] = $monthpercenthoursinvoiced;
                 } //loop through each month
             } //if there's data
             return $totaled_time;
@@ -149,7 +159,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             $table .= "<tr class=\"tt-header-row\">";
             $table .= "<th class=\"tt-bold-font tt-align-center\">Month</th>";
             foreach ($bill_to_names as $bill_to_name) {
-                $table .= "<th class=\"tt-bold-font tt-align-center\">" . $bill_to_name . "</th>";
+                $table .= "<th class=\"tt-bold-font tt-align-center\">" . esc_textarea($bill_to_name) . "</th>";
             }            
             $table .= "</tr>";
 
@@ -160,7 +170,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                 //start row for month
                 $monthName = get_month_name_from_number($i);
                 $table .= "<tr>";                
-                $table .= "<td class=\"tt-align-center\">" . $monthName . "</td>";
+                $table .= "<td class=\"tt-align-center\">" . esc_textarea($monthName) . "</td>";
 
                 foreach ($bill_to_names as $bill_to_name) {                    
                     //no data at all
@@ -172,9 +182,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                     //no data for this billto for this month
                     } elseif (array_key_exists($bill_to_name,$time_summary[$i])) {
                         $table .= "<td class=\"tt-align-right\">";
-                        $table .= $time_summary[$i][$bill_to_name]['TimeWorked'] . " Worked<br/>";
-                        $table .= $time_summary[$i][$bill_to_name]['TimeInvoiced'] . " Billed<br/>";
-                        $table .= $time_summary[$i][$bill_to_name]['PercentTimeInvoiced'] . "% Billed<br/>";
+                        $table .= esc_textarea($time_summary[$i][$bill_to_name]['TimeWorked']) . " Worked<br/>";
+                        $table .= esc_textarea($time_summary[$i][$bill_to_name]['TimeInvoiced']) . " Billed<br/>";
+                        $table .= esc_textarea($time_summary[$i][$bill_to_name]['PercentTimeInvoiced']) . "% Billed<br/>";
                         $table .= "</td>";
                     //catch other
                     } else {

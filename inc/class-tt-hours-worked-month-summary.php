@@ -26,6 +26,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
     {
 
 
+        
         /**
          * Constructor
          * 
@@ -45,22 +46,28 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             if (!empty($this->hours_worked)) {
                 foreach ($this->hours_worked as $item) {
                     //only summarize current year and this month or week
-                    if ( ($item['WorkYear'] == date('Y')) && ( ($item['WorkMonth'] == date('n')) || ($item['WorkWeek'] == $item['ThisWeek']) ) ) {
+                    $workyear = sanitize_text_field($item['WorkYear']);
+                    $workmonth = sanitize_text_field($item['WorkMonth']);
+                    $workweek = sanitize_text_field($item['WorkWeek']);
+                    $thisweek = sanitize_text_field($item['ThisWeek']);
+                    $billto = sanitize_text_field($item['BillTo']);
+
+                    if ( ($workyear == date('Y')) && ( ($workmonth == date('n')) || ($workweek == $thisweek) ) ) {
                         //get month and week of current item
-                        $workmonth = $item['WorkMonth'];
-                        $workweek = $item['WorkWeek'];
+                        $workmonth = $workmonth;
+                        $workweek = $workweek;
                         
                         //get bill to of current item
-                        if ($item['BillTo'] == "") {
+                        if ($billto == "") {
                             $billto = "Unknown";
                         } else {
-                            $billto = $item['BillTo'];
+                            $billto = $billto;
                         }
 
-                        if ($item['WorkWeek'] == $item['ThisWeek']) {
+                        if ($workweek == $thisweek) {
                             $grouped_time['This Week'][$billto][] = $item;
                         }
-                        if ($item['WorkMonth'] == date('n')) {
+                        if ($workmonth == date('n')) {
                             $grouped_time['This Month'][$billto][] = $item;
                         }
                         
@@ -166,13 +173,13 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $html = "";
 
             //open table
-            $table = "<table class=\"tt-table monthly-summary-table tt-even-columns-" . $columncount . "\">";
+            $table = "<table class=\"tt-table monthly-summary-table tt-even-columns-" . esc_attr($columncount) . "\">";
 
             //header row
             $table .= "<tr class=\"tt-header-row\">";
             $table .= "<th class=\"tt-bold-font tt-align-center\"></th>";
             foreach ($bill_to_names as $bill_to_name) {
-                $table .= "<th class=\"tt-bold-font tt-align-center\">" . $bill_to_name . "</th>";
+                $table .= "<th class=\"tt-bold-font tt-align-center\">" . esc_textarea($bill_to_name) . "</th>";
             }            
             $table .= "</tr>";
 
@@ -190,7 +197,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 //no data for this bill to for this week
                 } elseif ( array_key_exists($bill_to_name, $time_summary['This Week']) ) {
-                    $table .= "<td class=\"tt-align-right\">" . $time_summary['This Week'][$bill_to_name]['TimeWorked'] . "</td>";
+                    $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Week'][$bill_to_name]['TimeWorked']) . "</td>";
                 //cath other
                 } else {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -209,7 +216,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 //no data for this bill to
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month'])) {
-                    $table .= "<td class=\"tt-align-right\">" . $time_summary['This Month'][$bill_to_name]['TimeWorked'] . "</td>";
+                    $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['TimeWorked']) . "</td>";
                 //catch other
                 } else {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -223,7 +230,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                 if (empty($time_summary)) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
-                    $table .= "<td class=\"tt-align-right\">" . $time_summary['This Month'][$bill_to_name]['PendingTime'] . "</td>";
+                    $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['PendingTime']) . "</td>";
                 } else {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 }            
@@ -236,7 +243,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                 if (empty($time_summary)) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
-                    $table .= "<td class=\"tt-align-right\">" . $time_summary['This Month'][$bill_to_name]['TimeInvoiced'] . "</td>";
+                    $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['TimeInvoiced']) . "</td>";
                 } else {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 }

@@ -52,7 +52,8 @@ if ( !class_exists( 'Task_List' ) ) {
             //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
 
-            $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName, NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
+            $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName,
+                    NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
                 FROM tt_task 
                 LEFT JOIN tt_client
                     ON tt_task.ClientID = tt_client.ClientID
@@ -77,7 +78,8 @@ if ( !class_exists( 'Task_List' ) ) {
             //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
 
-            $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName, NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
+            $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName,
+                    NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
                 FROM tt_task 
                 LEFT JOIN tt_client
                     ON tt_task.ClientID = tt_client.ClientID
@@ -89,6 +91,31 @@ if ( !class_exists( 'Task_List' ) ) {
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             $this->all_tasks = $sql_result;
+        }
+
+
+
+        /**
+         * Get Due Date Class
+         * 
+         */
+        private function get_due_date_class($duedate, $status) {
+            if ( ($duedate == "0000-00-00") || ($duedate == null) ) {
+                $due_date_formatted = "";
+                $due_date_class = "no-date";
+            } else {
+                $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
+                if (DateTime::createFromFormat("Y-m-d", $duedate) <= new DateTime() AND $status<>"Canceled" AND $status<>"Complete") {
+                    $due_date_class = "late-date";
+                } elseif (DateTime::createFromFormat("Y-m-d", $duedate) <= new DateTime(date("Y-m-d", strtotime("+7 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+                    $due_date_class = "soon-date";
+                } elseif (DateTime::createFromFormat("Y-m-d", $duedate) > new DateTime(date("Y-m-d", strtotime("+90 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+                    $due_date_class = "on-hold-date";
+                } else {
+                    $due_date_class = "ok-date";
+                }
+            }
+            return $due_date_class;
         }
 
 
@@ -121,30 +148,19 @@ if ( !class_exists( 'Task_List' ) ) {
 
             //Create body
             foreach ($tasks as $item) {
-                $ticket = $item->TaskID . "-" . $item->TDescription;
+                $ticket = sanitize_text_field($item->TaskID) . "-" . sanitize_text_field($item->TDescription);
                 
                 //evaluate due date and current status, apply class based on result
-                if ( ($item->TDueDate == "0000-00-00") || ($item->TDueDate == null) ) {
-                    $due_date_formatted = "";
-                    $due_date_class = "no-date";
-                } else {
-                    $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $item->TDueDate), "n/j/y");
-                    if (DateTime::createFromFormat("Y-m-d", $item->TDueDate) <= new DateTime() AND $item->TStatus<>"Canceled" AND $item->TStatus<>"Complete") {
-                        $due_date_class = "late-date";
-                    } elseif (DateTime::createFromFormat("Y-m-d", $item->TDueDate) <= new DateTime(date("Y-m-d", strtotime("+7 days"))) AND $item->TStatus<>"Canceled" AND $item->TStatus<>"Complete") {
-                        $due_date_class = "soon-date";
-                    } elseif (DateTime::createFromFormat("Y-m-d", $item->TDueDate) > new DateTime(date("Y-m-d", strtotime("+90 days"))) AND $item->TStatus<>"Canceled" AND $item->TStatus<>"Complete") {
-                        $due_date_class = "on-hold-date";
-                    } else {
-                        $due_date_class = "ok-date";
-                    }
-                }
+                $duedate = sanitize_text_field($item->TDueDate);
+                $status = sanitize_text_field($item->TStatus);
+                $due_date_class = $this->get_due_date_class($duedate, $status);
+                $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") ? date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") : "";
 
                 //evaluate time worked vs estimate, format data to display and apply css class based on result
-                $hours_logged = $item->LoggedHours + round($item->LoggedMinutes/60,2);
-                $time_estimate_parts = explode(":", $item->TTimeEstimate);
+                $hours_logged = sanitize_text_field($item->LoggedHours) + round(sanitize_text_field($item->LoggedMinutes)/60,2);
+                $time_estimate_parts = explode(":", sanitize_text_field($item->TTimeEstimate));
                 $time_estimate_formatted = round((float)$time_estimate_parts[0] + ((float)$time_estimate_parts[1]/60),2);
-                if (($item->TTimeEstimate == 0 ) or ($item->TTimeEstimate == null)) {
+                if ((sanitize_text_field($item->TTimeEstimate) == 0 ) or (sanitize_text_field($item->TTimeEstimate) == null)) {
                     $percent_time_logged = "";
                     $time_worked_display = $hours_logged;
                 } else {
@@ -166,24 +182,27 @@ if ( !class_exists( 'Task_List' ) ) {
                 } else {
                     $time_worked_vs_estimate_class = "";
                 }
+
+                $taskid = sanitize_text_field($item->TaskID);
+                $dateadded = date_format(DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->TDateAdded)), 'n/j/y');
                 
                 //create row
-                $table .= "<tr class=\"" . $due_date_class . " " . $time_worked_vs_estimate_class . "\">";
+                $table .= "<tr class=\"" . esc_attr($due_date_class) . " " . esc_attr($time_worked_vs_estimate_class) . "\">";
 
-                $table .= "<td id=\"task-id\" class=\"not-editable\">" . $item->TaskID . "<br/>";
-                $table .= "<button onclick='start_timer_for_task(\"" . htmlspecialchars($item->Company, ENT_QUOTES) . "\", \"" . htmlspecialchars($ticket, ENT_QUOTES) . "\")' id=\"" . $item->TaskID . "\" class=\"start-work-timer\">Start</button>";
-                $table .= "<button onclick='open_detail_for_task(\"" . htmlspecialchars($item->TaskID, ENT_QUOTES) . "\")' id=\"" . $item->TaskID . "\" class=\"open-task-detail\">View</button>";
+                $table .= "<td id=\"task-id\" class=\"not-editable\">" . esc_textarea($taskid) . "<br/>";
+                $table .= "<button onclick='start_timer_for_task(\"" . esc_attr(sanitize_text_field($item->Company)) . "\", \"" . esc_attr($ticket) . "\")' id=\"" . esc_attr($taskid)  . "\" class=\"start-work-timer\">Start</button>";
+                $table .= "<button onclick='open_detail_for_task(\"" . esc_attr($taskid) . "\")' id=\"" . esc_attr($taskid)  . "\" class=\"open-task-detail\">View</button>";
                 $table .= "</td>";
                 
-                $table .= "<td id=\"client\" class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
-                $table .= "<td id=\"project-id\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'ProjectID'," . $item->TaskID . ")\">" . $item->ProjectID . "</td>";
-                $table .= "<td id=\"project-name\" class=\"not-editable\">" . nl2br(stripslashes($item->PName)) . "</td>";
-                $table .= "<td id=\"task-description\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDescription'," . $item->TaskID . ")\">" . nl2br(stripslashes($item->TDescription)) . "</td>";
-                $table .= "<td id=\"due-date\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDueDate'," . $item->TaskID . ")\">" . $due_date_formatted . "</td>";
-                $table .= "<td id=\"task-status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . $item->TaskID . ")\">" . $item->TStatus . "</td>";
-                $table .= "<td id=\"date-added\" class=\"not-editable\">" . date_format(DateTimeImmutable::createFromFormat("Y-m-d G:i:s", $item->TDateAdded), "n/j/y") . "</td>";
-                $table .= "<td id=\"time-worked\" class=\"not-editable\">" . $time_worked_display . $percent_time_logged . "</td>";
-                $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TNotes'," . $item->TaskID . ")\">" . nl2br(stripslashes($item->TNotes)) . "</td>";
+                $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
+                $table .= "<td id=\"project-id\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'ProjectID'," . esc_textarea($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->ProjectID)) . "</td>";
+                $table .= "<td id=\"project-name\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PName)) . "</td>";
+                $table .= "<td id=\"task-description\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDescription'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TDescription)) . "</td>";
+                $table .= "<td id=\"due-date\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDueDate'," . esc_attr($taskid)  . ")\">" . esc_textarea($due_date_formatted) . "</td>";
+                $table .= "<td id=\"task-status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid)  . ")\">" . esc_textarea($status) . "</td>";
+                $table .= "<td id=\"date-added\" class=\"not-editable\">" . esc_textarea($dateadded) . "</td>";
+                $table .= "<td id=\"time-worked\" class=\"not-editable\">" . esc_textarea($time_worked_display) . wp_kses_post($percent_time_logged) . "</td>";
+                $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TNotes'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TNotes)) . "</td>";
                 //close out row
                 $table .="</tr>";
             } // foreach loop
