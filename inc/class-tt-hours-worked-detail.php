@@ -52,7 +52,14 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
          * 
          */ 
         private function get_sql_string() {
-            $sql_string = "SELECT tt_time.StartTime as StartTime, tt_time.EndTime as EndTime, EXTRACT(week FROM tt_time.StartTime) as WorkWeek, EXTRACT(week FROM Now()) as ThisWeek, MONTH(tt_time.StartTime) as WorkMonth, YEAR(tt_time.StartTime) as WorkYear, Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as MinutesWorked, Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as HoursWorked, tt_client.Company, tt_client.Billable, tt_client.BillTo, tt_time.Invoiced, tt_time.InvoicedTime as BilledTime
+            $sql_string = "SELECT tt_time.StartTime as StartTime, tt_time.EndTime as EndTime,
+                EXTRACT(week FROM tt_time.StartTime) as WorkWeek,
+                EXTRACT(week FROM Now()) as ThisWeek,
+                MONTH(tt_time.StartTime) as WorkMonth,
+                YEAR(tt_time.StartTime) as WorkYear,
+                Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as MinutesWorked,
+                Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as HoursWorked,
+                tt_client.Company, tt_client.Billable, tt_client.BillTo, tt_time.Invoiced, tt_time.InvoicedTime as BilledTime
             FROM tt_time LEFT JOIN tt_client
             ON tt_time.ClientID = tt_client.ClientID
             ORDER BY WorkYear ASC, WorkMonth ASC, BillTo ASC, Company ASC";
