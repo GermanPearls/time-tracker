@@ -310,7 +310,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
                 [text time-estimate] </label>
             
             <label> Due Date
-                [date due-date] </label>
+                [date due-date \"today\"] </label>
             
             <label> Notes 
                 [textarea notes] </label>
