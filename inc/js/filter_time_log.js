@@ -2,23 +2,28 @@
 
 function tt_filter_time_log(event) {
     var inputs = event.detail.inputs;
+    var first_date = "";
+    var last_date = "";
+    var client = "";
+    var notes = "";
+    var ticket = "";
     
     for (var i = 0; i < inputs.length; i++) {
         
         var input = inputs[i];
 
         if (input.name == 'first-date') {
-            var first_date = input.value;
+            first_date = input.value;
         } else if (input.name == 'last-date') {
-            var last_date = input.value;
+            last_date = input.value;
         } else if (input.name == 'client-name') {
-            var client = input.value;
+            client = input.value;
         } else if (input.name == 'time-notes') {
-            var notes = input.value;
+            notes = input.value;
         } else if (input.name == 'task-name') {
             //pull out task number, to the left of the hyphen  
             var task = input.value;
-            var ticket = task.split("-", 1);
+            ticket = task.split("-", 1);
             //ticket = inputs[i].value;
         } //end if
     }  //end for loop

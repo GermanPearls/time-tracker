@@ -47,12 +47,12 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
                     document.addEventListener( 'wpcf7mailsent', function (event) {
                     
                         var str = window.location.pathname;
-                        var tthome = document.location.origin + '/time-tracker';
+                        var tthome = document.location.origin + '/time-tracker/';
                         var formtype = "";
 
                         for (var i=0; i < event.detail.inputs.length; i++) {
                             if (event.detail.inputs[i].name == 'form-type') {
-                                var formtype = event.detail.inputs[i].value;
+                                formtype = event.detail.inputs[i].value;
                             }
                         }
 

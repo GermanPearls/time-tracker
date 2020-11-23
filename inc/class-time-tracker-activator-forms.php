@@ -371,6 +371,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             <label> Ticket
                 [task_name task-name id:task-name default:get] </label>
             
+            [hidden form-type default:\"filter\"]
             [submit id:filter-time-submit \"Filter Time Entries\"]";
             return $html;
         }
