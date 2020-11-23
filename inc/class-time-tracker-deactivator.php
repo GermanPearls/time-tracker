@@ -26,7 +26,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
          */
         public static function deactivate() {
             //self::send_deletion_warning();  WON'T NEED TO DO THIS, ONLY DURING DELETION
-            //self::define_plugin_variables();
+            self::define_plugin_variables();
             //self::delete_tables();  DON'T REMOVE TABLES, ONLY DO THIS DURING PLUGIN DELETION ???
             self::deactivate_crons();
             self::deactivate_pages(); 
@@ -51,8 +51,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
          * 
          */
         public static function define_plugin_variables() {
-            //website name?
-            //sql db name?
+            require_once 'class-time-tracker-activator-pages.php';
         }
 
 
@@ -79,7 +78,9 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
          * 
          */
         public static function deactivate_pages() {
-            $tt_pages = array(
+            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array;
+            $tt_pages_delete_order = array_reverse($tt_pages);
+            /**$tt_pages = array(
                 'time-tracker',
                 'clients',
                 'new-client',
@@ -93,8 +94,8 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
                 'task-detail',
                 'task-list',
                 'time-log'
-            );
-            foreach ($tt_pages as $tt_page) {
+            );**/
+            foreach ($tt_pages_delete_order as $tt_page) {
                 self::change_page_to_draft($tt_page);
             }
         }
