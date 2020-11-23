@@ -54,8 +54,19 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             
             //check if page exists already
             $page_exists = tt_get_page_id(self::get_page_details(0)['post_title']);
+            //if page doesn't exist
             if (empty($page_exists) or $page_exists == null) {
                 $homepage_id = wp_insert_post(self::get_page_details(0));
+            
+            //pages are changed to draft on plugin deactivation
+            } elseif (get_post_status($page_exists) == 'draft') {
+                $homepage_id = $page_exists;
+                wp_update_post(array(
+                    'ID' => $page_exists,
+                    'post_status' => 'private'
+                ));
+            
+            //page exists and is not in draft status
             } else {
                 $homepage_id = $page_exists;
             }
@@ -64,8 +75,16 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             $num_of_pages = count(self::$page_details);
             for ($i = 1; $i < $num_of_pages; $i++) {
                 $page_exists = tt_get_page_id(self::get_page_details($i)['post_title']);
+                //if page doesn't exist
                 if (empty($page_exists) or ($page_exists==null)) {
                     wp_insert_post( self::get_page_details($i) );
+                
+                //pages are changed to draft on plugin deactivation
+                } elseif (get_post_status($page_exists) == 'draft') {
+                    wp_update_post(array(
+                        'ID' => $page_exists,
+                        'post_status' => 'private'
+                    ));
                 }
             }
         }
