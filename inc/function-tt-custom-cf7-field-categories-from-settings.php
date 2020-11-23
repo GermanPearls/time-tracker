@@ -116,7 +116,7 @@ function custom_category_form_tag_handler( $tag, $type ) {
     $settings = get_option('time-tracker');
     $list = $settings[$type];
 	if ($settings) {
-		$array = $array = explode("\r\n", $list);
+		$array = explode("\r\n", $list);
 	} else {
 		$array = array("N/A");
 	}
@@ -141,7 +141,7 @@ function custom_category_form_tag_handler( $tag, $type ) {
 
     //add each option in array
     foreach ($array as $option) {
-        $name = htmlspecialchars_decode($option, ENT_QUOTES);
+        $name = sanitize_text_field($option);
         $form_options .= sprintf('<option value="%s">%s</option>', esc_html($name), esc_html($name));
     }
 

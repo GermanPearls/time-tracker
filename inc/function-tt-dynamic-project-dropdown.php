@@ -24,7 +24,7 @@ if(!function_exists('get_client_id_from_name')) {
  * pull the variable from the url and remove the % encoding
  * 
  */
-$client_name = urldecode($_REQUEST["client"]);
+$client_name = sanitize_text_field($_REQUEST['client']);
 $client_id = get_client_id_from_name($client_name);
 
 /**

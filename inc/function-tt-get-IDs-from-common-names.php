@@ -28,10 +28,10 @@ function get_client_id_from_name($client_name) {
  * 
  */
 function get_project_id_from_name($project_name) {
-  $project_name_and_quotes = chr(34) . $project_name . chr(34); 
   if ( ($project_name=="") or ($project_name == null)) {
     $project_id = null;
   } else {
+    $project_name_and_quotes = chr(34) . $project_name . chr(34); 
     //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
     global $wpdb;
     $project_id_search_string = $wpdb->prepare('SELECT ProjectID FROM tt_project WHERE PName= %s', $project_name_and_quotes);

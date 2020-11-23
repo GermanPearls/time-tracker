@@ -54,8 +54,8 @@ function custom_client_name_form_tag_handler( $tag ) {
     $client_name = "<option value=\"\"></option>";
 
     foreach ($client_list as $val) {
-      $company_name = htmlspecialchars_decode($val->Company,ENT_QUOTES);
-      if ((isset($_GET['client-name'])) AND ( stripslashes($_GET['client-name']) == $company_name )) {
+      $company_name = sanitize_text_field($val->Company);
+      if ((isset($_GET['client-name'])) AND ( sanitize_text_field($_GET['client-name']) == $company_name )) {
         $client_name .= sprintf('<option value="%s" selected=\"selected\">%s</option>', esc_html($company_name), esc_html($company_name));
       } else {
         $client_name .= sprintf('<option value="%s">%s</option>', esc_html($company_name), esc_html($company_name));

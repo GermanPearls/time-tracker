@@ -35,8 +35,8 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
          * 
          */
         public function __construct() {
-            require_once(ABSPATH . 'wp-includes/wp-db.php'); //use wordpress db class
-            require_once(ABSPATH . 'wp-config.php');  //wordpress db details and error handling
+            //require_once(ABSPATH . 'wp-includes/wp-db.php'); //use wordpress db class
+            //require_once(ABSPATH . 'wp-config.php');  //wordpress db details and error handling
             //if (! defined('TT_DB_NAME')) {
                 //define('TT_DB_NAME', DB_NAME . "_tt"); //time tracker database name
             //}
@@ -55,7 +55,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
             }
 
             foreach ($recurring_tasks as $task) {        
-                $last_created_obj = date_create_immutable_from_format('Y-m-d', $task->LastCreated);
+                $last_created_obj = date_create_immutable_from_format('Y-m-d', sanitize_text_field($task->LastCreated));
                 $last_created_plus_week = $last_created_obj->modify('next Sunday');
                 $last_created_plus_month = $last_created_obj->modify('first day of next month');
 
@@ -63,37 +63,37 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                  * For weekly tasks, if it's been more than a week since the last task was created, create the next Sunday's task
                  * 
                  */
-                if ( ($task->Frequency == "Weekly") && ($today >= $last_created_plus_week)) {                                      
+                if ( (sanitize_text_field($task->Frequency) == "Weekly") && ($today >= $last_created_plus_week)) {                                      
                     $due_date = date_format($last_created_plus_week->modify('next Friday'), 'Y-m-d');
                     $this->create_new_task(
-                        $task->RTName . " " . $last_created_plus_week->format("n/j/y"),
-                        $task->ClientID,
-                        $task->ProjectID,
-                        $task->RTTimeEstimate,
+                        sanitize_text_field($task->RTName) . " " . $last_created_plus_week->format("n/j/y"),
+                        sanitize_text_field($task->ClientID),
+                        sanitize_text_field($task->ProjectID),
+                        sanitize_text_field($task->RTTimeEstimate),
                         $due_date,
-                        $task->RTDescription,
-                        $task->Frequency . " Recurring Task ID " . $task->RecurringTaskID
+                        sanitize_text_field($task->RTDescription),
+                        sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID)
                     );
                     $this->created = $this->created + 1;
-                    $this->update_last_created($task->RecurringTaskID, $last_created_plus_week->format("Y-m-d"));
+                    $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_week->format("Y-m-d"));
 
                 /*
                  * For monthly tasks, if it's past the next 1st of the month, create the next month's task
                  * 
                  */
-                } elseif ( ($task->Frequency == "Monthly") && ($today >= $last_created_plus_month)) {
+                } elseif ( (sanitize_text_field($task->Frequency) == "Monthly") && ($today >= $last_created_plus_month)) {
                     $due_date = date_format($last_created_plus_month->modify('last day of month'), 'Y-m-d');
                     $this->create_new_task(
-                        $task->RTName . " " . $last_created_plus_month->format("F Y"),
-                        $task->ClientID,
-                        $task->ProjectID,
-                        $task->RTTimeEstimate,
+                        sanitize_text_field($task->RTName). " " . $last_created_plus_month->format("F Y"),
+                        sanitize_text_field($task->ClientID),
+                        sanitize_text_field($task->ProjectID),
+                        sanitize_text_field($task->RTTimeEstimate),
                         $due_date,
-                        $task->RTDescription,
-                        $task->Frequency . " Recurring Task ID " . $task->RecurringTaskID
+                        sanitize_text_field($task->RTDescription),
+                        sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID)
                     );
                     $this->created = $this->created + 1;
-                    $this->update_last_created($task->RecurringTaskID, $last_created_plus_month->format("Y-m-d"));
+                    $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_month->format("Y-m-d"));
                 } //monthly
             }  //for each
             log_cron('Recurring task cron completed, ' . $this->created . ' new task(s) were created.');
@@ -110,6 +110,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
             //}
             global $wpdb;
             $table_name = 'tt_task';
+            //wpdb->insert columns and values should be raw (not escaped) per https://developer.wordpress.org/reference/classes/wpdb/insert/#parameters
             $result = $wpdb->insert( $table_name, array(
                 'TDescription' => $desc,
                 'ClientID'   => $client,
@@ -133,6 +134,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
               //  $tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             //}
             global $wpdb;
+            //wpdb->update columns and values should be raw (not escaped) per https://developer.wordpress.org/reference/classes/wpdb/update/#parameters
             $result = $wpdb->update('tt_recurring_task', array('LastCreated'=>$new_date), array('RecurringTaskID'=>$task_id));
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
         }

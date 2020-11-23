@@ -15,10 +15,14 @@
  * 
  */
 function tt_convert_fraction_to_time($fraction_time) {
-    $hours_part = intval($fraction_time) * 100 * 100;
-    $minutes_part = ($fraction_time - intval($fraction_time)) * 60 * 100;
-    $time_format = $hours_part + $minutes_part;
-    return $time_format;
+    if (($fraction_time == 0) or ($fraction_time == "") or ($fraction_time == null)) {
+        return 0;
+    } else {    
+        $hours_part = intval($fraction_time) * 100 * 100;
+        $minutes_part = ($fraction_time - intval($fraction_time)) * 60 * 100;
+        $time_format = $hours_part + $minutes_part;
+        return $time_format;
+    }
 }
 
 
@@ -29,6 +33,10 @@ function tt_convert_fraction_to_time($fraction_time) {
  * 
  */
 function tt_convert_to_string_time($hours, $minutes) {
+    if ( (($hours == 0) or ($hours == null) or ($hours == "")) and (($minutes == 0) or ($minutes == null) or ($minutes == "")) ) {
+        return 0;
+    }
+    
     //if minutes is over 60, convert to extra hours
     if ( $minutes >= 60 ) {
         $minutes_to_hours = intdiv($minutes, 60);
@@ -53,6 +61,10 @@ function tt_convert_to_string_time($hours, $minutes) {
  * 
  */
 function tt_convert_to_decimal_time($hours, $minutes) {
+    if ( (($hours == 0) or ($hours == null) or ($hours == "")) and (($minutes == 0) or ($minutes == null) or ($minutes == "")) ) {
+        return 0;
+    }
+    
     //if minutes is over 60, convert to extra hours
     if ( $minutes >= 60 ) {
         $minutes_to_hours = intdiv($minutes, 60);
@@ -74,7 +86,7 @@ function tt_convert_to_decimal_time($hours, $minutes) {
  */
 function tt_format_date_for_display($date_entry, $type) {
     //if date is empty - return nothing
-    if ( ($date_entry == "0000-00-00%") or ($date_entry == "0000-00-00") ) {
+    if ( ($date_entry == null) or ($date_entry == "0000-00-00%") or ($date_entry == "0000-00-00") ) {
         return "";
     } else {    
         //check if it's only a date coming in, create date object
@@ -112,8 +124,11 @@ function tt_format_date_for_display($date_entry, $type) {
 function get_month_name_from_number($monthnumber) {
     //create date object from month integer
     $dateObj   = DateTime::createFromFormat('!m', $monthnumber);
-    $monthName = $dateObj->format('F'); // Full name
-    return $monthName;
+    if ($dateObj) {
+        $monthName = $dateObj->format('F'); // Full name
+        return $monthName;
+    }
+    return "";
 }
 
 
@@ -153,7 +168,7 @@ function tt_get_page_id($page_name) {
             return $pages['ID'];
         }
 
-    //several pages must have been found
+    //several pages must have been found - return first
     } else {
         foreach ($pages as $page) {
             if (($page['post_status'] == 'publish') or ($page['post_status'] == 'draft') or ($page['post_status'] == 'private') or ($page['post_status'] == 'inherit')) {

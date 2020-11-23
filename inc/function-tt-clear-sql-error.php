@@ -16,7 +16,7 @@ function tt_clear_sql_error_function() {
        		if ( check_ajax_referer('tt_clear_sql_error_nonce', 'security')) {
 				
 				//update the settings
-				if ( $_POST['update'] == "clear") {
+				if ( sanitize_text_field($_POST['update']) == "clear") {
       	    		$now = new DateTime;
      	    		$now->setTimezone(new DateTimeZone(get_option('timezone_string')));
     	    	    $update = update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>"", 'function'=>""));

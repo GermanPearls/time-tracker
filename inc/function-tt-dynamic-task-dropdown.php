@@ -14,11 +14,11 @@
  * Fixes call to undefined function error when calling plugin_dir_url below
  * 
  */
-if ( !defined('ABSPATH') ) {
+//if ( !defined('ABSPATH') ) {
     //If wordpress isn't loaded load it up.
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include_once $path . '/wp-load.php';
-}
+    //$path = $_SERVER['DOCUMENT_ROOT'];
+    //include_once $path . '/wp-load.php';
+//}
 
 
 /**
@@ -31,7 +31,7 @@ if(!function_exists('get_client_id_from_name')) {
 
 //Which client was chosen by the user in the previous dropdown?
 //pull the variable from the url and remove the % encoding
-$client_name = stripslashes($_REQUEST["client"]);
+$client_name = sanitize_text_field($_REQUEST['client']);
 $client_id = get_client_id_from_name($client_name);
 
 //Query time tracker database to get list of current tasks and task id's
@@ -45,7 +45,7 @@ $task_options = '<option value=null></options>';
 
 //Create new options for dropdown based on narrowed search results
 foreach ($task_list as $val) {
-    $task_identifier_string = htmlspecialchars_decode($val->TaskID, ENT_QUOTES) . "-" . htmlspecialchars_decode($val->TDescription, ENT_QUOTES);
+    $task_identifier_string = sanitize_text_field($val->TaskID) . "-" . sanitize_text_field($val->TDescription);
     $task_options .= sprintf('<option value="%s">%s</option>', esc_html($task_identifier_string), esc_html($task_identifier_string));
 }
 
