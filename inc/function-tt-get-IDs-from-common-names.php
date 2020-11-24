@@ -17,9 +17,13 @@ function get_client_id_from_name($client_name) {
   global $wpdb;
   $client_id_search_string = $wpdb->prepare('SELECT ClientID FROM tt_client WHERE Company= "%s"', $client_name);
   $client_id_search_result = $wpdb->get_results($client_id_search_string);
-  $client_id = $client_id_search_result[0]->ClientID;
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query . ' result is ' . $client_id, $wpdb->last_error);
-  return $client_id;    
+  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  if ($client_id_search_result) {
+    $client_id = $client_id_search_result[0]->ClientID;
+    return $client_id;    
+  } else {
+    return "";
+  }
 }
 
 
