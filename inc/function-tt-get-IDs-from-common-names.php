@@ -18,7 +18,7 @@ function get_client_id_from_name($client_name) {
   $client_id_search_string = $wpdb->prepare('SELECT ClientID FROM tt_client WHERE Company= "%s"', $client_name);
   $client_id_search_result = $wpdb->get_results($client_id_search_string);
   $client_id = $client_id_search_result[0]->ClientID;
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query . ' result is ' . $client_id, $wpdb->last_error);
   return $client_id;    
 }
 
@@ -36,12 +36,12 @@ function get_project_id_from_name($project_name) {
     global $wpdb;
     $project_id_search_string = $wpdb->prepare('SELECT ProjectID FROM tt_project WHERE PName= %s', $project_name_and_quotes);
     $project_id_search_result = $wpdb->get_results($project_id_search_string);
-    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
     if (!empty($project_id_search_result)) {    
       $project_id = $project_id_search_result[0]->ProjectID;
     } else {
       $project_id = null;
     }
+    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query . ' result is ' . $project_id, $wpdb->last_error);  
   }
   return $project_id;    
 }
@@ -57,6 +57,6 @@ function get_task_id_from_name($task_name) {
   $task_id_search_string = $wpdb->prepare('SELECT TaskID FROM tt_task WHERE TDescription= "%s"', $task_name);
   $task_id_search_result = $wpdb->get_results($task_id_search_string);
   $task_id = $task_id_search_result[0]->TaskID;
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query . ' result is ' . $task_id, $wpdb->last_error);
   return $task_id;    
 }
