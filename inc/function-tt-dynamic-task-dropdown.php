@@ -46,7 +46,7 @@ $task_options = '<option value=null></options>';
 //Create new options for dropdown based on narrowed search results
 foreach ($task_list as $val) {
     $task_identifier_string = sanitize_text_field($val->TaskID) . "-" . sanitize_text_field($val->TDescription);
-    $task_options .= sprintf('<option value="%s">%s</option>', esc_html($task_identifier_string), esc_html($task_identifier_string));
+    $task_options .= '<option value="' . esc_html($task_identifier_string) . '">' . esc_html($task_identifier_string) . '</option>';
 }
 
 //close out select tag

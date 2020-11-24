@@ -55,7 +55,7 @@ function custom_project_name_form_tag_handler( $tag ) {
     $project_name = '<option value=null></option>';
 
     foreach ($project_list as $val) {
-        $project_name .= sprintf('<option value="%s">%s</option>', esc_html($val->PName), esc_html($val->PName));
+        $project_name .= '<option value="' . esc_html($val->PName) . '">' . esc_html($val->PName) . '</option>';
     }
 
     //close out select tag

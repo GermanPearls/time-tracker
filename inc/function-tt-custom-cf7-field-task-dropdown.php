@@ -56,9 +56,9 @@ function custom_task_name_form_tag_handler( $tag ) {
     foreach ($task_list as $val) {
       $task_identifier_string = sanitize_text_field($val->TaskID) . "-" . sanitize_text_field($val->TDescription);     
       if ((isset($_GET['task-name'])) AND ( sanitize_text_field($_GET['task-name']) == $task_identifier_string )) {
-         $task_name .= sprintf('<option value="%s" selected=\"selected\">%s</option>', esc_html($task_identifier_string), esc_html($task_identifier_string));
+         $task_name .= '<option value="' . esc_html($task_identifier_string) . '" selected=\"selected\">' . esc_html($task_identifier_string) . '</option>';
       } else {
-        $task_name .= sprintf('<option value="%s">%s</option>', esc_html($task_identifier_string), esc_html($task_identifier_string));
+        $task_name .= '<option value="' . esc_html($task_identifier_string) . '">' . esc_html($task_identifier_string) . '</option>';
       }
     }
     //close out select tag

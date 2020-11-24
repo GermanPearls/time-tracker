@@ -142,7 +142,7 @@ function custom_category_form_tag_handler( $tag, $type ) {
     //add each option in array
     foreach ($array as $option) {
         $name = sanitize_text_field($option);
-        $form_options .= sprintf('<option value="%s">%s</option>', esc_html($name), esc_html($name));
+        $form_options .= '<option value="' . esc_html($name) . '">' . esc_html($name) . '</option>';
     }
 
     //close out select tag

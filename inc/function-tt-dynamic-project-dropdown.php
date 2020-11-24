@@ -44,7 +44,7 @@ $project_options = '<option value=null></options>';
  * 
  */
 foreach ($project_list as $val) {
-    $project_options .= sprintf('<option value="%s">%s</option>', esc_html($val->PName), esc_html($val->PName));
+    $project_options .= '<option value="' . esc_html($val->PName) . '">' . esc_html($val->PName) . '</option>';
 }
 
 /**
