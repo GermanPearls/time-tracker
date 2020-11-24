@@ -37,7 +37,7 @@ get_header();
         <a href="/time-tracker" class="tt-header-button">Home</a>
         </header><!----------end page header----------->
         <!----------error alert----------->
-        <?php echo esc_html(do_shortcode('[tt_error_alert]')); ?>  
+        <?php echo do_shortcode('[tt_error_alert]'); ?>  
         <!----------end error alert----------->
         <!----------begin main section-----------><main id="main" class="site-main tt-main" role="main">
 
