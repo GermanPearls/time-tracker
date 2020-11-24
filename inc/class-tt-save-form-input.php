@@ -43,9 +43,10 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Constructor
          * 
          */ 
-        public function __construct($data, $id) {
+        public function __construct($raw_data, $id) {
             //removed $form added insertid
             $this->form_post_id = $id;
+            $data = $this->clean_data($raw_data);
             $this->original_submission = $this->serialize_data($data);
             $this->client_id = $this->get_client_id($data);
             $this->project_id = $this->get_project_id($data);
@@ -144,6 +145,19 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             }
         }*/
      
+        
+        /**
+         * Sanitize data
+         * 
+         */
+        private function clean_data($raw_data) {
+            $clean_data = array();
+            foreach ($raw_data as $key => $data) {
+                $clean_data[$key] = sanitize_text_field($data);
+            }
+            return $clean_data;
+        }
+        
         
         /**
          * Serialize data to store in db with record so we have record of original entry
