@@ -49,4 +49,4 @@ if ( ! class_exists('Time_Tracker_Save_Form_Data') ) {
 
 $saveddata = new Time_Tracker_Save_Form_Data();
 
-add_action( 'wpcf7_before_send_mail', [$saveddata, 'saveDataToTTDatabase'] );
+add_action( 'wpcf7_before_send_mail', array($saveddata, 'saveDataToTTDatabase') );
