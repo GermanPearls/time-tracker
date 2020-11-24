@@ -157,7 +157,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") ? date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") : "";
 
                 //evaluate time worked vs estimate, format data to display and apply css class based on result
-                $hours_logged = sanitize_text_field($item->LoggedHours) + round(sanitize_text_field($item->LoggedMinutes)/60,2);
+                $hours_logged = intval(sanitize_text_field($item->LoggedHours)) + round(intval(sanitize_text_field($item->LoggedMinutes))/60,2);
                 $time_estimate_parts = explode(":", sanitize_text_field($item->TTimeEstimate));
                 $time_estimate_formatted = round((float)$time_estimate_parts[0] + ((float)$time_estimate_parts[1]/60),2);
                 if ((sanitize_text_field($item->TTimeEstimate) == 0 ) or (sanitize_text_field($item->TTimeEstimate) == null)) {
