@@ -135,8 +135,8 @@ if ( ! class_exists('Time_Tracker') ) {
 
       //SAVE PATH TO SCRIPTS FOR USE IN JS
       wp_localize_script('update_task_list', 'getDirectory', array('pluginURL' => plugins_url('',__FILE__)));
-	  wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_clear_sql_error_nonce')));
-	  wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
+	    wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_clear_sql_error_nonce')));
+	    wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
     }
 
 
@@ -154,12 +154,12 @@ if ( ! class_exists('Time_Tracker') ) {
      * Enqueue Scipts
      * 
      */
-    private function add_scripts() {
+    public function add_scripts() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
-	  add_action('wp_ajax_tt_update_table', 'tt_update_table_function');
-	  add_action('wp_ajax_tt_clear_sql_error', 'tt_clear_sql_error_function');
+	    add_action('wp_ajax_tt_update_table', 'tt_update_table_function');
+	    add_action('wp_ajax_tt_clear_sql_error', 'tt_clear_sql_error_function');
 	  
-	  //SCRIPTS
+	    //SCRIPTS
       add_action('wp_enqueue_scripts', array($this,'time_tracker_scripts'));
     }
 
@@ -228,10 +228,10 @@ if ( ! class_exists('Time_Tracker') ) {
      * Enqueue Scripts - Admin
      * 
      */    
-    private function add_scripts_admin() {
+    public function add_scripts_admin() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
-	  add_action('wp_ajax_tt_export_data', 'tt_export_button_function');
-	  add_action('wp_ajax_tt_delete_data', 'tt_delete_data_function');
+	    add_action('wp_ajax_tt_export_data', 'tt_export_button_function');
+	    add_action('wp_ajax_tt_delete_data', 'tt_delete_data_function');
 		
       //ADMIN SCRIPTS
       add_action('admin_enqueue_scripts', array($this,'time_tracker_scripts_admin'));
@@ -243,7 +243,7 @@ if ( ! class_exists('Time_Tracker') ) {
      * Enqueue Styles - Admin
      * 
      */
-    private function add_styles_admin() {
+    public function add_styles_admin() {
       //STYLES
       add_action('admin_enqueue_scripts', array($this,'time_tracker_styles_admin'));
     }
@@ -253,7 +253,7 @@ if ( ! class_exists('Time_Tracker') ) {
      * Add Plugin Settings
      * 
      */
-    private function init_settings() {
+    public function init_settings() {
       //SETTINGS
       add_action('admin_init', 'tt_admin_settings_init');
     }
