@@ -78,7 +78,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
          * 
          */
         public static function deactivate_pages() {
-            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array;
+            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(1);
             $tt_pages_delete_order = array_reverse($tt_pages);
             /**$tt_pages = array(
                 'time-tracker',
@@ -96,7 +96,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
                 'time-log'
             );**/
             foreach ($tt_pages_delete_order as $tt_page) {
-                self::change_page_to_draft($tt_page);
+                self::change_page_to_draft($tt_page['Slug']);
             }
         }
 

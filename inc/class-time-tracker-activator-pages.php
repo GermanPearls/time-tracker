@@ -142,7 +142,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
          * Create array of pages and page-specific properties
          * 
          */
-        private static function create_subpage_details_array($id) {
+        public static function create_subpage_details_array($id) {
             $details_all = self::$page_details;
             
             $parent = $id;
