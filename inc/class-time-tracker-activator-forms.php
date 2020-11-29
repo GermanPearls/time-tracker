@@ -315,7 +315,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             <label> Notes 
                 [textarea notes] </label>
             
-            [submit id:add-task-submit \"Send\"]";
+                [hidden what-next default:\"SaveTask\"]
+
+                <input type=\"submit\" name=\"submit-save\" value=\"SaveTask\">   <input type=\"submit\" name=\"submit-start\" value=\"StartWorking\" onclick=\"save_new_task_and_start_timer()\">";
             return $html;
         }
 
