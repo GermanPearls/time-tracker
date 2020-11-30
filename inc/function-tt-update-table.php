@@ -31,13 +31,18 @@ function tt_update_table_function() {
 			];
 
 			//deal with date entries, must be inserted into database in yyyy-mm-dd format
-			if ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') ) {
+			if ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') OR strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') ) {
 
 				//convert the date entered from t a string to a date/time object
 				$date_entered = new DateTime(sanitize_text_field($_POST['value']));
 
 				//use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
 				$date_in_sql_format = $date_entered->format('Y') . "-" . $date_entered->format('m') . "-" . $date_entered->format('d');
+				
+				//deal with date and time entires, must be inserted into db in yyyy-mm-dd hh:mm:ss format
+				if ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') ) {
+					$date_in_sql_format .= " " . $date_entered->format('H') . ":" . $date_entered->format('i') . ":" . $date_entered->format('s');
+				}
 
 				$data = [
 					sanitize_text_field($_POST['field']) => $date_in_sql_format
@@ -45,7 +50,7 @@ function tt_update_table_function() {
 				//the last argument, %s, tells the function to keep the data in string format
 				$result = $wpdb->update(sanitize_text_field($_POST['table']), $data, $record);
 				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-
+					
 			//pass everything else along to the wp update function
 			} else {
 
