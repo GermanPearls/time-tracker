@@ -108,7 +108,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 $html .= "<ul>";
                 foreach ($grouped_time as $billtoname => $time_details) {
                     if ($billtoname != null) {
-                        $html .= "<li><a href=\"#" . esc_url($billtoname) . "\">Pending Time to Bill To: " . esc_textarea($billtoname) . "</a></li>";
+                        $html .= "<li><a href=\"#" . esc_attr($billtoname) . "\">Pending Time to Bill To: " . esc_textarea($billtoname) . "</a></li>";
                     } else {
                         $html .= "<li><a href=\"#None\">No Bill To Specified</a></li>";
                     }
