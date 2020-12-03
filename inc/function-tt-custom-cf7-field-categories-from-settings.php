@@ -7,15 +7,17 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Create Custom CF7 Form Tags
  * 
  */
-add_action( 'wpcf7_init', 'custom_add_form_tag_work_category');
-add_action( 'wpcf7_init', 'custom_add_form_tag_client_category');
-add_action( 'wpcf7_init', 'custom_add_form_tag_client_sub_category');
-add_action( 'wpcf7_init', 'custom_add_form_tag_bill_to_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_work_category');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_client_category');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_client_sub_category');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_bill_to_name');
 
 
 /**
@@ -27,7 +29,7 @@ add_action( 'wpcf7_init', 'custom_add_form_tag_bill_to_name');
  * 
  */
 function custom_add_form_tag_work_category() {
-  wpcf7_add_form_tag( 'work_category', 'custom_work_category_form_tag_handler', array('name-attr'=>true));
+  \wpcf7_add_form_tag( 'work_category', 'Logically_Tech\Time_Tracker\Inc\custom_work_category_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -36,7 +38,7 @@ function custom_add_form_tag_work_category() {
  * 
  */
 function custom_add_form_tag_client_category() {
-    wpcf7_add_form_tag( 'client_category', 'custom_client_category_form_tag_handler', array('name-attr'=>true));
+    \wpcf7_add_form_tag( 'client_category', 'Logically_Tech\Time_Tracker\Inc\custom_client_category_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -45,7 +47,7 @@ function custom_add_form_tag_client_category() {
  * 
  */
 function custom_add_form_tag_client_sub_category() {
-    wpcf7_add_form_tag( 'client_sub_category', 'custom_client_sub_category_form_tag_handler', array('name-attr'=>true));
+    \wpcf7_add_form_tag( 'client_sub_category', 'Logically_Tech\Time_Tracker\Inc\custom_client_sub_category_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -54,7 +56,7 @@ function custom_add_form_tag_client_sub_category() {
  * 
  */
 function custom_add_form_tag_bill_to_name() {
-    wpcf7_add_form_tag( 'bill_to_name', 'custom_bill_to_name_form_tag_handler', array('name-attr'=>true));
+    \wpcf7_add_form_tag( 'bill_to_name', 'Logically_Tech\Time_Tracker\Inc\custom_bill_to_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -133,7 +135,7 @@ function custom_category_form_tag_handler( $tag, $type ) {
     //open select tag
     $input = sprintf(
         '<select %s />',
-        wpcf7_format_atts( $atts)
+        \wpcf7_format_atts( $atts)
     );
 
     //start with blank in select box

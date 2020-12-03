@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  
 /**
@@ -38,7 +40,7 @@ if ( ! class_exists('Time_Tracker_Save_Form_Data') ) {
          * 
          */ 
         public function saveDataToTTDatabase() {
-            $form = WPCF7_Submission::get_instance();
+            $form = \WPCF7_Submission::get_instance();
             $data = $form->get_posted_data();
             $id = $form->get_contact_form()->id();
             new Save_Form_Input($data, $id); 

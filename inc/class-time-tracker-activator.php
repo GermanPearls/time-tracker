@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Check if class exists

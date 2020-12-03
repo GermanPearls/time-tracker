@@ -9,11 +9,13 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Admin;
+
 
 function tt_export_data_function() {
 
 	require_once __DIR__ . '/../inc/class-time-tracker-activator-tables.php';
-	$table_list = Time_Tracker_Activator_Tables::get_table_list();
+	$table_list = \Logically_Tech\Time_Tracker\Inc\Time_Tracker_Activator_Tables::get_table_list();
 
 	$path = ABSPATH . "../tt_logs/";
 	$filename = 'mysqldump';

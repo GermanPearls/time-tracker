@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
@@ -84,7 +86,7 @@ if ( !class_exists( 'Client_List' ) ) {
                 if ($item->DateAdded == "0000-00-00 00:00:00") {
                     $date_added_formatted = "";
                 } else {
-                    $date_added_formatted = date_format(DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->DateAdded)), "n/j/y");
+                    $date_added_formatted = date_format(\DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->DateAdded)), "n/j/y");
                 }
                         
                 //create row

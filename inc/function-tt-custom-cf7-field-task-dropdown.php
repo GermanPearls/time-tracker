@@ -7,12 +7,14 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Create Custom CF7 Form Tag, Task Name Dropdown
  * 
  */
-add_action( 'wpcf7_init', 'custom_add_form_tag_task_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_task_name');
 
 
 /**
@@ -20,7 +22,7 @@ add_action( 'wpcf7_init', 'custom_add_form_tag_task_name');
  * 
  */
 function custom_add_form_tag_task_name() {
-  wpcf7_add_form_tag( 'task_name', 'custom_task_name_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'task_name', 'Logically_Tech\Time_Tracker\Inc\custom_task_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -55,7 +57,7 @@ function custom_task_name_form_tag_handler( $tag ) {
 
     foreach ($task_list as $val) {
       $task_identifier_string = $val->TaskID . "-" . $val->TDescription;   
-      if ((isset($_GET['task-name'])) AND ( stripslashes(sanitize_text_field($_GET['task-name'])) == $task_identifier_string )) {
+      if ((isset($_GET['task-name'])) AND ( stripslashes($_GET['task-name']) == $task_identifier_string )) {
          $task_name .= '<option value="' . esc_textarea($task_identifier_string) . '" selected=\"selected\">' . esc_textarea($task_identifier_string) . '</option>';
       } else {
         $task_name .= '<option value="' . esc_textarea($task_identifier_string) . '">' . esc_textarea($task_identifier_string) . '</option>';

@@ -9,6 +9,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 function tt_update_project_list_function() {
 	

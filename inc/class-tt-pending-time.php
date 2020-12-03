@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
@@ -201,7 +203,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 $table .= "<td id=\"invoice-number\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoiceNumber'])) . "</td>";
                 $table .= "<td id=\"invoiced-time\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoicedTime'])) . "</td>";
                 $table .= "<td id=\"invoice-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['InvoiceComments'])) . "</td>";
-                $table .= "<td id=\"status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . "), updateDatabase(this, 'time', 'TimeID', 'NewTaskStatus'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['NewTaskStatus'])) . "</td>";
+                $table .= "<td id=\"status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . "), updateDatabase(this, 'tt_time', 'TimeID', 'NewTaskStatus'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['NewTaskStatus'])) . "</td>";
                 $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['TNotes'])) . "</td>";
                 //close out row
                 $table .="</tr>";

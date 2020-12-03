@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
@@ -105,7 +107,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 $this->save_new_time_entry($data);
                 
                 //if the user entered a new task status update it in the task table
-                if ( ($data['new-task-status'][0] <> null) and ($data['new-task-status'][0] <> '') and ($data['new-task-status'][0] <> '---')) {
+                if ( ($data['new-task-status'] <> null) and ($data['new-task-status'] <> '') and ($data['new-task-status'] <> '---')) {
                     $this->update_task_status($data);            
                 }
 
@@ -115,35 +117,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 }
 
             } 
-
-            //catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            /**
-             * Catch errors
-             * 
-             */
-            //if($this->tt_db->last_error !== '') {
-               // log_sql('SQL ERROR: in class-tt-save-form-input');
-               // log_sql('Error Details: ' . $tt_db->last_error());
-            //} else {
-              //  $this->result = 'Data saved without errors!';
-            //}
         }
-
-
-        /**
-         * Catch errors
-         * 
-         */
-        /*private function catch_errors($strquery, $qryresult, $qryerror) {
-            log_sql('SQL STRING: ' . $strquery);
-            
-            if($qryerror !== "") {
-                log_sql('SQL ERROR: ' . $qryerror);
-                log_sql('SQL String: ' . $strquery);
-            } else {
-                log_sql('SQL SUCCESS. SQL String: ' . $strquery);
-            }
-        }*/
      
         
         /**
@@ -153,7 +127,11 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private function clean_data($raw_data) {
             $clean_data = array();
             foreach ($raw_data as $key => $data) {
-                $clean_data[$key] = filter_var(htmlspecialchars_decode($data, ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                if (is_array($data)) {
+                    $clean_data[$key] = filter_var(htmlspecialchars_decode($data[0], ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                } else {
+                    $clean_data[$key] = filter_var(htmlspecialchars_decode($data, ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                }
             }
             return $clean_data;
         }
@@ -289,8 +267,8 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $table_name = 'tt_time';
 
             //Convert Start and End Times to Date Formats (from text)
-            $start = DateTime::createFromFormat('n/j/y g:i A', $data['start-time'])->format('Y-m-d H:i:ss');
-            $end = DateTime::createFromFormat('n/j/y g:i A', $data['end-time'])->format('Y-m-d H:i:ss');
+            $start = \DateTime::createFromFormat('n/j/y g:i A', $data['start-time'])->format('Y-m-d H:i:ss');
+            $end = \DateTime::createFromFormat('n/j/y g:i A', $data['end-time'])->format('Y-m-d H:i:ss');
 
             //Add New Record to Database
             $wpdb->insert( $table_name, array(
@@ -314,7 +292,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private function update_task_status($data) {
             //flag task as complete if user checks complete box in time entry page
             global $wpdb;
-            $new_task_status = $data['new-task-status'][0];
+            $new_task_status = $data['new-task-status'];
             $update_task_status_string = 'UPDATE tt_task SET TStatus ="' . $new_task_status . '" WHERE TaskID="' . $this->task_id . '"';
             $update_task_status_result = $wpdb->get_results($update_task_status_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
@@ -384,7 +362,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private function get_task_id($data) {
             //Task field in table requires a valid Task ID or null value, won't except empty string
             if (!array_key_exists('task-name', $data) or $data['task-name'] == '' or $data['task-name'] == null) {
-                $this->task_id = 0;
+                $this->task_id = null;
             } else {
                 $task = $data['task-name'];
                 $task_number_from_string = substr($task,0,strpos($task,'-'));

@@ -21,6 +21,14 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+namespace Logically_Tech\Time_Tracker;
+
+use Logically_Tech\Time_Tracker\Inc\Time_Tracker;
+use Logically_Tech\Time_Tracker\Inc\Time_Tracker_Activator;
+use Logically_Tech\Time_Tracker\Inc\Time_Tracker_Deactivator;
+use Logically_Tech\Time_Tracker\Inc\Time_Tracker_Deletor;
+
+
 if ( !defined( 'ABSPATH' ) ) { 
   die( 'Nope, not accessing this' );
 }
@@ -40,9 +48,9 @@ define('PLUGIN_BASENAME', plugin_basename(__FILE__));
  */
 function activate_time_tracker() {
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker-activator.php';
-	Time_Tracker_Activator::activate();
+	Inc\Time_Tracker_Activator::activate();
 }
-register_activation_hook( __FILE__, 'activate_time_tracker' );
+register_activation_hook( __FILE__, 'Logically_Tech\Time_Tracker\activate_time_tracker' );
 
 
 /**
@@ -51,9 +59,9 @@ register_activation_hook( __FILE__, 'activate_time_tracker' );
  */
 function deactivate_time_tracker() {
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker-deactivator.php';
-	Time_Tracker_Deactivator::deactivate();
+	Inc\Time_Tracker_Deactivator::deactivate();
 }
-register_deactivation_hook( __FILE__, 'deactivate_time_tracker' );
+register_deactivation_hook( __FILE__, 'Logically_Tech\Time_Tracker\deactivate_time_tracker' );
 
 
 /**
@@ -62,9 +70,9 @@ register_deactivation_hook( __FILE__, 'deactivate_time_tracker' );
  */
 function uninstall_time_tracker() {
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker-delete.php';
-	Time_Tracker_Deletor::delete_all();
+	Inc\Time_Tracker_Deletor::delete_all();
 }
-register_uninstall_hook(__FILE__, 'uninstall_time_tracker');
+register_uninstall_hook(__FILE__, 'Logically_Tech\Time_Tracker\uninstall_time_tracker');
 
 
 /**
@@ -72,8 +80,8 @@ register_uninstall_hook(__FILE__, 'uninstall_time_tracker');
  * This is the function that creates the main plugin class
  */
 function time_tracker_load() {
-  require plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker.php';
-  return Time_Tracker::instance();
+  require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker.php';
+  return Inc\Time_Tracker::instance();
 }
 
 

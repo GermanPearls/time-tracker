@@ -7,6 +7,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Templates;
+
  ?>
 <div id="tt-favorite-functions">
 <div class="tt-sidebar-header">Favorites</div>

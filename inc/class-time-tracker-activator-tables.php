@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 /**
  * If class doesn't exist
  * 
@@ -67,6 +69,8 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             //$wpdb = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             
             self::$charset_collate = $wpdb->get_charset_collate();
+            
+            //need this for dbdelta to work
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             
             foreach($table_list as $table) {
@@ -140,7 +144,9 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     ProjectID int(11) DEFAULT NULL,
                     RTTimeEstimate time NOT NULL DEFAULT '00:00:00',
                     RTDescription text DEFAULT NULL,
+                    RTCategory varchar(100) NULL,
                     Frequency varchar(250) NOT NULL,
+                    LastCreated date NOT NULL,
                     EndRepeat date DEFAULT NULL,
                     RTSubmission text DEFAULT NULL,
                     PRIMARY KEY  (RecurringTaskID),

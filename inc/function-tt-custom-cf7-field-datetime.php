@@ -9,13 +9,14 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
 
 
 /**
  * Create Custom CF7 Form Tag, DateTime
  * 
  */
-add_action( 'wpcf7_init', 'custom_add_form_tag_datetime' );
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_datetime' );
 
 
 /**
@@ -23,7 +24,7 @@ add_action( 'wpcf7_init', 'custom_add_form_tag_datetime' );
  * 
  */
 function custom_add_form_tag_datetime()  {
-  wpcf7_add_form_tag( 'datetime', 'custom_datetime_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'datetime', 'Logically_Tech\Time_Tracker\Inc\custom_datetime_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -33,13 +34,13 @@ function custom_add_form_tag_datetime()  {
  */
 function custom_datetime_form_tag_handler( $tag ) {
   
-  $tag = new WPCF7_FormTag($tag);
+  $tag = new \WPCF7_FormTag($tag);
   $class = wpcf7_form_controls_class($tag->type);
 
-  $now = new DateTime();
+  $now = new \DateTime();
   $tz = get_option('timezone_string');
   if ($tz) {
-  	$now = $now->setTimezone(new DateTimeZone($tz));		
+  	$now = $now->setTimezone(new \DateTimeZone($tz));		
   }
   $now = $now->format('n/j/y g:i A');
 

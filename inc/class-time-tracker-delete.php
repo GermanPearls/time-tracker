@@ -8,6 +8,11 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
+use Logically_Tech\Time_Tracker\Admin\tt_export_data_function as tt_export_data_function;
+
+
 /**
  * If class doesn't exist already
  * 
@@ -60,7 +65,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function backup_everything() {
-            tt_export_data_function();
+            \Logically_Tech\Time_Tracker\Admin\tt_export_data_function();
         }
 
 
@@ -85,9 +90,13 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
             $tt_tables = Time_Tracker_Activator_Tables::get_table_list();
             $tt_tables_delete_order = array_reverse($tt_tables);
             foreach ($tt_tables_delete_order as $tt_table) {
-                $sql = "DROP TABLE IF EXISTS " . $tt_table;
-                $wpdb->query( $sql );
+                $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $tt_table));
                 catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                if ($table_exists) {
+                    $sql = "DROP TABLE " . $tt_table;
+                    $wpdb->query( $sql );
+                    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                }
             }
         }
 
@@ -109,10 +118,15 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
                 "tt_project" => "FK_ProjectTableToClientTable" 
             );
             foreach($foreign_keys as $table => $key) {
-                $altertable = "ALTER TABLE " . $table;
-                //dbDelta($removeFK);
-                $wpdb->query($wpdb->prepare($altertable . ' DROP FOREIGN KEY %s', $key));
-				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $table));
+                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                if ($table_exists) {
+                    $altertable = "ALTER TABLE " . $table;
+                    $altertable .= " DROP FOREIGN KEY IF EXISTS " . $key;
+                    //dbDelta($removeFK);
+                    $wpdb->query($altertable);
+                    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                }
             }
         }
         
@@ -122,7 +136,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function delete_pages() {
-            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array;
+            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(0);
             /*$tt_pages = array(
                 'clients',
                 'new-client',
@@ -138,7 +152,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
                 'time-log'
             );*/
             foreach ($tt_pages as $tt_page) {
-                self::delete_tt_subpage($tt_page['slug']);
+                self::delete_tt_subpage($tt_page['Slug']);
             }
             self::delete_tt_main_page();
         }
@@ -173,7 +187,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * 
          */
         public static function delete_forms() {
-            $tt_forms = Time_Tracker_Activator_Forms::create_form_details_array;
+            $tt_forms = Time_Tracker_Activator_Forms::create_form_details_array();
             /*$tt_forms = array(
                 'Add New Client',
                 'Add New Project',

@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Takes a fraction time and converts it for use in SQL time format (hh:mm:ss)
@@ -90,11 +92,11 @@ function tt_format_date_for_display($date_entry, $type) {
         return "";
     } else {    
         //check if it's only a date coming in, create date object
-        $dateinput = DateTime::createFromFormat("Y-m-d", $date_entry);
+        $dateinput = \DateTime::createFromFormat("Y-m-d", $date_entry);
         
         //if that didn't work, check if you can create a date object from a date and time format
         if (!$dateinput) {
-            $dateinput = DateTime::createFromFormat("Y-m-d H:i:s", $date_entry);
+            $dateinput = \DateTime::createFromFormat("Y-m-d H:i:s", $date_entry);
 
             //if that didn't work, not sure what it is, return nothing
             if (!$dateinput) {
@@ -123,7 +125,7 @@ function tt_format_date_for_display($date_entry, $type) {
  */
 function get_month_name_from_number($monthnumber) {
     //create date object from month integer
-    $dateObj   = DateTime::createFromFormat('!m', $monthnumber);
+    $dateObj   = \DateTime::createFromFormat('!m', $monthnumber);
     if ($dateObj) {
         $monthName = $dateObj->format('F'); // Full name
         return $monthName;
@@ -236,7 +238,7 @@ function tt_get_site_admin_email() {
  * 
  */
 function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {           
-    $now = new DateTime;
+    $now = new \DateTime;
     //there was a sql error
     if( ($lasterror !== "") and ($lasterror !== null) ) {
 		if (WP_DEBUG_LOG) {
@@ -282,8 +284,8 @@ function log_sql($msg) {
 			mkdir($log_folder, 0777, true);
 		}
 		$log_filename = $log_folder . '/sql_log_' . date('d-M-Y') . '.log';
-		$now = new DateTime();
-		$now->setTimeZone(new DateTimeZone(wp_timezone_string()));
+		$now = new \DateTime();
+		$now->setTimeZone(new \DateTimeZone(wp_timezone_string()));
 		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
 		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
 	}
@@ -301,8 +303,8 @@ function log_cron($msg) {
 			mkdir($log_folder, 0777, true);
 		}
 		$log_filename = $log_folder . '/cron_log_' . date('d-M-Y') . '.log';
-		$now = new DateTime();
-		$now->setTimeZone(new DateTimeZone(wp_timezone_string()));
+		$now = new \DateTime();
+		$now->setTimeZone(new \DateTimeZone(wp_timezone_string()));
 		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
 		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
 	}
@@ -320,8 +322,8 @@ function log_tt_misc($msg) {
 			mkdir($log_folder, 0777, true);
 		}
 		$log_filename = $log_folder . '/misc_log_' . date('d-M-Y') . '.log';
-		$now = new DateTime();
-		$now->setTimeZone(new DateTimeZone(wp_timezone_string()));
+		$now = new \DateTime();
+		$now->setTimeZone(new \DateTimeZone(wp_timezone_string()));
 		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
 		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
 	}

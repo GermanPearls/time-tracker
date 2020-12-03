@@ -7,6 +7,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
@@ -90,12 +92,12 @@ if ( !class_exists( 'Task_Details' ) ) {
             $hrs_worked = 0;
             $hrs_invoiced = 0;
 
-            if (sanitize_text_field($task[0]->TimeID) === NULL) {   
+            if ( $task[0]->TimeID === NULL ) {   
                 $total_time_display = "";           
             } else {
                 foreach ($task as $time_entry) {
-                    $start_time = date_create_from_format('Y-m-d H:i:s', sanitize_text_field($time_entry->StartTime));
-                    $end_time = date_create_from_format('Y-m-d H:i:s', sanitize_text_field($time_entry->EndTime));
+                    $start_time = date_create_from_format('Y-m-d H:i:s', $time_entry->StartTime);
+                    $end_time = date_create_from_format('Y-m-d H:i:s', $time_entry->EndTime);
                     $elapsed_time = date_diff($start_time, $end_time);
                     $hrs_this_entry = $elapsed_time->format('%h');
                     $mins_this_entry = $elapsed_time->format('%i');
@@ -109,7 +111,6 @@ if ( !class_exists( 'Task_Details' ) ) {
                     $total_time_display = "0 hrs worked";
                 }
             }
-            
 
             $date_added_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDateAdded), "date_and_time"); 
             $due_date_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDueDate), "date_only");
@@ -127,7 +128,7 @@ if ( !class_exists( 'Task_Details' ) ) {
 
             $display .= "<h2>Time Entries for Task # " . esc_textarea(sanitize_text_field($this->taskid)) . "</h2>";
 
-            if (sanitize_text_field($task[0]->TimeID) === NULL) {
+            if ($task[0]->TimeID === NULL) {
                 $display .= "     There are no time entries for this task.";
             } else {
                 $display .= "<div id='time-entries' style='padding-left:40px;'>";
@@ -138,15 +139,16 @@ if ( !class_exists( 'Task_Details' ) ) {
                     $hrs_this_entry = $elapsed_time->format('%h');
                     $mins_this_entry = $elapsed_time->format('%i');
                     $hrs_worked = $hrs_this_entry + round(($mins_this_entry / 60),2);
+                    $invoiced_time = ($time_entry->InvoicedTime == null) ? 0 : sanitize_text_field($time_entry->InvoicedTime);  
                     if ( ($hrs_worked == 0) or ($hrs_worked == null) ) {
                         $inv_percent = "-";
                     } else {
-                        $inv_percent = round(sanitize_text_field($time_entry->InvoicedTime) / $hrs_worked*100,0);
+                        $inv_percent = round($invoiced_time / $hrs_worked*100,0);
                     }
 
                     $display .= "<h3>Time Entry ID: " . esc_textarea(sanitize_text_field($time_entry->TimeID)) . "</h3>";
                     $display .= "<strong>Time Worked:</strong>  " . $start_time_formatted . " - " . $end_time_formatted . "<br/>";
-                    $display .= "<strong>Time Invoiced:</strong>  " . $hrs_worked . " hrs worked / " . esc_textarea(sanitize_text_field($time_entry->InvoicedTime)) . " hrs invoiced / " . $inv_percent . " % invoiced<br/>";
+                    $display .= "<strong>Time Invoiced:</strong>  " . $hrs_worked . " hrs worked / " . esc_textarea($invoiced_time) . " hrs invoiced / " . $inv_percent . " % invoiced<br/>";
                     $invnumber = sanitize_text_field($time_entry->InvoiceNumber);
                     if ($invnumber === NULL OR $invnumber == "") {
                         $display .= "<strong>Invoiced:</strong>  " . esc_textarea(sanitize_text_field($time_entry->Invoiced)) . "<br/>";

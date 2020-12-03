@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Admin;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**

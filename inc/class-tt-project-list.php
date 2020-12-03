@@ -8,6 +8,7 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
 
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
@@ -81,12 +82,12 @@ if ( !class_exists( 'Project_List' ) ) {
                 $due_date_formatted = "";
                 $due_date_class = "no-date";
             } else {
-                $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
-                if (DateTime::createFromFormat("Y-m-d", $duedate) <= new DateTime() AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
+                $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
+                if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime() AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
                     $due_date_class = "late-date";
-                } elseif (DateTime::createFromFormat("Y-m-d", $duedate) <= new DateTime(date("Y-m-d", strtotime("+7 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
+                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
                     $due_date_class = "soon-date";
-                } elseif (DateTime::createFromFormat("Y-m-d", $duedate) > new DateTime(date("Y-m-d", strtotime("+90 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
+                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
                     $due_date_class = "on-hold-date";
                 } else {
                     $due_date_class = "ok-date";

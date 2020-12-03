@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Check if class exists
@@ -268,25 +270,20 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         public static function get_form_content_new_recurring_task() {
             $html = "<label> Task Name (required)
             [textarea task-name 20x1 maxlength:1500] </label>
-        
             <label> Client
-                [client_name client-name] </label>
-            
+            [client_name client-name] </label>
             <label> Project
-                [project_name project-name id:project-dropdown] </label>
-            
+            [project_name project-name id:project-dropdown] </label>
+            <label> Category
+            [work_category task-category id:task-category-dropdown]</label>
             <label> Time Estimate
-                [text time-estimate] </label>
-            
+            [text time-estimate] </label>
             Recurring Frequency
             [select recur-freq use_label_element \"Monthly\" \"Weekly\"]
-            
             <label> Task Notes
-                [textarea task-desc] </label>
-            
+            [textarea task-desc] </label>
             <label> End Repeat
             [date end-repeat]</label>
-            
             [submit id:add-task-submit \"Send\"]";
             return $html;
         }
@@ -299,25 +296,20 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         public static function get_form_content_new_task() {
             $html = "<label> Task Description (required)
             [textarea task-description 20x1 maxlength:500] </label>
-        
             <label> Client
-                [client_name client-name] </label>
-            
+            [client_name client-name] </label>
             <label> Project
-                [project_name project-name id:project-dropdown] </label>
-            
+            [project_name project-name id:project-dropdown] </label>
+            <label> Category
+            [work_category task-category id:task-category-dropdown]</label>
             <label> Time Estimate
-                [text time-estimate] </label>
-            
+            [text time-estimate] </label>
             <label> Due Date
-                [date due-date \"today\"] </label>
-            
+            [date due-date \"today\"] </label>
             <label> Notes 
-                [textarea notes] </label>
-            
-                [hidden what-next default:\"SaveTask\"]
-
-                <input type=\"submit\" name=\"submit-save\" value=\"SaveTask\">   <input type=\"submit\" name=\"submit-start\" value=\"StartWorking\" onclick=\"save_new_task_and_start_timer()\">";
+            [textarea notes] </label>
+            [hidden what-next default:\"SaveTask\"]
+            <input type=\"submit\" name=\"submit-save\" value=\"SaveTask\">   <input type=\"submit\" name=\"submit-start\" value=\"StartWorking\" onclick=\"save_new_task_and_start_timer()\">";
             return $html;
         }
 

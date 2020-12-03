@@ -7,12 +7,14 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Create Custom CF7 Form Tag, Client Name Dropdown
  * 
  */
-add_action( 'wpcf7_init', 'custom_add_form_tag_client_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_client_name');
 
 
 /**
@@ -20,7 +22,7 @@ add_action( 'wpcf7_init', 'custom_add_form_tag_client_name');
  * 
  */
 function custom_add_form_tag_client_name() {
-  wpcf7_add_form_tag( 'client_name', 'custom_client_name_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'client_name', 'Logically_Tech\Time_Tracker\Inc\custom_client_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -55,7 +57,7 @@ function custom_client_name_form_tag_handler( $tag ) {
 
     foreach ($client_list as $val) {
       $company_name = $val->Company;
-      if ((isset($_GET['client-name'])) AND ( stripslashes(sanitize_text_field($_GET['client-name'])) == $company_name )) {
+      if ((isset($_GET['client-name'])) AND ( stripslashes($_GET['client-name']) == $company_name )) {
         $client_name .= '<option value="' . esc_textarea($company_name) . '" selected=\"selected\">' . esc_textarea($company_name) . '</option>';
       } else {
         $client_name .= '<option value="' . esc_textarea($company_name) . '">' . esc_textarea($company_name) . '</option>';

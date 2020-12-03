@@ -6,6 +6,9 @@
  * 
  * 
  */
+
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 
@@ -104,12 +107,12 @@ if ( !class_exists( 'Task_List' ) ) {
                 $due_date_formatted = "";
                 $due_date_class = "no-date";
             } else {
-                $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
-                if (DateTime::createFromFormat("Y-m-d", $duedate) <= new DateTime() AND $status<>"Canceled" AND $status<>"Complete") {
+                $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
+                if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime() AND $status<>"Canceled" AND $status<>"Complete") {
                     $due_date_class = "late-date";
-                } elseif (DateTime::createFromFormat("Y-m-d", $duedate) <= new DateTime(date("Y-m-d", strtotime("+7 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
                     $due_date_class = "soon-date";
-                } elseif (DateTime::createFromFormat("Y-m-d", $duedate) > new DateTime(date("Y-m-d", strtotime("+90 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
                     $due_date_class = "on-hold-date";
                 } else {
                     $due_date_class = "ok-date";
@@ -154,7 +157,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 $duedate = sanitize_text_field($item->TDueDate);
                 $status = sanitize_text_field($item->TStatus);
                 $due_date_class = $this->get_due_date_class($duedate, $status);
-                $due_date_formatted = date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") ? date_format(DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") : "";
+                $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") ? date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y") : "";
 
                 //evaluate time worked vs estimate, format data to display and apply css class based on result
                 $hours_logged = intval(sanitize_text_field($item->LoggedHours)) + round(intval(sanitize_text_field($item->LoggedMinutes))/60,2);
@@ -184,7 +187,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 }
 
                 $taskid = sanitize_text_field($item->TaskID);
-                $dateadded = date_format(DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->TDateAdded)), 'n/j/y');
+                $dateadded = date_format(\DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->TDateAdded)), 'n/j/y');
                 
                 //create row
                 $table .= "<tr class=\"" . esc_attr($due_date_class) . " " . esc_attr($time_worked_vs_estimate_class) . "\">";

@@ -9,6 +9,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Fixes call to undefined function error when calling plugin_dir_url below

@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  
 /**
@@ -167,10 +169,10 @@ if ( ! class_exists('Time_Tracker') ) {
      */
     public function add_scripts() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
-      add_action('wp_ajax_tt_update_project_list', 'tt_update_project_list_function');
-      add_action('wp_ajax_tt_update_task_list', 'tt_update_task_list_function');
-	    add_action('wp_ajax_tt_update_table', 'tt_update_table_function');
-	    add_action('wp_ajax_tt_clear_sql_error', 'tt_clear_sql_error_function');
+      add_action('wp_ajax_tt_update_project_list', 'Logically_Tech\Time_Tracker\Inc\tt_update_project_list_function');
+      add_action('wp_ajax_tt_update_task_list', 'Logically_Tech\Time_Tracker\Inc\tt_update_task_list_function');
+	    add_action('wp_ajax_tt_update_table', 'Logically_Tech\Time_Tracker\Inc\tt_update_table_function');
+	    add_action('wp_ajax_tt_clear_sql_error', 'Logically_Tech\Time_Tracker\Inc\tt_clear_sql_error_function');
 	  
 	    //SCRIPTS
       add_action('wp_enqueue_scripts', array($this,'time_tracker_scripts'));
@@ -243,8 +245,8 @@ if ( ! class_exists('Time_Tracker') ) {
      */    
     public function add_scripts_admin() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
-	    add_action('wp_ajax_tt_export_data', 'tt_export_button_function');
-	    add_action('wp_ajax_tt_delete_data', 'tt_delete_data_function');
+	    add_action('wp_ajax_tt_export_data', 'Logically_Tech\Time_Tracker\Admin\tt_export_button_function');
+	    add_action('wp_ajax_tt_delete_data', 'Logically_Tech\Time_Tracker\Admin\tt_delete_data_function');
 		
       //ADMIN SCRIPTS
       add_action('admin_enqueue_scripts', array($this,'time_tracker_scripts_admin'));
@@ -268,7 +270,7 @@ if ( ! class_exists('Time_Tracker') ) {
      */
     public function init_settings() {
       //SETTINGS
-      add_action('admin_init', 'tt_admin_settings_init');
+      add_action('admin_init', 'Logically_Tech\Time_Tracker\Admin\tt_admin_settings_init');
     }
 
   

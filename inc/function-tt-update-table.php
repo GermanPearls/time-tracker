@@ -11,6 +11,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * 
@@ -31,10 +33,10 @@ function tt_update_table_function() {
 			];
 
 			//deal with date entries, must be inserted into database in yyyy-mm-dd format
-			if ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') OR strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') ) {
+			if ( ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') OR strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') ) AND !(sanitize_text_field($_POST['field']) == 'InvoicedTime') ) {
 
 				//convert the date entered from t a string to a date/time object
-				$date_entered = new DateTime(sanitize_text_field($_POST['value']));
+				$date_entered = new \DateTime(sanitize_text_field($_POST['value']));
 
 				//use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
 				$date_in_sql_format = $date_entered->format('Y') . "-" . $date_entered->format('m') . "-" . $date_entered->format('d');

@@ -7,12 +7,14 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * Add New CF7 Custom Form Field - Project Name Dropdown
  * 
  */
-add_action( 'wpcf7_init', 'custom_add_form_tag_project_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_project_name');
 
 
 /**
@@ -20,7 +22,7 @@ add_action( 'wpcf7_init', 'custom_add_form_tag_project_name');
  * 
  */
 function custom_add_form_tag_project_name() {
-  wpcf7_add_form_tag( 'project_name', 'custom_project_name_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'project_name', 'Logically_Tech\Time_Tracker\Inc\custom_project_name_form_tag_handler', array('name-attr'=>true));
 }
 
 

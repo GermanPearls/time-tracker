@@ -10,6 +10,10 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Admin;
+
+use Logically_Tech\Time_Tracker\Inc\Time_Tracker_Deletor;
+
 
 function tt_delete_data_function() {
 
@@ -31,7 +35,7 @@ function tt_delete_data_function() {
 				if ($e_before !== $e_after) {
 					$return = array(
 						'success' => false,
-						'msg' => 'There was an error deleting your data. Error Message: ' . $e_after
+						'msg' => 'There was an error deleting your data. Error Message: ' . $e_after['message']
 					);
 					wp_send_json_error($return, 500);
 				} else {

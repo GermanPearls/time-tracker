@@ -8,6 +8,9 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
+
 /**
  * If class doesn't exist already
  * 
@@ -107,8 +110,10 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
          */
         private static function change_page_to_draft($pagename) {
             $post_id = get_page_by_path('time-tracker/' . $pagename, ARRAY_A, 'page');
-            $post_id['post_status'] = 'draft';
-            return wp_update_post($post_id);
+            if ($post_id) {    
+                $post_id['post_status'] = 'draft';
+                return wp_update_post($post_id);
+            }
         }
 
 

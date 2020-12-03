@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
@@ -164,7 +166,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             $table .= "</tr>";
 
             //populate data
-            $dateNow = new DateTime();
+            $dateNow = new \DateTime();
             $monthNumber = $dateNow->format('n');
             for ($i = 1; $i <= $monthNumber; $i++) {
                 //start row for month

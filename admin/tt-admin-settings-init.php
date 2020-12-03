@@ -9,6 +9,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Admin;
+
 
 function tt_admin_settings_init() {
 
@@ -30,7 +32,7 @@ function tt_admin_settings_init() {
     add_settings_section(
         'time-tracker',  //id
         'Category Options',       //title
-        'tt_categories_section_callback',  //callable callback
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_section_callback',  //callable callback
         'time-tracker'            //page
     );
 
@@ -42,7 +44,7 @@ function tt_admin_settings_init() {
     add_settings_field(
         'time-tracker[bill-to-names]',    //id
         'Bill To Names',            //title
-        'tt_categories_bill_to_names_callback',   //callable callback
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_bill_to_names_callback',   //callable callback
         'time-tracker',               //page
         'time-tracker'       //section
     );
@@ -51,7 +53,7 @@ function tt_admin_settings_init() {
     add_settings_field(
         'time-tracker[work-categories]',    //id
         'Work Categories',            //title
-        'tt_categories_work_categories_callback',   //callable callback
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_work_categories_callback',   //callable callback
         'time-tracker',               //page
         'time-tracker'       //section
     );
@@ -60,7 +62,7 @@ function tt_admin_settings_init() {
     add_settings_field(
         'time-tracker[client-categories]',
         'Client Categories',
-        'tt_categories_client_categories_callback',
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_client_categories_callback',
         'time-tracker',
         'time-tracker'
     );
@@ -69,7 +71,7 @@ function tt_admin_settings_init() {
     add_settings_field(
         'time-tracker[client-sub-categories]',
         'Client Sub-Categories',
-        'tt_categories_client_sub_categories_callback',
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_client_sub_categories_callback',
         'time-tracker',
         'time-tracker'
     );

@@ -6,6 +6,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Inc;
+
 
 /**
  * get client ID to load into table from the client name chosen by the user
@@ -35,10 +37,10 @@ function get_project_id_from_name($project_name) {
   if ( ($project_name=="") or ($project_name == null)) {
     $project_id = null;
   } else {
-    $project_name_and_quotes = chr(34) . $project_name . chr(34); 
+    //$project_name_and_quotes = chr(34) . $project_name . chr(34); 
     //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
     global $wpdb;
-    $project_id_search_string = $wpdb->prepare('SELECT ProjectID FROM tt_project WHERE PName= %s', $project_name_and_quotes);
+    $project_id_search_string = $wpdb->prepare('SELECT ProjectID FROM tt_project WHERE PName= %s', $project_name);
     $project_id_search_result = $wpdb->get_results($project_id_search_string);
     if (!empty($project_id_search_result)) {    
       $project_id = $project_id_search_result[0]->ProjectID;

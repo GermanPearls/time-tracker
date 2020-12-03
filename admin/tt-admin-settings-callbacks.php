@@ -8,6 +8,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Admin;
+
  
 /**
  * Settings Section - Categories

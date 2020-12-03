@@ -121,7 +121,8 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer {
 }
 
 button.end-work-timer:hover {
-    color: #3a3a3a;
+    color: #9dbd50;
+    text-decoration: none;
 }
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited {
@@ -157,6 +158,8 @@ button.clear-error:hover {
 .open-task-detail {
     padding: 5px;
     background-color: #001b44;
+    font-size: 0.9em;
+    font-weight: normal;
     border-radius: 0;
 }
 
@@ -164,12 +167,18 @@ button.clear-error:hover {
     background-color: red;
     color: white;
     border-radius: 0;
+    font-weight: normal;
+    text-decoration: none;
 }
 
 /********** Button to Start Work Timer **********/
 .start-work-timer {
     padding: 5px;
-    margin-right: 2px;
+    background-color: #001b44;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    font-weight: normal;
     border-radius: 0;
 }
 
@@ -177,12 +186,15 @@ button.clear-error:hover {
     background-color: red;
     color: white;
     border-radius: 0;
+    font-weight: normal;
+    text-decoration: none;
 }
 
 /********** Button to End Timer **********/
 .end-work-timer {
     color: #ffffff;
     background-color: #9dbd50;
+    margin-bottom: 10px;
 }
 
 .end-work-timer:hover {
@@ -221,7 +233,7 @@ button.clear-error:hover {
 }
 
 td.not-editable {
-    background-color: lightgray;
+    background-color: #e4e4e4;
 }
 
 .divider-row {
@@ -275,7 +287,7 @@ td.not-editable {
 }
 
 .project-list-table td#status-header-row {
-    background-color: #C7D99C;
+    background-color: #ededed;
     font-weight: bold;
 }
 
@@ -333,6 +345,10 @@ td.not-editable {
     text-align: center;
 }
 
+td#time-worked div {
+    margin: 0 auto;
+}
+
 tr.over-time-estimate td#time-worked {
     color: red;
     font-weight: bold;
@@ -357,6 +373,24 @@ tr.on-hold-date {
 /***************************/
 /********** Forms **********/
 /***************************/
+
+.tt-form input[type="submit"], .tt-form button {
+    padding: 1.2rem;
+    background-color: #001b44;
+}
+
+.tt-form input[type="submit"]:hover, .tt-form button:hover {
+    padding: 1.2rem;
+    background-color: red;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="url"],
+input[type="date"], input[type="month"], input[type="time"], input[type="datetime"],
+input[type="datetime-local"], input[type="week"], input[type="number"],
+input[type="search"], input[type="tel"], input[type="color"], textarea, select {
+    padding: 1rem;
+    border: 1px solid lightgray;
+}
 
 /********** Form for Fitlering **********/
 .filter-time-form form, .filter-time-form p {

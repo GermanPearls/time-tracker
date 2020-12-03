@@ -7,6 +7,8 @@
  * 
  */
 
+namespace Logically_Tech\Time_Tracker\Admin;
+
 /**
  * Check that class doesn't already exist
  * 
@@ -66,10 +68,10 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
          */
         public static function tt_menu() {
             //main menu page
-            self::add_menu('Time Tracker Settings', 'Time Tracker', 'manage_options', 'time-tracker', 'tt_admin_menu_home','','51');
+            self::add_menu('Time Tracker Settings', 'Time Tracker', 'manage_options', 'time-tracker', 'Logically_Tech\Time_Tracker\Admin\tt_admin_menu_home','','51');
             //add sub-pages
-            self::add_sub_menu('time-tracker', 'Time Tracker Options', 'Options', 'manage_options', 'time-tracker', 'tt_admin_menu_home', null);
-            self::add_sub_menu('time-tracker', 'Time Tracker Tools', 'Tools', 'manage_options', 'time-tracker-tools', 'tt_admin_menu_tools', null);
+            self::add_sub_menu('time-tracker', 'Time Tracker Options', 'Options', 'manage_options', 'time-tracker', 'Logically_Tech\Time_Tracker\Admin\tt_admin_menu_home', null);
+            self::add_sub_menu('time-tracker', 'Time Tracker Tools', 'Tools', 'manage_options', 'time-tracker-tools', 'Logically_Tech\Time_Tracker\Admin\tt_admin_menu_tools', null);
         }       
           
                 
