@@ -384,10 +384,10 @@ tr.on-hold-date {
     background-color: red;
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="url"],
-input[type="date"], input[type="month"], input[type="time"], input[type="datetime"],
-input[type="datetime-local"], input[type="week"], input[type="number"],
-input[type="search"], input[type="tel"], input[type="color"], textarea, select {
+.tt-form input[type="text"], .tt-form input[type="password"], .tt-form input[type="email"], .tt-form input[type="url"],
+.tt-form input[type="date"], .tt-form input[type="month"], .tt-form input[type="time"], .tt-form input[type="datetime"],
+.tt-form input[type="datetime-local"], .tt-form input[type="week"], .tt-form input[type="number"],
+.tt-form input[type="search"], .tt-form input[type="tel"], .tt-form input[type="color"], .tt-form textarea, .tt-form select {
     padding: 1rem;
     border: 1px solid lightgray;
 }
