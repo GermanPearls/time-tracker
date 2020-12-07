@@ -159,7 +159,7 @@ if ( ! class_exists('Time_Tracker') ) {
      */
     public function time_tracker_styles() {
       //STYLES
-      wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.css');
+      wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.php');
     }
 
 
@@ -219,7 +219,7 @@ if ( ! class_exists('Time_Tracker') ) {
      * 
      */    
     public function time_tracker_styles_admin() {
-      wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.css');
+      wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.php');
     }
 
 
