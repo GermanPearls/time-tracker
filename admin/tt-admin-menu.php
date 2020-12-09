@@ -47,7 +47,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
          */
         public static function add_actions() {
             add_action( 'admin_menu', array(__CLASS__, 'tt_menu') );
-            add_filter('plugin_action_links_' . PLUGIN_BASENAME, array(__CLASS__, 'tt_settings_link') );
+            add_filter('plugin_action_links_' . TIME_TRACKER_PLUGIN_BASENAME, array(__CLASS__, 'tt_settings_link') );
         }
 
 
