@@ -428,7 +428,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          */
         public static function get_msg_meta() {
             $msg = array();
-            $msg["mail_sent_ok"] = "OK.";
+            $msg["mail_sent_ok"] = "Form submitted successfully.";
             $msg["mail_sent_ng"] = "There was an error submitting this form. Please try again later.";
             $msg["validation_error"] = "One or more fields have an error. Please check and try again.";
             $msg["spam"] = "There was an error trying to send your message. Please try again later.";
