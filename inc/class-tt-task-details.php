@@ -115,7 +115,7 @@ if ( !class_exists( 'Task_Details' ) ) {
             $date_added_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDateAdded), "date_and_time"); 
             $due_date_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDueDate), "date_only");
 
-            $display = "<h2>Details for Task # " . esc_textarea(sanitize_text_field($this->taskid)) . "</h2>";
+            $display = "<h2>Task # " . esc_textarea(sanitize_text_field($this->taskid)) . " Overview</h2>";
             $display .= "<strong>Description:</strong>  " . wp_kses_post(nl2br($task[0]->TDescription)) . "<br/>";
             $display .= "<strong>Client:</strong>  " . esc_textarea(sanitize_text_field($task[0]->Company)) . "<br/>";
             $display .= "<strong>Project:</strong> " . esc_textarea(sanitize_text_field($task[0]->ProjectID)) . " - " . esc_textarea(sanitize_text_field($task[0]->PName)) . "<br/>";
@@ -133,6 +133,8 @@ if ( !class_exists( 'Task_Details' ) ) {
             } else {
                 $display .= "<div id='time-entries' style='padding-left:40px;'>";
                 foreach ($task as $time_entry) {
+                    $start_time = date_create_from_format('Y-m-d H:i:s', sanitize_text_field($time_entry->StartTime));
+                    $end_time = date_create_from_format('Y-m-d H:i:s', sanitize_text_field($time_entry->EndTime));
                     $start_time_formatted = tt_format_date_for_display(sanitize_text_field($time_entry->StartTime), "date_and_time");
                     $end_time_formatted = tt_format_date_for_display(sanitize_text_field($time_entry->EndTime), "date_and_time");                    
                     $elapsed_time = date_diff($start_time, $end_time);

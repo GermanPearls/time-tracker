@@ -74,7 +74,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          */
         private function create_sql_string() {   
             global $wpdb;                      
-            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
+            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.ProjectID, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
@@ -121,6 +121,20 @@ if ( !class_exists( 'Time_Log' ) ) {
                         $wherecriteria .= " AND ";                    
                     }
                     $wherecriteria .= $wpdb->prepare('tt_task.TaskID = %s', $task);
+                }
+            }
+            
+            if (isset($_GET['project'])) {
+                //sometimes null is getting passed as a string
+                $project = sanitize_text_field($_GET['project']);
+                if ( ($project <>"") and ($project <> null) and ($project <> "null") ) {
+                    if ($wherecriteria == "") {
+                        $wherecriteria = "WHERE ";
+                    } else {
+                        $wherecriteria .= " AND ";                    
+                    }
+                    $project_id = get_project_id_from_name($project);
+                    $wherecriteria .= $wpdb->prepare('tt_task.ProjectID = %s', $project_id);
                 }
             }
             
@@ -172,6 +186,7 @@ if ( !class_exists( 'Time_Log' ) ) {
             $table .= "<th>Client ID</th>";
             $table .= "<th>Client</th>";
             $table .= "<th>Task ID</th>";
+            $table .= "<th>Type</th>";
             $table .= "<th>Task</th>";
             $table .= "<th>Start Time</th>";
             $table .= "<th>End Time</th>";
@@ -191,6 +206,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                 $taskid = sanitize_text_field($item->TaskID);
                 $starttime = tt_format_date_for_display(sanitize_text_field($item->StartTime), 'date_and_time');
                 $endtime = tt_format_date_for_display(sanitize_text_field($item->EndTime), 'date_and_time');
+                $task_icon = sanitize_text_field($item->RecurringTaskID) != null ? tt_add_recurring_task_icon() : "";
 
                 //create row
                 $table .= "<tr>";
@@ -198,6 +214,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                 $table .= "<td class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->ClientID)) . "</td>";
                 $table .= "<td class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
                 $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TaskID'," . esc_attr($timeid) . ")\">" . esc_textarea($taskid) . "</td>";
+                $table .= "<td class=\"not-editable\">" . $task_icon . "</td>";
                 $table .= "<td class=\"not-editable\">" . wp_kses_post(nl2br($item->TDescription)) . "</td>";
                 $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'StartTime'," . esc_attr($timeid) . ")\">" . esc_textarea($starttime) . "</td>";
                 $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'EndTime'," . esc_attr($timeid) . ")\">" . esc_textarea($endtime) . "</td>";
@@ -217,12 +234,12 @@ if ( !class_exists( 'Time_Log' ) ) {
 
                 $table .= "<td class=\"not-editable\">" . wp_kses_post($hours_logged . $percent_time_logged) . "</td>";
                 $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->TStatus)) . "</td>";
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->Invoiced)) . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->InvoiceNumber)) . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->InvoicedTime)) . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($taskid) . ")\">" . wp_kses_post(nl2br($item->InvoiceComments)) . "</td>"; 
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($taskid) . ")\">" . wp_kses_post(nl2br($item->TNotes)) . "</td>";                
-                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'FollowUp'," . esc_attr($taskid) . ")\">" . wp_kses_post(nl2br($item->FollowUp)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item->Invoiced)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item->InvoiceNumber)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item->InvoicedTime)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item->InvoiceComments)) . "</td>"; 
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item->TNotes)) . "</td>";                
+                $table .= "<td contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'FollowUp'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item->FollowUp)) . "</td>"; 
                 $table .="</tr>";
             } // foreach loop
 

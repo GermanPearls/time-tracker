@@ -113,6 +113,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
                 "tt_time" => "FK_TimeTableToClientTable",
                 "tt_recurring_task" => "FK_RecurringTaskTableToProjectTable",
                 "tt_recurring_task" => "FK_RecurringTaskTableToClientTable",
+                "tt_task" => "FK_TaskTableToRecurringTaskTable",
                 "tt_task" => "FK_TaskTableToProjectTable",
                 "tt_task" => "FK_TaskTableToClientTable",
                 "tt_project" => "FK_ProjectTableToClientTable" 

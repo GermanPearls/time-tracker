@@ -126,6 +126,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     ClientID int(11) NOT NULL,
                     ProjectID int(11) DEFAULT NULL,
                     TCategory varchar(100) NULL,
+                    RecurringTaskID int(11) DEFAULT NULL,
                     TStatus varchar(50) DEFAULT NULL,
                     TTimeEstimate time DEFAULT '00:00:00',
                     TDateAdded datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -134,7 +135,8 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     TSubmission text DEFAULT NULL,
                     PRIMARY KEY  (TaskID),
                     FOREIGN KEY FK_TaskTableToClientTable (ClientID) REFERENCES tt_client(ClientID),
-                    FOREIGN KEY FK_TaskTableToProjectTable (ProjectID) REFERENCES tt_project(ProjectID)                
+                    FOREIGN KEY FK_TaskTableToProjectTable (ProjectID) REFERENCES tt_project(ProjectID),
+                    FOREIGN KEY FK_TaskTableToRecurringTaskTable (RecurringTaskID) REFERENCES tt_recurring_task(RecurringTaskID)                
                     ) " . self::$charset_collate . ";";
             } elseif ($table_name == 'tt_recurring_task') {
                 $sql = "CREATE TABLE tt_recurring_task (

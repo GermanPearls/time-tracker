@@ -7,6 +7,7 @@ function tt_filter_time_log(event) {
     var client = "";
     var notes = "";
     var ticket = "";
+    var project = "";
     
     for (var i = 0; i < inputs.length; i++) {
         
@@ -20,6 +21,8 @@ function tt_filter_time_log(event) {
             client = input.value;
         } else if (input.name == 'time-notes') {
             notes = input.value;
+        } else if (input.name == 'project-name') {
+            project = input.value;
         } else if (input.name == 'task-name') {
             //pull out task number, to the left of the hyphen  
             var task = input.value;
@@ -31,7 +34,8 @@ function tt_filter_time_log(event) {
     client = encodeURIComponent(client);
     notes = encodeURIComponent(notes);
     ticket = encodeURIComponent(ticket);
+    project = encodeURIComponent(project);
 
-    window.location.href = '/time-tracker/time-log/?client=' + client + '&notes=' + notes + '&task=' + ticket + '&start=' + first_date + '&end=' + last_date;
+    window.location.href = '/time-tracker/time-log/?client=' + client + '&notes=' + notes + '&task=' + ticket + '&project=' + project + '&start=' + first_date + '&end=' + last_date;
 
 }

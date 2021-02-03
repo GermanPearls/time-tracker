@@ -88,7 +88,8 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                         $due_date,
                         sanitize_text_field($task->RTDescription),
                         sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
-                        sanitize_text_field($task->RTCategory)
+                        sanitize_text_field($task->RTCategory),
+                        sanitize_text_field($task->RecurringTaskID)
                     );
                     $this->created = $this->created + 1;
                     $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_week->format("Y-m-d"));
@@ -110,7 +111,8 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                         $due_date,
                         sanitize_text_field($task->RTDescription),
                         sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
-                        sanitize_text_field($task->RTCategory)
+                        sanitize_text_field($task->RTCategory),
+                        sanitize_text_field($task->RecurringTaskID)
                     );
                     $this->created = $this->created + 1;
                     $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_month->format("Y-m-d"));
@@ -124,7 +126,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
          * Add new task to db
          * 
          */
-        private function create_new_task($desc, $client, $proj, $time_est, $due, $notes, $details, $category) {
+        private function create_new_task($desc, $client, $proj, $time_est, $due, $notes, $details, $category, $r_task_id) {
             //if ( ($tt_db == false) or ($tt_db instanceof wpdb) != true) {
                 //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             //}
@@ -136,6 +138,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                 'ClientID'   => $client,
                 'ProjectID'    => $proj,
                 'TCategory' => $category,
+                'RecurringTaskID' => $r_task_id,
                 'TStatus' => "New",
                 'TTimeEstimate' => $time_est,
                 'TDueDate' => $due,

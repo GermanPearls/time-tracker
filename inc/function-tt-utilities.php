@@ -234,6 +234,16 @@ function tt_get_site_admin_email() {
 
 
 /**
+ * Add Recurring Task Icon
+ * 
+ */
+function tt_add_recurring_task_icon() {
+    $html = "<img src=" . TT_PLUGIN_WEB_DIR_INC . "img/recurring-task-icon-150sq-blue.png class=\"tt-recurring-task-icon\" width=25 height=25>";
+    return $html;
+}
+
+
+/**
  * Record to sql_log on server, and save to options table to alert user
  * 
  */

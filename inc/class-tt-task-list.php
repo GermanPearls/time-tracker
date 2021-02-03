@@ -141,6 +141,7 @@ if ( !class_exists( 'Task_List' ) ) {
             $table .= "<th>Client</th>";
             $table .= "<th>Project ID</th>";
             $table .= "<th>Project</th>";
+            $table .= "<th>Type</th>";            
             $table .= "<th>Task</th>";
             $table .= "<th>Due Date</th>";
             $table .= "<th>Status</th>";
@@ -188,6 +189,7 @@ if ( !class_exists( 'Task_List' ) ) {
 
                 $taskid = sanitize_text_field($item->TaskID);
                 $dateadded = date_format(\DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->TDateAdded)), 'n/j/y');
+                $task_icon = $item->RecurringTaskID != null ? tt_add_recurring_task_icon() : "";
                 
                 //create row
                 $table .= "<tr class=\"" . esc_attr($due_date_class) . " " . esc_attr($time_worked_vs_estimate_class) . "\">";
@@ -200,6 +202,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
                 $table .= "<td id=\"project-id\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'ProjectID'," . esc_textarea($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->ProjectID)) . "</td>";
                 $table .= "<td id=\"project-name\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PName)) . "</td>";
+                $table .= "<td id=\"task-type\" class=\"not-editable\">" . $task_icon . "</td>";
                 $table .= "<td id=\"task-description\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDescription'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TDescription)) . "</td>";
                 $table .= "<td id=\"due-date\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDueDate'," . esc_attr($taskid)  . ")\">" . esc_textarea($due_date_formatted) . "</td>";
                 $table .= "<td id=\"task-status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid)  . ")\">" . esc_textarea($status) . "</td>";

@@ -161,13 +161,21 @@ if ( !class_exists( 'Project_List' ) ) {
                             $time_worked_vs_estimate_class = "";
                         }
 
-                        $date_started_formatted = tt_format_date_for_display($datestarted, 'date_only');
+                        if ($datestarted = '0000-00-00') {
+                            $date_started_formatted = "";
+                        } else {
+                            $date_started_formatted = tt_format_date_for_display($datestarted, 'date_only');
+                        }
                         $last_worked_formatted = tt_format_date_for_display($lastentry, 'date_only');
                         $due_date_formatted = tt_format_date_for_display($duedate, 'date_only');
                         
                         //create row
                         $table .= "<tr class=\"" . esc_attr($due_date_class) . " " . esc_attr($time_worked_vs_estimate_class) . "\">";
-                        $table .= "<td id=\"task-id\" class=\"not-editable\">" . esc_textarea($projid) . "</td>";
+                        
+                        $table .= "<td id=\"task-id\" class=\"not-editable\">" . esc_textarea($projid);
+                        $table .= "<button onclick='open_time_entries_for_project(\"" . esc_attr($item->PName) . "\")' id=\"" . esc_attr($projid)  . "\" class=\"open-time-entry-detail chart-button\">View Time</button>";
+                        $table .= "</td>";
+                        
                         $table .= "<td id=\"project-name\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PName)) . "</td>";
                         $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
                         $table .= "<td id=\"project-category\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PCategory)) . "</td>";
@@ -176,7 +184,7 @@ if ( !class_exists( 'Project_List' ) ) {
                         $table .= "<td id=\"last-worked\" class=\"not-editable\">" . esc_textarea($last_worked_formatted) . "</td>";
                         $table .= "<td id=\"due-date\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PDueDate'," . esc_attr($projid) . ")\">" . esc_textarea($due_date_formatted) . "</td>";
                         $table .= "<td id=\"project-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PDetails'," . esc_attr($projid) . ")\">" . wp_kses_post(nl2br($item->PDetails)) . "</td>";
-                        $table .= "<td id=\"time-worked\" class=\"not-editable\">" . esc_textarea($hours_logged . $time_estimate_details_for_table) . "</td>";
+                        $table .= "<td id=\"time-worked\" class=\"not-editable\">" . html_entity_decode(esc_html($hours_logged . $time_estimate_details_for_table)) . "</td>";
                         //close out row
                         $table .="</tr>";
 

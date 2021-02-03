@@ -46,7 +46,7 @@ function tt_update_task_list_function() {
             //Query time tracker database to get list of current tasks and task id's
             //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
-            $task_list_search_string = $wpdb->prepare('SELECT TaskID, TDescription FROM tt_task WHERE ClientID="%s" AND TStatus <> \'Completed\' AND TStatus <> \'Canceled\' AND TStatus <> \'Closed\'',$client_id);
+            $task_list_search_string = $wpdb->prepare('SELECT TaskID, TDescription FROM tt_task WHERE ClientID="%s" AND TStatus <> \'Completed\' AND TStatus <> \'Canceled\' AND TStatus <> \'Closed\' ORDER BY TaskID DESC',$client_id);
             $task_list = $wpdb->get_results($task_list_search_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
 

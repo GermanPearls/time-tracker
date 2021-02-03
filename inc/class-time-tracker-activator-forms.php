@@ -362,6 +362,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             <label> Notes 
                 [text time-notes id:time-notes] </label>
             
+            <label> Project
+                [project_name project-name id:project-name default:get] </label> 
+
             <label> Ticket
                 [task_name task-name id:task-name default:get] </label>
             
