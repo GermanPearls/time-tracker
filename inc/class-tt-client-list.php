@@ -91,7 +91,11 @@ if ( !class_exists( 'Client_List' ) ) {
                         
                 //create row
                 $table .= "<tr>";
-                $table .= "<td id=\"client-id\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->ClientID)) . "</td>";
+                
+                $table .= "<td id=\"client-id\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->ClientID));
+                $table .= "<button onclick='open_time_entries_for_client(\"" . esc_attr($item->Company) . "\")' id=\"" . esc_attr($item->ClientID)  . "\" class=\"open-time-entry-detail chart-button\">View Time</button>";
+                $table .= "</td>";
+                
                 //$table .= "<td id=\"client-name\" class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
                 $table .= "<td id=\"client-name\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Company)) . "</td>";
                 $table .= "<td id=\"contact\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Contact)) . "</td>";

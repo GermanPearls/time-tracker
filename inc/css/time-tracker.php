@@ -174,23 +174,23 @@ button.clear-error:hover {
 
 /********** Button to Start Work Timer **********/
 /********** Button to View Task Detail **********/
-.start-work-timer, .open-task-detail {
+.start-work-timer, .open-task-detail, .chart-button {
     padding: 1px 2.5px;
     background-color: <?php echo $brand_color; ?>;
     margin-right: 5px;
     margin-bottom: 5px;
-    font-size: 1em;
+    font-size: 12px;
     font-weight: normal;
     border-radius: 0;
 }
 
-.start-work-timer:hover, .open-task-detail:hover  {
+.start-work-timer:hover, .open-task-detail:hover, .chart-button:hover  {
     padding: 1px 2.5px;
     background-color: <?php echo $brand_color_minor; ?>;
     color: <?php echo $text_color_dark; ?>;
     margin-right: 5px;
     margin-bottom: 5px;
-    font-size: 1em;
+    font-size: 12px;
     border-radius: 0;
     text-decoration: none;
 }
