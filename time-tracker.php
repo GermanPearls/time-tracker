@@ -4,14 +4,14 @@
  *
  * @package           
  * @author            Amy McGarity
- * @copyright         2020 Amy McGarity
+ * @copyright         2020-2021 Amy McGarity
  * @license           GPL-3.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name:       Time Tracker
  * Plugin URI:        https://www.logicallytech.com/services/wordpress-plugins/time-tracker/
  * Description:       A project, task and time tracking program for freelancers.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 5.3
  * Requires PHP:      7.0
  * Author:            Amy McGarity
