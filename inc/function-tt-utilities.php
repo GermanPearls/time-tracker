@@ -256,29 +256,41 @@ function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {
         	log_sql('SQL String: ' . $lastquery);
         	log_sql('SQL Error Details: ' . $lasterror);
 		}
-        //save to options table to alert user
-        update_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+        
+		//save to options table to alert user
+        if (get_option('time-tracker-sql-result')) {
+			update_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+		} else {
+			add_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+		}
     
     //it was a success!
     } else {
         if (WP_DEBUG_LOG) {
 			log_sql('SQL SUCCESS. SQL String: ' . $lastquery);
 		}
+        
+        //if there are no results in the db, add them
+        if (get_option('time-tracker-sql-result')) {
+			
+			$option = get_option('time-tracker-sql-result');			
+			
+			//if option already was a success, just update the date
+			if ($option['result'] == 'success') {			
+				update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
+				
+        	//if option was a failure, leave it there for 7 days and only update if it's at least 7 days old
+        	} else {
+            	$last_updated = date_create_from_format('m-d-Y g:i A', $option['updated']);
+            	if ( date_diff($last_updated, $now)->format('%a') > 7 ) {
+                	update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
+            	}
+			}
 		
-		$option = get_option('time-tracker-sql-result');
-        
-        //if option already was a success, just update the date
-        if ($option['result'] == 'success') {
-            update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
-        
-        //if option was a failure, leave it there for 7 days and only update if it's at least 7 days old
-        } else {
-            $last_updated = date_create_from_format('m-d-Y g:i A', $option['updated']);
-            $days = $last_updated->diff($now);
-            if ( date_diff($last_updated, $now)->format('%a') > 7 ) {
-                update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
-            }
-        }
+		//option doesn't exist in db, create it
+		} else {
+			add_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+		}
     }
 }
 

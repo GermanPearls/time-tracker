@@ -39,6 +39,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
                 Time_Tracker_Activator_Tables::setup();
                 Time_Tracker_Activator_Forms::setup();
                 Time_Tracker_Activator_Pages::setup();
+				self::set_initial_database_options();
             } else {
                 ?>
                 <script type="text/javascript">
@@ -68,6 +69,13 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
                 self::$cf7_active = true;
             }
         }
+		
+		
+		private static function set_initial_database_options() {
+			$now = new \DateTime;
+			add_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
+		}
+		
 
     }  //close class
  }  //close if class exists
