@@ -29,6 +29,7 @@ namespace Logically_Tech\Time_Tracker\Templates;
 <a href="/time-tracker/new-task" class="tt-sidebar-button">New Task</a>
 <a href="/time-tracker/new-recurring-task" class="tt-sidebar-button">New Recurring Task</a>
 <a href="/time-tracker/task-list" class="tt-sidebar-button">All Tasks</a>
+<a href="/time-tracker/recurring-task-list" class="tt-sidebar-button">All Recurring Tasks</a>
 </div>
 <hr class="tt-sidebar-hr"/>
 <div id="tt-time-functions">

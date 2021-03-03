@@ -248,6 +248,15 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             );
             array_push($details_all, $details);
 
+            //recurring task list
+            $details = array(
+                "Title" => "Recurring Task List",
+                "Parent" => $parent,
+                "Slug" => "recurring-task-list",
+                "Content" => "[tt_recurring_task_list_table]"
+            );
+            array_push($details_all, $details);
+
             //time log
             $details = array(
                 "Title" => "Time Log",

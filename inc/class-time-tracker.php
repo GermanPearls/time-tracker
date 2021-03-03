@@ -87,7 +87,8 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-task-dropdown.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-project-dropdown.php');
      
-      //CLASSES      
+      //CLASSES  
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-detail.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-month-summary.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-year-summary.php');
@@ -98,6 +99,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php');  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
 
@@ -112,6 +114,7 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-year-summary.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-open-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-task-list-table.php');
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-recurring-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-show-task-details.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-project-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');
