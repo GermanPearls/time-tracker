@@ -153,6 +153,19 @@ function tt_get_form_id($form_name) {
 
 
 /**
+ * Check page status to verify it's private
+ * 
+ */
+function check_page_status($page_id) {
+    $status = get_post_status ( $page_id );
+    if ( ($status == 'private') || ($status == 'protected') ) {
+        return 'private';
+    }
+    return $status;
+}        
+ 
+
+/**
  * Find the page ID for a form with the given name (and verify it's not in trash)
  * 
  */
