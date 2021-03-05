@@ -227,6 +227,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'PCategory'    => $data['project-category'],
                 'PStatus' => "New",
                 'PTimeEstimate' => $time_est,
+                'PDueDate' => $data['due-date'],
                 'PDetails' => $data['project-details'],
                 'PSubmission' => $this->original_submission
             ) );

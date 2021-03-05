@@ -90,13 +90,13 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             if ($table_name == 'tt_client') {
                 $sql = "CREATE TABLE tt_client (
                     ClientID int(11) NOT NULL auto_increment,
-                    Company varchar(100) NOT NULL,
+                    Company varchar(100) NOT NULL DEFAULT '',
                     Contact varchar(100) DEFAULT NULL,
                     Email varchar(100) DEFAULT NULL,
                     Phone varchar(100) DEFAULT NULL,
                     Billable tinyint(1) NOT NULL DEFAULT '1',
                     BillTo varchar(100) DEFAULT NULL,
-                    Source varchar(100) NOT NULL,
+                    Source varchar(100) NOT NULL DEFAULT '',
                     SourceDetails varchar(500) DEFAULT NULL,
                     CComments text DEFAULT NULL COMMENT 'client comments',
                     DateAdded timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -106,13 +106,13 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             } elseif ($table_name == 'tt_project') {
                 $sql = "CREATE TABLE tt_project (
                     ProjectID int(11) NOT NULL auto_increment,
-                    PName varchar(100) NOT NULL,
+                    PName varchar(100) NOT NULL DEFAULT '',
                     ClientID int(11) NOT NULL,
                     PCategory varchar(100) NULL,
                     PStatus varchar(100) DEFAULT NULL,
                     PTimeEstimate time DEFAULT NULL,
                     PDateStarted datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    PDueDate date NOT NULL,
+                    PDueDate date NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     PDetails varchar(500) DEFAULT NULL,
                     Link varchar(100) DEFAULT NULL,
                     PSubmission text DEFAULT NULL,
@@ -122,7 +122,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             } elseif ($table_name == 'tt_task') {
                 $sql = "CREATE TABLE tt_task (
                     TaskID int(11) NOT NULL auto_increment,
-                    TDescription text NOT NULL,
+                    TDescription text NOT NULL DEFAULT '',
                     ClientID int(11) NOT NULL,
                     ProjectID int(11) DEFAULT NULL,
                     TCategory varchar(100) NULL,
@@ -141,14 +141,14 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             } elseif ($table_name == 'tt_recurring_task') {
                 $sql = "CREATE TABLE tt_recurring_task (
                     RecurringTaskID int(11) NOT NULL auto_increment,
-                    RTName varchar(1500) NOT NULL,
+                    RTName varchar(1500) NOT NULL DEFAULT '',
                     ClientID int(11) NOT NULL,
                     ProjectID int(11) DEFAULT NULL,
                     RTTimeEstimate time NOT NULL DEFAULT '00:00:00',
                     RTDescription text DEFAULT NULL,
                     RTCategory varchar(100) NULL,
-                    Frequency varchar(250) NOT NULL,
-                    LastCreated date NOT NULL,
+                    Frequency varchar(250) NOT NULL DEFAULT '',
+                    LastCreated date NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     EndRepeat date DEFAULT NULL,
                     RTSubmission text DEFAULT NULL,
                     PRIMARY KEY  (RecurringTaskID),
@@ -158,9 +158,9 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             } elseif ($table_name == 'tt_time') {
                 $sql = "CREATE TABLE tt_time (
                     TimeID int(11) NOT NULL auto_increment,
-                    StartTime datetime NOT NULL,
-                    EndTime datetime NOT NULL,
-                    TNotes text NOT NULL,
+                    StartTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    EndTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    TNotes text NOT NULL DEFAULT '',
                     ClientID int(11) DEFAULT NULL,
                     TaskID int(11) DEFAULT NULL,
                     FollowUp text DEFAULT NULL,

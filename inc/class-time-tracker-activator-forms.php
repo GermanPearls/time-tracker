@@ -209,30 +209,22 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         public static function get_form_content_new_client() {
-            $html = "<label> Company
-            [text company maxlength:100] </label>
-        
-            <label> Contact Name
-                [text contact-name maxlength:100] </label>
-            
-            <label> Contact Email
-                [email contact-email maxlength:100] </label>
-            
-            <label> Telephone #
-                [tel contact-telephone] </label>
-            
-            <label> Bill To
-                [bill_to_name bill-to ie:bill-to-name-dropdown] </label>
-            
-            <label> Source
-                [client_category client-source id:client-source-dropdown] </label>
-            
-            <label> Source Details
-                [client_sub_category client-source-details id:client-source-details-dropdown] </label>
-            
-            <label> Comments
-                [textarea comments maxlength:1000] </label>
-            
+            $html = "<label> Company (required)</label>
+            [text* company maxlength:100] <br/>
+            <label> Contact Name</label>
+                [text contact-name maxlength:100]  <br/>
+            <label> Contact Email </label>
+                [email contact-email maxlength:100] <br/>
+            <label> Telephone #</label>
+                [tel contact-telephone]  <br/>
+            <label> Bill To (required)</label>
+                [bill_to_name bill-to ie:bill-to-name-dropdown]  <br/>
+            <label> Source (required)</label>
+                [client_category client-source id:client-source-dropdown] <br/>
+            <label> Source Details</label>
+                [client_sub_category client-source-details id:client-source-details-dropdown]  <br/>
+            <label> Comments</label>
+                [textarea comments maxlength:1000]  <br/>
             [submit id:add-client-submit \"Submit\"]";
             return $html;
         }
@@ -243,22 +235,25 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         public static function get_form_content_new_project() {
-            $html = "<label> Project Name (required)\r\n";
-            $html .= "[text project-name maxlength:100] </label>\r\n";
-            $html .= "\r\n";
-            $html .= "<label> Client\r\n";
-            $html .= "[client_name client-name] </label>\r\n";
-            $html .= "\r\n";
-            $html .= "<label> Category\r\n";
-            $html .= "[work_category project-category id:project-category-dropdown]</label>\r\n";
-            $html .= "\r\n";
-            $html .= "<label>Time Estimate\r\n";
-            $html .= "[number time-estimate] </label>\r\n";
-            $html .= "\r\n";
-            $html .= "<label> Details\r\n";
-            $html .= "[textarea project-details maxlength:500] </label>\r\n";
-            $html .= "\r\n";
-            $html .= "[submit id:add-project-submit \"Submit\"]\r\n";
+            $html = "<label> Project Name (required)</label>\r\n
+                [text* project-name maxlength:100] \r\n
+                \r\n
+                <label> Client (required)</label>\r\n
+                [client_name client-name]\r\n
+                \r\n
+                <label> Category</label>\r\n
+                [work_category project-category id:project-category-dropdown]\r\n
+                \r\n
+                <label>Time Estimate</label>\r\n
+                [number time-estimate]\r\n
+                \r\n
+                <label>Due Date (required)</label>\r\n
+                [date* due-date]\r\n
+                \r\n
+                <label> Details</label>\r\n
+                [textarea project-details maxlength:500]\r\n
+                \r\n
+                [submit id:add-project-submit \"Submit\"]\r\n";
             return $html;
         }
 
@@ -268,22 +263,22 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         public static function get_form_content_new_recurring_task() {
-            $html = "<label> Task Name (required)
-            [textarea task-name 20x1 maxlength:1500] </label>
-            <label> Client
-            [client_name client-name] </label>
-            <label> Project
-            [project_name project-name id:project-dropdown] </label>
-            <label> Category
-            [work_category task-category id:task-category-dropdown]</label>
-            <label> Time Estimate
-            [text time-estimate] </label>
-            Recurring Frequency
-            [select recur-freq use_label_element \"Monthly\" \"Weekly\"]
-            <label> Task Notes
-            [textarea task-desc] </label>
-            <label> End Repeat
-            [date end-repeat]</label>
+            $html = "<label> Task Name (required)</label>
+            [textarea* task-name 20x1 maxlength:1500]  <br/>
+            <label> Client (required)</label>
+            [client_name client-name] <br/> 
+            <label> Project</label>
+            [project_name project-name id:project-dropdown] <br/> 
+            <label> Category</label>
+            [work_category task-category id:task-category-dropdown] <br/>
+            <label> Time Estimate (required)</label>
+            [text* time-estimate]  <br/>
+            Recurring Frequency (required)
+            [select* recur-freq use_label_element \"Monthly\" \"Weekly\"] <br/>
+            <label> Task Notes</label>
+            [textarea task-desc]  <br/>
+            <label> End Repeat</label>
+            [date end-repeat] <br/>
             [submit id:add-task-submit \"Send\"]";
             return $html;
         }
@@ -294,20 +289,20 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         public static function get_form_content_new_task() {
-            $html = "<label> Task Description (required)
-            [textarea task-description 20x1 maxlength:500] </label>
-            <label> Client
-            [client_name client-name] </label>
-            <label> Project
-            [project_name project-name id:project-dropdown] </label>
-            <label> Category
-            [work_category task-category id:task-category-dropdown]</label>
-            <label> Time Estimate
-            [text time-estimate] </label>
-            <label> Due Date
-            [date due-date \"today\"] </label>
-            <label> Notes 
-            [textarea notes] </label>
+            $html = "<label> Task Description (required)</label>
+            [textarea* task-description 20x1 maxlength:500]  <br/>
+            <label> Client (required)</label>
+            [client_name client-name]  <br/>
+            <label> Project</label>
+            [project_name project-name id:project-dropdown]  <br/>
+            <label> Category</label>
+            [work_category task-category id:task-category-dropdown] <br/>
+            <label> Time Estimate </label>
+            [text time-estimate] <br/>
+            <label> Due Date</label>
+            [date due-date \"today\"]  <br/>
+            <label> Notes </label>
+            [textarea notes]  <br/>
             [hidden what-next default:\"SaveTask\"]
             <input type=\"submit\" name=\"submit-save\" value=\"SaveTask\">   <input type=\"submit\" name=\"submit-start\" value=\"StartWorking\" onclick=\"save_new_task_and_start_timer()\">";
             return $html;
@@ -319,27 +314,20 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         public static function get_form_content_add_time_entry() {
-            $html = "<label> Start Time
-            [datetime start-time id:start-time] </label>
-        
-            <label> Client
-                [client_name client-name default:get] </label>
-            
-            <label> Ticket
-                [task_name task-name default:get id:task-dropdown] </label>
-            
-            <label> Notes 
-                [textarea time-notes maxlength:1999] </label>
-            
-            <label> New Task Status
-                [select new-task-status id:new-task-status include_blank \"In Process\" \"Not Started\" \"Ongoing\" \"Waiting Client\" \"Complete\" \"Canceled\"] </label>
-            
-            <label> End Time
-                [datetime end-time id:end-time] </label>
-            
-            <label> Follow Up (Create New Task)
-                [text follow-up maxlength:500] </label>
-            
+            $html = "<label> Start Time (required)</label>
+            [datetime start-time id:start-time]  <br/>
+            <label> Client</label>
+                [client_name client-name default:get]  <br/>
+            <label> Ticket</label>
+                [task_name task-name default:get id:task-dropdown]  <br/>
+            <label> Notes (required)</label>
+                [textarea* time-notes maxlength:1999] <br/> 
+            <label> New Task Status</label>
+                [select new-task-status id:new-task-status include_blank \"In Process\" \"Not Started\" \"Ongoing\" \"Waiting Client\" \"Complete\" \"Canceled\"]  <br/>
+            <label> End Time(required)</label>
+                [datetime end-time id:end-time] <br/> 
+            <label> Follow Up (Create New Task)</label>
+                [text follow-up maxlength:500]  <br/>
             [submit id:add-time-submit \"Send\"]";
             return $html;
         }
@@ -350,24 +338,18 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         public static function get_form_content_filter_time() {
-            $html = "<label> First Date
-            [date first-date id:first-date] </label>
-        
-            <label> Last Date
-                [date last-date id:last-date] </label>
-            
-            <label> Client
-                [client_name client-name id:client-name default:get] </label>
-            
-            <label> Notes 
-                [text time-notes id:time-notes] </label>
-            
-            <label> Project
-                [project_name project-name id:project-name default:get] </label> 
-
-            <label> Ticket
-                [task_name task-name id:task-name default:get] </label>
-            
+            $html = "<label> First Date</label>
+            [date first-date id:first-date]  <br/>
+            <label> Last Date</label>
+                [date last-date id:last-date]  <br/>
+            <label> Client</label>
+                [client_name client-name id:client-name default:get]  <br/>
+            <label> Notes </label>
+                [text time-notes id:time-notes]  <br/>
+            <label> Project</label> 
+                [project_name project-name id:project-name default:get] <br/> 
+            <label> Ticket</label>
+                [task_name task-name id:task-name default:get]  <br/>
             [hidden form-type default:\"filter\"]
             [submit id:filter-time-submit \"Filter Time Entries\"]";
             return $html;
@@ -436,7 +418,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             $msg["validation_error"] = "One or more fields have an error. Please check and try again.";
             $msg["spam"] = "There was an error trying to send your message. Please try again later.";
             $msg["accept_terms"] = "You must accept the terms and conditions before sending your message.";
-            $msg["invalid_required"] = "The field is required.";
+            $msg["invalid_required"] = "Please verify all required fields have been filled in.";
             $msg["invalid_too_long"] = "The field is too long.";
             $msg["invalid_too_short"] = "The field is too short.";
             $msg["invalid_date"] = "The date format is incorrect.";
