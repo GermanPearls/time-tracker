@@ -193,18 +193,18 @@ if ( !class_exists( 'Pending_Time' ) ) {
 
                 //create row
                 $table .= "<tr>";           
-                $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea($client) . "</td>";
-                $table .= "<td id=\"task-id\" class=\"not-editable\">" . esc_textarea($taskid) . "</td>";
-                $table .= "<td id=\"task-description\" class=\"not-editable\">"  . wp_kses_post(nl2br($item['TDescription'])) . "</td>";
-                $table .= "<td id=\"start-time\" class=\"not-editable\">" . esc_textarea(tt_format_date_for_display($starttime, "date_and_time")) . "</td>";
-                $table .= "<td id=\"end-time\" class=\"not-editable\">" . esc_textarea(tt_format_date_for_display($endtime, "date_and_time")) . "</td>";
-                $table .= "<td id=\"time-logged\" class=\"not-editable\">" . $time_logged . "<br/>" . $time_fraction_logged . " hrs" . $percent_time_logged . "</td>";
-                $table .= "<td id=\"invoiced\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['Invoiced'])) . "</td>";
-                $table .= "<td id=\"invoice-number\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoiceNumber'])) . "</td>";
-                $table .= "<td id=\"invoiced-time\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoicedTime'])) . "</td>";
-                $table .= "<td id=\"invoice-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['InvoiceComments'])) . "</td>";
-                $table .= "<td id=\"status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . "), updateDatabase(this, 'tt_time', 'TimeID', 'NewTaskStatus'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['NewTaskStatus'])) . "</td>";
-                $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['TNotes'])) . "</td>";
+                $table .= "<td id=\"client\" class=\"not-editable tt-col-width-ten-pct\">" . esc_textarea($client) . "</td>";
+                $table .= "<td id=\"task-id\" class=\"not-editable tt-col-width-five-pct\">" . esc_textarea($taskid) . "</td>";
+                $table .= "<td id=\"task-description\" class=\"not-editable tt-col-width-fifteen-pct\">"  . wp_kses_post(nl2br($item['TDescription'])) . "</td>";
+                $table .= "<td id=\"start-time\" class=\"not-editable tt-col-width-five-pct\">" . esc_textarea(tt_format_date_for_display($starttime, "date_and_time")) . "</td>";
+                $table .= "<td id=\"end-time\" class=\"not-editable tt-col-width-five-pct\">" . esc_textarea(tt_format_date_for_display($endtime, "date_and_time")) . "</td>";
+                $table .= "<td id=\"time-logged\" class=\"not-editable tt-col-width-five-pct\">" . $time_logged . "<br/>" . $time_fraction_logged . " hrs" . $percent_time_logged . "</td>";
+                $table .= "<td id=\"invoiced\" class=\"tt-editable tt-col-width-five-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'Invoiced'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['Invoiced'])) . "</td>";
+                $table .= "<td id=\"invoice-number\" class=\"tt-editable tt-col-width-five-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceNumber'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoiceNumber'])) . "</td>";
+                $table .= "<td id=\"invoiced-time\" class=\"tt-editable tt-col-width-five-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoicedTime'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['InvoicedTime'])) . "</td>";
+                $table .= "<td id=\"invoice-notes\" class=\"tt-editable tt-col-width-five-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'InvoiceComments'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['InvoiceComments'])) . "</td>";
+                $table .= "<td id=\"status\" class=\"tt-editable tt-col-width-five-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid) . "), updateDatabase(this, 'tt_time', 'TimeID', 'NewTaskStatus'," . esc_attr($timeid) . ")\">" . esc_textarea(sanitize_text_field($item['NewTaskStatus'])) . "</td>";
+                $table .= "<td id=\"task-notes\" class=\"tt-editable tt-col-width-thirty-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TNotes'," . esc_attr($timeid) . ")\">" . wp_kses_post(nl2br($item['TNotes'])) . "</td>";
                 //close out row
                 $table .="</tr>";
 

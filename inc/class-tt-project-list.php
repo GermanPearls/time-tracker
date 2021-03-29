@@ -179,11 +179,11 @@ if ( !class_exists( 'Project_List' ) ) {
                         $table .= "<td id=\"project-name\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PName)) . "</td>";
                         $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
                         $table .= "<td id=\"project-category\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PCategory)) . "</td>";
-                        $table .= "<td id=\"project-status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PStatus'," . esc_attr($projid) . ")\">" . esc_textarea($projstatus) . "</td>";
+                        $table .= "<td id=\"project-status\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PStatus'," . esc_attr($projid) . ")\">" . esc_textarea($projstatus) . "</td>";
                         $table .= "<td id=\"date-started\" class=\"not-editable\">" . esc_textarea($date_started_formatted) . "</td>";
                         $table .= "<td id=\"last-worked\" class=\"not-editable\">" . esc_textarea($last_worked_formatted) . "</td>";
-                        $table .= "<td id=\"due-date\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PDueDate'," . esc_attr($projid) . ")\">" . esc_textarea($due_date_formatted) . "</td>";
-                        $table .= "<td id=\"project-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PDetails'," . esc_attr($projid) . ")\">" . wp_kses_post(nl2br($item->PDetails)) . "</td>";
+                        $table .= "<td id=\"due-date\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PDueDate'," . esc_attr($projid) . ")\">" . esc_textarea($due_date_formatted) . "</td>";
+                        $table .= "<td id=\"project-notes\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_project', 'ProjectID', 'PDetails'," . esc_attr($projid) . ")\">" . wp_kses_post(nl2br($item->PDetails)) . "</td>";
                         $table .= "<td id=\"time-worked\" class=\"not-editable\">" . html_entity_decode(esc_html($hours_logged . $time_estimate_details_for_table)) . "</td>";
                         //close out row
                         $table .="</tr>";

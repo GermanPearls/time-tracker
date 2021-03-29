@@ -200,15 +200,15 @@ if ( !class_exists( 'Task_List' ) ) {
                 $table .= "</td>";
                 
                 $table .= "<td id=\"client\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->Company)) . "</td>";
-                $table .= "<td id=\"project-id\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'ProjectID'," . esc_textarea($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->ProjectID)) . "</td>";
+                $table .= "<td id=\"project-id\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'ProjectID'," . esc_textarea($taskid) . ")\">" . esc_textarea(sanitize_text_field($item->ProjectID)) . "</td>";
                 $table .= "<td id=\"project-name\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($item->PName)) . "</td>";
                 $table .= "<td id=\"task-type\" class=\"not-editable\">" . $task_icon . "</td>";
-                $table .= "<td id=\"task-description\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDescription'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TDescription)) . "</td>";
-                $table .= "<td id=\"due-date\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDueDate'," . esc_attr($taskid)  . ")\">" . esc_textarea($due_date_formatted) . "</td>";
-                $table .= "<td id=\"task-status\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid)  . ")\">" . esc_textarea($status) . "</td>";
-                $table .= "<td id=\"date-added\" class=\"not-editable\">" . esc_textarea($dateadded) . "</td>";
-                $table .= "<td id=\"time-worked\" class=\"not-editable\">" . esc_textarea($time_worked_display) . wp_kses_post($percent_time_logged) . "</td>";
-                $table .= "<td id=\"task-notes\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TNotes'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TNotes)) . "</td>";
+                $table .= "<td id=\"task-description\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDescription'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TDescription)) . "</td>";
+                $table .= "<td id=\"due-date\" class=\"tt-editable tt-align-center\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TDueDate'," . esc_attr($taskid)  . ")\">" . esc_textarea($due_date_formatted) . "</td>";
+                $table .= "<td id=\"task-status\" class=\"tt-editable tt-align-center\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TStatus'," . esc_attr($taskid)  . ")\">" . esc_textarea($status) . "</td>";
+                $table .= "<td id=\"date-added\" class=\"not-editable tt-align-center\">" . esc_textarea($dateadded) . "</td>";
+                $table .= "<td id=\"time-worked\" class=\"not-editable tt-align-center\">" . esc_textarea($time_worked_display) . wp_kses_post($percent_time_logged) . "</td>";
+                $table .= "<td id=\"task-notes\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_task', 'TaskID', 'TNotes'," . esc_attr($taskid)  . ")\">" . wp_kses_post(nl2br($item->TNotes)) . "</td>";
                 //close out row
                 $table .="</tr>";
             } // foreach loop
