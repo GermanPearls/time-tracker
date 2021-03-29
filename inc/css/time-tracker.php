@@ -1,7 +1,13 @@
 <?php
     header("Content-type: text/css; charset: UTF-8");
 
-    //default colors
+    //default fonts
+    $font_family = 'Arial, sans-serif';
+	$font_weight = '400';
+	$font_size = '12px';
+	$line_height = '1em';
+    
+	//default colors
     $brand_color = '#01375d';  //base blue
     $brand_color_minor = '#809bae';  //lighter grayish blue
 
@@ -33,13 +39,11 @@
     margin-bottom: 10px;
 }
 
-
 /*** page content to the side of sidebar ***/
 div#primary.content-area.tt-content {
   float: left;
   width: 70%;
 }
-
 
 div#primary.content-area.tt-content:after, div.tt-sidebar:after {
     clear:both;
@@ -212,10 +216,19 @@ button.clear-error:hover {
 /********** Tables **********/
 /****************************/
 .tt-table {
-    text-align: left;
-    position: relative;
+  	display: table;  
+  	max-width: 100%;
+}
+
+.tt-table td {
+    position: inherit;
+	padding: 4px;
     border-collapse: collapse; 
-    /* max-width: fit-content; */
+	font-family: <?php echo $font_family; ?>;
+	font-weight: <?php echo $font_weight; ?>;
+	font-size: <?php echo $font_size; ?>;
+	line-height: <?php echo $line_height; ?>;
+	vertical-align: initial;
 }
 
 .tt-table th {
@@ -225,17 +238,13 @@ button.clear-error:hover {
     color: <?php echo $text_color_light; ?>;
 }
 
-.tt-table td {
-    line-break: normal;
+.tt-table td.tt-editable {
+	display: flex;
 }
 
-td.not-editable {
+.tt-table td.not-editable {
     background-color: <?php echo $neutral_background_light; ?>;
 }
-
-/*.tt-table.monthly-summary-table, .tt-table.yearly-summary-table {
-    max-width: 50%;
-}*/
 
 .divider-row {
     height: 10px;
@@ -246,29 +255,23 @@ td.not-editable {
     font-weight: bold;
 }
 
-/********** Pendiong Time Table **********/
-.pending-time-table #client {
-    width: 10%;
-    padding: 5px;
-}
-
-.pending-time-table #task-description {
-    width: 15%;
-    padding: 5px;
-}
-
-.pending-time-table #task-notes {
-    width: 30%;
-    padding: 5px;
-}
-
-.pending-time-table #task, .pending-time-table #start-time, .pending-time-table #end-time, .pending-time-table #time-logged, .pending-time-table #invoiced, 
-.pending-time-table #invoice-number, .pending-time-table #invoiced-time, .pending-time-table #invoice-notes, .pending-time-table #status {
-    width: 5%;
-    padding: 5px;
-}
-
 /********** Table Column Widths **********/
+.tt-col-width-five-pct {
+	width: 5%;
+}
+
+.tt-col-width-ten-pct {
+	width: 10%;
+}
+
+.tt-col-width-fifteen-pct {
+	width: 15%;
+}
+
+.tt-col-width-thirty-pct {
+	width: 30%;
+}
+
 .tt-even-columns-2 td {
     width: 50%;
 }
@@ -313,34 +316,18 @@ td.not-editable {
     width: 8%;
 }
 
-/********** Time Log Table **********/
-.time-log-table td, .time-log-table th, .task-list-table td, .task-list-table th, .pending-time-table td, .pending-time-table th {
-    padding: 2px;
-    /*font-family: 'Times New Roman', Times, serif;*/
-    font-size: 12px;
-    max-width: 300px;
-}
-
 /********** Project List Table **********/
-.project-list-table td#time-details {
-    text-align: right;
-}
-
 .project-list-table td#status-header-row {
     background-color: <?php echo $neutral_background_light; ?>;
     font-weight: bold;
 }
 
-/********** Monthly Summary Table **********/
+/********** Monthly and Yearly Summary Tables **********/
 .monthly-summary-table td, .yearly-summary-table td {
   padding: 10px;
 }
 
 /********** Open To Do List Table **********/
-.task-list-table td#due-date, .task-list-table td#date-added, .task-list-table td#task-status, td#time-worked {
-    text-align: center;
-}
-
 td#time-worked div {
     margin: 0 auto;
 }
@@ -441,7 +428,6 @@ tr.on-hold-date {
 .tt-align-center {
     text-align: center;
 }
-
 
 .bold-font {
     font-weight: bold;
