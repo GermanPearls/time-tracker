@@ -6,7 +6,7 @@
  * Hooks into WP cron to schedule recurring tasks
  *
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -174,7 +174,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
             $today_object = new \DateTime();
             $today_formatted_for_sql = date_format($today_object, 'Y-m-d');
 
-            $sql_string = $wpdb->prepare('SELECT * FROM `tt_recurring_task` WHERE (EndRepeat = %s) OR (EndRepeat <= %s)', "0000-00-00", $today_formatted_for_sql);    
+            $sql_string = $wpdb->prepare('SELECT * FROM `tt_recurring_task` WHERE (EndRepeat = %s) OR (EndRepeat >= %s)', "0000-00-00", $today_formatted_for_sql);    
             $result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return $result;
