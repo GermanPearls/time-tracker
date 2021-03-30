@@ -5,7 +5,7 @@ Tags: time tracker, time management, project management, freelancer tools, billi
 Requires at least: 5.3
 Tested up to: 5.7
 Requires PHP: 7.0
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Short Description: Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
@@ -93,7 +93,12 @@ Time Tracker hasn't yet been tested in this setup.
 
  
 == Changelog ==
- 
+
+= 1.3.0 =
+* Improvement: Continued styling improvements throughout
+* Improvement: Cleaner way to creat tables for new activations
+* Fix: Resolved error displaying on user setting form
+
 = 1.2.2 =
 * Improvement: More consistent styling throughout
 * Improvement: Improved method for verifying dependent plugin (CF7) is loaded
@@ -124,6 +129,9 @@ Time Tracker hasn't yet been tested in this setup.
  
 == Upgrade Notice ==
  
+= 1.3.0 =
+New update includes bug fixes and improved styling.
+
 = 1.2.2 =
 New update includes fixes and improved styling.
 
