@@ -74,7 +74,15 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 		
 		private static function set_initial_database_options() {
 			$now = new \DateTime;
-			add_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
+            if ( ! (get_option('time-tracker-sql-result')) ) {
+			    add_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
+            } else {
+                update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
+            }
+
+            if ( ! (get_option('time-tracker')) ) {
+                add_option('time-tracker', array('bill-to-names'=>'', 'work-categories'=>'', 'client-categories'=>'', 'client-sub-categories'=>''));
+            }
 		}
 		
 
