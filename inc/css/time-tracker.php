@@ -238,10 +238,6 @@ button.clear-error:hover {
     color: <?php echo $text_color_light; ?>;
 }
 
-.tt-table td.tt-editable {
-	display: flex;
-}
-
 .tt-table td.not-editable {
     background-color: <?php echo $neutral_background_light; ?>;
 }
