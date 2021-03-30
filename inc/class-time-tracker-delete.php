@@ -32,9 +32,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
         public static function delete_all() {
             self::define_dependents();
             self::backup_everything();
-            self::delete_tables(); //done with wpdb tables
-            self::delete_pages(); //done
-            self::delete_forms(); //done
+            self::delete_tables();
+            self::delete_pages();
+            self::delete_forms();
         }
 
 
@@ -91,11 +91,11 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
             $tt_tables_delete_order = array_reverse($tt_tables);
             foreach ($tt_tables_delete_order as $tt_table) {
                 $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $tt_table));
-                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
                 if ($table_exists) {
                     $sql = "DROP TABLE " . $tt_table;
                     $wpdb->query( $sql );
-                    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
                 }
             }
         }
@@ -109,24 +109,22 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
             global $wpdb;
             //require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
             $foreign_keys = array(
-                "tt_time" => "FK_TimeTableToTaskTable",
-                "tt_time" => "FK_TimeTableToClientTable",
-                "tt_recurring_task" => "FK_RecurringTaskTableToProjectTable",
-                "tt_recurring_task" => "FK_RecurringTaskTableToClientTable",
-                "tt_task" => "FK_TaskTableToRecurringTaskTable",
-                "tt_task" => "FK_TaskTableToProjectTable",
-                "tt_task" => "FK_TaskTableToClientTable",
-                "tt_project" => "FK_ProjectTableToClientTable" 
+                "tt_time" => array("FK_TimeTableToTaskTable", "FK_TimeTableToClientTable"),
+                "tt_recurring_task" => array("FK_RecurringTaskTableToProjectTable", "FK_RecurringTaskTableToClientTable"),
+                "tt_task" => array("FK_TaskTableToRecurringTaskTable", "FK_TaskTableToProjectTable", "FK_TaskTableToClientTable"),
+                "tt_project" => array("FK_ProjectTableToClientTable") 
             );
-            foreach($foreign_keys as $table => $key) {
+            foreach($foreign_keys as $table => $keys) {
                 $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $table));
-                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
                 if ($table_exists) {
-                    $altertable = "ALTER TABLE " . $table;
-                    $altertable .= " DROP FOREIGN KEY IF EXISTS " . $key;
-                    //dbDelta($removeFK);
-                    $wpdb->query($altertable);
-                    catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->lastquery, $wpdb->lasterror);
+                    foreach($keys as $key) {
+                        $altertable = "ALTER TABLE " . $table;
+                        $altertable .= " DROP FOREIGN KEY IF EXISTS " . $key;
+                        //dbDelta($removeFK);
+                        $wpdb->query($altertable);
+                        catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+                    }
                 }
             }
         }
@@ -138,20 +136,6 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          */
         public static function delete_pages() {
             $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(0);
-            /*$tt_pages = array(
-                'clients',
-                'new-client',
-                'new-project',
-                'new-recurring-task',
-                'new-task',
-                'new-time-entry',
-                'open-task-list',
-                'pending-time',
-                'projects',
-                'task-detail',
-                'task-list',
-                'time-log'
-            );*/
             foreach ($tt_pages as $tt_page) {
                 self::delete_tt_subpage($tt_page['Slug']);
             }
@@ -189,14 +173,6 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          */
         public static function delete_forms() {
             $tt_forms = Time_Tracker_Activator_Forms::create_form_details_array();
-            /*$tt_forms = array(
-                'Add New Client',
-                'Add New Project',
-                'Add New Recurring Task',
-                'Add New Task',
-                'Add Time Entry',
-                'Filter Time'
-            );*/
             foreach ($tt_forms as $tt_form) {
                 //delete form
                 $form = tt_get_form_id($tt_form['Title']);
