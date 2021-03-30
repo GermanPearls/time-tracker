@@ -103,9 +103,9 @@ if ( !class_exists( 'Client_List' ) ) {
                 $table .= "<td id=\"phone\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Phone)) . "</td>";
                 $table .= "<td id=\"bill-to\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->BillTo)) . "</td>";
                 $table .= "<td id=\"source\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Source)) . "</td>";
-                $table .= "<td id=\"source-details\" class=\"not-editable\">" . wp_kses_post(nl2br($item->SourceDetails)) . "</td>";
+                $table .= "<td id=\"source-details\" class=\"not-editable\">" . stripslashes(wp_kses_post(nl2br($item->SourceDetails))) . "</td>";
                 //$table .= "<td id=\"comments\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . $item->CComments . ")\">" . nl2br(stripslashes($item->CComments)) . "</td>";
-                $table .= "<td id=\"comments\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . wp_kses_post(nl2br($item->CComments)) . ")\">" . wp_kses_post(nl2br($item->CComments)) . "</td>";
+                $table .= "<td id=\"comments\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . stripslashes(wp_kses_post(nl2br($item->CComments))) . ")\">" . wp_kses_post(nl2br($item->CComments)) . "</td>";
                 $table .= "<td id=\"date-added\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($date_added_formatted)) . "</td>";
                 $table .="</tr>";
 
