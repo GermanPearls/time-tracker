@@ -38,7 +38,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Current plugin version.
  * Use SemVer - https://semver.org
  */
-define( 'TIME_TRACKER_VERSION', '1.0.0' );
+define( 'TIME_TRACKER_VERSION', '1.2.1' );
 define('TIME_TRACKER_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 
