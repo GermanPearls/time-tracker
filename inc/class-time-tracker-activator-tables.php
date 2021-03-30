@@ -65,20 +65,16 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
          */
         private static function setup_tables($table_list) {
             global $wpdb;
-            //$original_wpdb = $wpdb;
-            //$wpdb = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
-            
             self::$charset_collate = $wpdb->get_charset_collate();
             
             //need this for dbdelta to work
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            //require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             
             foreach($table_list as $table) {
-                dbDelta(self::sql_create_table($table) ); 
+                //dbDelta spits out error on foreign keys
+                //dbDelta(self::sql_create_table($table) ); 
+                $wpdb->query(self::sql_create_table($table));
             }
-
-            //switch wpdb to real wordpress database
-            //$wpdb = $original_wpdb;
         }
 
 
@@ -88,15 +84,15 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
          */
         private static function sql_create_table($table_name) {
             if ($table_name == 'tt_client') {
-                $sql = "CREATE TABLE tt_client (
+                $sql = "CREATE TABLE IF NOT EXISTS tt_client (
                     ClientID int(11) NOT NULL auto_increment,
-                    Company varchar(100) NOT NULL DEFAULT '',
+                    Company varchar(100) NULL DEFAULT '',
                     Contact varchar(100) DEFAULT NULL,
                     Email varchar(100) DEFAULT NULL,
                     Phone varchar(100) DEFAULT NULL,
                     Billable tinyint(1) NOT NULL DEFAULT '1',
                     BillTo varchar(100) DEFAULT NULL,
-                    Source varchar(100) NOT NULL DEFAULT '',
+                    Source varchar(100) NULL DEFAULT '',
                     SourceDetails varchar(500) DEFAULT NULL,
                     CComments text DEFAULT NULL COMMENT 'client comments',
                     DateAdded timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -104,9 +100,9 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     PRIMARY KEY  (ClientID)
                 ) " . self::$charset_collate . ";";
             } elseif ($table_name == 'tt_project') {
-                $sql = "CREATE TABLE tt_project (
+                $sql = "CREATE TABLE IF NOT EXISTS tt_project (
                     ProjectID int(11) NOT NULL auto_increment,
-                    PName varchar(100) NOT NULL DEFAULT '',
+                    PName varchar(100) NULL DEFAULT '',
                     ClientID int(11) NOT NULL,
                     PCategory varchar(100) NULL,
                     PStatus varchar(100) DEFAULT NULL,
@@ -120,9 +116,9 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     FOREIGN KEY FK_ProjectTableToClientTable (ClientID) REFERENCES tt_client(ClientID)
                   ) " . self::$charset_collate . ";";
             } elseif ($table_name == 'tt_task') {
-                $sql = "CREATE TABLE tt_task (
+                $sql = "CREATE TABLE IF NOT EXISTS tt_task (
                     TaskID int(11) NOT NULL auto_increment,
-                    TDescription text NOT NULL DEFAULT '',
+                    TDescription text DEFAULT NULL,
                     ClientID int(11) NOT NULL,
                     ProjectID int(11) DEFAULT NULL,
                     TCategory varchar(100) NULL,
@@ -131,7 +127,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     TTimeEstimate time DEFAULT '00:00:00',
                     TDateAdded datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     TDueDate date NOT NULL,
-                    TNotes text,
+                    TNotes text DEFAULT NULL,
                     TSubmission text DEFAULT NULL,
                     PRIMARY KEY  (TaskID),
                     FOREIGN KEY FK_TaskTableToClientTable (ClientID) REFERENCES tt_client(ClientID),
@@ -139,15 +135,15 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     FOREIGN KEY FK_TaskTableToRecurringTaskTable (RecurringTaskID) REFERENCES tt_recurring_task(RecurringTaskID)                
                     ) " . self::$charset_collate . ";";
             } elseif ($table_name == 'tt_recurring_task') {
-                $sql = "CREATE TABLE tt_recurring_task (
+                $sql = "CREATE TABLE IF NOT EXISTS tt_recurring_task (
                     RecurringTaskID int(11) NOT NULL auto_increment,
-                    RTName varchar(1500) NOT NULL DEFAULT '',
+                    RTName varchar(1500) NULL DEFAULT '',
                     ClientID int(11) NOT NULL,
                     ProjectID int(11) DEFAULT NULL,
                     RTTimeEstimate time NOT NULL DEFAULT '00:00:00',
                     RTDescription text DEFAULT NULL,
                     RTCategory varchar(100) NULL,
-                    Frequency varchar(250) NOT NULL DEFAULT '',
+                    Frequency varchar(250) NULL DEFAULT '',
                     LastCreated date NOT NULL,
                     EndRepeat date NOT NULL,
                     RTSubmission text DEFAULT NULL,
@@ -156,11 +152,11 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     FOREIGN KEY FK_RecurringTaskTableToProjectTable (ProjectID) REFERENCES tt_project(ProjectID)
                     ) " . self::$charset_collate . ";";
             } elseif ($table_name == 'tt_time') {
-                $sql = "CREATE TABLE tt_time (
+                $sql = "CREATE TABLE IF NOT EXISTS tt_time (
                     TimeID int(11) NOT NULL auto_increment,
                     StartTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     EndTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    TNotes text NOT NULL DEFAULT '',
+                    TNotes text DEFAULT NULL,
                     ClientID int(11) DEFAULT NULL,
                     TaskID int(11) DEFAULT NULL,
                     FollowUp text DEFAULT NULL,
