@@ -64,7 +64,8 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
 
         private static function cf7_plugin_activated() {
-            if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
+            //if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
+            if (class_exists('WPCF7')) {
                 //plugin is activated
                 self::$cf7_active = true;
             }
