@@ -24,20 +24,18 @@ function tt_update_table_function() {
 
 		if ( check_ajax_referer( 'tt_update_table_nonce', 'security' )) {
 					
-			//Connect to 2nd Database
-			//$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
 			global $wpdb;
 
 			$record = [
 				sanitize_text_field($_POST['id_field']) => sanitize_text_field($_POST['id'])
 			];
 
-			var_dump(strtolower(sanitize_text_field($_POST['field'])));
-			var_dump(strpos(strtolower(sanitize_text_field($_POST['field']), 'endrepeat')));
+			//var_dump(strtolower(sanitize_text_field($_POST['field'])));
+			//var_dump(strpos(strtolower(sanitize_text_field($_POST['field']), 'endrepeat')));
 			//deal with date entries, must be inserted into database in yyyy-mm-dd format
 			if ( ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') OR strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') OR strtolower(sanitize_text_field($_POST['field'])) == 'endrepeat' ) AND !(sanitize_text_field($_POST['field']) == 'InvoicedTime') ) {
 
-				//convert the date entered from t a string to a date/time object
+				//convert the date entered from a string to a date/time object
 				$date_entered = new \DateTime(sanitize_text_field($_POST['value']));
 
 				//use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
@@ -59,10 +57,11 @@ function tt_update_table_function() {
 			} else {
 
 				//if updated value includes <br> that were automatically inserted remove them to avoid doulbe line breaks
-				if ( strpos(sanitize_text_field($_POST['value']), '<br>')) {
-					$updated_value = str_replace('<br>', "", sanitize_text_field($_POST['value']));
+				//we're using WPDB->update below so data should not be escaped
+				if ( strpos(sanitize_textarea_field($_POST['value']), '<br><br>')) {
+					$updated_value = str_replace('<br><br>','<br>',$_POST['value']);
 				} else {
-					$updated_value = sanitize_text_field($_POST['value']);
+					$updated_value = $_POST['value'];
 				}
 
 				$data = [
