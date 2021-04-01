@@ -55,52 +55,72 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
                 "ID" => [
                     "fieldname" => "RecurringTaskID",
                     "id" => "recurring-task-id",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text"
                 ],
                 "Client" => [
                     "fieldname" => "Company",
                     "id" => "company-name",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text"
                 ],
                 "Project ID" => [
                     "fieldname" => "ProjectID",
                     "id" => "project-id",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text"
                 ],
                 "Project" => [
                     "fieldname" => "PName",
                     "id" => "project-name",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text"
                 ],
                 "Type" => [
                     "fieldname" => "RTCategory",
                     "id" => "task-category",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text"
                 ],
                 "Task" => [
                     "fieldname" =>"RTName",
                     "id" => "recurring-task-name",
-                    "editable" => true
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text"
                 ],
                 "Frequency" => [
                     "fieldname" => "Frequency",
                     "id" => "frequency",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text"
                 ],
                 "Last Created" => [
                     "fieldname" => "LastCreated",
                     "id" => "last-created",
-                    "editable" => false
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "date"
                 ],
                 "End Repeat" => [
                     "fieldname" => "EndRepeat",
                     "id" => "end-repeat",
-                    "editable" => true
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "date"
                 ],
                 "Notes" => [
                     "fieldname" => "RTDescription",
                     "id" => "recurring-task-description",
-                    "editable" => true
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text"
                 ]
             ];
             return $cols;
@@ -135,36 +155,37 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
             $tasks = $this->recurring_tasks;
             $args = [];
 
-            //Begin creating table and header row
+            //note above header row
             $table = "<div style='font-weight:bold; text-align:center;'>Note: Gray shaded cells can't be changed.</div>";
             
+            //start table
             $args['class'] = ["tt-table", "task-list-table"];
             $tbl = new Time_Tracker_Display_Table();
             $table .= $tbl->start_table($args);
 
+            //header row
             $table .= $tbl->start_row();
-
             $columns = $this->get_column_order();
             foreach ($columns as $name=>$details) {
                 $table .= $tbl->start_header_data() . $name . $tbl->close_header_data();                
             }
-
             $table .= $tbl->close_row();
 
-
-            //Add Data
+            //data
             foreach ($tasks as $item) {
                 $end_repeat_args = [];
                 $end_repeat_class = "";
                 $ticket = sanitize_text_field($item->RecurringTaskID) . "-" . sanitize_text_field($item->RTName);
                 
-                //evaluate due date and current status, apply class based on result
-                $last_created = tt_format_date_for_display(sanitize_text_field($item->LastCreated), "date_only");
-                $end_repeat = tt_format_date_for_display(sanitize_text_field($item->EndRepeat), "date_only");
-                $today = new \DateTime();
-                if ( ($end_repeat <> "") and ($end_repeat < $today) ) {
-                    $end_repeat_class = "tt-recurring-task-complete";
-                }
+                /**
+                *evaluate due date and current status, apply class based on result
+                *$last_created = tt_format_date_for_display(sanitize_text_field($item->LastCreated), "date_only");
+                *$end_repeat = tt_format_date_for_display(sanitize_text_field($item->EndRepeat), "date_only");
+                *$today = new \DateTime();
+                *if ( ($end_repeat <> "") and ($end_repeat < $today) ) {
+                *    $end_repeat_class = "tt-recurring-task-complete";
+                *}
+                **/
 
                 $row = $tbl->start_row();
                 
@@ -179,19 +200,28 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
                     } else {
                         $args["class"] = ["not-editable"];
                     }
+                    if ( strlen($details["columnwidth"]) > 0 ) {
+                        array_push($args["class"], ".tt-col-width-" . $details["columnwidth"] . "-pct");
+                    }
 
                     $cell = $tbl->start_data($args);
 
-                    if ($sql_fieldname == "LastCreated") {
-                        $cell .= $last_created;
-                    } elseif ($sql_fieldname == "EndRepeat") {
-                        array_push($args["class"], $end_repeat_class);
-                        $cell = $tbl->start_data($args);
-                        $cell .= $end_repeat;
+                    //sanitize and escape based on field type
+                    if ($details["type"] == "text") {
+                        $cell .= esc_html(sanitize_text_field($item->$sql_fieldname));
+                    } elseif ($details["type"] == "long text") {
+                        $cell .= stripslashes(wp_kses_post(nl2br($item->$sql_fieldname)));
+                    } elseif ($details["type"] == "date") {
+                        $formatted_date = tt_format_date_for_display(sanitize_text_field($item->$sql_fieldname), "date_only");
+                        $cell .= esc_html($formatted_date);
+                    } elseif ($details["type"] == "date and time") {
+                        $formatted_date = tt_format_date_for_display(sanitize_text_field($item->$sql_fieldname), "date_and_time");
+                        $cell .= esc_html($formatted_date);
+                    }  elseif ($details["type"] == "email") {
+                        $cell .= esc_html(sanitize_email($item->$sql_fieldname));
                     } else {
-                        $cell .=  esc_textarea(sanitize_text_field($item->$sql_fieldname));    
+                        $cell .= esc_html(sanitize_text_field($item->$sql_fieldname));
                     }
-
                     $cell .= $tbl->close_data();
                     $row .= $cell;
                 }

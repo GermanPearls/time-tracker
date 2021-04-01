@@ -39,6 +39,15 @@ if ( !class_exists( 'Client_List' ) ) {
 
 
         /**
+         * Get html result
+         * 
+         */
+        public function create_table() {
+            return $this->get_html();
+        }
+
+
+        /**
          * Get client list from db
          * 
          */
@@ -55,64 +64,168 @@ if ( !class_exists( 'Client_List' ) ) {
 
 
         /**
+         * Get table column order
+         * 
+         */
+        private function get_column_order() {
+            $cols = [
+                "ID" => [
+                    "fieldname" => "ClientID",
+                    "id" => "client-id",
+                    "editable" => false,
+                    "columnwidth" => "five",
+                    "type" => "text"
+                ],
+                "Client" => [
+                    "fieldname" => "Company",
+                    "id" => "company-name",
+                    "editable" => false,
+                    "columnwidth" => "ten",
+                    "type" => "text"
+                ],
+                "Contact" => [
+                    "fieldname" => "Contact",
+                    "id" => "contact-name",
+                    "editable" => true,
+                    "columnwidth" => "ten",
+                    "type" => "text"
+                ],
+                "Email" => [
+                    "fieldname" => "Email",
+                    "id" => "contact-email",
+                    "editable" => true,
+                    "columnwidth" => "ten",
+                    "type" => "email"
+                ],
+                "Phone" => [
+                    "fieldname" => "Phone",
+                    "id" => "contact-phone",
+                    "editable" => true,
+                    "columnwidth" => "ten",
+                    "type" => "text"
+                ],
+                "Bill To" => [
+                    "fieldname" => "BillTo",
+                    "id" => "bill-to",
+                    "editable" => false,
+                    "columnwidth" => "ten",
+                    "type" => "text"
+                ],
+                "Source" => [
+                    "fieldname" => "Source",
+                    "id" => "source",
+                    "editable" => false,
+                    "columnwidth" => "ten",
+                    "type" => "text"
+                ],
+                "Source Details" => [
+                    "fieldname" => "SourceDetails",
+                    "id" => "source-details",
+                    "editable" => false,
+                    "columnwidth" => "ten",
+                    "type" => "long text"
+                ],
+                "Comments" => [
+                    "fieldname" => "CComments",
+                    "id" => "client-comments",
+                    "editable" => true,
+                    "columnwidth" => "fifteen",
+                    "type" => "long text"
+                ],
+                "Date Added" => [
+                    "fieldname" => "DateAdded",
+                    "id" => "date-added",
+                    "editable" => false,
+                    "columnwidth" => "ten",
+                    "type" => "date"
+                ]
+            ];
+            return $cols;
+        }
+
+
+        /**
          * Create HTML table for front end display
          * 
          */
-        public function create_table() {
+        public function get_html() {
             
             $clients = $this->all_clients;
+            $args = [];
 
-            //Begin creating table and headers
-            $table = "<strong>Note: Gray shaded cells can't be changed.</strong><br/><br/>";
+            //notice above table
+            $table = "<div style='font-weight:bold; text-align:center;'>Note: Gray shaded cells can't be changed.</div>";
+            //$table = "<strong>Note: Gray shaded cells can't be changed.</strong><br/><br/>";
             
-            $table .= "<table class=\"tt-table client-list-table\">";
-            $table .= "<thead><tr>";
-            $table .= "<th>ID</th>";
-            $table .= "<th>Client</th>";
-            $table .= "<th>Contact</th>";
-            $table .= "<th>Email</th>";
-            $table .= "<th>Phone</th>";
-            $table .= "<th>Bill To</th>";                        
-            $table .= "<th>Source</th>";
-            $table .= "<th>Source Details</th>";
-            $table .= "<th>Comments</th>";
-            $table .= "<th>Date Added</th>";
-            $table .= "</tr></thead>";
-            
-            
-            //Create body
-            foreach ($clients as $item) {          
+            //start table
+            $args['class'] = ["tt-table", "client-list-table"];
+            $tbl = new Time_Tracker_Display_Table();
+            $table .= $tbl->start_table($args);
+
+            //header row
+            $table .= $tbl->start_row();
+            $columns = $this->get_column_order();
+            foreach ($columns as $name=>$details) {
+                $table .= $tbl->start_header_data() . $name . $tbl->close_header_data();                
+            }
+            $table .= $tbl->close_row();
+
+            //data
+            foreach ($clients as $item) {
+                $end_repeat_args = [];
+                $end_repeat_class = "";
 
                 if ($item->DateAdded == "0000-00-00 00:00:00") {
                     $date_added_formatted = "";
                 } else {
                     $date_added_formatted = date_format(\DateTimeImmutable::createFromFormat("Y-m-d G:i:s", sanitize_text_field($item->DateAdded)), "n/j/y");
                 }
-                        
-                //create row
-                $table .= "<tr>";
-                
-                $table .= "<td id=\"client-id\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->ClientID));
-                $table .= "<button onclick='open_time_entries_for_client(\"" . esc_attr($item->Company) . "\")' id=\"" . esc_attr($item->ClientID)  . "\" class=\"open-time-entry-detail chart-button\">View Time</button>";
-                $table .= "</td>";
-                
-                //$table .= "<td id=\"client-name\" class=\"not-editable\">" . nl2br(stripslashes($item->Company)) . "</td>";
-                $table .= "<td id=\"client-name\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Company)) . "</td>";
-                $table .= "<td id=\"contact\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Contact)) . "</td>";
-                $table .= "<td id=\"email\" class=\"not-editable\">" . esc_html(sanitize_email($item->Email)) . "</td>";
-                $table .= "<td id=\"phone\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Phone)) . "</td>";
-                $table .= "<td id=\"bill-to\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->BillTo)) . "</td>";
-                $table .= "<td id=\"source\" class=\"not-editable\">" . esc_html(sanitize_text_field($item->Source)) . "</td>";
-                $table .= "<td id=\"source-details\" class=\"not-editable\">" . stripslashes(wp_kses_post(nl2br($item->SourceDetails))) . "</td>";
-                //$table .= "<td id=\"comments\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . $item->CComments . ")\">" . nl2br(stripslashes($item->CComments)) . "</td>";
-                $table .= "<td id=\"comments\" class=\"tt-editable\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_client', 'ClientID', 'CComments'," . stripslashes(wp_kses_post(nl2br($item->CComments))) . ")\">" . wp_kses_post(nl2br($item->CComments)) . "</td>";
-                $table .= "<td id=\"date-added\" class=\"not-editable\">" . esc_textarea(sanitize_text_field($date_added_formatted)) . "</td>";
-                $table .="</tr>";
 
-            } // foreach client loop
+                $row = $tbl->start_row();
 
-            //close out table
-            $table .= "</table>";
+                foreach ($columns as $header=>$details) {
+                    $sql_fieldname = $details["fieldname"];
+                    $args = [];
+                    $args["id"] = $details["id"];
+                    if ($details["editable"]) {
+                        $args["class"] = ["editable"];
+                        $args["contenteditable"] = "true";
+                        $args["onBlur"] = "updateDatabase(this, 'tt_client', 'ClientID', '" . $sql_fieldname . "', '" . $item->ClientID . "')";
+                    } else {
+                        $args["class"] = ["not-editable"];
+                    }
+                    if ( strlen($details["columnwidth"]) > 0 ) {
+                        array_push($args["class"], ".tt-col-width-" . $details["columnwidth"] . "-pct");
+                    }
+
+                    $cell = $tbl->start_data($args);
+
+                    //sanitize and escape based on field type
+                    if ($details["type"] == "text") {
+                        $cell .= esc_html(sanitize_text_field($item->$sql_fieldname));
+                    } elseif ($details["type"] == "long text") {
+                        $cell .= stripslashes(wp_kses_post(nl2br($item->$sql_fieldname)));
+                    } elseif ($details["type"] == "date") {
+                        $formatted_date = tt_format_date_for_display(sanitize_text_field($item->$sql_fieldname), "date_only");
+                        $cell .= esc_html($formatted_date);
+                    } elseif ($details["type"] == "date and time") {
+                        $formatted_date = tt_format_date_for_display(sanitize_text_field($item->$sql_fieldname), "date_and_time");
+                        $cell .= esc_html($formatted_date);
+                    }  elseif ($details["type"] == "email") {
+                        $cell .= esc_html(sanitize_email($item->$sql_fieldname));
+                    } else {
+                        $cell .= esc_html(sanitize_text_field($item->$sql_fieldname));
+                    }
+                    $cell .= $tbl->close_data();
+                    $row .= $cell;
+                }
+
+                $row .= $tbl->close_row();
+                $table .= $row;
+                
+            } // foreach row loop
+
+            $table .= $tbl->close_table();
 
             return $table;
         }
