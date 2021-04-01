@@ -47,7 +47,7 @@ if ( !class_exists( 'Client_List' ) ) {
             global $wpdb;
             $sql_string = "SELECT tt_client.*
                 FROM tt_client
-                ORDER BY tt_client.ClientID ASC";
+                ORDER BY tt_client.Company ASC";
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             $this->all_clients = $sql_result;
