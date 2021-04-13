@@ -119,6 +119,78 @@ function tt_format_date_for_display($date_entry, $type) {
 
 
 /**
+ * Get Time Estimate Formatted
+ * 
+ */
+function get_time_estimate_formatted($timeestimate) {
+    if (($timeestimate == 0 ) or ($timeestimate == null)) {
+        return null;
+    } else {
+        $time_estimate_parts = explode(":", $timeestimate);
+        $time_estimate_formatted = tt_convert_to_decimal_time($time_estimate_parts[0], $time_estimate_parts[1]);  
+        return $time_estimate_formatted;              
+    }
+}
+
+
+/**
+ * Get Time Worked vs Estimate Class
+ * 
+ */
+function get_time_estimate_class($percent_time_logged) {
+    if ( ($percent_time_logged <> "") and ($percent_time_logged > 100) ) {
+        $time_worked_vs_estimate_class = "over-time-estimate";
+    } else {
+        $time_worked_vs_estimate_class = "";
+    }
+    return $time_worked_vs_estimate_class;
+}
+
+
+/**
+ * Get Percentage of Time Logged vs Time Estimate
+ * 
+ */
+function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
+    //evaluate time worked vs estimate, format data to display and apply css class based on result
+
+    if (($time_estimate_formatted == 0 ) or ($time_estimate_formatted == null)) {
+        $percent_time_logged = "";
+        $time_estimate_details_for_table = "";
+    } else {
+        $percent_time_logged = round($hours_logged / $time_estimate_formatted * 100);
+        //$percent_time_logged = "<br/>" . round($hours_logged / $time_estimate_formatted * 100) . "%";
+        $time_estimate_details_for_table = " / " . $time_estimate_formatted . $percent_time_logged;
+    }     
+    return $percent_time_logged;
+}
+
+
+/**
+ * Get Due Date Class - Are We On Time, Late, Or Getting Late
+ * 
+ */
+function get_due_date_class($duedate, $status) {
+    if ( ($duedate == "0000-00-00") || ($duedate == null) ) {
+        $due_date_formatted = "";
+        $due_date_class = "no-date";
+    } else {
+        $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
+        if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime() AND $status<>"Canceled" AND $status<>"Complete") {
+            $due_date_class = "late-date";
+        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+            $due_date_class = "soon-date";
+        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+            $due_date_class = "on-hold-date";
+        } else {
+            $due_date_class = "ok-date";
+        }
+    }
+    return $due_date_class;
+}
+
+
+/**
  * Return month name from month number
  * Example: 1 returns January
  * 
