@@ -236,6 +236,7 @@ button.clear-error:hover {
     position: sticky;
     background-color: <?php echo $brand_color; ?>; 
     color: <?php echo $text_color_light; ?>;
+    vertical-align: bottom;
 }
 
 .tt-table td.not-editable {
