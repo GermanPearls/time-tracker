@@ -62,7 +62,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
              * Add new task
              * 
              */
-            //if ( $this->form_post_id == '432' ) {
             if ( $this->form_post_id == tt_get_form_id('Add New Task') ) {
                 $this->save_new_task($data,$this->client_id,$this->project_id,$this->task_id,$this->original_submission);
             }
@@ -72,7 +71,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
              * Add new project
              * 
              */
-            //if ( $this->form_post_id == '496' ) {
             if ( $this->form_post_id == tt_get_form_id('Add New Project') ) {
                 $this->save_new_project($data,$this->client_id,$this->original_submission);           
             }
@@ -82,7 +80,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
              * Add new client
              * 
              */
-            //if ( $this->form_post_id == '504' ) {
             if ( $this->form_post_id == tt_get_form_id('Add New Client') ) {
                 $this->save_new_client($data,$this->original_submission);
             }
@@ -92,7 +89,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
              * Add new recurring task
              * 
              */
-            //if ( $this->form_post_id == '781' ) {
             if ( $this->form_post_id == tt_get_form_id('Add New Recurring Task') ) {
                 $this->save_new_recurring_task($data,$this->client_id,$this->project_id,$this->original_submission);
             }
@@ -102,7 +98,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
              * Add new time entry
              * 
              */
-            //if ( $this->form_post_id == '510' ) {
             if ( $this->form_post_id == tt_get_form_id('Add Time Entry') ) {
                 $this->save_new_time_entry($data);
                 
@@ -131,10 +126,15 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             foreach ($raw_data as $key => $data) {
                 if (is_array($data)) {
                     //$clean_data[$key] = filter_var(htmlspecialchars_decode($data[0], ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                    $clean_data[$key] = htmlspecialchars_decode(filter_var($data[0], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NO_QUOTES);
+                    //$raw = $data[0];
+                    //$clean_data[$key] = htmlspecialchars_decode(filter_var($raw, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NO_QUOTES);
+                    $clean_data[$key] = filter_var($data[0], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                    //var_dump(htmlspecialchars_decode('Weekly', ENT_NO_QUOTES, ENT_SUBSTITUTE));  //this is outputting null! do we need htmlspecialchars_decode??
+                    //var_dump($clean_data[$key]);
                 } else {
                     //$clean_data[$key] = filter_var(htmlspecialchars_decode($data, ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                    $clean_data[$key] = htmlspecialchars_decode(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NOQUOTES);
+                    //$clean_data[$key] = htmlspecialchars_decode(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NOQUOTES);
+                    $clean_data[$key] = filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
                 }
             }
             return $clean_data;
