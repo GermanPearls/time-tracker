@@ -40,7 +40,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */        
         public function __construct() {
-            $this->get_time_log_from_db();
+            //$this->get_time_log_from_db();
         }
 
 
@@ -58,13 +58,11 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function get_time_log_from_db() {
-            //Connect to Time Tracker Database
-            //$this->tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
             $sql_string = $this->create_sql_string();
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            $this->open_items = $sql_result;
+            return $sql_result;
         }
 
 
@@ -174,10 +172,201 @@ if ( !class_exists( 'Time_Log' ) ) {
 
 
         /**
+         * Get table column order and table fields
+         * 
+         */
+        private function get_table_fields() {
+            $cols = [
+                "ID" => [
+                    "fieldname" => "TimeID",
+                    "id" => "time-id",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Client ID" => [
+                    "fieldname" => "ClientID",
+                    "id" => "client-id",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Client" => [
+                    "fieldname" => "Company",
+                    "id" => "client-name",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Task ID" => [
+                    "fieldname" => "TaskID",
+                    "id" => "task-id",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Type" => [
+                    "fieldname" => "TaskType",
+                    "id" => "task-type",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Task" => [
+                    "fieldname" =>"TDescription",
+                    "id" => "task-description",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Start Time" => [
+                    "fieldname" => "StartTime",
+                    "id" => "start-time",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "date",
+                    "class" => "tt-align-right"
+                ],
+                "End Time" => [
+                    "fieldname" => "EndTime",
+                    "id" => "end-time",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Time Logged Vs Estimate" => [
+                    "fieldname" => "TimeLoggedVsEstimate",
+                    "id" => "time-logged-vs-estimate",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "date",
+                    "class" => "tt-align-right"
+                ],
+                "Status" => [
+                    "fieldname" => "TStatus",
+                    "id" => "task-status",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => "tt-align-right"
+                ],
+                "Invoiced?" => [
+                    "fieldname" => "Invoiced",
+                    "id" => "invoiced",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Invoice Number" => [
+                    "fieldname" => "InvoiceNumber",
+                    "id" => "invoice-number",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Invoiced Time" => [
+                    "fieldname" => "InvoicedTime",
+                    "id" => "invoice-time",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Invoice Comments" => [
+                    "fieldname" => "InvoiceComments",
+                    "id" => "invoice-comments",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Notes" => [
+                    "fieldname" => "TNotes",
+                    "id" => "task-notes",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Follow Up" => [
+                    "fieldname" => "FollowUp",
+                    "id" => "follow-up",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ]
+            ];
+            return $cols;
+        }
+
+
+        /**
+         * Get Data from Table and Append with Any Extra Info
+         * 
+         */
+        private function get_all_data_for_display() {
+            $time_entries = $this->get_time_log_from_db();
+
+            foreach ($time_entries as $item) {
+                if (sanitize_text_field($item->RecurringTaskID) != null) {
+                    $icon = tt_add_recurring_task_icon();
+                    $item->TaskType = [
+                        "value" => "",
+                        "icon" => $icon
+                    ];                    
+                }
+
+                $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item->TTimeEstimate));
+                $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item->LoggedHours), sanitize_text_field($item->LoggedMinutes));
+                $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
+                $time_worked_vs_estimate_class = get_time_estimate_class($percent_time_logged);
+                $item->TimeLoggedVsEstimate = [
+                    "value" => $hours_logged . " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%",
+                    "class" => $time_worked_vs_estimate_class
+                ];
+            }
+            return $time_entries;
+        }
+
+
+        /**
+         * Create Table
+         * 
+         */
+        public function get_html() {            
+            $fields = $this->get_table_fields();
+            $time_entries = $this->get_all_data_for_display();
+            $args["class"] = ["tt-table", "time-log-table"];
+            $tbl = new Time_Tracker_Display_Table();
+            $table = $tbl->create_html_table($fields, $time_entries, $args, "tt_time", "TimeID");
+            return $table;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /**
          * Create output
          * 
          */
-        private function get_html() {
+        private function old_get_html() {
             //Begin creating table and headers
             $table = "<strong>Note: Gray shaded cells can't be changed.</strong><br/><br/>";
             $table .= "<table class=\"tt-table time-log-table\">";

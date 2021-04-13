@@ -47,80 +47,90 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
 
 
         /**
-         * Get table column order
+         * Get table column order and table fields
          * 
          */
-        private function get_column_order() {
+        private function get_table_fields() {
             $cols = [
                 "ID" => [
                     "fieldname" => "RecurringTaskID",
                     "id" => "recurring-task-id",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text"
+                    "type" => "text",
+                    "class" => ""
                 ],
                 "Client" => [
                     "fieldname" => "Company",
                     "id" => "company-name",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text"
+                    "type" => "text",
+                    "class" => ""
                 ],
                 "Project ID" => [
                     "fieldname" => "ProjectID",
                     "id" => "project-id",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text"
+                    "type" => "text",
+                    "class" => ""
                 ],
                 "Project" => [
                     "fieldname" => "PName",
                     "id" => "project-name",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text"
+                    "type" => "text",
+                    "class" => ""
                 ],
                 "Type" => [
                     "fieldname" => "RTCategory",
                     "id" => "task-category",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text"
+                    "type" => "text",
+                    "class" => ""
                 ],
                 "Task" => [
                     "fieldname" =>"RTName",
                     "id" => "recurring-task-name",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "long text"
+                    "type" => "long text",
+                    "class" => ""
                 ],
                 "Frequency" => [
                     "fieldname" => "Frequency",
                     "id" => "frequency",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text"
+                    "type" => "text",
+                    "class" => ""
                 ],
                 "Last Created" => [
                     "fieldname" => "LastCreated",
                     "id" => "last-created",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "date"
+                    "type" => "date",
+                    "class" => "tt-align-right"
                 ],
                 "End Repeat" => [
                     "fieldname" => "EndRepeat",
                     "id" => "end-repeat",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "date"
+                    "type" => "date",
+                    "class" => "tt-align-right"
                 ],
                 "Notes" => [
                     "fieldname" => "RTDescription",
                     "id" => "recurring-task-description",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "long text"
+                    "type" => "long text",
+                    "class" => ""
                 ]
             ];
             return $cols;
@@ -148,10 +158,30 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
 
 
         /**
+         * Create HTML table for front end display
+         * 
+         */
+        public function get_html() {
+            $fields = $this->get_table_fields();
+            $tasks = $this->recurring_tasks;
+            $args["class"] = ["tt-table", "task-list-table"];
+            $tbl = new Time_Tracker_Display_Table();
+            $table = $tbl->create_html_table($fields, $tasks, $args, "tt_recurring_task", "RecurringTaskID");
+            return $table;
+        }
+               
+
+
+
+
+
+
+           
+        /**
          * Create table
          * 
          */
-        private function get_html() {
+        private function old_get_html() {
             $tasks = $this->recurring_tasks;
             $args = [];
 

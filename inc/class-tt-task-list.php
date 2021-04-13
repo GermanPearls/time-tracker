@@ -32,8 +32,7 @@ if ( !class_exists( 'Task_List' ) ) {
          * 
          */
         public function __construct() {
-            $this->get_open_tasks_from_db();
-            $this->get_all_tasks_from_db();
+
         }
 
 
@@ -43,6 +42,105 @@ if ( !class_exists( 'Task_List' ) ) {
          */
         public function create_table($type) {
             return $this->get_html($type);
+        }
+
+
+        /**
+         * Get table column order and table fields
+         * 
+         */
+        private function get_table_fields() {
+            $cols = [
+                "ID" => [
+                    "fieldname" => "TaskID",
+                    "id" => "task-id",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Client" => [
+                    "fieldname" => "Company",
+                    "id" => "client",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Project ID" => [
+                    "fieldname" => "ProjectID",
+                    "id" => "project-id",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Project" => [
+                    "fieldname" => "PName",
+                    "id" => "project-name",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Type" => [
+                    "fieldname" => "TCategory",
+                    "id" => "task-type",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Task" => [
+                    "fieldname" =>"TDescription",
+                    "id" => "task-description",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Due Date" => [
+                    "fieldname" => "TDueDate",
+                    "id" => "due-date",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "date",
+                    "class" => "tt-align-right"
+                ],
+                "Status" => [
+                    "fieldname" => "TStatus",
+                    "id" => "task-status",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Date Added" => [
+                    "fieldname" => "TDateAdded",
+                    "id" => "date-added",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "date",
+                    "class" => "tt-align-right"
+                ],
+                "Time Logged v Estimate" => [
+                    "fieldname" => "TimeLoggedVsEstimate",
+                    "id" => "time-worked",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => "tt-align-right"
+                ],
+                "Notes" => [
+                    "fieldname" => "TNotes",
+                    "id" => "task-notes",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ]
+            ];
+            return $cols;
         }
         
         
@@ -68,7 +166,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 ORDER BY tt_task.TDueDate ASC, tt_task.TDateAdded ASC";
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);            
-            $this->open_tasks = $sql_result;
+            return $sql_result;
         }
 
 
@@ -93,40 +191,81 @@ if ( !class_exists( 'Task_List' ) ) {
                 ORDER BY tt_task.TaskID DESC";            
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            $this->all_tasks = $sql_result;
+            return $sql_result;
         }
-
 
 
         /**
-         * Get Due Date Class
+         * Get Data from Table and Append with Any Extra Info
          * 
          */
-        private function get_due_date_class($duedate, $status) {
-            if ( ($duedate == "0000-00-00") || ($duedate == null) ) {
-                $due_date_formatted = "";
-                $due_date_class = "no-date";
+        private function get_all_data_for_display($type) {
+            if ($type == "open_tasks") {
+                $tasks = $this->get_open_tasks_from_db();
             } else {
-                $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
-                if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime() AND $status<>"Canceled" AND $status<>"Complete") {
-                    $due_date_class = "late-date";
-                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
-                    $due_date_class = "soon-date";
-                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
-                    $due_date_class = "on-hold-date";
-                } else {
-                    $due_date_class = "ok-date";
-                }
+                $tasks = $this->get_all_tasks_from_db();
             }
-            return $due_date_class;
+
+            foreach ($tasks as $item) {
+                $duedate = sanitize_text_field($item->TDueDate);
+                $taskstatus = sanitize_text_field($item->TStatus);
+                $taskid = sanitize_text_field($item->TaskID);
+
+                $start_work_button = "<button onclick='start_timer_for_task(\"" . esc_attr(sanitize_text_field($item->Company)) . "\", \"" . esc_attr($taskid . "-" . sanitize_text_field($item->TDescription)) . "\")' id=\"task-" . esc_attr($taskid)  . "\" class=\"start-work-timer\">Start</button>";
+                $task_details_button = "<button onclick='open_detail_for_task(\"" . esc_attr($taskid) . "\")' id=\"task-" . esc_attr($taskid)  . "\" class=\"open-task-detail\">View</button>";
+                $item->TaskID = [
+                    "value" => $taskid,
+                    "button" => [
+                        $start_work_button,
+                        $task_details_button
+                    ]
+                ];
+
+                $due_date_class = get_due_date_class($duedate, $taskstatus);
+                $item->TDueDate = [
+                    "value" => $duedate,
+                    "class" => $due_date_class
+                ];
+
+                $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item->TTimeEstimate));
+                $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item->LoggedHours), sanitize_text_field($item->LoggedMinutes));
+                $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
+                $time_worked_vs_estimate_class = get_time_estimate_class($percent_time_logged);
+                $item->TimeLoggedVsEstimate = [
+                    "value" => $hours_logged . " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%",
+                    "class" => $time_worked_vs_estimate_class
+                ];
+            }
+            return $tasks;
         }
+
+
+        /**
+         * Create Table
+         * 
+         */
+        private function get_html($type) {            
+            $fields = $this->get_table_fields();
+            $tasks = $this->get_all_data_for_display($type);
+            $args["class"] = ["tt-table", "task-list-table"];
+            $tbl = new Time_Tracker_Display_Table();
+            $table = $tbl->create_html_table($fields, $tasks, $args, "tt_task", "TaskID");
+            return $table;
+        }
+
+
+
+
+
+
+
 
 
         /**
          * Create table
          * 
          */
-        private function get_html($type) {
+        private function old_get_html($type) {
             if ($type == "open_tasks") {
                 $tasks = $this->open_tasks;
             } else {

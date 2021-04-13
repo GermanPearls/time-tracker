@@ -34,13 +34,12 @@ if ( !class_exists( 'Project_List' ) ) {
         private $status_order = ["New", "Ongoing", "In Process", "Waiting Client", "Complete", "Canceled"];
 
 
-
         /**
          * Constructor
          * 
          */
         public function __construct() {
-            $this->get_projects_from_db();
+            //$this->get_projects_from_db();
         }
 
 
@@ -48,11 +47,9 @@ if ( !class_exists( 'Project_List' ) ) {
          * Get details from db
          * 
          */
-        private function get_projects_from_db() {
-            //Connect to Time Tracker Database
-            //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
+        private function get_projects_from_db($pstatus) {
             global $wpdb;
-            $sql_string = "SELECT tt_project.*, tt_client.Company, 
+            $sql_string = $wpdb->prepare("SELECT tt_project.*, tt_client.Company, 
                     NewTable.Minutes as LoggedMinutes,
                     NewTable.Hours as LoggedHours,
                     NewTable.LastWorked as LastEntry
@@ -64,11 +61,103 @@ if ( !class_exists( 'Project_List' ) ) {
                         MAX(StartTime) as LastWorked 
                     FROM tt_time LEFT JOIN tt_task ON tt_time.TaskID = tt_task.TaskID GROUP BY ProjectID) NewTable
                     ON tt_project.ProjectID = NewTable.ProjectID
-                ORDER BY tt_project.ProjectID DESC";
+                WHERE tt_project.PStatus = %s
+                ORDER BY tt_project.ProjectID DESC", $pstatus);
             
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            $this->all_projects = $sql_result;
+            return $sql_result;
+        }
+
+
+        /**
+         * Get table column order and table fields
+         * 
+         */
+        private function get_table_fields() {
+            $cols = [
+                "ID" => [
+                    "fieldname" => "ProjectID",
+                    "id" => "recurring-task-id",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Project" => [
+                    "fieldname" => "PName",
+                    "id" => "company-name",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Client" => [
+                    "fieldname" => "ClientID",
+                    "id" => "project-id",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Category" => [
+                    "fieldname" => "PCategory",
+                    "id" => "project-name",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Status" => [
+                    "fieldname" => "PStatus",
+                    "id" => "task-category",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Date Added" => [
+                    "fieldname" =>"PDateStarted",
+                    "id" => "recurring-task-name",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => "tt-align-right"
+                ],
+                "Last Worked" => [
+                    "fieldname" => "LastEntry",
+                    "id" => "frequency",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => "tt-align-right"
+                ],
+                "Due Date" => [
+                    "fieldname" => "PDueDate",
+                    "id" => "last-created",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "date",
+                    "class" => "tt-align-right"
+                ],
+                "Notes" => [
+                    "fieldname" => "PDetails",
+                    "id" => "end-repeat",
+                    "editable" => true,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ],
+                "Time Logged vs Estimate" => [
+                    "fieldname" => "TimeLoggedVsEstimate",
+                    "id" => "recurring-task-description",
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "long text",
+                    "class" => ""
+                ]
+            ];
+            return $cols;
         }
 
 
@@ -78,30 +167,119 @@ if ( !class_exists( 'Project_List' ) ) {
          */
         private function get_due_date_class($duedate, $projstatus) {
             //evaluate due date and current status, apply class based on result
-            if ($duedate == "0000-00-00") {
-                $due_date_formatted = "";
+            $due_date_formatted = tt_format_date_for_display($duedate, "date_only");
+            $due_date_object = \DateTime::createFromFormat("Y-m-d", $duedate);
+            
+            if ($due_date_formatted = "") {
                 $due_date_class = "no-date";
+            } elseif ($due_date_object <= new \DateTime() AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
+                $due_date_class = "late-date";
+            } elseif ($due_date_object <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
+                $due_date_class = "soon-date";
+            } elseif ($due_date_object > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
+                $due_date_class = "on-hold-date";
             } else {
-                $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
-                if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime() AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
-                    $due_date_class = "late-date";
-                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
-                    $due_date_class = "soon-date";
-                } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $projstatus<>"Canceled" AND $projstatus<>"Complete") {
-                    $due_date_class = "on-hold-date";
-                } else {
-                    $due_date_class = "ok-date";
-                }
+                $due_date_class = "ok-date";
             }
             return $due_date_class;
         }
+     
+        
+        /**
+         * Get Percentage of Time Logged vs Time Estimate
+         * 
+         */
+        private function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
+            //evaluate time worked vs estimate, format data to display and apply css class based on result
+
+            if (($time_estimate_formatted == 0 ) or ($time_estimate_formatted == null)) {
+                $percent_time_logged = "";
+                $time_estimate_details_for_table = "";
+            } else {
+                $percent_time_logged = round($hours_logged / $time_estimate_formatted * 100);
+                //$percent_time_logged = "<br/>" . round($hours_logged / $time_estimate_formatted * 100) . "%";
+                $time_estimate_details_for_table = " / " . $time_estimate_formatted . $percent_time_logged;
+            }     
+            return $percent_time_logged;
+        }
+
+
+        /**
+         * Iterate through data and add additional information for table
+         * 
+        **/
+        private function get_all_data_for_display($pstatus) {
+            $projects = $this->get_projects_from_db($pstatus);
+            foreach ($projects as $item) {
+                $duedate = sanitize_text_field($item->PDueDate);
+                $projstatus = sanitize_text_field($item->PStatus);
+
+                $project_details_button = "<button onclick='open_time_entries_for_project(\"" . esc_attr(sanitize_textarea_field($item->PName)) . "\")' id=\"project-" . esc_attr(sanitize_text_field($item->ProjectID))  . "\" class=\"open-project-detail chart-button\">View Time</button>";
+                $item->ProjectID = [
+                    "value" => $item->ProjectID,
+                    "button" => $project_details_button
+                ];
+
+                $due_date_class = $this->get_due_date_class($duedate, $projstatus);
+                $item->PDueDate = [
+                    "value" => $item->PDueDate,
+                    "class" => $due_date_class
+                ];
+
+                $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item->PTimeEstimate));
+                $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item->LoggedHours), sanitize_text_field($item->LoggedMinutes));
+                $percent_time_logged = $this->get_percent_time_logged($time_estimate_formatted, $hours_logged);
+                $time_worked_vs_estimate_class = get_time_estimate_class($percent_time_logged);
+                $item->TimeLoggedVsEstimate = [
+                    "value" => $hours_logged . " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%",
+                    "class" => $time_worked_vs_estimate_class
+                ];
+            }
+            return $projects;
+        }
+
+
+        /**
+         * Create HTML table for front end display
+         * 
+         */
+        public function create_table($pstatus) {
+            $fields = $this->get_table_fields();
+            $projects = $this->get_all_data_for_display($pstatus);
+            $args["class"] = ["tt-table", "project-list-table"];
+            $tbl = new Time_Tracker_Display_Table();
+            $table = $tbl->create_html_table($fields, $projects, $args, "tt_project", "ProjectID");
+            return $table;
+        }
+
+
+        /**
+         * Combine All Project Status Tables for One Page
+         * 
+         */
+        public function get_page_html() {
+            $html = "";
+            foreach ($this->status_order as $pstatus) {
+                $html .= "<h3>" . $pstatus . " Projects</h3>";
+                $html .= $this->create_table($pstatus);
+            }
+            return $html;   
+        }
+
+
+
+
+
+
+
+
 
 
         /**
          * Create HTML front facing table
          * 
          */
-        public function create_table() {
+        public function old_create_table() {
             
             $projects = $this->all_projects;
 
