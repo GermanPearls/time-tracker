@@ -228,6 +228,16 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                         $args["button"] = $item->$sql_fieldname["button"];
                     }
                 }
+                if ( array_key_exists("icon", $item->$sql_fieldname) ) {
+                    if (is_array($item->$sql_fieldname["icon"])) {
+                        $args["icon"] = [];
+                        foreach ($item->$sql_fieldname["icon"] as $ind_icon) {
+                            array_push($args["icon"], $ind_icon);
+                        }
+                    } else {
+                        $args["icon"] = $item->$sql_fieldname["icon"];
+                    }
+                }
             }
             return $args;
         }
@@ -242,7 +252,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             foreach ($data as $item) {
                 $row = $this->create_data_row($fields, $item, $table_name, $table_key);
                 $data_rows .= $row;
-            } // foreach row loop
+            }
             return $data_rows;
         }
 
@@ -278,6 +288,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $cell = $this->start_data($args);
             $cell .= $this->display_data_in_cell($details["type"], $display_value);
             $cell .= $this->add_button_to_cell($args);
+            $cell .= $this->add_icon_to_cell($args);
             $cell .= $this->close_data();
             return $cell;
         }
@@ -301,6 +312,24 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             return $button;            
         }
 
+
+        /**
+         * Add Icon to Cell
+         * 
+         */
+        private function add_icon_to_cell($args) {
+            $icon = "";
+            if (array_key_exists("icon", $args)) {
+                if (is_array($args["icon"])) {
+                    foreach ($args["icon"] as $ind_icon) {
+                        $icon .= $ind_icon;
+                    }
+                } else {
+                    $icon .= $args["icon"];
+                }
+            }
+            return $icon;            
+        }
 
         /**
          * Create Table for HTML Output
