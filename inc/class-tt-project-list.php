@@ -184,25 +184,6 @@ if ( !class_exists( 'Project_List' ) ) {
             return $due_date_class;
         }
      
-        
-        /**
-         * Get Percentage of Time Logged vs Time Estimate
-         * 
-         */
-        private function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
-            //evaluate time worked vs estimate, format data to display and apply css class based on result
-
-            if (($time_estimate_formatted == 0 ) or ($time_estimate_formatted == null)) {
-                $percent_time_logged = "";
-                $time_estimate_details_for_table = "";
-            } else {
-                $percent_time_logged = round($hours_logged / $time_estimate_formatted * 100);
-                //$percent_time_logged = "<br/>" . round($hours_logged / $time_estimate_formatted * 100) . "%";
-                $time_estimate_details_for_table = " / " . $time_estimate_formatted . $percent_time_logged;
-            }     
-            return $percent_time_logged;
-        }
-
 
         /**
          * Iterate through data and add additional information for table
@@ -228,7 +209,7 @@ if ( !class_exists( 'Project_List' ) ) {
 
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item->PTimeEstimate));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item->LoggedHours), sanitize_text_field($item->LoggedMinutes));
-                $percent_time_logged = $this->get_percent_time_logged($time_estimate_formatted, $hours_logged);
+                $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
                 $time_worked_vs_estimate_class = get_time_estimate_class($percent_time_logged);
                 $item->TimeLoggedVsEstimate = [
                     "value" => $hours_logged . " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%",

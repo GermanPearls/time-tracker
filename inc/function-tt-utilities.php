@@ -74,8 +74,8 @@ function tt_convert_to_decimal_time($hours, $minutes) {
         $minutes = $minutes - ($minutes_to_hours * 60);
     } //if minutes over 60    
             
-    $minutes_decimal = round($minutes/60,2);
-    $time_decimal_string = $hours + $minutes_decimal;
+    $minutes_decimal = $minutes/60;
+    $time_decimal_string = round($hours + $minutes_decimal,2);
     return $time_decimal_string;
 }
 
@@ -156,13 +156,20 @@ function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
 
     if (($time_estimate_formatted == 0 ) or ($time_estimate_formatted == null)) {
         $percent_time_logged = "";
-        $time_estimate_details_for_table = "";
+        $details_for_display = "";
     } else {
         $percent_time_logged = round($hours_logged / $time_estimate_formatted * 100);
         //$percent_time_logged = "<br/>" . round($hours_logged / $time_estimate_formatted * 100) . "%";
-        $time_estimate_details_for_table = " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%";
+        $details_for_display = " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%<br/>";
+
+		if ($percent_time_logged > 100) {
+			$percent_time_logged = 100;
+		}
+		$details_for_display .= "<div style='display:inline-block;width:100px;height:20px;border:1px solid black;'>";
+		$details_for_display .= "<div style='background-color:green;height:20px;float:left;width:" . $percent_time_logged . "px;'></div>";
+		$details_for_display .= "<div style='background-color:red;height:20px;'></div></div>"; 		
     }     
-    return $percent_time_logged;
+    return $details_for_display;
 }
 
 

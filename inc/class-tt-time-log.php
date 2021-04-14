@@ -246,7 +246,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                     "id" => "time-logged-vs-estimate",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "date",
+                    "type" => "long text",
                     "class" => "tt-align-right"
                 ],
                 "Status" => [
