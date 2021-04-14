@@ -160,7 +160,7 @@ function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
     } else {
         $percent_time_logged = round($hours_logged / $time_estimate_formatted * 100);
         //$percent_time_logged = "<br/>" . round($hours_logged / $time_estimate_formatted * 100) . "%";
-        $time_estimate_details_for_table = " / " . $time_estimate_formatted . $percent_time_logged;
+        $time_estimate_details_for_table = " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%";
     }     
     return $percent_time_logged;
 }

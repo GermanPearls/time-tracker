@@ -232,7 +232,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
                 $time_worked_vs_estimate_class = get_time_estimate_class($percent_time_logged);
                 $item->TimeLoggedVsEstimate = [
-                    "value" => $hours_logged . " / " . $time_estimate_formatted . "<br/>" . $percent_time_logged . "%",
+                    "value" => $hours_logged . $percent_time_logged,
                     "class" => $time_worked_vs_estimate_class
                 ];
             }
