@@ -88,7 +88,7 @@ if ( !class_exists( 'Task_List' ) ) {
                     "id" => "task-type",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "long text",
                     "class" => ""
                 ],
                 "Task" => [
@@ -220,6 +220,15 @@ if ( !class_exists( 'Task_List' ) ) {
                         $task_details_button
                     ]
                 ];
+
+                if ( (sanitize_text_field($item->RecurringTaskID) != null) and (sanitize_text_field($item->RecurringTaskID) != "") ) {
+                    $icon = tt_add_recurring_task_icon();
+                    $task_category = $item->TCategory;
+                    $item->TCategory = [
+                        "value" => $task_category,
+                        "icon" => $icon
+                    ];                    
+                }
 
                 $due_date_class = get_due_date_class($duedate, $taskstatus);
                 $item->TDueDate = [
