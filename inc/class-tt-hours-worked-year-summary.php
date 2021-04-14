@@ -97,7 +97,6 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                         } //total hours from each detailed record inside billto name array
                         //save the total from the last bill to in a new array
                         $workmonth = sanitize_text_field($item['WorkMonth']);
-                        $billto = sanitize_text_field($item['BillTo']);
                         $decimal_time_worked = tt_convert_to_decimal_time($totalhours, $totalminutes);
                         $totaled_time[$workmonth][$billto]['TimeWorked'] = round($decimal_time_worked,1);
                         $totaled_time[$workmonth][$billto]['TimeInvoiced'] = round($billedtime,1);
@@ -140,6 +139,8 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                     } //for each billto group
                 } //for each month array
             } //if not empty
+            //put in alphabetical order
+            sort($bill_to_names);
             //make sure Total appears last in the array
             $bill_to_names[] = 'Total';
             return $bill_to_names;

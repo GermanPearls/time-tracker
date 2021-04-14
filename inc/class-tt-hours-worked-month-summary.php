@@ -158,6 +158,8 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     } //for each billto group
                 } //for each month array
             } //if array isn't empty
+            //put in alphabetical order
+            sort($bill_to_names);
             //make sure Total appears last in the array
             $bill_to_names[] = 'Total';
             return $bill_to_names;
