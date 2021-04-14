@@ -72,7 +72,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          */
         private function create_sql_string() {   
             global $wpdb;                      
-            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.ProjectID, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
+            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
@@ -210,7 +210,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                     "class" => ""
                 ],
                 "Type" => [
-                    "fieldname" => "TaskType",
+                    "fieldname" => "TCategory",
                     "id" => "task-type",
                     "editable" => false,
                     "columnwidth" => "",
@@ -318,10 +318,11 @@ if ( !class_exists( 'Time_Log' ) ) {
             $time_entries = $this->get_time_log_from_db();
 
             foreach ($time_entries as $item) {
-                if (sanitize_text_field($item->RecurringTaskID) != null) {
+                if ( (sanitize_text_field($item->RecurringTaskID) != null) and (sanitize_text_field($item->RecurringTaskID) != "") ) {
                     $icon = tt_add_recurring_task_icon();
-                    $item->TaskType = [
-                        "value" => "",
+                    $task_category = $item->TCategory;
+                    $item->TCategory = [
+                        "value" => $task_category,
                         "icon" => $icon
                     ];                    
                 }
