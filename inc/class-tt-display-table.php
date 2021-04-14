@@ -320,6 +320,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         private function add_icon_to_cell($args) {
             $icon = "";
             if (array_key_exists("icon", $args)) {
+                $icon .= "<br/>";
                 if (is_array($args["icon"])) {
                     foreach ($args["icon"] as $ind_icon) {
                         $icon .= $ind_icon;
