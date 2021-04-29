@@ -331,22 +331,23 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             }
             return $icon;            
         }
-
-        /**
-         * Create Table for HTML Output
+	
+		
+		/**
+         * Create Entire HTML Table
          * 
          */
         public function create_html_table($fields, $data, $table_args, $table_name, $table_key) {
             if ($data) {
-                $table = "<div style='font-weight:bold; text-align:center;'>Note: Gray shaded cells can't be changed.</div>";
-                $table .= $this->start_table($table_args);
-                $table .= $this->create_header_row($fields);
-                $table .= $this->create_data_rows($fields, $data, $table_name, $table_key);
-                $table .= $this->close_table();
-            } else {
-                $table = "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
+				$html_out = "<div style='font-weight:bold; text-align:center; padding-bottom: 10px;'>Note: Gray shaded cells can't be changed.</div>";
+				$html_out .= $this->start_table($table_args);
+				$html_out .= $this->create_header_row($fields);
+				$html_out .= $this->create_data_rows($fields, $data, $table_name, $table_key);
+				$html_out .= $this->close_table();
+			} else {
+                $html_out .= "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
             }
-            return $table;
+            return $html_out;
         }	
 
     }  //close class

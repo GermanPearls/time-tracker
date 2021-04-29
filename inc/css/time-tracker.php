@@ -212,6 +212,33 @@ button.clear-error:hover {
     text-decoration: none;
 }
 
+/********** Page Navigation Buttons **********/
+.tt-pagination-nav a, .tt-pagination-nav .current {
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    appearance: button;
+    padding: 5px 10px;
+	margin: 5px;
+    box-shadow: 5px 5px 8px #888888;
+    font-size: 1.1em;
+    line-height: 1.1em;
+    text-decoration: none;
+}
+
+.tt-pagination-nav a {
+    background-color: <?php echo $brand_color; ?>;
+    color: <?php echo $text_color_light; ?>;
+}
+
+.tt-pagination-nav a:hover {
+	color: <?php echo $brand_color_minor; ?>;
+}
+
+.tt-pagination-nav .current {
+    background-color: <?php echo $brand_color_minor; ?>;
+    color: <?php echo $text_color_dark; ?>;
+}
+
 /****************************/
 /********** Tables **********/
 /****************************/
@@ -329,26 +356,25 @@ td#time-worked div {
     margin: 0 auto;
 }
 
-tr.over-time-estimate td#time-worked {
+td#time-worked.over-time-estimate  {
     color: red;
     font-weight: bold;
 }
 
-tr.late-date td#due-date {
+td#due-date.late-date {
     background-color: rgba(255, 51, 0, 0.5);  //transparent red
     color: #000000;
 }
 
-tr.soon-date td#due-date {
+td#due-date.soon-date {
     background-color: rgba(255, 153, 51,0.5);  //transparent orange
     color: #000000;
 }
 
-tr.on-hold-date {
+td.on-hold-date {
     background-color: rgba(136, 132, 126,0.5);  //transparent gray
     color: #000000;
 }
-
 
 /***************************/
 /********** Forms **********/
@@ -376,6 +402,12 @@ tr.on-hold-date {
 }
 
 /********** Form for Fitlering **********/
+.filter-time-form {
+	border: 1px solid lightgray;
+	padding: 10px;
+	margin: 20px 0;
+}
+
 .filter-time-form form, .filter-time-form p {
 	display: inline-block;
 	padding-left: 10px;

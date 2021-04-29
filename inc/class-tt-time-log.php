@@ -230,7 +230,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                     "id" => "start-time",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "date",
+                    "type" => "date and time",
                     "class" => "tt-align-right"
                 ],
                 "End Time" => [
@@ -238,7 +238,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                     "id" => "end-time",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "date and time",
                     "class" => ""
                 ],
                 "Time Logged Vs Estimate" => [

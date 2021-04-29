@@ -154,7 +154,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Clients",
                 "Parent" => $parent,
                 "Slug" => "clients",
-                "Content" => "[tt_client_list_table]"
+                "Content" => "[tt_client_list_table]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -163,7 +166,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Client",
                 "Parent" => $parent,
                 "Slug" => "new-client",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Client") . "\" title=\"Add New Client\" html_class=\"tt-form\"]"
+                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Client") . "\" title=\"Add New Client\" html_class=\"tt-form\"]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -172,7 +178,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Project",
                 "Parent" => $parent,
                 "Slug" => "new-project",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Project") . "\" title=\"Add New Project\" html_class=\"tt-form\"]"
+                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Project") . "\" title=\"Add New Project\" html_class=\"tt-form\"]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -181,7 +190,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Recurring Task",
                 "Parent" => $parent,
                 "Slug" => "new-recurring-task",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Recurring Task") . "\" title=\"Add New Recurring Task\" html_class=\"tt-form\"]"
+                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Recurring Task") . "\" title=\"Add New Recurring Task\" html_class=\"tt-form\"]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -190,7 +202,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Task",
                 "Parent" => $parent,
                 "Slug" => "new-task",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Task") . "\" title=\"Add New Task\" html_class=\"tt-form\"]"
+                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Task") . "\" title=\"Add New Task\" html_class=\"tt-form\"]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -199,7 +214,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Time Entry",
                 "Parent" => $parent,
                 "Slug" => "new-time-entry",
-                "Content" => "<button class=\"end-work-timer float-right no-border-radius\" onclick=\"update_end_timer()\">Set End Time</button>[contact-form-7 id=\"" . tt_get_form_id("Add Time Entry") . "\" title=\"Add Time Entry\" html_class=\"tt-form\"]"
+                "Content" => "<button class=\"end-work-timer float-right no-border-radius\" onclick=\"update_end_timer()\">Set End Time</button>[contact-form-7 id=\"" . tt_get_form_id("Add Time Entry") . "\" title=\"Add Time Entry\" html_class=\"tt-form\"]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -208,7 +226,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Open Task List",
                 "Parent" => $parent,
                 "Slug" => "open-task-list",
-                "Content" => "[tt_open_task_list_table]"
+                "Content" => "[tt_open_task_list_table]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -217,7 +238,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Pending Time",
                 "Parent" => $parent,
                 "Slug" => "pending-time",
-                "Content" => "[tt_pending_time_table]"
+                "Content" => "[tt_pending_time_table]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -226,7 +250,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Project List",
                 "Parent" => $parent,
                 "Slug" => "projects",
-                "Content" => "[tt_project_list_table]"
+                "Content" => "[tt_project_list_table]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -235,7 +262,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Task Detail",
                 "Parent" => $parent,
                 "Slug" => "task-detail",
-                "Content" => "[tt_show_task_details]"
+                "Content" => "[tt_show_task_details]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -244,7 +274,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Task List",
                 "Parent" => $parent,
                 "Slug" => "task-list",
-                "Content" => "[tt_task_list_table]"
+                "Content" => "[tt_task_list_table]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -253,7 +286,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Recurring Task List",
                 "Parent" => $parent,
                 "Slug" => "recurring-task-list",
-                "Content" => "[tt_recurring_task_list_table]"
+                "Content" => "[tt_recurring_task_list_table]",
+				"Paginate" => array(
+					"Flag" => false
+				)
             );
             array_push($details_all, $details);
 
@@ -262,7 +298,14 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Log",
                 "Parent" => $parent,
                 "Slug" => "time-log",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"][tt_time_log_table]"
+                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"][tt_time_log_table]",
+				"Paginate" => array(
+					"Flag" => true,
+					"RecordsPerPage" => 100,
+					"PreviousText" => '« Newer',
+					"NextText" => 'Older »',
+					"TotalRecordsQuery" => 'SELECT COUNT(*) FROM tt_time'
+				)
             );
             array_push($details_all, $details);
             

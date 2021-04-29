@@ -336,6 +336,51 @@ function tt_add_recurring_task_icon() {
 
 
 /**
+ * Check for Pagination
+ * 
+ */
+function check_for_pagination() {
+	$pages = new Time_Tracker_Activator_Pages();
+	$pages_detail = $pages->create_subpage_details_array(0);
+	$slug = get_post_field( 'post_name');
+	$current_page = null;
+	$i = 0;
+	do {
+		if ($pages_detail[$i]['Slug'] == $slug) {
+			$current_page = $i;
+		}
+		$i = $i + 1;
+	} while ($current_page == null and $i <= count($pages_detail) );
+	$pagination = $pages_detail[$current_page]['Paginate'];
+	if ($pagination['Flag'] == true) {
+		global $wpdb;
+		$sql_string = sanitize_text_field($pagination['TotalRecordsQuery']);
+		$total_records = $wpdb->get_var($sql_string);
+		$pagination['RecordCount'] = $total_records;
+	}
+	return $pagination;
+}
+
+
+/**
+ * Add Pagination to Page
+ * 
+ */
+function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext, $nexttext) {
+	//add_pagination($data_count, $records_in_table, $current_page_num, '« Newer', '« Older')
+	global $wp_query;
+	$args = array(
+		'total' => ceil($data_count/$max_per_page),
+		'current' => $current_page_num,
+		'prev_text' => $prevtext,
+		'next_text' => $nexttext,
+		'mid_size' => 10
+	);
+	echo paginate_links($args);
+}
+
+
+/**
  * Record to sql_log on server, and save to options table to alert user
  * 
  */
