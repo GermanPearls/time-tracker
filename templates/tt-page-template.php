@@ -37,6 +37,17 @@ if ($pagination['Flag'] == true) {
 	</div>
 <!----------end sidebar section----------->
 
+<!----------begin mobile menu section----------->
+	<div class="tt-mobile-menu">
+		<button class="tt-mobile-menu-button" onclick="tt_open_mobile_menu()">Time Tracker Menu</button>
+		<!-- Navigation Links -->
+		<div id="tt-nav-links">
+			<?php
+			include(TT_PLUGIN_DIR . '/templates/tt-sidebar.php')
+			?>
+		</div>
+	</div>
+<!----------end mobile menu section----------->
 
 <!----------begin primary section----------->
 	<div id="primary" class="content-area tt-content">

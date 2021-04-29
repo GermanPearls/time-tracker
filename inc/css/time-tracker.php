@@ -111,12 +111,81 @@ div.tt-sidebar {
 
 .tt-sidebar-header {
   font-size: 1.3em;
+  display: block;
+  padding: 5px 10px;
 }
 
 .tt-sidebar-hr {
   margin: 10px;
 }
 
+.tt-mobile-menu, .tt-mobile-menu a.tt-sidebar-button, .tt-mobile-menu .tt-sidebar-header, .tt-mobile-menu .tt-sidebar-hr {
+	text-align: center;
+}
+
+.tt-mobile-menu-button {
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    appearance: button;
+    padding: 5px 20px;
+    background-color: <?php echo $brand_color; ?>;
+    box-shadow: 5px 5px 8px #888888;
+    color: <?php echo $text_color_light; ?>;
+    font-size: 1.2em;
+    line-height: 1.2em;
+    text-decoration: none;
+	text-align: center;
+}
+
+.tt-mobile-menu-button:after {
+  clear:both;
+}
+
+div #tt-nav-links {
+  display: none;
+  margin-top: 20px;
+  background-color: lightgray;
+}
+
+@media only screen and (min-width: 768px) {
+	.tt-mobile-menu {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	div.tt-sidebar {
+		display: none;
+  	}
+
+	.content-area {
+		width: 100%;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+	}
+
+	div#primary.content-area.tt-content {
+		width: 100%;
+	}
+
+	.content-area .site {
+		margin:0px;
+	}
+
+	.full-width-content .container.grid-container {
+		padding: 10px;
+	}
+
+	h1.page-title.tt-page-title {
+		padding-left: 0px;
+	}
+
+    header.page-header.tt-page-header {
+      padding-top: 0px;
+      padding-bottom: 0px;
+	}
+}
 
 /*****************************/
 /********** Buttons **********/
@@ -159,7 +228,7 @@ a.tt-sidebar-button {
     width: 75%; /*of sidebar*/
     margin: 10px auto;
 }
-  
+
 button.clear-error {
     background-color: <?php echo $neutral_background; ?>;
     color: <?php echo $text_color_dark; ?>;
@@ -238,6 +307,16 @@ button.clear-error:hover {
     background-color: <?php echo $brand_color_minor; ?>;
     color: <?php echo $text_color_dark; ?>;
 }
+
+@media only screen and (max-width: 768px) {
+  a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, button.clear-error {
+    padding: 5px;
+  }
+
+  .tt-buton a {
+	border-radius: 0;
+  }
+} 
 
 /****************************/
 /********** Tables **********/
@@ -418,23 +497,27 @@ td.on-hold-date {
 .filter-time-form .wpcf7-date {
 	padding-top: 5px;
 	padding-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .filter-time-form #client-name, .filter-time-form #time-notes {
-    width: 300px;
+    max-width: 300px;
+}
+
+.filter-time-form #task-name {
+    max-width: 700px;
+    margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 768px) {
-    .filter-time-form #task-name {
+    .filter-time-form #task-name, .filter-time-form #client-name, .filter-time-form #time-notes, .filter-time-form #project-name {
         width: 100%;
         margin-bottom: 20px;
     }
-}
-@media only screen and (min-width: 768px) {
-    .filter-time-form #task-name {
-        width: 700px;
-        margin-bottom: 20px;
-    }
+
+    .filter-time-form #first-date, .filter-time-form #last-date {
+       width: calc(100% - 20px);
+	}
 }
 
 
