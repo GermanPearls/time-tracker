@@ -121,7 +121,7 @@ if ( !class_exists( 'Project_List' ) ) {
                     "id" => "recurring-task-name",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "long text",
+                    "type" => "date",
                     "class" => "tt-align-right"
                 ],
                 "Last Worked" => [
@@ -129,7 +129,7 @@ if ( !class_exists( 'Project_List' ) ) {
                     "id" => "frequency",
                     "editable" => false,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "date",
                     "class" => "tt-align-right"
                 ],
                 "Due Date" => [
