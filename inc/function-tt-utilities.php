@@ -88,7 +88,7 @@ function tt_convert_to_decimal_time($hours, $minutes) {
  */
 function tt_format_date_for_display($date_entry, $type) {
     //if date is empty - return nothing
-    if ( ($date_entry == null) or ($date_entry == "0000-00-00%") or ($date_entry == "0000-00-00") ) {
+    if ( ($date_entry == "") or ($date_entry == "0000-00-00%") or ($date_entry == "0000-00-00") or ($date_entry == "0000-00-00 00:00:00")) {
         return "";
     } else {    
         //check if it's only a date coming in, create date object
