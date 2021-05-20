@@ -16,8 +16,9 @@ use \DateTime;
 use \DateTimeImmutable;
 use \DateTimeZone;
 use \DateTimeImmutable\modify as modify;
+use \DateTimeImmutable\createFromMutable as createFromMutable;
 
- defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
+defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
  * If class doesn't already exist
@@ -55,23 +56,28 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
          * 
          */
         public function create_new_tasks() {
-            $today = new DateTime();
+            $today = new \DateTimeImmutable();
             $recurring_tasks = $this->get_recurring_tasks_from_db();
+			log_cron('recurring tasks is ' . print_r($recurring_tasks, true));
             if ($recurring_tasks == null) {
+				log_cron('no recurring tasks returned from db query');
                 return;
             }
 
             foreach ($recurring_tasks as $task) {      
                 $tz = (get_option('timezone_string')) ? new DateTimeZone(get_option('timezone_string')) : new DateTimeZone('UTC');  
-                if ($task->LastCreated == '0000-00-00') {
-                    $today = new DateTime(null,$tz);
-                    $last_month = new DateTime($today->modify('end of last month'), $tz);
-                    $last_created_obj = new DateTimeImmutable($last_month, $tz);
+                if ($task->LastCreated == "0000-00-00") {
+					log_cron('today is ' . print_r($today, true));
+                    $last_created_obj = $today->modify('last day of last month');
                 } else {
                     $last_created_obj = date_create_immutable_from_format('Y-m-d', trim($task->LastCreated), $tz);
                 }
+				log_cron('last created object is ' . print_r($last_created_obj, true));
                 $last_created_plus_week = $last_created_obj->modify('next Sunday');
                 $last_created_plus_month = $last_created_obj->modify('first day of next month');
+				log_cron('last day created plus month is ' . print_r($last_created_plus_month, true));
+				$tfresult = $today >= $last_created_plus_month;
+				log_cron('today is greater than last created plus month returns ' . print_r($tfresult, true));
 
                 /*
                  * For weekly tasks, if it's been more than a week since the last task was created, create the next Sunday's task
@@ -99,7 +105,8 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                  * 
                  */
                 } elseif ( (sanitize_text_field($task->Frequency) == "Monthly") && ($today >= $last_created_plus_month)) {
-                    $adjust = 'last day of month';
+                    log_cron('begin creating new task for ' . $task->RTName);
+					$adjust = 'last day of month';
                     $adjust = strtotime($adjust);
                     $due_date = date_format($last_created_plus_month->modify('last day of this month'), 'Y-m-d');
                     $project = (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID);
@@ -176,6 +183,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 
             $sql_string = $wpdb->prepare('SELECT * FROM `tt_recurring_task` WHERE (EndRepeat = %s) OR (EndRepeat >= %s)', "0000-00-00", $today_formatted_for_sql);    
             $result = $wpdb->get_results($sql_string);
+			//log_cron('sql result is ' . print_r($result, true) . ' and ' . count($result) . ' records were returned');
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return $result;
         }
