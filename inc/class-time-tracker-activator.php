@@ -81,7 +81,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }
 
             if ( ! (get_option('time-tracker')) ) {
-                add_option('time-tracker', array('bill-to-names'=>'', 'work-categories'=>'', 'client-categories'=>'', 'client-sub-categories'=>''));
+                add_option('time-tracker', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized'));
             }
 		}
 		
