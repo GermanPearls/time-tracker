@@ -56,7 +56,10 @@ if ( ! class_exists('Time_Tracker') ) {
      */  
     private function setup_constants() {
       //define('TT_DB_NAME', DB_NAME . "_tt"); //time tracker database name
-
+      
+      //TT Home - Allow for WP Install in Sub-Directories
+      define('TT_HOME', home_url() . '/time-tracker/');
+      
       //Plugin Server Directory Path - for php files
       define('TT_PLUGIN_DIR', plugin_dir_path(__DIR__));
       define('TT_PLUGIN_DIR_INC', plugin_dir_path(__FILE__));
@@ -104,6 +107,7 @@ if ( ! class_exists('Time_Tracker') ) {
 
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-display-message-check-client-added.php');
+      include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-display-message-check-task-added.php');
 
       include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
 
