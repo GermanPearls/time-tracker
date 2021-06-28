@@ -46,9 +46,13 @@ if ( ! class_exists('Time_Tracker_Shortcode_Error_Alert') ) {
          * 
          */
         public function error_alert_shortcode() {
-            $alert = new Time_Tracker_SQL_Result_Display_Message;
-            $message = $alert->display_message();
-            return $message;
+            $sql_alert = new Time_Tracker_SQL_Result_Display_Message;
+            $sql_message = $sql_alert->display_message();
+
+            $client_alert = new Time_Tracker_Display_Message_Check_Client_Added;
+            $client_message = $client_alert->display_message();
+
+            return $sql_message . "<br>" . $client_message;
         }
     
 
