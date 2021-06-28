@@ -276,7 +276,11 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Slug" => "task-list",
                 "Content" => "[tt_task_list_table]",
 				"Paginate" => array(
-					"Flag" => false
+					"Flag" => true,
+					"RecordsPerPage" => 100,
+					"PreviousText" => '« Newer',
+					"NextText" => 'Older »',
+					"TotalRecordsQuery" => 'SELECT COUNT(*) FROM tt_task'
 				)
             );
             array_push($details_all, $details);

@@ -71,8 +71,8 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function create_sql_string() {   
-            global $wpdb;                      
-            $selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
+            global $wpdb;		
+			$selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
@@ -161,12 +161,16 @@ if ( !class_exists( 'Time_Log' ) ) {
             }
 
             $orderby = "ORDER BY tt_time.StartTime DESC";
-
-            if ($wherecriteria == "") {
-                $sql_string = $selectfrom . " " . $orderby;                
+			
+			$record_numbers = get_record_numbers_for_pagination_sql_query();	
+			$subset_for_pagination = "LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
+            
+			if ($wherecriteria == "") {
+                $sql_string = $selectfrom . " " . $orderby . " " . $subset_for_pagination;                
             } else {
-                $sql_string = $selectfrom . " " . $wherecriteria . " " . $orderby;
+                $sql_string = $selectfrom . " " . $wherecriteria . " " . $orderby . " " . $subset_for_pagination;
             }
+			//var_dump($sql_string);
             return $sql_string;
         }
 

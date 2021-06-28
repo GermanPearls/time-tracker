@@ -345,7 +345,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
 				$html_out .= $this->create_data_rows($fields, $data, $table_name, $table_key);
 				$html_out .= $this->close_table();
 			} else {
-                $html_out .= "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
+                $html_out = "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
             }
             return $html_out;
         }	

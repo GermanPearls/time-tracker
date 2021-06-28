@@ -363,12 +363,40 @@ function check_for_pagination() {
 
 
 /**
+ * Check for Pagination - Records Per Page
+ * 
+ */
+function get_pagination_qty_per_page() {
+	$pages = new Time_Tracker_Activator_Pages();
+	$pages_detail = $pages->create_subpage_details_array(0);
+	$slug = get_post_field( 'post_name');
+	$current_page = null;
+	$i = 0;
+	do {
+		if ($pages_detail[$i]['Slug'] == $slug) {
+			$current_page = $i;
+		}
+		$i = $i + 1;
+	} while ($current_page == null and $i <= count($pages_detail) );
+	$pagination = $pages_detail[$current_page]['Paginate'];
+	if ($pagination['Flag'] == true) {
+		return $pagination['RecordsPerPage'];
+	} else {
+		return 1000;
+	}
+}
+
+
+/**
  * Add Pagination to Page
  * 
  */
 function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext, $nexttext) {
 	//add_pagination($data_count, $records_in_table, $current_page_num, '« Newer', '« Older')
 	global $wp_query;
+	if (is_null($max_per_page) or $max_per_page == 0) {
+		$max_per_page = 100;
+	}
 	$args = array(
 		'total' => ceil($data_count/$max_per_page),
 		'current' => $current_page_num,
@@ -379,6 +407,29 @@ function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext
 	echo paginate_links($args);
 }
 
+
+/**
+ * Get Record Numbers Based on Page Number for Pagination
+ * 
+ */
+function get_record_numbers_for_pagination_sql_query() {
+	$records_per_page = get_pagination_qty_per_page();
+	
+	$page_num = basename($_SERVER['REQUEST_URI']);
+	if (!(is_numeric($page_num))) {
+		$records = array(
+			'limit' => $records_per_page,
+			'offset' => 0
+		);
+	} else {
+		$records = array(
+			'limit' => $records_per_page,
+			'offset' => ($page_num*100)-101
+		);
+	}
+	return $records;
+}
+	
 
 /**
  * Record to sql_log on server, and save to options table to alert user

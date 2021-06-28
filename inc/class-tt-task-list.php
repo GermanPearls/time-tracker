@@ -163,8 +163,9 @@ if ( !class_exists( 'Task_List' ) ) {
                 LEFT JOIN (SELECT TaskID, SUM(Minute(TIMEDIFF(EndTime, StartTime))) as Minutes, SUM(Hour(TIMEDIFF(EndTime, StartTime))) as Hours FROM tt_time GROUP BY TaskID) NewTable
                     ON tt_task.TaskID = NewTable.TaskID
                 WHERE tt_task.TStatus <> \"Closed\" AND tt_task.TStatus <> \"Canceled\" AND tt_task.TStatus <> \"Complete\"
-                ORDER BY tt_task.TDueDate ASC, tt_task.TDateAdded ASC";
-            $sql_result = $wpdb->get_results($sql_string);
+                ORDER BY tt_task.TDueDate ASC, tt_task.TDateAdded ASC";			
+            
+			$sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);            
             return $sql_result;
         }
@@ -188,7 +189,12 @@ if ( !class_exists( 'Task_List' ) ) {
                     ON tt_task.ProjectID = tt_project.ProjectID
                 LEFT JOIN (SELECT TaskID, SUM(Minute(TIMEDIFF(EndTime, StartTime))) as Minutes, SUM(Hour(TIMEDIFF(EndTime, StartTime))) as Hours FROM tt_time GROUP BY TaskID) NewTable
                     ON tt_task.TaskID = NewTable.TaskID
-                ORDER BY tt_task.TaskID DESC";            
+                ORDER BY tt_task.TaskID DESC";    
+			
+			$record_numbers = get_record_numbers_for_pagination_sql_query();	
+			$subset_for_pagination = "LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
+			$sql_string .= " " . $subset_for_pagination;
+			
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return $sql_result;
