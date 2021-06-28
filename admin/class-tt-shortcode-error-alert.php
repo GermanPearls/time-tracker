@@ -52,7 +52,12 @@ if ( ! class_exists('Time_Tracker_Shortcode_Error_Alert') ) {
             $client_alert = new Time_Tracker_Display_Message_Check_Client_Added;
             $client_message = $client_alert->display_message();
 
-            return $sql_message . "<br>" . $client_message;
+            if ($client_message == "") {
+                $task_alert = new Time_Tracker_Display_Message_Check_Task_Added;
+                $task_message = $task_alert->display_message();
+            }
+
+            return $sql_message . "<br>" . $client_message . "<br>" . $task_message;
         }
     
 

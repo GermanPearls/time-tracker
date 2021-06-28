@@ -583,7 +583,12 @@ td.on-hold-date {
     padding-top: 20px;
 }
 
-#delete-confirm > button {
+div#no-client-alert, div#no-task-alert {
+    padding: 20px;
+    border: 2px solid <?php echo $alert_color; ?>;
+}
+
+'#delete-confirm > button {
     background-color: <?php echo $alert_color; ?>;
     border-color: <?php echo $alert_color; ?>;
 }

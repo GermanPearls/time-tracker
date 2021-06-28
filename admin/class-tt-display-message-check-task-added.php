@@ -1,8 +1,8 @@
 <?php
 /**
- * Time Tracker Class Display Message - Alert User if No Task Has Been Added
- * 
- * Alert users who are trying to enter time that a task needs to be added first
+ * Time Tracker Class Display Message - Alert User if No Client's Added
+ *
+ * Alert users on installation that a client needs to be entered to start using
  * 
  * @since 1.0
  * 
@@ -17,29 +17,30 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  * Check if class exists
  * 
  */
-if ( ! class_exists('Time_Tracker_Display_Message_Check_Task_Added') ) {
+if ( ! class_exists('Time_Tracker_Display_Message_Check_Client_Added') ) {
 
 
     /**
      * Create Class
      * 
      */
-    class Time_Tracker_Display_Message_Check_Task_Added {
+    class Time_Tracker_Display_Message_Check_Client_Added {
 
 
         /**
          * Class variables
          * 
          */
-        private $task_count;
+        private $client_count;
         
 
         /**
-         * Constructor - get task count from db
+         * Constructor - get client count from db
          * 
          */
         public function __construct() {
-            $this->task_count = $this->query_db_for_task_count();
+            $this->client_count = $this->query_db_for_client_count();
+            //$this->result = $option['result'];
         }
 
 
@@ -53,9 +54,9 @@ if ( ! class_exists('Time_Tracker_Display_Message_Check_Task_Added') ) {
 
 
         private function get_message() {
-            if ($this->task_count < 1) {
-                $display = "<div class=\"error-message\" id=\"no-task-alert\">";
-                $display .= "NOTE: You must add a task before entering time. Use the 'New Task' button in the menu or <a href='" . TT_HOME . "new-task/'>click here</a>.";
+            if ($this->client_count < 1) {
+                $display = "<div class=\"error-message\" id=\"no-client-alert\">";
+                $display .= "Add a Client to Get Started. Use the 'Add Client' button in the menu or <a href='" . TT_HOME . "new-client/'>click here</a>.";
                 $display .= "</div>";
             } else {
                 $display = "";
@@ -65,14 +66,14 @@ if ( ! class_exists('Time_Tracker_Display_Message_Check_Task_Added') ) {
 
 
         /**
-         * Query db to get task count
+         * Query db to get client count
          * 
          */
-        private function query_db_for_task_count() {
+        private function query_db_for_client_count() {
             global $wpdb;
-            $num_tasks = $wpdb->get_var($this->task_count_sql_string());
+            $num_clients = $wpdb->get_var($this->client_count_sql_string());
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $num_tasks;
+            return $num_clients;
 
         }
 
@@ -81,8 +82,8 @@ if ( ! class_exists('Time_Tracker_Display_Message_Check_Task_Added') ) {
          * Create sql string to query db
          * 
          */
-        private function task_count_sql_string() {
-            $sql_str = "SELECT COUNT(TaskID) AS task_count FROM tt_task";
+        private function client_count_sql_string() {
+            $sql_str = "SELECT COUNT(ClientID) AS client_count FROM tt_client";
             return $sql_str;            
         }
 
