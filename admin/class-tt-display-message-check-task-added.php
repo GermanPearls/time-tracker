@@ -4,7 +4,7 @@
  *
  * Alert users on installation that a client needs to be entered to start using
  * 
- * @since 1.0
+ * @since 1.5.0
  * 
  */
 

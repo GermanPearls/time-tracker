@@ -4,7 +4,7 @@
  * 
  * Alert users who are trying to enter time that a task needs to be added first
  * 
- * @since 1.0
+ * @since 1.5.0
  * 
  */
 
