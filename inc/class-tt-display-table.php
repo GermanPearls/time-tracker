@@ -2,7 +2,14 @@
 /**
  * Class Time_Tracker_Display_Table
  *
- * Class to create display table on front end
+ * Takes data, fields, arguments, etc and creates html table output for front end
+ * 
+ * @param $fields       Array of fields with parameters
+ * @param $data         Array of data, each item in array can be an OBJECT (result of sql) or an ARRAY - code should handle either
+ * @param $table_args   Arguments for entire table (ie: classes)
+ * @param $table_name   Name for entire table (id: id)
+ * @param $table_key    If data inside table is editable, this is the primary key fieldname for the table
+ * @return string       Html output including data in html table
  * 
  * @since 1.1.1
  * 
@@ -27,6 +34,24 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         }
 
 
+		/**
+         * Create Entire HTML Table
+         * 
+         */
+        public function create_html_table($fields, $data, $table_args, $table_name, $table_key) {
+            if ($data) {
+                $html_out = "<div style='font-weight:bold; text-align:center; padding-bottom: 10px;'>Note: Gray shaded cells can't be changed.</div>";
+				$html_out .= $this->start_table($table_args);
+				$html_out .= $this->create_header_row($fields);
+				$html_out .= $this->create_data_rows($fields, $data, $table_name, $table_key);
+				$html_out .= $this->close_table();
+			} else {
+                $html_out = "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
+            }
+            return $html_out;
+        }	 
+        
+        
         /**
          * Add Arguments to Table Tag
          * 
@@ -214,28 +239,29 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 array_push($args["class"], "tt-col-width-" . $details["columnwidth"] . "-pct");
             }
 
-            if ( is_array($item->$sql_fieldname) ) {
-                if ( array_key_exists("class", $item->$sql_fieldname) ) {
-                    array_push($args["class"], $item->$sql_fieldname["class"]);
+            $item_sql_fieldname_details = is_object($item) ? $item->$sql_fieldname : $item[$sql_fieldname];
+            if ( is_array($item_sql_fieldname_details) ) {
+                if ( array_key_exists("class", $item_sql_fieldname_details) ) {
+                    array_push($args["class"], $item_sql_fieldname_details["class"]);
                 }
-                if ( array_key_exists("button", $item->$sql_fieldname) ) {
-                    if (is_array($item->$sql_fieldname["button"])) {
+                if ( array_key_exists("button", $item_sql_fieldname_details) ) {
+                    if (is_array($item_sql_fieldname_details["button"])) {
                         $args["button"] = [];
-                        foreach ($item->$sql_fieldname["button"] as $ind_button) {
+                        foreach ($item_sql_fieldname_details["button"] as $ind_button) {
                             array_push($args["button"], $ind_button);
                         }
                     } else {
-                        $args["button"] = $item->$sql_fieldname["button"];
+                        $args["button"] = $item_sql_fieldname_details["button"];
                     }
                 }
-                if ( array_key_exists("icon", $item->$sql_fieldname) ) {
-                    if (is_array($item->$sql_fieldname["icon"])) {
+                if ( array_key_exists("icon", $item_sql_fieldname_details) ) {
+                    if (is_array($item_sql_fieldname_details["icon"])) {
                         $args["icon"] = [];
-                        foreach ($item->$sql_fieldname["icon"] as $ind_icon) {
+                        foreach ($item->$item_sql_fieldname_details["icon"] as $ind_icon) {
                             array_push($args["icon"], $ind_icon);
                         }
                     } else {
-                        $args["icon"] = $item->$sql_fieldname["icon"];
+                        $args["icon"] = $item_sql_fieldname_details["icon"];
                     }
                 }
             }
@@ -263,8 +289,8 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          */
         private function create_data_row($fields, $item, $table_name, $table_key) {
             $row = $this->start_row();
-            foreach ($fields as $header=>$details) {
-                $row .= $this->create_data_cell($details, $item, $table_name, $table_key);
+            foreach ($fields as $header=>$field_details) {
+                $row .= $this->create_data_cell($field_details, $item, $table_name, $table_key);
             }
             $row .= $this->close_row();
             return $row;
@@ -275,18 +301,18 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Create Single Data Cell
          * 
          */
-        private function create_data_cell($details, $item, $table_name, $table_key) {
-            $sql_fieldname = $details["fieldname"];
-            $args = $this->get_cell_args($details, $item, $sql_fieldname, $table_name, $table_key);
+        private function create_data_cell($field_details, $item, $table_name, $table_key) {
+            $sql_fieldname = $field_details["fieldname"];
+            $args = $this->get_cell_args($field_details, $item, $sql_fieldname, $table_name, $table_key);
             
-            if ( is_array($item->$sql_fieldname) ) {
-                $display_value = $item->$sql_fieldname["value"];
-            } else {
-                $display_value = $item->$sql_fieldname;
+            if ( is_object($item) ) {
+                $display_value = is_array($item->$sql_fieldname) ? $item->$sql_fieldname["value"] : $item->$sql_fieldname;
+            } elseif ( is_array($item) ) {
+                $display_value = is_array($item[$sql_fieldname]) ? $item[$sql_fieldname]["value"] : $item[$sql_fieldname];
             }
 
             $cell = $this->start_data($args);
-            $cell .= $this->display_data_in_cell($details["type"], $display_value);
+            $cell .= $this->display_data_in_cell($field_details["type"], $display_value);
             $cell .= $this->add_button_to_cell($args);
             $cell .= $this->add_icon_to_cell($args);
             $cell .= $this->close_data();
@@ -333,22 +359,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         }
 	
 		
-		/**
-         * Create Entire HTML Table
-         * 
-         */
-        public function create_html_table($fields, $data, $table_args, $table_name, $table_key) {
-            if ($data) {
-				$html_out = "<div style='font-weight:bold; text-align:center; padding-bottom: 10px;'>Note: Gray shaded cells can't be changed.</div>";
-				$html_out .= $this->start_table($table_args);
-				$html_out .= $this->create_header_row($fields);
-				$html_out .= $this->create_data_rows($fields, $data, $table_name, $table_key);
-				$html_out .= $this->close_table();
-			} else {
-                $html_out = "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
-            }
-            return $html_out;
-        }	
+
 
     }  //close class
  }  //close if class exists
