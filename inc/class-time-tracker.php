@@ -120,7 +120,6 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php');  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');
 
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
