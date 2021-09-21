@@ -324,6 +324,7 @@ button.clear-error:hover {
 .tt-table {
   	display: table;  
   	max-width: 100%;
+    margin-top: 0;
 }
 
 .tt-table td {
@@ -518,6 +519,60 @@ td.on-hold-date {
     .filter-time-form #first-date, .filter-time-form #last-date {
        width: calc(100% - 20px);
 	}
+}
+
+
+/*********************************/
+/**********Tool Tips**********/
+/*********************************/
+.tool-tip:before {
+    content: " ? ";
+    padding: 0 5px;
+    border-width: 1px;
+    border-style: dotted;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.5);
+    margin: 0 5px;
+    vertical-align: top;
+    font-size: 1.2rem;
+}
+
+.tool-tip {
+    display: inline-block;
+    position: relative;
+}
+
+.tool-tip:hover:before {
+    color: white;
+    background-color: rgba(0,0,0,0.8);
+    border-color: white;
+}
+
+.tool-tip:hover .tool-tip-text {
+    visibility: visible;
+}
+
+.tool-tip-text {
+    visibility: hidden;
+}
+
+
+.tool-tip-text {
+    visibility: hidden;
+    position: absolute;
+    background-color: lightgray;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    color: black;
+    top: 15px;
+    left: 40px;
+    padding: 3px;
+    min-width: 150px;
+    text-transform: none;
+    font-size: 1.1rem;
+    line-height: 1.1rem;
+    font-weight: normal;
+    text-align: left;
 }
 
 
