@@ -316,15 +316,15 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         public static function get_form_content_add_time_entry() {
             $html = "<label> Start Time (required)</label>
             [datetime start-time id:start-time]  <br/>
-            <label> Client</label>
+            <label> Client (required)</label>
                 [client_name client-name default:get]  <br/>
-            <label> Ticket</label>
+            <label> Ticket (required)</label>
                 [task_name task-name default:get id:task-dropdown]  <br/>
             <label> Notes (required)</label>
                 [textarea* time-notes maxlength:1999] <br/> 
             <label> New Task Status</label>
                 [select new-task-status id:new-task-status include_blank \"In Process\" \"Not Started\" \"Ongoing\" \"Waiting Client\" \"Complete\" \"Canceled\"]  <br/>
-            <label> End Time(required)</label>
+            <label> End Time (required)</label>
                 [datetime end-time id:end-time] <br/> 
             <label> Follow Up (Create New Task)</label>
                 [text follow-up maxlength:500]  <br/>
