@@ -1,8 +1,8 @@
 <?php
 /**
- * Class Time_Tracker_Shortcode_Client_List_Table
+ * Class Task_Details
  *
- * SHORTCODE TO DISPLAY CLIENT LIST TABLE
+ * CLASS TO DISPLAY DETAILS OF TASK INCLUDING TIME WORKED
  * 
  * 
  */
