@@ -258,7 +258,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Time Entry",
                 "Parent" => $parent,
                 "Slug" => "new-time-entry",
-                "Content" => "[time_tracker_page_content \"new-time-entry\"]",
+                "Content" => "<button class=\"end-work-timer float-right no-border-radius\" onclick=\"update_end_timer()\">Set End Time</button>[contact-form-7 id=\"" . tt_get_form_id("Add Time Entry") . "\" title=\"Add Time Entry\" html_class=\"tt-form\"]",
 				"Paginate" => array(
 					"Flag" => false
 				)
