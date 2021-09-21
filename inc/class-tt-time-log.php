@@ -1,8 +1,8 @@
 <?php
 /**
- * Time Tracker Utility Functions
+ * Class Time_Log
  *
- * Misc functions used throughout plugin
+ * CLASS TO DISPLAY TIME LOG TABLE
  * 
  * 
  */
@@ -30,7 +30,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * Class Variables
          * 
          */ 
-        private $open_items;
+        //protected $time_details;
         //private $tt_db;
 
 
@@ -40,7 +40,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */        
         public function __construct() {
-            //$this->get_time_log_from_db();
+            //$this->time_details = $this->get_time_log_from_db();
         }
 
 
@@ -54,7 +54,7 @@ if ( !class_exists( 'Time_Log' ) ) {
 
 
         /**
-         * Get data from db
+         * Get data from db - returns object
          * 
          */
         private function get_time_log_from_db() {
@@ -67,12 +67,25 @@ if ( !class_exists( 'Time_Log' ) ) {
 
 
         /**
+         * Get data from db - return array
+         * 
+         */
+        protected function get_time_log_array_from_db() {
+            global $wpdb;
+            $sql_string = $this->create_sql_string();
+            $sql_result = $wpdb->get_results($sql_string, 'ARRAY_A');
+            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+            return $sql_result;
+        }
+
+
+        /**
          * Prepare sql string
          * 
          */
         private function create_sql_string() {   
             global $wpdb;		
-			$selectfrom = "SELECT tt_time.*, tt_client.Company, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
+			$selectfrom = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
@@ -320,6 +333,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          */
         private function get_all_data_for_display() {
             $time_entries = $this->get_time_log_from_db();
+            //$time_entries = $this->time_details;
 
             foreach ($time_entries as $item) {
                 if ( (sanitize_text_field($item->RecurringTaskID) != null) and (sanitize_text_field($item->RecurringTaskID) != "") ) {
