@@ -5,6 +5,8 @@
  * Initial activation of Time Tracker Plugin - CREATE FRONT END PAGES
  * 
  * @since 1.0
+ * 9-20-2021 - modified to allow for updating pages for version updates
+ * 9-20-2021 - added timesheet detail page
  * 
  */
 
@@ -30,7 +32,6 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
          * 
          */ 
         public function __construct() {
-            //$page_details = self::create_page_details_array();
             //self::create_pages();
         }
 
@@ -40,12 +41,19 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
          * 
          */ 
         public static function setup() {
-            //self::create_page_details_array();
-            //create_homepage_details_array();
             self::create_pages();
         }
 
 
+        /**
+         * Update Version
+         * 
+         */ 
+        public static function check_pages_match_current_version() {
+            self::create_pages();
+        }
+        
+        
         /**
          * Add Pages to WP
          * 
@@ -53,42 +61,78 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         private static function create_pages() {
             $i = 0;
             self::create_homepage_details_array();
-            
-            //check if page exists already
-            $page_exists = tt_get_page_id(self::get_page_details(0)['post_title']);
-            //if page doesn't exist
-            if (empty($page_exists) or $page_exists == null) {
-                $homepage_id = wp_insert_post(self::get_page_details(0));
-            
-            //pages are changed to draft on plugin deactivation
-            } elseif (get_post_status($page_exists) == 'draft') {
-                $homepage_id = $page_exists;
-                wp_update_post(array(
-                    'ID' => $page_exists,
-                    'post_status' => 'private'
-                ));
-            
-            //page exists and is not in draft status
-            } else {
-                $homepage_id = $page_exists;
-            }
+            $homepage_id = self::check_page_exists_and_is_up_to_date($i);
 
             self::create_subpage_details_array($homepage_id);
             $num_of_pages = count(self::$page_details);
             for ($i = 1; $i < $num_of_pages; $i++) {
-                $page_exists = tt_get_page_id(self::get_page_details($i)['post_title']);
-                //if page doesn't exist
-                if (empty($page_exists) or ($page_exists==null)) {
-                    wp_insert_post( self::get_page_details($i) );
-                
-                //pages are changed to draft on plugin deactivation
-                } elseif (get_post_status($page_exists) == 'draft') {
-                    wp_update_post(array(
-                        'ID' => $page_exists,
-                        'post_status' => 'private'
-                    ));
-                }
+                self::check_page_exists_and_is_up_to_date($i);
             }
+        }
+
+
+        /**
+         * Check page exists, has correct status and matches current version
+         * 
+         */
+        private static function check_page_exists_and_is_up_to_date($i) {
+            //query db for page if it exists
+            $page_exists = tt_get_page_id(self::get_page_details($i)['post_title']);
+
+            //if page doesn't exist
+            if (empty($page_exists) or $page_exists == null) {
+                $page_id = self::create_page(self::get_page_details($i));
+            
+
+            //page exists, make sure everything is correct
+            } else {
+                
+                $page_id = $page_exists;
+                    
+                //pages are changed to draft on plugin deactivation
+                if (get_post_status($page_exists) == 'draft') {
+                    self::update_page_status($page_id);
+                }
+
+                //check content matches current version
+                $installed_page = get_post($page_id);
+                $installed_page_content = $installed_page->post_content;
+
+                $updated_content = self::get_page_details($i)['post_content'];
+
+                //does the content match the current version
+                if ($installed_page_content != $updated_content) {
+                    //update content of page in db
+                    $updated_page = array(
+                        'ID' => $page_id,
+                        'post_content' => $updated_content
+                    );
+                    wp_update_post($updated_page);
+                }                
+            }
+            return $page_id;
+        }
+
+
+        /**
+         * Create Individual Page
+         * 
+         */
+        private static function create_page($details) {
+            $new_page_id = wp_insert_post($details);
+            return $new_page_id;
+        }
+
+
+        /**
+         * Update Page Status
+         * 
+         */
+        private static function update_page_status($page_id) {
+            wp_update_post(array(
+                'ID' => $page_id,
+                'post_status' => 'private'
+            ));
         }
 
         
@@ -214,7 +258,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Time Entry",
                 "Parent" => $parent,
                 "Slug" => "new-time-entry",
-                "Content" => "<button class=\"end-work-timer float-right no-border-radius\" onclick=\"update_end_timer()\">Set End Time</button>[contact-form-7 id=\"" . tt_get_form_id("Add Time Entry") . "\" title=\"Add Time Entry\" html_class=\"tt-form\"]",
+                "Content" => "[time_tracker_page_content \"new-time-entry\"]",
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -302,7 +346,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Log",
                 "Parent" => $parent,
                 "Slug" => "time-log",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"][tt_time_log_table]",
+                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]<h4>Time Log Summary by Week and Bill To</h4>[tt_time_log_table type=\'summary\']<h4>Time Log Details</h4>[tt_time_log_table type=\'detail\']",
 				"Paginate" => array(
 					"Flag" => true,
 					"RecordsPerPage" => 100,
@@ -312,6 +356,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 				)
             );
             array_push($details_all, $details);
+
             
             self::$page_details = $details_all;
             return $details_all;

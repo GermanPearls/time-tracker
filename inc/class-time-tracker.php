@@ -37,6 +37,7 @@ if ( ! class_exists('Time_Tracker') ) {
         self::$instance->load_dependencies();
         self::$instance->add_scripts();
         self::$instance->add_styles();
+        self::$instance->check_plugin_version();
         //add_action( 'init', array( self::$instance, 'init' ) );
       }
       //ADMIN
@@ -50,6 +51,21 @@ if ( ! class_exists('Time_Tracker') ) {
     }  //end public function instance
   
   
+    /**
+     * Check Plugin Version
+     * 
+     */  
+    private function check_plugin_version() {
+      $installed_version = get_option('time_tracker_version');
+      if ($installed_version != TIME_TRACKER_VERSION) {
+        echo 'do not match';
+        include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-updater.php');
+        $updater = New Time_Tracker_Updater;
+        $new_version = $updater->tt_update_from($installed_version);
+      }
+    }
+      
+      
     /**
      * Definitions
      * 
@@ -97,6 +113,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-year-summary.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-save-form-input.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log-summary.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
@@ -104,6 +121,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');
 
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-display-message-check-client-added.php');
@@ -126,7 +144,9 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-time-log-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php');
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-page-content.php'); 
       require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php'); 
+
     } 
 
 
@@ -145,7 +165,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'save_new_task_and_start_timer', TT_PLUGIN_WEB_DIR_INC . 'js/save_new_task_and_start_timer.js', array(), null, true);      
       wp_enqueue_script( 'open_time_entries_for_client', TT_PLUGIN_WEB_DIR_INC . 'js/open_time_entries_for_client.js', array(), null, true);
       wp_enqueue_script( 'open_time_entries_for_project', TT_PLUGIN_WEB_DIR_INC . 'js/open_time_entries_for_project.js', array(), null, true);
-	  wp_enqueue_script( 'tt_open_mobile_menu', TT_PLUGIN_WEB_DIR_INC . 'js/open_mobile_menu.js', array(), null, true);
+	    wp_enqueue_script( 'tt_open_mobile_menu', TT_PLUGIN_WEB_DIR_INC . 'js/open_mobile_menu.js', array(), null, true);
 
       wp_enqueue_script( 'tt_watch_for_client_change_project', TT_PLUGIN_WEB_DIR_INC . 'js/watch_for_client_change_to_update_project.js', array(), null, true);
       wp_enqueue_script( 'tt_update_project_dropdown', TT_PLUGIN_WEB_DIR_INC . 'js/get_projects_for_client.js', array('jquery'), null, true);
