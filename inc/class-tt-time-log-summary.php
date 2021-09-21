@@ -67,7 +67,10 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
                 $week_start_and_end_detail = $this->get_week_detail($entry['StartTime']);
                 $sorted_data[$k]['Week Starting'] = strval($week_start_and_end_detail[0]);
                 $sorted_data[$k]['Week Ending'] = strval($week_start_and_end_detail[1]);
+                $sorted_data[$k]['Time Worked'] = tt_convert_to_decimal_time($entry['LoggedHours'], $entry['LoggedMinutes']);
+                $sorted_data[$k]['Time Billed'] = is_null($entry['InvoicedTime']) ? 0 : $entry['InvoicedTime'];
             }
+            //var_dump($sorted_data);
             return $sorted_data;                        
         }
 
@@ -83,7 +86,15 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
 
             //create new array grouped by week start and bill to
             foreach ($sorted_data_with_week_data as $entry) {
-                $grouped_data[$entry['Week Starting']][$entry['BillTo']] = $entry;
+                if (array_key_exists($entry['Week Starting'], $grouped_data)) {
+                    if (array_key_exists($entry['BillTo'], $grouped_data[$entry['Week Starting']])) {
+                        array_push($grouped_data[$entry['Week Starting']][$entry['BillTo']], $entry);
+                    } else {
+                        $grouped_data[$entry['Week Starting']][$entry['BillTo']] = array($entry);
+                    }
+                } else {
+                    $grouped_data[$entry['Week Starting']][$entry['BillTo']] = array($entry);
+                }
                 if (array_key_exists($entry['BillTo'], $this->bill_to_names) == false) {
                     array_push($this->bill_to_names, $entry['BillTo']);
                 }
@@ -101,32 +112,45 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         private function summarize_data() {
             $summarized = array();
             $grouped_data = $this->group_data_by_week_and_bill_to();
-
             //create new summary array totaling time by week start and bill to, also create total for each week
-            //var_dump($grouped_data);
             foreach ($grouped_data as $week_start => $bill_to_entries) {
                 foreach ($bill_to_entries as $bill_to => $bill_to_entry) {
-                    $time_worked = tt_convert_to_decimal_time($bill_to_entry['LoggedHours'], $bill_to_entry['LoggedMinutes']);
+                    foreach ($bill_to_entry as $entry) {
                     
-                    $logged_time_worked = 0;
-                    $logged_time_billed = 0;
-                    if (array_key_exists($week_start, $summarized)) {
-                        $logged_time_worked = array_key_exists($bill_to, $summarized[$week_start]) ? $summarized[$week_start][$bill_to]['Time Worked'] : 0;
-                        $logged_time_billed = array_key_exists($bill_to, $summarized[$week_start]) ? $summarized[$week_start][$bill_to]['Time Billed'] : 0;
-                    }
-                    $summarized[$week_start][$bill_to]['Week Ending'] = $bill_to_entry['Week Ending'];
-                    $summarized[$week_start][$bill_to]['Time Worked'] = $logged_time_worked + $time_worked;
-                    $summarized[$week_start][$bill_to]['Time Billed'] = $logged_time_billed + $bill_to_entry['InvoicedTime'];
-                    $summarized[$week_start][$bill_to]['Display'] = $this->prepare_summary_display_data($summarized[$week_start][$bill_to]['Time Worked'], $summarized[$week_start][$bill_to]['Time Billed']);
+                        if ( ($entry['BillTo'] = $bill_to) && ($entry['Week Starting'] == $week_start) ) {
+                            if (array_key_exists($week_start, $summarized)) {
+                                //var_dump($summarized);
+                                if (array_key_exists($bill_to, $summarized[$week_start])) { 
+                                    //echo $summarized[$week_start][$bill_to]['Time Worked']; 
+                                    $summarized[$week_start][$bill_to]['Time Worked'] += $entry['Time Worked'];
+                                    $summarized[$week_start][$bill_to]['Time Billed'] += $entry['Time Billed'];
+                                    $summarized[$week_start][$bill_to]['Display'] = $this->prepare_summary_display_data($summarized[$week_start][$bill_to]['Time Worked'], $summarized[$week_start][$bill_to]['Time Billed']);
+                                } else {
+                                    $summarized[$week_start][$bill_to]['Week Ending'] = $entry['Week Ending'];
+                                    $summarized[$week_start][$bill_to]['Time Worked'] = $entry['Time Worked'];
+                                    $summarized[$week_start][$bill_to]['Time Billed'] = $entry['Time Billed'];
+                                    $summarized[$week_start][$bill_to]['Display'] = $this->prepare_summary_display_data($summarized[$week_start][$bill_to]['Time Worked'], $summarized[$week_start][$bill_to]['Time Billed']);
+                                }
+                            } else {    
+                                $summarized[$week_start][$bill_to]['Week Ending'] = $entry['Week Ending'];
+                                $summarized[$week_start][$bill_to]['Time Worked'] = $entry['Time Worked'];
+                                $summarized[$week_start][$bill_to]['Time Billed'] = $entry['Time Billed'];
+                                $summarized[$week_start][$bill_to]['Display'] = $this->prepare_summary_display_data($summarized[$week_start][$bill_to]['Time Worked'], $summarized[$week_start][$bill_to]['Time Billed']);
+                            }
+                            
 
-                    if (array_key_exists($week_start, $summarized)) {
-                        $total_time_worked = array_key_exists('Total', $summarized[$week_start]) ? $summarized[$week_start]['Total']['Time Worked'] : 0;
-                        $total_time_billed = array_key_exists('Total', $summarized[$week_start]) ? $summarized[$week_start]['Total']['Time Billed'] : 0;
+                            if (array_key_exists('Total', $summarized[$week_start])) {
+                                $summarized[$week_start]['Total']['Time Worked'] += $entry['Time Worked'];
+                                $summarized[$week_start]['Total']['Time Billed'] += $entry['Time Billed'];
+                                $summarized[$week_start]['Total']['Display'] = $this->prepare_summary_display_data($summarized[$week_start]['Total']['Time Worked'], $summarized[$week_start]['Total']['Time Billed']);
+                            } else {
+                                $summarized[$week_start]['Total']['Week Ending'] = $entry['Week Ending'];
+                                $summarized[$week_start]['Total']['Time Worked'] = $entry['Time Worked'];
+                                $summarized[$week_start]['Total']['Time Billed'] = $entry['Time Billed'];
+                                $summarized[$week_start]['Total']['Display'] = $this->prepare_summary_display_data($summarized[$week_start]['Total']['Time Worked'], $summarized[$week_start]['Total']['Time Billed']);
+                            }
+                        }
                     }
-                    $summarized[$week_start]['Total']['Week Ending'] = $bill_to_entry['Week Ending'];
-                    $summarized[$week_start]['Total']['Time Worked'] = $total_time_worked + $time_worked;
-                    $summarized[$week_start]['Total']['Time Billed'] = $total_time_billed + $bill_to_entry['InvoicedTime'];
-                    $summarized[$week_start]['Total']['Display'] = $this->prepare_summary_display_data($summarized[$week_start]['Total']['Time Worked'], $summarized[$week_start]['Total']['Time Billed']);
                 }
             }
             $this->time_summary_array = $summarized;
