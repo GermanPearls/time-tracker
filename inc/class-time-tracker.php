@@ -121,6 +121,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
 
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-display-message-check-client-added.php');
@@ -142,8 +143,7 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-project-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-time-log-table.php');
-      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php');
-      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-page-content.php'); 
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php'); 
       require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php'); 
 
     } 
