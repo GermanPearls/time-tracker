@@ -18,7 +18,7 @@ namespace Logically_Tech\Time_Tracker\Admin;
 function tt_admin_menu_home() { 
    ?>
    <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-   <button onclick="location.href=<?php echo TT_HOME ?>" class="tt-admin-to-front button-primary ">Time Tracker Home</button>
+   <button onclick="javascript:location.href='<?php echo TT_HOME ?>'" class="tt-admin-to-front button-primary ">Time Tracker Home</button>
    <?php 
          if ( !is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
             ?>
