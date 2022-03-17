@@ -478,7 +478,7 @@ td.on-hold-date {
 .tt-form input[type="date"], .tt-form input[type="month"], .tt-form input[type="time"], .tt-form input[type="datetime"],
 .tt-form input[type="datetime-local"], .tt-form input[type="week"], .tt-form input[type="number"],
 .tt-form input[type="search"], .tt-form input[type="tel"], .tt-form input[type="color"], .tt-form textarea, .tt-form select {
-    padding: 1rem;
+    padding: 5px;
     border: 1px solid <?php echo $neutral_background; ?>;
 }
 
