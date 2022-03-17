@@ -351,13 +351,17 @@ function check_for_pagination() {
 		}
 		$i = $i + 1;
 	} while ($current_page == null and $i <= count($pages_detail) );
-	$pagination = $pages_detail[$current_page]['Paginate'];
-	if ($pagination['Flag'] == true) {
-		global $wpdb;
-		$sql_string = sanitize_text_field($pagination['TotalRecordsQuery']);
-		$total_records = $wpdb->get_var($sql_string);
-		$pagination['RecordCount'] = $total_records;
-	}
+	if (key_exists('Paginate', $pages_detail[$current_page])) {
+        $pagination = $pages_detail[$current_page]['Paginate'];
+        if ($pagination['Flag'] == true) {
+            global $wpdb;
+            $sql_string = sanitize_text_field($pagination['TotalRecordsQuery']);
+            $total_records = $wpdb->get_var($sql_string);
+            $pagination['RecordCount'] = $total_records;
+        }
+    } else {
+        $pagination['Flag'] = false;
+    }
 	return $pagination;
 }
 
