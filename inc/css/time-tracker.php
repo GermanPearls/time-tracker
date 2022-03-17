@@ -211,6 +211,7 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer {
     font-size: 1.2em;
     line-height: 1.2em;
     text-decoration: none;
+    display: block;
 }
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited {
