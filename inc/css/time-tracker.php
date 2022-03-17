@@ -269,14 +269,15 @@ button.clear-error:hover {
     text-decoration: none;
 }
 
-/********** Button to End Timer **********/
-.end-work-timer {
+/********** General Buttons Mid-Page **********/
+.end-work-timer, .tt-midpage-button {
+    padding: 5px;
     color: <?php echo $text_color_light; ?>;
     background-color: <?php echo $brand_color_minor; ?>;
     margin-bottom: 10px;
 }
 
-.end-work-timer:hover {
+.end-work-timer:hover, .tt-midpage-button:hover {
     color: <?php echo $text_color_light; ?>;
     background-color: <?php echo $brand_color; ?>;
     text-decoration: none;
@@ -310,7 +311,7 @@ button.clear-error:hover {
 }
 
 @media only screen and (max-width: 768px) {
-  a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, button.clear-error {
+  a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, button.clear-error, button.tt-export-pending-time {
     padding: 5px;
   }
 
