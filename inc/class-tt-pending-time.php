@@ -60,6 +60,17 @@ if ( !class_exists( 'Pending_Time' ) ) {
 
 
         /**
+         * Public function for child class
+         * 
+         */
+        public function get_data_for_export() {
+            $data = $this->get_time_grouped_by_billto();
+            return $data;
+        }
+                        
+            
+            
+        /**
          * Regroup data by Bill To
          * 
          */

@@ -105,6 +105,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-task-dropdown.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-project-dropdown.php');
+      include_once(TT_PLUGIN_DIR_INC . 'function-tt-pending-time-export.php');
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
@@ -116,12 +117,14 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log-summary.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-list.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time-export.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php');  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-save-to-file.php');
 
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-display-message-check-client-added.php');
@@ -175,12 +178,16 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'tt_clear_sql_error', TT_PLUGIN_WEB_DIR_INC . 'js/clear_sql_error.js', array('jquery'), null, true);
       wp_enqueue_script( 'updateDatabase', TT_PLUGIN_WEB_DIR_INC . 'js/update_table.js', array('jquery'), null, true);
 
+      wp_enqueue_script( 'export_pending_time_to_csv', TT_PLUGIN_WEB_DIR_INC . 'js/export_pending_time_to_csv.js', array('jquery'), null, true);
+      wp_enqueue_script( 'tt_download_file', TT_PLUGIN_WEB_DIR_INC . 'js/tt_download_file.js', array(), null, true);
+
       //SAVE PATH TO SCRIPTS FOR USE IN JS
       //wp_localize_script('update_task_list', 'getDirectory', array('pluginURL' => plugins_url('',__FILE__)));
       wp_localize_script('tt_update_project_dropdown', 'wp_ajax_object_tt_update_project_list', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => wp_create_nonce('tt_update_project_list_nonce')));
       wp_localize_script('tt_update_task_dropdown', 'wp_ajax_object_tt_update_task_list', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => wp_create_nonce('tt_update_task_list_nonce')));
       wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_clear_sql_error_nonce')));
 	    wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
+      wp_localize_script('export_pending_time_to_csv', 'wp_ajax_object_tt_export_pending_time', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_nonce')));
     }
 
 
@@ -204,7 +211,8 @@ if ( ! class_exists('Time_Tracker') ) {
       add_action('wp_ajax_tt_update_task_list', 'Logically_Tech\Time_Tracker\Inc\tt_update_task_list_function');
 	    add_action('wp_ajax_tt_update_table', 'Logically_Tech\Time_Tracker\Inc\tt_update_table_function');
 	    add_action('wp_ajax_tt_clear_sql_error', 'Logically_Tech\Time_Tracker\Inc\tt_clear_sql_error_function');
-	  
+      add_action('wp_ajax_tt_export_pending_time', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time');
+
 	    //SCRIPTS
       add_action('wp_enqueue_scripts', array($this,'time_tracker_scripts'));
     }
