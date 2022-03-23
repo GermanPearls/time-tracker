@@ -3,9 +3,9 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, project management, freelancer tools, billing, to-do, to do, to do list, list, task, cf7 extension, contact form 7
 Requires at least: 5.3
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 7.0
-Stable tag: 1.5.0
+Stable tag: 2.2.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Short Description: Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
@@ -13,7 +13,7 @@ Short Description: Time Tracker enables you to manage your projects, to do lists
 == Description ==
 Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
-**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first.
+**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.4.1)
 
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
@@ -93,6 +93,30 @@ Time Tracker hasn't yet been tested in this setup.
 
  
 == Changelog ==
+
+= 2.2.0 =
+* New Feature: Add ability to download pending time as a csv file
+* New Feature: Added capability to delete clients, projects, recurring tasks, tasks, and time entries
+* Improvement: Clean up formatting of forms to make them more compact
+* Improvement: Cleaned up filter time log form to take up less space
+* Improvement: Update script redirects to improve handling wordpress installed in subfolder
+* Improvement: Work toward adding filter capability for each item type
+* Improvement: Allow for page and form updates via plugin updates
+* Fix: Broken home button in admin menu
+* Fix: Php error on pagination null value
+* Fix: Made time log filter by date more robust
+
+= 2.1.0 = 
+* Improvement: Added summary table to top of time log page
+
+= 2.0.0 =
+* Tested up to WordPress 5.8
+* Improvement: Clarify required fields in forms
+* Improvement: Add capability to add tool tips
+* Improvement: Begin adding tool tips to guide users
+* Improvement: Add capability to handle revisions
+* Improvement: Begin adding page content through shortcodes to help with updates and revisions
+* Fix: Home button in admin menu
 
 = 1.5.0 =
 * Improvement: Added default categories to help new users get started

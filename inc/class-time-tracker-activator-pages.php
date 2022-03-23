@@ -190,7 +190,6 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
          */
         public static function create_subpage_details_array($id) {
             $details_all = self::$page_details;
-            
             $parent = $id;
             
             //clients
@@ -357,6 +356,17 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             );
             array_push($details_all, $details);
 
+            //delete confirmation page
+            $details = array(
+                "Title" => "Delete Item",
+                "Parent" => $parent,
+                "Slug" => "delete-item",
+                "Content" => "[tt_delete_confirmation_content]",
+                "Paginate" => array(
+                    "Flag" => false
+                )
+            );
+            array_push($details_all, $details);
             
             self::$page_details = $details_all;
             return $details_all;

@@ -27,13 +27,22 @@ if ( !class_exists( 'Client_List' ) ) {
     {
 
 
-        //private $status_order = ["New", "Ongoing", "In Process", "Waiting Client", "Complete", "Canceled"];
+        private $clientid;
 
         /**
          * Constructor
          * 
          */
         public function __construct() {
+            if (isset($_GET['client'])) {
+                if ($_GET['client'] <> null) {
+                    $this->clientid = get_client_id_from_name(sanitize_text_field($_GET['client']));
+                }
+            } elseif (isset($_GET['client-id'])) {
+                $this->clientid = intval($_GET['client-id']);
+            } else {
+                $this->clientid  = null;
+            };
             $this->get_clients_from_db();
         }
 
@@ -52,14 +61,32 @@ if ( !class_exists( 'Client_List' ) ) {
          * 
          */
         private function get_clients_from_db() {
-            //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
             $sql_string = "SELECT tt_client.*
-                FROM tt_client
-                ORDER BY tt_client.Company ASC";
+                FROM tt_client";
+            $sql_string .= $this->get_where_clauses();
+            $sql_string .= " ORDER BY tt_client.Company ASC";
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             $this->all_clients = $sql_result;
+        }
+
+        /**
+         * Get where clauses depending on input
+         * 
+         */
+        private function get_where_clauses() {
+            global $wpdb;
+            $where_clauses = array();
+            $where_clause = "";
+            if ($this->clientid <> null) {
+                array_push($where_clauses, "tt_client.ClientID = " . $this->clientid);
+            }
+            if ( (count($where_clauses) > 1) or ((count($where_clauses) == 1) and ($where_clauses[0] <> "")) ) {
+                $where_clause = " WHERE ";
+                $where_clause .= implode(" AND ", $where_clauses);
+            }
+            return $where_clause;
         }
 
 
@@ -161,10 +188,14 @@ if ( !class_exists( 'Client_List' ) ) {
         private function get_all_data_for_display() {
             $clients = $this->all_clients;
             foreach ($clients as $item) {
-                $client_details_button = "<button onclick='open_time_entries_for_client(\"" . esc_attr(sanitize_textarea_field($item->Company)) . "\")' id=\"client-" . esc_attr(sanitize_text_field($item->ClientID))  . "\" class=\"open-client-detail chart-button\">View Time</button>";
+                $client_details_button = "<button onclick='open_time_entries_for_client(\"" . esc_attr(sanitize_textarea_field($item->Company)) . "\")' id=\"client-" . esc_attr(sanitize_text_field($item->ClientID))  . "\" class=\"open-client-detail tt-table-button\">View Time</button>";
+                $delete_client_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?client-id=" . esc_attr($item->ClientID) . "\"' id=\"delete-client-" . esc_attr($item->ClientID)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
                 $item->ClientID = [
                     "value" => $item->ClientID,
-                    "button" => $client_details_button
+                    "button" => [
+                        $client_details_button,
+                        $delete_client_button
+                    ]
                 ];
             }
             return $clients;

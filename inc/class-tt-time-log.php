@@ -25,14 +25,14 @@ if ( !class_exists( 'Time_Log' ) ) {
     class Time_Log
     {
 
-
-        /**
-         * Class Variables
-         * 
-         */ 
-        //protected $time_details;
-        //private $tt_db;
-
+        private $clientid;
+        private $projectid;
+        private $rectaskid;
+        private $taskid;
+        private $timeid;        
+        private $notes;
+        private $startdate;
+        private $enddate;
 
 
         /**
@@ -40,7 +40,38 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */        
         public function __construct() {
-            //$this->time_details = $this->get_time_log_from_db();
+            $this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
+            if (isset($_GET['task'])) {
+                if ($_GET['task'] <> null) {
+                    $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task']));
+                }
+            } elseif (isset($_GET['task-id'])) {
+                $this->taskid = intval($_GET['task-id']);
+            } else {
+                $this->taskid  = null;
+            };
+            $this->rectaskid = (isset($_GET['recurring-task-id']) ? intval($_GET['recurring-task-id']) : null);
+            if (isset($_GET['project'])) {
+                if ($_GET['project'] <> null) {
+                    $this->projectid = get_project_id_from_name(sanitize_text_field($_GET['project']));
+                }
+            } elseif (isset($_GET['project-id'])) {
+                $this->projectid = intval($_GET['project-id']);
+            } else {
+                $this->projectid = null;
+            }
+            if (isset($_GET['client'])) {
+                if ($_GET['client'] <> null) {
+                    $this->clientid = get_client_id_from_name(sanitize_text_field($_GET['client']));
+                }
+            } elseif (isset($_GET['client-id'])) {
+                $this->clientid = intval($_GET['client-id']);
+            } else {
+                $this->clientid  = null;
+            };
+            $this->notes = (isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : null);
+            $this->startdate = (isset($_GET['start']) ? sanitize_text_field($_GET['start']) : null);
+            $this->enddate = (isset($_GET['end']) ? sanitize_text_field($_GET['end']) : null);
         }
 
 
@@ -84,7 +115,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function create_sql_string() {   
-            global $wpdb;		
+            global $wpdb;	
 			$selectfrom = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
@@ -93,98 +124,58 @@ if ( !class_exists( 'Time_Log' ) ) {
                     ON tt_time.ClientID = tt_client.ClientID
                 LEFT JOIN tt_task
                     ON tt_time.TaskID = tt_task.TaskID";
-            
-            //combine-prepare selection criteria passed in _GET parameters
-            //note the isset checks if the variable is set and is not null
-            //https://stackoverflow.com/a/29497620
-            $wherecriteria = "";
-            
-            if (isset($_GET['client'])) {
-                $client = sanitize_text_field($_GET['client']);
-                if ( ($client <>"") and ($client <> null) ) {
-                    $wherecriteria = $wpdb->prepare('WHERE tt_client.Company LIKE %s', $client);
-                }
-            }
-
-            if (isset($_GET['notes'])) {
-                $notes = sanitize_text_field($_GET['notes']);
-                if ( ($notes <>"") and ($notes <> null) ) {
-                    //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
-                    $wild = "%";
-                    $search_string = $notes;
-                    $search_like = $wild . $wpdb->esc_like( $search_string ) . $wild;
-                    if ($wherecriteria == "") {
-                        $wherecriteria = "WHERE ";
-                    } else {
-                        $wherecriteria .= " AND "; 
-                    }
-                    $wherecriteria .= $wpdb->prepare('tt_time.TNotes LIKE %s', $search_like);
-                }
-            }
-
-            if (isset($_GET['task'])) {
-                //sometimes null is getting passed as a string
-                $task = sanitize_text_field($_GET['task']);
-                if ( ($task <>"") and ($task <> null) and ($task <> "null") ) {
-                    if ($wherecriteria == "") {
-                        $wherecriteria = "WHERE ";
-                    } else {
-                        $wherecriteria .= " AND ";                    
-                    }
-                    $wherecriteria .= $wpdb->prepare('tt_task.TaskID = %s', $task);
-                }
-            }
-            
-            if (isset($_GET['project'])) {
-                //sometimes null is getting passed as a string
-                $project = sanitize_text_field($_GET['project']);
-                if ( ($project <>"") and ($project <> null) and ($project <> "null") ) {
-                    if ($wherecriteria == "") {
-                        $wherecriteria = "WHERE ";
-                    } else {
-                        $wherecriteria .= " AND ";                    
-                    }
-                    $project_id = get_project_id_from_name($project);
-                    $wherecriteria .= $wpdb->prepare('tt_task.ProjectID = %s', $project_id);
-                }
-            }
-            
-            if ( isset($_GET['start'])) {
-                $start = sanitize_text_field($_GET['start']);
-                if ( $start <>"" ) {
-                    if ($wherecriteria == "") {
-                        $wherecriteria = "WHERE ";
-                    } else {
-                        $wherecriteria .= " AND ";
-                    }
-                    $wherecriteria .= $wpdb->prepare('tt_time.StartTime >= %s', $start);
-                }
-            }
-
-            if ( isset($_GET['end'])) {
-                $end = sanitize_text_field($_GET['end']);
-                if ( $end <>"" ) {
-                    if ($wherecriteria == "") {
-                        $wherecriteria = "WHERE ";
-                    } else {
-                        $wherecriteria .= " AND ";
-                    }
-                    $wherecriteria .= $wpdb->prepare('tt_time.StartTime <= %s', $end);
-                }
-            }
-
             $orderby = "ORDER BY tt_time.StartTime DESC";
-			
 			$record_numbers = get_record_numbers_for_pagination_sql_query();	
 			$subset_for_pagination = "LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
             
-			if ($wherecriteria == "") {
-                $sql_string = $selectfrom . " " . $orderby . " " . $subset_for_pagination;                
-            } else {
-                $sql_string = $selectfrom . " " . $wherecriteria . " " . $orderby . " " . $subset_for_pagination;
-            }
+            $sql_string = $selectfrom . $this->get_where_clauses() . " " . $orderby . " " . $subset_for_pagination;
 			//var_dump($sql_string);
             return $sql_string;
+        }
+
+
+        /**
+         * Get where clauses depending on input
+         * 
+         */
+        private function get_where_clauses() {
+            global $wpdb;
+            $where_clauses = array();
+            $where_clause = "";
+            if ($this->clientid <> null) {
+                array_push($where_clauses, "tt_time.ClientID = " . $this->clientid);
+            }
+            if ($this->projectid <> null) {
+                //no project id field in time table - so we have to get tasks and then time associated with those tasks
+                array_push($where_clauses, "tt_task.ProjectID = " . $this->projectid);
+            }
+            if ($this->rectaskid <> null) {
+                //no recurring task id field in time table - so we have to get tasks and then time associated with those tasks
+                array_push($where_clauses, "tt_task.RecurringTaskID = " . $this->rectaskid);
+            }
+            if ($this->taskid <> null) {
+                array_push($where_clauses, "tt_time.TaskID = " . $this->taskid);
+            }
+            if ( ($this->timeid <> "") and ($this->timeid <> null) and ($this->timeid <> "null") ) {
+                array_push($where_clauses, "tt_time.TimeID = " . $this->timeid);
+            }
+            if ( ($this->startdate <> "") and ($this->startdate <> null) ) {
+                array_push($where_clauses, "tt_time.StartTime >= '" . $this->startdate . " 00:00:01'");
+            }
+            if ( ($this->enddate <> "") and ($this->enddate <> null) ) {
+                array_push($where_clauses, "tt_time.EndTime <= '" . $this->enddate . " 23:59:59'");
+            }
+            if ( ($this->notes <> "") and ($this->notes <> null) ) {
+                //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
+                $wild = "%";
+                $search_like = "'" . $wild . $wpdb->esc_like( $this->notes ) . $wild . "'";
+                array_push($where_clauses, "tt_time.TNotes LIKE " . $search_like);
+            }
+            if ( (count($where_clauses) > 1) or ((count($where_clauses) == 1) and ($where_clauses[0] <> "")) ) {
+                $where_clause = " WHERE ";
+                $where_clause .= implode(" AND ", $where_clauses);
+            }
+            return $where_clause;
         }
 
 
@@ -344,6 +335,14 @@ if ( !class_exists( 'Time_Log' ) ) {
                         "icon" => $icon
                     ];                    
                 }
+
+                $delete_time_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?time-id=" . esc_attr($item->TimeID) . "\"' id=\"delete-time-" . esc_attr($item->TimeID)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
+                $item->TimeID = [
+                    "value" => $item->TimeID,
+                    "button" => [
+                        $delete_time_button
+                    ]
+                ];
 
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item->TTimeEstimate));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item->LoggedHours), sanitize_text_field($item->LoggedMinutes));

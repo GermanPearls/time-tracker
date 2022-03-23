@@ -196,6 +196,10 @@ div #tt-nav-links {
     text-decoration: none;
 }
 
+.tt-button a:hover {
+    text-decoration: none;
+}
+
 .tt-button:after, a.tt-sidebar-button:after {
     clear:both;
 }
@@ -216,6 +220,7 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer {
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited {
     color: <?php echo $text_color_light; ?>;
+    text-decoration: none;
 }
 
 button.end-work-timer:hover, a.tt-sidebar-button:hover, a.tt-header-button:hover {
@@ -246,27 +251,53 @@ button.clear-error:hover {
     font-weight: bold;
 }
 
+/*** Delete Confirmation Buttons and Text ***/
+.tt-delete-confirmation-button {
+    text-decoration: none;
+    background-color: <?php echo $brand_color; ?>;
+    padding: 10px;
+    margin: 20px;
+    width: 100px;
+    box-shadow: 5px 5px 8px #888888;
+}
+
+.tt-delete-confirmation-button:hover, .tt-delete-confirmation-button:focus {
+    background-color: rgba(255,0,0,1);
+    text-decoration: none;
+}
+
+.tt-buttons-inline {
+    display: inline-block;
+}
+
+.tt-delete-confirm-msg {
+    display: block;
+    width: 75%;
+    border: 1px solid lightgray;
+    padding: 20px;
+}
+
 /********** Button to Start Work Timer **********/
 /********** Button to View Task Detail **********/
-.start-work-timer, .open-task-detail, .chart-button {
-    padding: 1px 2.5px;
+.start-work-timer, .open-task-detail, .tt-table-button {
+    min-width: 75px;
+    padding: 2.5px;
     background-color: <?php echo $brand_color; ?>;
     margin-right: 5px;
     margin-bottom: 5px;
     font-size: 12px;
     font-weight: normal;
-    border-radius: 0;
+    text-decoration: none;
+    display: block;
+    box-shadow: 3px 3px 4px #888888;
 }
 
-.start-work-timer:hover, .open-task-detail:hover, .chart-button:hover  {
-    padding: 1px 2.5px;
+.start-work-timer:hover, .open-task-detail:hover, .tt-table-button:hover, .tt-table-button:focus  {
+    padding: 2.5px;
     background-color: <?php echo $brand_color_minor; ?>;
     color: <?php echo $text_color_dark; ?>;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-size: 12px;
-    border-radius: 0;
     text-decoration: none;
+    font-weight: bold;
 }
 
 /********** General Buttons Mid-Page **********/
@@ -481,9 +512,62 @@ td.on-hold-date {
 .tt-form input[type="search"], .tt-form input[type="tel"], .tt-form input[type="color"], .tt-form textarea, .tt-form select {
     padding: 5px;
     border: 1px solid <?php echo $neutral_background; ?>;
+    margin-bottom: 10px; 
 }
 
-/********** Form for Fitlering **********/
+//** inline forms **/
+.tt-form {
+    display: inline-block;
+    width: 100%;
+}
+
+.tt-form-row {
+    display: flex;
+    width: 100%;
+}
+
+.tt-col-right {
+    float: right;
+}
+
+.tt-col-left {
+    float: left;
+}
+
+.tt-col-right:after {
+    clear: both;
+}
+
+.tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-two-thirds {
+    display: inline-block;
+}
+
+.tt-form .tt-form-element.tt-one-third {
+    width: 33%;
+}
+
+.tt-form label, .tt-form select, .tt-form input:not(input[type="submit"], span>input), .tt-form span {
+    display: inline-block;
+    width: 80%;
+    margin-right: 20px;
+}
+
+.tt-form .tt-form-element.tt-two-thirds {
+    width: 66%;
+}
+
+@media only screen and (max-width: 768px) {
+	.tt-col-right, .tt-col-left, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
+    .tt-form .tt-form-element.tt-two-thirds, .tt-form .tt-form-element.tt-two-thirds label,
+    .tt-form .tt-form-element.tt-one-third input, .tt-form .tt-form-element.tt-one-third select,
+    .tt-form .tt-form-element.tt-two-thirds input, .tt-form .tt-form-element.tt-two-thirds select {
+        clear: both;
+		display: block;
+        width: 100%
+	}
+}
+
+/********** Form for Filtering **********/
 .filter-time-form {
 	border: 1px solid lightgray;
 	padding: 10px;
@@ -503,26 +587,10 @@ td.on-hold-date {
     margin-bottom: 20px;
 }
 
-.filter-time-form #client-name, .filter-time-form #time-notes {
-    max-width: 300px;
-}
-
 .filter-time-form #task-name {
     max-width: 700px;
     margin-bottom: 20px;
 }
-
-@media only screen and (max-width: 768px) {
-    .filter-time-form #task-name, .filter-time-form #client-name, .filter-time-form #time-notes, .filter-time-form #project-name {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .filter-time-form #first-date, .filter-time-form #last-date {
-       width: calc(100% - 20px);
-	}
-}
-
 
 /*********************************/
 /**********Tool Tips**********/
@@ -557,7 +625,6 @@ td.on-hold-date {
 .tool-tip-text {
     visibility: hidden;
 }
-
 
 .tool-tip-text {
     visibility: hidden;
@@ -600,6 +667,10 @@ td.on-hold-date {
 
 .bold-font {
     font-weight: bold;
+}
+
+.no-border-radius {
+    border-radius: 0;
 }
 
 
@@ -645,7 +716,12 @@ div#no-client-alert, div#no-task-alert {
     border: 2px solid <?php echo $alert_color; ?>;
 }
 
-'#delete-confirm > button {
+#delete-confirm > button {
     background-color: <?php echo $alert_color; ?>;
     border-color: <?php echo $alert_color; ?>;
+}
+
+#tt-delete-confirmation-result {
+    color: red;
+    padding: 10px 0;
 }

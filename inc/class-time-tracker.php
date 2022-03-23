@@ -106,25 +106,26 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-task-dropdown.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-project-dropdown.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-pending-time-export.php');
+      include_once(TT_PLUGIN_DIR_INC . 'function-tt-delete-record.php');
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-detail.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-month-summary.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-year-summary.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-save-form-input.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log-summary.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-list.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time-export.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php');  
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-save-to-file.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-detail.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-month-summary.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hours-worked-year-summary.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-log-summary.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time-export.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-list.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php'); 
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
 
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-sql-result-display-message.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-display-message-check-client-added.php');
@@ -147,7 +148,8 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-time-log-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php'); 
-      require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php'); 
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-delete-confirmation-content.php');
+      require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php');  
 
     } 
 
@@ -177,6 +179,7 @@ if ( ! class_exists('Time_Tracker') ) {
       
       wp_enqueue_script( 'tt_clear_sql_error', TT_PLUGIN_WEB_DIR_INC . 'js/clear_sql_error.js', array('jquery'), null, true);
       wp_enqueue_script( 'updateDatabase', TT_PLUGIN_WEB_DIR_INC . 'js/update_table.js', array('jquery'), null, true);
+      wp_enqueue_script( 'deleteRecord', TT_PLUGIN_WEB_DIR_INC . 'js/delete_record.js', array('jquery'), null, true);
 
       wp_enqueue_script( 'export_pending_time_to_csv', TT_PLUGIN_WEB_DIR_INC . 'js/export_pending_time_to_csv.js', array('jquery'), null, true);
       wp_enqueue_script( 'tt_download_file', TT_PLUGIN_WEB_DIR_INC . 'js/tt_download_file.js', array(), null, true);
@@ -188,6 +191,14 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_clear_sql_error_nonce')));
 	    wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
       wp_localize_script('export_pending_time_to_csv', 'wp_ajax_object_tt_export_pending_time', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_nonce')));
+      wp_localize_script('deleteRecord', 'wp_ajax_object_tt_delete_record', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_record_nonce')));
+    
+      //pass time tracker homepage to functions - to work better with wordpress subfolder installs
+      wp_localize_script( 'tt_filter_time_log', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
+      wp_localize_script( 'open_detail_for_task', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
+      wp_localize_script( 'open_time_entries_for_client', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
+      wp_localize_script( 'open_time_entries_for_project', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
+      wp_localize_script( 'start_timer_for_task', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
     }
 
 
@@ -212,6 +223,7 @@ if ( ! class_exists('Time_Tracker') ) {
 	    add_action('wp_ajax_tt_update_table', 'Logically_Tech\Time_Tracker\Inc\tt_update_table_function');
 	    add_action('wp_ajax_tt_clear_sql_error', 'Logically_Tech\Time_Tracker\Inc\tt_clear_sql_error_function');
       add_action('wp_ajax_tt_export_pending_time', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time');
+	    add_action('wp_ajax_tt_delete_record', 'Logically_Tech\Time_Tracker\Inc\tt_delete_record_function');
 
 	    //SCRIPTS
       add_action('wp_enqueue_scripts', array($this,'time_tracker_scripts'));

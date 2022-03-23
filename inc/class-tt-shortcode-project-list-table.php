@@ -46,7 +46,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Project_List_Table') ) {
          */ 
         public function project_list_table_shortcode() {
             $list = new Project_List;
-            $html = $list->get_page_html();
+            $html = $list->get_page_html_with_each_status_in_different_table();
             return $html;
         }
 
