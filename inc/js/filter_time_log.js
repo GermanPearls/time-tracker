@@ -1,5 +1,4 @@
 //Initiates when filter button pressed on page showing all time entries
-
 function tt_filter_time_log(event) {
     var inputs = event.detail.inputs;
     var first_date = "";
@@ -36,6 +35,6 @@ function tt_filter_time_log(event) {
     ticket = encodeURIComponent(ticket);
     project = encodeURIComponent(project);
 
-    window.location.href = '/time-tracker/time-log/?client=' + client + '&notes=' + notes + '&task=' + ticket + '&project=' + project + '&start=' + first_date + '&end=' + last_date;
+    window.location.href = scriptDetails.tthomeurl + '/time-log/?client=' + client + '&notes=' + notes + '&task=' + ticket + '&project=' + project + '&start=' + first_date + '&end=' + last_date;
 
 }
