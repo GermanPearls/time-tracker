@@ -342,7 +342,7 @@ function tt_add_recurring_task_icon() {
 function check_for_pagination() {
 	$pages = new Time_Tracker_Activator_Pages();
 	$pages_detail = $pages->create_subpage_details_array(0);
-	$slug = get_post_field( 'post_name');
+	$slug = get_post_field('post_name');
 	$current_page = null;
 	$i = 0;
 	do {
@@ -350,8 +350,10 @@ function check_for_pagination() {
 			$current_page = $i;
 		}
 		$i = $i + 1;
-	} while ($current_page == null and $i <= count($pages_detail) );
-	if (key_exists('Paginate', $pages_detail[$current_page])) {
+	} while ($current_page == null and $i < count($pages_detail) );
+	if (is_null($current_page)) {
+        $pagination['Flag'] = false;
+    } elseif (key_exists('Paginate', $pages_detail[$current_page])) {
         $pagination = $pages_detail[$current_page]['Paginate'];
         if ($pagination['Flag'] == true) {
             global $wpdb;
