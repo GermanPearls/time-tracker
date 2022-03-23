@@ -57,8 +57,6 @@ if ( !class_exists( 'Task_Details' ) ) {
          * 
          */ 
         private function get_task_details_from_db() {
-            //Connect to Time Tracker Database
-            //$wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
             global $wpdb;
 
             $sql_string_format = "SELECT tt_task.TaskID, tt_task.TDescription, tt_task.ClientID, tt_task.ProjectID,
