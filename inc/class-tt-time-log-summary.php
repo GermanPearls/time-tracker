@@ -165,7 +165,13 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         private function prepare_summary_display_data($time_worked, $time_billed) {
             $output = round($time_worked, 1) . ' Worked<br/>';
             $output .= round($time_billed, 1) . ' Billed<br/>';
-            $output .= round($time_billed / $time_worked * 100,0) . '% Billed';
+            if ($time_worked == 0) {
+                if($time_billed <> 0){
+                    $output .= '>100% Billed';
+                }
+            } else {
+                $output .= round($time_billed / $time_worked * 100,0) . '% Billed';
+            }
             return $output;
         }
 
