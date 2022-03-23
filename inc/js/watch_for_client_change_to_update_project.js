@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {  //make sure doc is 
     var projectField = document.getElementsByName('project-name');
     if (clientField.length > 0 && projectField.length > 0) {
       clientField[0].addEventListener('change', tt_update_project_dropdown);
-      //window.getElementsByName("client-name").addEventListener("change", updateProjectList);
     }
 });
 //}
