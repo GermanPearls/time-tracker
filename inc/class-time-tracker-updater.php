@@ -42,11 +42,11 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          */
         public function tt_update_from($current_ver) {
             //if option wasn't set in db or it was version 1.x.x update to 2.0.0
-            //if ( (!$current_ver) or (substr($current_ver, 0, 1) == "1") ) {
-            //    $this->tt_update_to_two();
-            //}
-            $this->tt_update_pages();
-            $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
+            if ( (!$current_ver) or (substr($current_ver, 0, 1) == "1") ) {
+                $this->tt_update_to_two();
+            } else {
+                $this->update_plugin();
+            }
         }
 
 
@@ -55,11 +55,20 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          * 
          */
         private function tt_update_to_two() {
-            //update page content in db
-            //********************
             $this->tt_update_pages();
-            $this->tt_update_version_in_db('2.0.0');
+            $this->force_form_updates();
+            $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
+        }
 
+
+        /**
+         * General Plugin Update
+         * 
+         */
+        private function tt_update_plugin() {
+            $this->tt_update_pages();
+            $this->check_forms_for_updates();
+            $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
         }
 
 
@@ -85,6 +94,19 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
             $tt_pages = Time_Tracker_Activator_Pages::check_pages_match_current_version();
         }
 
+
+        /**
+         * Update forms so they match the current version
+         * 
+         */
+        private function tt_update_forms($force_update = false) {
+            require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
+            if ($force_update) {
+                $tt_forms = Time_Tracker_Activator_Forms::force_form_updates();
+            } else {
+                $tt_forms = Time_Tracker_Activator_Forms::check_forms_for_updates();
+            }            
+        }
 
     } //close class
 
