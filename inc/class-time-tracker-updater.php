@@ -56,7 +56,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          */
         private function tt_update_to_two() {
             $this->tt_update_pages();
-            $this->force_form_updates();
+            $this->tt_update_forms('true');
             $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
         }
 
@@ -67,7 +67,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          */
         private function tt_update_plugin() {
             $this->tt_update_pages();
-            $this->check_forms_for_updates();
+            $this->tt_update_forms();
             $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
         }
 
