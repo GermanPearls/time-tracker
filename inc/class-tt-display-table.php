@@ -325,7 +325,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          */
         private function add_button_to_cell($args) {
-            $button = "";
+            $button = "<br/>";
             if (array_key_exists("button", $args)) {
                 if (is_array($args["button"])) {
                     foreach ($args["button"] as $ind_button) {
