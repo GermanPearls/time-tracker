@@ -215,7 +215,7 @@ if ( !class_exists( 'Task_List' ) ) {
                     ON tt_task.ProjectID = tt_project.ProjectID
                 LEFT JOIN (SELECT TaskID, SUM(Minute(TIMEDIFF(EndTime, StartTime))) as Minutes, SUM(Hour(TIMEDIFF(EndTime, StartTime))) as Hours FROM tt_time GROUP BY TaskID) NewTable
                     ON tt_task.TaskID = NewTable.TaskID
-                WHERE tt_task.TStatus <> \"Closed\" AND tt_task.TStatus <> \"Canceled\" AND tt_task.TStatus <> \"Complete\"";
+                WHERE tt_task.TStatus LIKE \"%Closed%\" AND tt_task.TStatus LIKE \"%Canceled%\" AND tt_task.TStatus LIKE \"%Complete%\" AND tt_task.TStatus NOT LIKE \"%Incomplete%\"";
             $sql_string .= str_replace("WHERE", "AND", $this->get_where_clauses());            
             $sql_string .= " ORDER BY tt_task.TDueDate ASC, tt_task.TDateAdded ASC";			
             
