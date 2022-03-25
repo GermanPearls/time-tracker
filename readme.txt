@@ -3,7 +3,7 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, project management, freelancer tools, billing, to-do, to do, to do list, list, task, cf7 extension, contact form 7
 Requires at least: 5.3
-Tested up to: 5.8
+Tested up to: 5.9.2
 Requires PHP: 7.0
 Stable tag: 2.2.0
 License: GPLv3 or later
@@ -13,7 +13,7 @@ Short Description: Time Tracker enables you to manage your projects, to do lists
 == Description ==
 Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
-**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.4.1)
+**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.5.6)
 
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
@@ -72,7 +72,7 @@ No, to set up Time Tracker simply install it and setup your options like work ca
 
 = What if I make a mistake when I enter a task, can I correct it? =
  
-Yes, the screens of Time Tracker display your information in easy to read tables where you can easily edit information.
+Yes, the screens of Time Tracker display your information in easy to read tables where you can easily edit information. All items can also be deleted from the user interface.
 
 = Can I use Time Tracker on a multi-site installation? =
  
@@ -80,7 +80,8 @@ Time Tracker hasn't yet been tested on a multi-site application.
 
 = WordPress is installed in a subfolder / subdirectory, will Time Tracker still work? =
  
-Time Tracker hasn't yet been tested in this setup.
+Recent updates have improved the capability of this plugin to work in a subfolder/subdirectory installation. We welcome you to test it in your
+installation and provide detailed feedback if you find features that don't work so we can work to improve this capability.
 
 == Screenshots ==
  
