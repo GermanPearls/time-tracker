@@ -34,6 +34,8 @@ if ( !class_exists( 'Task_List' ) ) {
         private $projectid;
         private $assoc_field;
         private $assoc_id;
+        private $closed_status = ["COMPLETE", "CANCEL", "CLOSE"];
+        private $status_search;
 
 
         /**
@@ -204,7 +206,10 @@ if ( !class_exists( 'Task_List' ) ) {
          * 
          */
         private function get_open_tasks_from_db() {
-            global $wpdb;
+            $this->status_search = "OPEN";
+            return $this->get_all_tasks_from_db();
+            
+            /**global $wpdb;
 
             $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName,
                     NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
@@ -221,7 +226,7 @@ if ( !class_exists( 'Task_List' ) ) {
             
 			$sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);            
-            return $sql_result;
+            return $sql_result;**/
         }
 
 
@@ -261,6 +266,11 @@ if ( !class_exists( 'Task_List' ) ) {
             global $wpdb;
             $where_clauses = array();
             $where_clause = "";
+            if ($this->status_search == "OPEN") {
+                foreach ($this->closed_status as $status_name) {
+                    array_push($where_clauses, "UCASE(tt.task.TStatus) NOT LIKE '%" . $status_name . "%'");
+                }
+            }
             if (($this->assoc_id > 0) and ($this->assoc_field <>"")) {
                 array_push($where_clauses, $this->assoc_field . "=" . $this->assoc_id);
             }
