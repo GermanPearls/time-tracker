@@ -268,7 +268,7 @@ if ( !class_exists( 'Task_List' ) ) {
             $where_clause = "";
             if ($this->status_search == "OPEN") {
                 foreach ($this->closed_status as $status_name) {
-                    array_push($where_clauses, "UCASE(tt.task.TStatus) NOT LIKE '%" . $status_name . "%'");
+                    array_push($where_clauses, "UCASE(tt_task.TStatus) NOT LIKE '%" . $status_name . "%'");
                 }
             }
             if (($this->assoc_id > 0) and ($this->assoc_field <>"")) {
