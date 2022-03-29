@@ -247,7 +247,8 @@ if ( !class_exists( 'Task_List' ) ) {
                 LEFT JOIN (SELECT TaskID, SUM(Minute(TIMEDIFF(EndTime, StartTime))) as Minutes, SUM(Hour(TIMEDIFF(EndTime, StartTime))) as Hours FROM tt_time GROUP BY TaskID) NewTable
                     ON tt_task.TaskID = NewTable.TaskID";
             $sql_string .= $this->get_where_clauses();
-            $sql_string .= " ORDER BY tt_task.TaskID DESC";    
+            $sql_string .= $this->get_order_by();
+            //$sql_string .= " ORDER BY tt_task.TaskID DESC";    
 			$record_numbers = get_record_numbers_for_pagination_sql_query();	
 			$subset_for_pagination = "LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
 			$sql_string .= " " . $subset_for_pagination;
@@ -255,6 +256,20 @@ if ( !class_exists( 'Task_List' ) ) {
             $sql_result = $wpdb->get_results($sql_string);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return $sql_result;
+        }
+
+
+        /**
+         * Get order clauses depending on type of search
+         * 
+         */
+        private function get_order_by() {
+            if ($this->status_search == "OPEN") {
+                $order_by = " ORDER BY tt_task.TDueDate ASC, tt_task.TDateAdded ASC";
+            } else {
+                $order_by = " ORDER BY tt_task.TaskID DESC";
+            }
+            return $order_by;
         }
 
 
