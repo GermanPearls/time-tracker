@@ -225,6 +225,7 @@ input[type="submit"].tt-form-button.tt-inline-button, .tt-form input[type="submi
     margin-right: 10px;
     margin-left: 10px;
     display: inline-block;
+}
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited, input[type="submit"].tt-form-button:visited {
     color: <?php echo $text_color_light; ?>;
