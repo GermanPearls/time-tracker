@@ -204,7 +204,8 @@ div #tt-nav-links {
     clear:both;
 }
 
-a.tt-sidebar-button, a.tt-header-button, button.end-work-timer {
+a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, input[type="submit"].tt-form-button,
+.tt-form input[type="submit"], .tt-form button {
     -moz-appearance: button;
     -webkit-appearance: button;
     appearance: button;
@@ -218,12 +219,13 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer {
     display: block;
 }
 
-a.tt-sidebar-button:visited, a.tt-header-button:visited {
+a.tt-sidebar-button:visited, a.tt-header-button:visited, input[type="submit"].tt-form-button:visited {
     color: <?php echo $text_color_light; ?>;
     text-decoration: none;
 }
 
-button.end-work-timer:hover, a.tt-sidebar-button:hover, a.tt-header-button:hover {
+button.end-work-timer:hover, a.tt-sidebar-button:hover, a.tt-header-button:hover, input[type="submit"].tt-form-button:hover, 
+.tt-form input[type="submit"]:hover, .tt-form button:hover {
     background-color: <?php echo $brand_color_minor; ?>;
     color: <?php echo $text_color_dark; ?>;
     text-decoration: none;
@@ -492,20 +494,6 @@ td.on-hold-date {
 /***************************/
 /********** Forms **********/
 /***************************/
-
-.tt-form input[type="submit"], .tt-form button {
-    padding: 1.2rem;
-    background-color: <?php echo $brand_color_minor; ?>;
-    color: <?php echo $text_color_dark; ?>;
-}
-
-.tt-form input[type="submit"]:hover, .tt-form button:hover {
-    padding: 1.2rem;
-    background-color: <?php echo $brand_color; ?>;
-    color: <?php echo $text_color_light; ?>;
-    text-decoration: none;
-}
-
 .tt-form input[type="text"], .tt-form input[type="password"], .tt-form input[type="email"], .tt-form input[type="url"],
 .tt-form input[type="date"], .tt-form input[type="month"], .tt-form input[type="time"], .tt-form input[type="datetime"],
 .tt-form input[type="datetime-local"], .tt-form input[type="week"], .tt-form input[type="number"],
