@@ -135,6 +135,7 @@ div.tt-sidebar {
     line-height: 1.2em;
     text-decoration: none;
 	text-align: center;
+    border: none;
 }
 
 .tt-mobile-menu-button:after {
@@ -217,6 +218,11 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, input[type="subm
     line-height: 1.2em;
     text-decoration: none;
     display: block;
+    border: none;
+}
+
+.tt-inline-button {
+    display: inline-block;
 }
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited, input[type="submit"].tt-form-button:visited {
@@ -230,6 +236,7 @@ button.end-work-timer:hover, a.tt-sidebar-button:hover, a.tt-header-button:hover
     color: <?php echo $text_color_dark; ?>;
     text-decoration: none;
     font-weight: bold;
+    border: none;
 }
 
 a.tt-sidebar-button {

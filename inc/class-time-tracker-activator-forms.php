@@ -313,7 +313,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             $html .= "<label> Time Estimate </label>[text time-estimate]";
             $html .= "<label> Due Date</label>[date due-date \"today\"]";
             $html .= "<label> Notes </label>[textarea notes]";
-            $html .= "[hidden what-next default:\"SaveTask\"]<input type=\"submit\" name=\"submit-save\" class=\"tt-button tt-form-button\" value=\"SaveTask\"><input type=\"submit\" name=\"submit-start\" class=\"tt-button tt-form-button\" value=\"StartWorking\" onclick=\"save_new_task_and_start_timer()\">";
+            $html .= "[hidden what-next default:\"SaveTask\"]<input type=\"submit\" name=\"submit-save\" class=\"tt-button tt-form-button tt-inline-button\" value=\"SaveTask\"><input type=\"submit\" name=\"submit-start\" class=\"tt-button tt-form-button tt-inline-button\" value=\"StartWorking\" onclick=\"save_new_task_and_start_timer()\">";
             return $html;
         }
 
