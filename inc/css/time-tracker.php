@@ -221,9 +221,10 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, input[type="subm
     border: none;
 }
 
-.tt-inline-button {
+input[type="submit"].tt-form-button.tt-inline-button, .tt-form input[type="submit"].tt-inline-button {
+    margin-right: 10px;
+    margin-left: 10px;
     display: inline-block;
-}
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited, input[type="submit"].tt-form-button:visited {
     color: <?php echo $text_color_light; ?>;
