@@ -45,7 +45,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
             if ( (!$current_ver) or (substr($current_ver, 0, 1) == "1") ) {
                 $this->tt_update_to_two();
             } else {
-                $this->update_plugin();
+                $this->tt_update_plugin();
             }
         }
 
