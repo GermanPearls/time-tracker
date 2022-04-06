@@ -3,7 +3,7 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, project management, freelancer tools, billing, to-do, to do, to do list, list, task, cf7 extension, contact form 7
 Requires at least: 5.3
-Tested up to: 5.9.2
+Tested up to: 5.9.3
 Requires PHP: 7.0
 Stable tag: 2.2.0
 License: GPLv3 or later

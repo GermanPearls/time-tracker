@@ -4,7 +4,8 @@
  *
  * SHORTCODE TO DISPLAY DETAILS OF ITEM USER SELECTED TO DELETE
  * 
- * 
+ * @since 2.2.0
+ *  
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;

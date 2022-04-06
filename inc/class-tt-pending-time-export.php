@@ -4,7 +4,7 @@
  *
  * Extends Class Pending_Time which pulls data from db and organizes it
  * 
- * @since 1.0
+ * @since 2.2.0
  * 
  */
 

@@ -4,7 +4,7 @@
  *
  * @package           
  * @author            Amy McGarity
- * @copyright         2020-2021 Amy McGarity
+ * @copyright         2020-2022 Amy McGarity
  * @license           GPL-3.0-or-later
  *
  * @wordpress-plugin
@@ -38,7 +38,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Current plugin version.
  * Use SemVer - https://semver.org
  */
-define('TIME_TRACKER_VERSION', '2.1.0');
+define('TIME_TRACKER_VERSION', '2.2.0');
 define('TIME_TRACKER_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 

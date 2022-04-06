@@ -4,7 +4,7 @@
  *
  * Get projects from db and create table to display on front end
  * 
- * @since 1.0
+ * @since 2.2.0
  * 
  */
 
