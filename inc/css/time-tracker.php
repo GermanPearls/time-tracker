@@ -35,28 +35,33 @@
 /***********************************/
 
 /*** contains sidebar and page content ***/
-.tt-page-template div#content.site-content {
+div#tt-all-content {
+    max-width: 100%;
     margin-bottom: 10px;
 }
 
-/*** page content to the side of sidebar ***/
-div#primary.content-area.tt-content {
-  float: left;
-  width: 70%;
+/** */.tt-page-template div#tt-content.site-content {
+    margin-bottom: 10px;
+}**/
+
+div#tt-primary, div#tt-sidebar, {
+    display: inline-block;
 }
 
-div#primary.content-area.tt-content:after, div.tt-sidebar:after {
+/*** page content to the side of sidebar ***/
+div#tt-primary {
+  float: left;
+  width: 80%;
+  max-width: 80%;
+}
+
+div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:after {
     clear:both;
 }
 
-/*header.page-header.tt-page-header {
-    margin-top: 0;
-    margin-bottom: 0;
-}*/
-
-.full-width-content .container.grid-container {
+/** */.full-width-content .container.grid-container {
     padding: 20px 40px;
-}
+}**/
 
 /**********************************/
 /********** Page Header **********/
@@ -89,9 +94,8 @@ header.page-header.tt-page-header::after {
   clear:both;
 }
 
-
 /*** content below the page title ***/
-#main.site-main.tt-main {
+#tt-main.site-main.tt-main {
     margin-left: 20px;
     margin-right: 20px;
 }
@@ -101,7 +105,7 @@ header.page-header.tt-page-header::after {
 /*****************************/
 div.tt-sidebar {
   float:left;
-  width: 20%;
+  width: 15%;
   background-color: <?php echo $neutral_background; ?>;
   padding: 20px;
   margin-top: 40px;
@@ -174,9 +178,9 @@ div #tt-nav-links {
 		margin:0px;
 	}
 
-	.full-width-content .container.grid-container {
+	/** */.full-width-content .container.grid-container {
 		padding: 10px;
-	}
+	}**/
 
 	h1.page-title.tt-page-title {
 		padding-left: 0px;
@@ -369,6 +373,7 @@ button.clear-error:hover {
   	display: table;  
   	max-width: 100%;
     margin-top: 0;
+    table-layout: fixed;
 }
 
 .tt-table td {
