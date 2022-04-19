@@ -246,7 +246,7 @@ button.end-work-timer:hover, a.tt-sidebar-button:hover, a.tt-header-button:hover
 }
 
 a.tt-sidebar-button {
-    width: 75%; /*of sidebar*/
+    width: 85%; /*of sidebar*/
     margin: 10px auto;
 }
 
