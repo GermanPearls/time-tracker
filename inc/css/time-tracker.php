@@ -51,8 +51,8 @@ div#tt-primary, div#tt-sidebar, {
 /*** page content to the side of sidebar ***/
 div#tt-primary {
   float: left;
-  width: 80%;
-  max-width: 80%;
+  width: 75%;
+  max-width: 75%;
 }
 
 div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:after {
@@ -66,8 +66,8 @@ div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:a
 /**********************************/
 /********** Page Header **********/
 /*********************************/
-header.page-header.tt-page-header {
-  padding: 20px 0;
+#tt-page-header {
+  padding: 10px;
   overflow: hidden;
   margin-bottom: 0;
 }
@@ -108,7 +108,7 @@ div.tt-sidebar {
   width: 15%;
   background-color: <?php echo $neutral_background; ?>;
   padding: 20px;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-right: 20px;
   max-width: 300px;
 }
