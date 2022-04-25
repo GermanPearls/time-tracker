@@ -295,12 +295,12 @@ button.clear-error:hover {
 /********** Button to Start Work Timer **********/
 /********** Button to View Task Detail **********/
 .start-work-timer, .open-task-detail, .tt-table-button {
-    min-width: 75px;
-    padding: 2.5px;
+    width: 100%;
+    padding: 0.2em;
     background-color: <?php echo $brand_color; ?>;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-size: 12px;
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+    font-size: 0.8em;
     font-weight: normal;
     text-decoration: none;
     display: block;

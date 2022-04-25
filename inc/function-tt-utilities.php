@@ -165,8 +165,8 @@ function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
 		if ($percent_time_logged > 100) {
 			$percent_time_logged = 100;
 		}
-		$details_for_display .= "<div style='display:inline-block;width:100px;height:20px;border:1px solid black;'>";
-		$details_for_display .= "<div style='background-color:green;height:20px;float:left;width:" . $percent_time_logged . "px;'></div>";
+		$details_for_display .= "<div style='display:inline-block;width:100%;height:20px;border:1px solid black;'>";
+		$details_for_display .= "<div style='background-color:green;height:20px;float:left;width:" . $percent_time_logged . "%;'></div>";
 		$details_for_display .= "<div style='background-color:red;height:20px;'></div></div>"; 		
     }     
     return $details_for_display;
