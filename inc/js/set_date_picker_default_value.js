@@ -1,7 +1,7 @@
 //Set default values for date pickers, if they exist in get value
 document.addEventListener('DOMContentLoaded', function () {  //make sure doc is done loading before looking for element  
-  var startDateField = document.getElementsByName('firstt-date');
-  var endDateField = document.getElementsByName('last-date');  
+  var startDateField = document.getElementById('first-date');
+  var endDateField = document.getElementById('last-date');  
 
   if (startDateField || endDateField ) {
     //https://stackoverflow.com/a/901144/7303640
@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {  //make sure doc is 
     let end = params['last-date'];
 
     if (startDateField && start) {
-      startDateField.value = start;
+      startDateField.setAttribute('value', start);
     }
 
     if (endDateField && end ) {
-      endDateField.value = end;
+      endDateField.setAttribute('value', end);
     }
   }
 });
