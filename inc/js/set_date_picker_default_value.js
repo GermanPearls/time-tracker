@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {  //make sure doc is 
     const params = new Proxy(new URLSearchParams(window.location.search), {
       get: (searchParams, prop) => searchParams.get(prop),
     });
-    let start = params.start-date;
-    let end = params.end-date;
+    let start = params['start-date'];
+    let end = params['end-date'];
 
     if (startDateField && start) {
       startDateField.value = start;
