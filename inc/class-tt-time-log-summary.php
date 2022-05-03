@@ -50,7 +50,9 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
          * 
          */
         public function create_summary_table() {
-            $this->time_detail_array = $this->get_time_log_array_from_db();
+			$time_log = New Time_Log();
+            $time_log->remove_record_limit();
+            $this->time_detail_array = $time_log->get_time_log_array_from_db();
             $this->time_summary_array = $this->summarize_data();
             return $this->get_summary_html();
         }

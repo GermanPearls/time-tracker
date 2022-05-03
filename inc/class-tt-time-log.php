@@ -33,6 +33,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         private $notes;
         private $startdate;
         private $enddate;
+        private $record_limit = true;
 
 
         /**
@@ -125,12 +126,34 @@ if ( !class_exists( 'Time_Log' ) ) {
                 LEFT JOIN tt_task
                     ON tt_time.TaskID = tt_task.TaskID";
             $orderby = "ORDER BY tt_time.StartTime DESC";
-			$record_numbers = get_record_numbers_for_pagination_sql_query();	
-			$subset_for_pagination = "LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
             
-            $sql_string = $selectfrom . $this->get_where_clauses() . " " . $orderby . " " . $subset_for_pagination;
-			//var_dump($sql_string);
+            $sql_string = $selectfrom . $this->get_where_clauses() . " " . $orderby . $this->get_limit_parameter();
+			//echo $sql_string;
             return $sql_string;
+        }
+
+
+        /**
+         * Set pagination property
+         * 
+         */
+        protected function remove_record_limit() {
+            $this->record_limit = false;
+        }
+        
+        
+        /**
+         * Get LIMIT parameter for query
+         * 
+         */
+        private function get_limit_parameter() {
+            if ($this->record_limit == false) {
+                return "";
+            } else {
+                $record_numbers = get_record_numbers_for_pagination_sql_query();	
+                $subset_for_pagination = " LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
+                return $subset_for_pagination;                
+            }
         }
 
 
