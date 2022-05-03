@@ -58,7 +58,7 @@ function custom_task_name_form_tag_handler( $tag ) {
     foreach ($task_list as $val) {
       $task_identifier_string = $val->TaskID . "-" . $val->TDescription;   
       if ((isset($_GET['task-name'])) AND ( stripslashes($_GET['task-name']) == $task_identifier_string )) {
-         $task_name .= '<option value="' . esc_textarea($task_identifier_string) . '" selected=\"selected\">' . esc_textarea($task_identifier_string) . '</option>';
+         $task_name .= '<option value="' . esc_textarea($task_identifier_string) . '" selected="selected">' . esc_textarea($task_identifier_string) . '</option>';
       } else {
         $task_name .= '<option value="' . esc_textarea($task_identifier_string) . '">' . esc_textarea($task_identifier_string) . '</option>';
       }

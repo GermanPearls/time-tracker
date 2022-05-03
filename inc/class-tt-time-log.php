@@ -41,9 +41,9 @@ if ( !class_exists( 'Time_Log' ) ) {
          */        
         public function __construct() {
             $this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
-            if (isset($_GET['task'])) {
-                if ($_GET['task'] <> null) {
-                    $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task']));
+            if (isset($_GET['task-name'])) {
+                if ($_GET['task-name'] <> null) {
+                    $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task-name']));
                 }
             } elseif (isset($_GET['task-id'])) {
                 $this->taskid = intval($_GET['task-id']);
@@ -51,18 +51,18 @@ if ( !class_exists( 'Time_Log' ) ) {
                 $this->taskid  = null;
             };
             $this->rectaskid = (isset($_GET['recurring-task-id']) ? intval($_GET['recurring-task-id']) : null);
-            if (isset($_GET['project'])) {
-                if ($_GET['project'] <> null) {
-                    $this->projectid = get_project_id_from_name(sanitize_text_field($_GET['project']));
+            if (isset($_GET['project-name'])) {
+                if ($_GET['project-name'] <> null) {
+                    $this->projectid = get_project_id_from_name(sanitize_text_field($_GET['project-name']));
                 }
             } elseif (isset($_GET['project-id'])) {
                 $this->projectid = intval($_GET['project-id']);
             } else {
                 $this->projectid = null;
             }
-            if (isset($_GET['client'])) {
-                if ($_GET['client'] <> null) {
-                    $this->clientid = get_client_id_from_name(sanitize_text_field($_GET['client']));
+            if (isset($_GET['client-name'])) {
+                if ($_GET['client-name'] <> null) {
+                    $this->clientid = get_client_id_from_name(sanitize_text_field($_GET['client-name']));
                 }
             } elseif (isset($_GET['client-id'])) {
                 $this->clientid = intval($_GET['client-id']);
@@ -70,8 +70,8 @@ if ( !class_exists( 'Time_Log' ) ) {
                 $this->clientid  = null;
             };
             $this->notes = (isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : null);
-            $this->startdate = (isset($_GET['start']) ? sanitize_text_field($_GET['start']) : null);
-            $this->enddate = (isset($_GET['end']) ? sanitize_text_field($_GET['end']) : null);
+            $this->startdate = (isset($_GET['first-date']) ? sanitize_text_field($_GET['first-date']) : null);
+            $this->enddate = (isset($_GET['last-date']) ? sanitize_text_field($_GET['last-date']) : null);
         }
 
 

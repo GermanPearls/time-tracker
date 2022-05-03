@@ -341,14 +341,14 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          */
         public static function get_form_content_filter_time() {
             $html = "<div class=\"tt-form-row\">";
-            $html .= "<div class=\"tt-form-element tt-one-third tt-col-left\"><label> First Date</label>[date first-date id:first-date]</div>";
+            $html .= "<div class=\"tt-form-element tt-one-third tt-col-left\"><label> First Date</label>[date first-date id:first-date default:get]</div>";
             $html .= "<div class=\"tt-form-element tt-two-thirds tt-col-right\"><label> Client</label>[client_name client-name id:client-name default:get]</div>";
             $html .= "</div><div class=\"tt-form-row\">";
-            $html .= "<div class=\"tt-form-element tt-one-third tt-col-left\"><label> Last Date</label>[date last-date id:last-date]</div>";
+            $html .= "<div class=\"tt-form-element tt-one-third tt-col-left\"><label> Last Date</label>[date last-date id:last-date default:get]</div>";
             $html .= "<div class=\"tt-form-element tt-two-thirds tt-col-right\"><label> Project</label>[project_name project-name id:project-name default:get]</div>";
             $html .= "</div><div class=\"tt-form-row\">";
             $html .= "<div class=\"tt-form-element tt-one-third tt-col-left\"><label> Ticket</label>[task_name task-name id:task-name default:get]</div>";
-            $html .= "<div class=\"tt-form-element tt-two-thirds tt-col-right\"><label> Notes </label>[text time-notes id:time-notes]</div>";
+            $html .= "<div class=\"tt-form-element tt-two-thirds tt-col-right\"><label> Notes </label>[text notes id:time-notes default:get]</div>";
             $html .= "</div><div class=\"tt-form-row\">";
             $html .= "[hidden form-type default:\"filter\"][submit id:filter-time-submit \"Filter Time Entries\"]";
             $html .= "</div></div>";

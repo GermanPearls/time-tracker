@@ -57,7 +57,11 @@ function custom_project_name_form_tag_handler( $tag ) {
     $project_name = '<option value=null></option>';
 
     foreach ($project_list as $val) {
-        $project_name .= '<option value="' . esc_html($val->PName) . '">' . esc_html($val->PName) . '</option>';
+      if ((isset($_GET['project-name'])) AND ( stripslashes($_GET['project-name']) == $val->PName )) {
+        $project_name .= '<option value="' . esc_textarea($val->PName) . '" selected="selected">' . esc_textarea($val->PName) . '</option>';
+      } else {
+        $project_name .= '<option value="' . esc_textarea($val->PName) . '">' . esc_textarea($val->PName) . '</option>';
+      }
     }
 
     //close out select tag

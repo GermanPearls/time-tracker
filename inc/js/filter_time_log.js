@@ -9,9 +9,7 @@ function tt_filter_time_log(event) {
     var project = "";
     
     for (var i = 0; i < inputs.length; i++) {
-        
         var input = inputs[i];
-
         if (input.name == 'first-date') {
             first_date = input.value;
         } else if (input.name == 'last-date') {
@@ -26,6 +24,7 @@ function tt_filter_time_log(event) {
             //pull out task number, to the left of the hyphen  
             var task = input.value;
             ticket = task.split("-", 1);
+            ticketname = task.split("-", 2);
             //ticket = inputs[i].value;
         } //end if
     }  //end for loop
@@ -35,6 +34,6 @@ function tt_filter_time_log(event) {
     ticket = encodeURIComponent(ticket);
     project = encodeURIComponent(project);
 
-    window.location.href = scriptDetails.tthomeurl + '/time-log/?client=' + client + '&notes=' + notes + '&task=' + ticket + '&project=' + project + '&start=' + first_date + '&end=' + last_date;
+    window.location.href = scriptDetails.tthomeurl + '/time-log/?client-name=' + client + '&notes=' + notes + '&task-number=' + ticket + '&task-name=' + task + '&project-name=' + project + '&first-date=' + first_date + '&last-date=' + last_date;
 
 }

@@ -95,6 +95,9 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
+= next =
+* Improvement: Retain filter criteria in form when filtering time entries
+
 = 2.2.3 =
 * Fix: Resolve styling issue
 
