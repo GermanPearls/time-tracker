@@ -66,7 +66,7 @@ div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:a
 /**********************************/
 /********** Page Header **********/
 /*********************************/
-.page-header.tt-page-header {
+header.page-header.tt-page-header {
   padding: 0 0 10px 0;
   overflow: hidden;
   margin-bottom: 0;
