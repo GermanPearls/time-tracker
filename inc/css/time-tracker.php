@@ -371,8 +371,8 @@ button.clear-error:hover {
 /******** Accordions *******/
 /***************************/
 .tt-accordion {
-  background-color: #eee;
-  color: #444;
+  background-color: <?php echo $brand_color; ?>;
+  color: <?php echo $text_color_light; ?>;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -380,17 +380,31 @@ button.clear-error:hover {
   border: none;
   outline: none;
   transition: 0.4s;
+  font-size: 1.2em;
+  line-height: 1.2em;
+  text-decoration: none;
 }
 
-.active, .tt-accordion:hover {
-  background-color: #ccc;
+.separate-containers .site-main>button.tt-accordion.active {
+  margin-bottom: 0px;
+}
+
+.tt-accordion.active, .tt-accordion:hover, .tt-accordion:focus {
+    background-color: <?php echo $brand_color_minor; ?>;
+    color: <?php echo $text_color_dark; ?>;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
 }
 
 .tt-accordion-panel {
-  padding: 0 18px;
+  padding: 0 15px;
   background-color: white;
   display: none;
   overflow: hidden;
+  border-width: 1px;
+  border-style: solid;
+  border-color: <?php echo $neutral_background; ?>;
 }
 
 

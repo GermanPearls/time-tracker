@@ -283,7 +283,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         public function get_summary_html() {            
             $fields = $this->get_summary_table_fields();
             $display_data = $this->get_summary_data_for_display();
-            $args["class"] = ["tt-table", "time-log-table", "time-log-summary-table", "tt-accordion-panel"];
+            $args["class"] = ["tt-table", "time-log-table", "time-log-summary-table"];
             $tbl = new Time_Tracker_Display_Table();
             $accordion_heading = "<button class='tt-accordion'>Weekly Summary</button><div class='tt-accordion-panel'>";
 			$accordion_closing = "</div>";
