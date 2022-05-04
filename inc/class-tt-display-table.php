@@ -40,7 +40,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          */
         public function create_html_table($fields, $data, $table_args, $table_name, $table_key) {
             if ($data) {
-                $html_out = "<div style='font-weight:bold; text-align:center; padding-bottom: 10px;'>Note: Gray shaded cells can't be changed.</div>";
+                $html_out = "<div style='text-align:center; padding-bottom: 0; margin-bottom: 0;'>Note: Gray shaded cells can't be changed.</div>";
 				$html_out .= $this->start_table($table_args);
 				$html_out .= $this->create_header_row($fields);
 				$html_out .= $this->create_data_rows($fields, $data, $table_name, $table_key);

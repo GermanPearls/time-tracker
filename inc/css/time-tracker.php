@@ -66,8 +66,8 @@ div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:a
 /**********************************/
 /********** Page Header **********/
 /*********************************/
-#tt-page-header {
-  padding: 10px;
+.page-header.tt-page-header {
+  padding: 0 0 10px 0;
   overflow: hidden;
   margin-bottom: 0;
 }
@@ -330,6 +330,11 @@ button.clear-error:hover {
 }
 
 /********** Page Navigation Buttons **********/
+div.tt-pagination-nav {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .tt-pagination-nav a, .tt-pagination-nav .current {
     -moz-appearance: button;
     -webkit-appearance: button;
@@ -550,6 +555,14 @@ td.on-hold-date {
 /***************************/
 /********** Forms **********/
 /***************************/
+.tt-form {
+    padding-top: 10px;
+}
+
+.tt-form p {
+    margin-bottom: 0;
+}
+
 .tt-form input[type="text"], .tt-form input[type="password"], .tt-form input[type="email"], .tt-form input[type="url"],
 .tt-form input[type="date"], .tt-form input[type="month"], .tt-form input[type="time"], .tt-form input[type="datetime"],
 .tt-form input[type="datetime-local"], .tt-form input[type="week"], .tt-form input[type="number"],
