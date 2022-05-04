@@ -26,6 +26,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
     class Class_Hours_Worked_Year_Summary extends Class_Hours_Worked_Detail
     {
 
+        private $first_year;
+        private $last_year;
+
  
         /**
          * Constructor
@@ -36,12 +39,37 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             $hours_worked = $this->hours_worked;
         }
 
+
+        /**
+         * Get Output for Display
+         * 
+         */
+        public function getHTML() {
+            $this->setYears();
+            $i = intval($this->first_year);
+            $display = "";
+            while ($i <= intval($this->last_year)) {
+                $display .= $this->createHTMLTableForOneYear($i);
+                $i = $i + 1;
+            }
+            return $display;
+        }
+
+
+        /**
+         * Determine start and end years
+         * 
+         */
+        private function setYears() {
+            $this->first_year = sanitize_text_field($this->hours_worked[0]['WorkYear']);
+            $this->last_year = sanitize_text_field(end($this->hours_worked)['WorkYear']);
+        }
         
         /**
          * Reorganize data, Group by Month, then Bill To
          * 
          */ 
-        private function groupDataByMonthAndBillTo() {
+        private function groupDataByMonthAndBillTo($yr) {
             $grouped_time = array();
             if (!empty($this->hours_worked)) {
                 foreach ($this->hours_worked as $item) {
@@ -50,7 +78,8 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                     $billto = sanitize_text_field($item['BillTo']);
 
                     //only summarize current year
-                    if ($workyear == date('Y')) {
+                    //if ($workyear == date('Y')) {
+                    if ($workyear == $yr) {
                         //get month of current item
                         $workmonth = $workmonth;
                         
@@ -73,8 +102,8 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
          * Calculate totals by Month and Bill To
          * 
          */ 
-        private function totalDataByMonthAndBillTo() {
-            $grouped_time = $this->groupDataByMonthAndBillTo();
+        private function totalDataByMonthAndBillTo($yr) {
+            $grouped_time = $this->groupDataByMonthAndBillTo($yr);
             $totaled_time = array();
             
             $billto = "";
@@ -148,12 +177,16 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
 
 
         /**
-         * Create HTML table for front end display
+         * Create HTML table for front end display - One Year
          * 
          */ 
-        public function createHTMLTable() {
-            $time_summary = $this->totalDataByMonthAndBillTo();
-            $bill_to_names = $this->listBillToNames($time_summary);
+        private function createHTMLTableForOneYear($yr) {
+            $time_summary = $this->totalDataByMonthAndBillTo($yr);
+            $bill_to_names = $this->listBillToNames($time_summary); //all dates
+
+            //accordion
+            $acc_start = "<button class='tt-accordion'>" . $yr . " Summary</button><div class='tt-accordion-panel'>";
+            $acc_end = "</div>";
 
             //table begin
             $table = "<table class=\"tt-table yearly-summary-table\">";
@@ -167,8 +200,12 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             $table .= "</tr>";
 
             //populate data
-            $dateNow = new \DateTime();
-            $monthNumber = $dateNow->format('n');
+			if ($yr == date('Y')) {
+				$dateNow = new \DateTime();
+            	$monthNumber = $dateNow->format('n');
+			} else {
+				$monthNumber = 12;
+			}
             for ($i = 1; $i <= $monthNumber; $i++) {
                 //start row for month
                 $monthName = get_month_name_from_number($i);
@@ -201,7 +238,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
 
             //close table
             $table .= "</table>";
-            return $table;
+            return $acc_start . $table . $acc_end;
         }
 
     }  //close class

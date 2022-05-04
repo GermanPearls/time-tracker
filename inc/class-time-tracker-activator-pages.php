@@ -177,7 +177,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Tracker Home",
                 "Parent" => 0,
                 "Slug" => "time-tracker",
-                "Content" => "<h2>Current Month</h2>[tt_month_summary]<h2>Current Year Overview</h2>[tt_year_summary]"
+                "Content" => "<h2>Current Month</h2>[tt_month_summary]<h2>Current Year</h2>[tt_year_summary]"
             );
             array_push($details_all, $details);
             self::$page_details = $details_all;
@@ -345,7 +345,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Log",
                 "Parent" => $parent,
                 "Slug" => "time-log",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]<h4>Time Log Summary by Week and Bill To</h4>[tt_time_log_table type=\'summary\']<h4>Time Log Details</h4>[tt_time_log_table type=\'detail\']",
+                "Content" => "<button class=\"tt-accordion\">Search</button><div class=\"tt-accordion-panel\">[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]</div>[tt_time_log_table type=\'summary\'][tt_year_summary]<h3>Time Details</h3>[tt_time_log_table type=\'detail\']",
 				"Paginate" => array(
 					"Flag" => true,
 					"RecordsPerPage" => 100,

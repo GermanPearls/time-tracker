@@ -46,7 +46,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Year_Summary') ) {
          */
         public function year_summary_shortcode() {
             $year_summary = new Class_Hours_Worked_Year_Summary;
-            $year_summary_display = $year_summary->createHTMLTable();
+            $year_summary_display = $year_summary->getHTML();
             return $year_summary_display;
         }
     

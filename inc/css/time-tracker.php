@@ -59,10 +59,6 @@ div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:a
     clear:both;
 }
 
-/** */.full-width-content .container.grid-container {
-    padding: 20px 40px;
-}**/
-
 /**********************************/
 /********** Page Header **********/
 /*********************************/
