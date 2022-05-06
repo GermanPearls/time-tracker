@@ -557,6 +557,7 @@ td.on-hold-date {
 
 .tt-form p {
     margin-bottom: 0;
+    overflow: hidden;
 }
 
 .tt-form input[type="text"], .tt-form input[type="password"], .tt-form input[type="email"], .tt-form input[type="url"],
