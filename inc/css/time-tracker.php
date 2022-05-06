@@ -618,7 +618,7 @@ td.on-hold-date {
     width: 20%;
 }
 
-.tt-form input[type="submit"]:after, .tt-form input[type-="datetime"]:after {
+.tt-form input[type="submit"]:after, .tt-form input[type="datetime"]:after {
     clear:both;
 }
 
