@@ -52,10 +52,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $this->original_submission = $this->serialize_data($data);
             $this->client_id = $this->get_client_id($data);
             $this->project_id = $this->get_project_id($data);
-            $this->task_id = $this->get_task_id($data);
-            
-            //Connect to 2nd Database
-            //$this->tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);			
+            $this->task_id = $this->get_task_id($data);		
             
 			
 			/**
@@ -282,6 +279,10 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'TNotes'    => $data['time-notes'],
                 'ClientID' => $this->client_id,
                 'TaskID' => $this->task_id,
+                'Invoiced' => $data['invoiced'],
+                'InvoiceNumber' => $data['invoice-number'],
+                'InvoicedTime' => $data['invoiced-time'],
+                'InvoiceComments' => $data['invoice-notes'],
                 'FollowUp' => $data['follow-up'],
                 'NewTaskStatus' => $data['new-task-status'],
                 'TimeSubmission' => $this->original_submission

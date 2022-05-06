@@ -96,7 +96,11 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = next =
+* New Feature: New styling to show / hide different features
+* New Feature: Display monthly summary on time entry page - for all data or filtered data
+* New Feature: Homepage now displays summary by month history for all years
 * Improvement: Retain filter criteria in form when filtering time entries
+* Improvement: Misc styling improvements
 
 = 2.2.3 =
 * Fix: Resolve styling issue

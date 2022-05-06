@@ -587,6 +587,10 @@ td.on-hold-date {
     float: left;
 }
 
+.tt-col-middle {
+    margin: 0 auto;
+}
+
 .tt-col-right:after {
     clear: both;
 }

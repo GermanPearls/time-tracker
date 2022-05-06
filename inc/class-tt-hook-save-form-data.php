@@ -2,7 +2,7 @@
 /**
  * Class Time_Tracker_Save_Form_Data
  *
- * Hook into CF7 after data saved to save form data into separate database
+ * Hook into CF7 after data saved to save form data into Time Tracker tables in database
  * 
  * @since 1.0
  * 

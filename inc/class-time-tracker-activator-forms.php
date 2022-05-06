@@ -329,6 +329,10 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             $html .= "<label> Notes (required)</label>[textarea* time-notes maxlength:1999]";
             $html .= "<label> New Task Status</label>[select new-task-status id:new-task-status include_blank \"In Process\" \"Not Started\" \"Ongoing\" \"Waiting Client\" \"Complete\" \"Canceled\"]";
             $html .= "<label> End Time (required)</label>[datetime end-time id:end-time]";
+            $html .= "<div class=\"tt-form-element tt-one-third tt-col-left\"><label> Invoiced? [text invoiced id:invoiced]</label></div>";
+            $html .= "<div class=\"tt-form-element tt-one-third tt-col-middle\"><label> Invoice # [text invoice-number id:invoice-number]</label></div>";
+            $html .= "<div class=\"tt-form-element tt-one-third tt-col-right\"><label> Invoiced Time [text invoiced-time id:invoiced-time]</label></div>";
+            $html .= "<label> Invoice Notes [text invoice-notes id:invoice-notes]</label>";
             $html .= "<label> Follow Up (Create New Task)</label>[text follow-up maxlength:500]";
             $html .= "[submit id:add-time-submit \"Send\"]";
             return $html;
