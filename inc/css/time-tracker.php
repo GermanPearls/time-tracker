@@ -603,18 +603,32 @@ td.on-hold-date {
     width: 33%;
 }
 
-.tt-form label, .tt-form select, .tt-form input:not(input[type="submit"], span>input), .tt-form span {
+.tt-form label, .tt-form select, .tt-form input:not(input[type="submit"], input[type="datetime"], span>input), .tt-form span {
     display: inline-block;
     width: 80%;
     margin-right: 20px;
 }
+
+.tt-form input[type="submit"], .tt-form input[type-="datetime"] {
+    float: left;
+    width: 20%;
+}
+
+.tt-form input[type-="datetime"] {
+    width: 20%;
+}
+
+.tt-form input[type="submit"]:after, .tt-form input[type-="datetime"]:after {
+    clear:both;
+}
+
 
 .tt-form .tt-form-element.tt-two-thirds {
     width: 66%;
 }
 
 @media only screen and (max-width: 768px) {
-	.tt-col-right, .tt-col-left, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
+	.tt-col-right, .tt-col-left, .tt-col-middle, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
     .tt-form .tt-form-element.tt-two-thirds, .tt-form .tt-form-element.tt-two-thirds label,
     .tt-form .tt-form-element.tt-one-third input, .tt-form .tt-form-element.tt-one-third select,
     .tt-form .tt-form-element.tt-two-thirds input, .tt-form .tt-form-element.tt-two-thirds select {
