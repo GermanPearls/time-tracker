@@ -257,7 +257,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             $html = "<label> Company (required)</label>[text* company maxlength:100]";
             $html .= "<label> Contact Name</label>[text contact-name maxlength:100]";
             $html .= "<label> Contact Email </label>[email contact-email maxlength:100]";
-            $html .= "<label> Telephone #</label>[tel contact-telephone]";
+            $html .= "<label> Telephone #</label>[text contact-telephone]";
             $html .= "<label> Bill To (required)</label>[bill_to_name bill-to ie:bill-to-name-dropdown]";
             $html .= "<label> Source (required)</label>[client_category client-source id:client-source-dropdown]";
             $html .= "<label> Source Details</label>[client_sub_category client-source-details id:client-source-details-dropdown]";
