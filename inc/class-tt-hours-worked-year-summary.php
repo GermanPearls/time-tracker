@@ -47,7 +47,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         public function getHTML() {
             $this->setYears();
             $i = intval($this->last_year);
-            $display = "";
+            $display = "<h2>Hours Worked by Year</h2>";
             while ($i >= intval($this->first_year)) {
                 $display .= $this->createHTMLTableForOneYear($i);
                 $i = $i - 1;

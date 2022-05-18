@@ -174,7 +174,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $time_summary = $this->totalDataByMonthWeekAndBillTo();
             $bill_to_names = $this->listBillToNames($time_summary);
             $columncount = count($bill_to_names) + 1;
-            $html = "";
+            $html = "<h2>" . date('F') . " " . date('Y') . " Hours Worked</h2>";
 
             //open table
             $table = "<table class=\"tt-table monthly-summary-table tt-even-columns-" . esc_attr($columncount) . "\">";
@@ -191,7 +191,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $table .= "<tr>";                
             
             //current week hours worked
-            $table .= "<td class=\"tt-align-center\">Hours Worked (Week)</td>";
+            $table .= "<td class=\"tt-align-center\">Current Week Hours Worked</td>";
             foreach ($bill_to_names as $bill_to_name) {        
                 //no data for at all
                 if (empty($time_summary)) {
@@ -210,7 +210,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $table .= "</tr>";
 
             //current month hours worked
-            $table .= "<td class=\"tt-align-center\">Hours Worked (Month)</td>";
+            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Worked</td>";
             foreach ($bill_to_names as $bill_to_name) {      
                 //no data at all
                 if (empty($time_summary)) {
@@ -229,7 +229,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $table .= "</tr>";
 
             //pending time
-            $table .= "<td class=\"tt-align-center\">Pending Time</td>";
+            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Pending</td>";
             foreach ($bill_to_names as $bill_to_name) {        
                 if (empty($time_summary)) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -242,7 +242,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $table .= "</tr>";
 
             //invoiced time
-            $table .= "<td class=\"tt-align-center\">Invoiced Time</td>";
+            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Invoiced</td>";
             foreach ($bill_to_names as $bill_to_name) {        
                 if (empty($time_summary)) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
