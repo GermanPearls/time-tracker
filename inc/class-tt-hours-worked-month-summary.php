@@ -174,10 +174,10 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $time_summary = $this->totalDataByMonthWeekAndBillTo();
             $bill_to_names = $this->listBillToNames($time_summary);
             $columncount = count($bill_to_names) + 1;
-            $html = "<h2>" . date('F') . " " . date('Y') . " Hours Worked</h2>";
+            $table = "<h2>" . date('F') . " " . date('Y') . " Hours Worked</h2>";
 
             //open table
-            $table = "<table class=\"tt-table monthly-summary-table tt-even-columns-" . esc_attr($columncount) . "\">";
+            $table .= "<table class=\"tt-table monthly-summary-table tt-even-columns-" . esc_attr($columncount) . "\">";
 
             //header row
             $table .= "<tr class=\"tt-header-row\">";
