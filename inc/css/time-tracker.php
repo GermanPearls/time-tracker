@@ -610,7 +610,7 @@ td.on-hold-date {
     margin-right: 20px;
 }
 
-.tt-form input[type="submit"], .tt-form input[type="datetime"] {
+.tt-form input[type="submit"] :not(.tt-form-row input[type="submit"]), .tt-form input[type="datetime"] {
     float: left;
     width: 20%;
 }
