@@ -205,8 +205,8 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
             //$billto = array_column($data, 'BillTo');
             //$starttime = array_column($data, 'StartTime');
             $data = $this->time_detail_array;
-            array_multisort(array_column($data, 'BillTo'), SORT_ASC,
-                            array_column($data, 'StartTime'),
+            array_multisort(array_column($data, 'StartTime'), SORT_DESC,
+                            array_column($data, 'BillTo'), SORT_ASC,
                             $data);
             return $data;            
         }
