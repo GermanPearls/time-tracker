@@ -54,19 +54,25 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
                         var str = window.location.pathname;
                         //var tthome = document.location.origin + '/time-tracker/';
                         var formtype = "";
-                        let startworking = false;
+                        var startworking = false;
                         var client = "";
                         var taskdesc = "";
 
                         for (var i=0; i < event.detail.inputs.length; i++) {
-                            if(event.detail.inputs[i].name == 'form-type') {
+                            if (event.detail.inputs[i].name == 'form-type') {
                                 formtype = event.detail.inputs[i].value;
-                            } else if( (event.detail.inputs[i].name == 'what-next') && (event.detail.inputs[i].value == 'StartWorking') ) {
-                                startworking = true;
-                            } else if(event.detail.inputs[i].name == 'client-name') {
-                                client = event.detail.inputs[i].value;
-                            } else if(event.detail.inputs[i].name == 'task-description') {
-                                taskdesc = event.detail.inputs[i].value;
+                            } else {
+                                if ( (event.detail.inputs[i].name == 'what-next') && (event.detail.inputs[i].value == 'StartWorking') ) {
+                                    startworking = true;
+                                } else {
+                                    if (event.detail.inputs[i].name == 'client-name') {
+                                        client = event.detail.inputs[i].value;
+                                    } else {
+                                        if (event.detail.inputs[i].name == 'task-description') {
+                                            taskdesc = event.detail.inputs[i].value;
+                                        }
+                                    }
+                                }
                             }
                         }
 
@@ -75,21 +81,24 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
                             tt_filter_time_log(event);
                         
                         //we added a new task and want to start working
-                        } else if (startworking == true) {
-                            <?php
-                            //if user clicked start task forward to time log page, filling data with last entered task
-                            global $wpdb;
-                            $task_row = $wpdb->get_results('SELECT max(TaskID) as TaskID FROM tt_task');
-                            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-                            //task hasn't saved yet so predict new task number
-                            $taskid = $task_row[0]->TaskID + 1;
-                            ?>
-                            var recordtime = <?php $home = "'" . TT_HOME . "'"; echo $home; ?> + 'new-time-entry/?client-name=' + encodeURIComponent(client) + '&task-name=' + '<?php echo esc_attr($taskid); ?>' + '-' + encodeURIComponent(taskdesc);
-                            location = recordtime;
-
-                        //if it's a time tracker form submission, go back to tt homepage after submit
-                        } else if (str.includes('time-tracker')) {
-                            location = <?php $home = "'" . TT_HOME . "'"; echo $home; ?>;
+                        } else {
+                            if (startworking) {
+                                <?php
+                                //if user clicked start task forward to time log page, filling data with last entered task
+                                global $wpdb;
+                                $task_row = $wpdb->get_results('SELECT max(TaskID) as TaskID FROM tt_task');
+                                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+                                //task hasn't saved yet so predict new task number
+                                $taskid = $task_row[0]->TaskID + 1;
+                                ?>
+                                var recordtime = <?php $home = "'" . TT_HOME . "'"; echo $home; ?> + 'new-time-entry/?client-name=' + encodeURIComponent(client) + '&task-name=' + '<?php echo esc_attr($taskid); ?>' + '-' + encodeURIComponent(taskdesc);
+                                location = recordtime;
+                            } else {
+                                //if it's a time tracker form submission, go back to tt homepage after submit
+                                if (str.includes('time-tracker')) {
+                                    location = <?php $home = "'" . TT_HOME . "'"; echo $home; ?>;
+                                }
+                            }
                         }
                     
                     }, false );  //end wpcf7submit event listener
