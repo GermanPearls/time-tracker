@@ -205,7 +205,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 //create row
                 $table .= "<tr>";           
                 $table .= "<td id=\"client\" class=\"not-editable tt-col-width-ten-pct\">" . esc_textarea($client) . "</td>";
-                $table .= "<td id=\"task-id\" class=\"not-editable tt-col-width-five-pct\">" . esc_textarea($taskid) . "</td>";
+                $table .= "<td id=\"task-id\" class=\"tt-editable tt-col-width-five-pct\" contenteditable=\"true\" onBlur=\"updateDatabase(this, 'tt_time', 'TimeID', 'TaskID'," . esc_attr($timeid) . ")\">" . esc_textarea($taskid) . "</td>";
                 $table .= "<td id=\"task-description\" class=\"not-editable tt-col-width-fifteen-pct\">"  . wp_kses_post(nl2br($item['TDescription'])) . "</td>";
                 $table .= "<td id=\"start-time\" class=\"not-editable tt-col-width-five-pct\">" . esc_textarea(tt_format_date_for_display($starttime, "date_and_time")) . "</td>";
                 $table .= "<td id=\"end-time\" class=\"not-editable tt-col-width-five-pct\">" . esc_textarea(tt_format_date_for_display($endtime, "date_and_time")) . "</td>";
