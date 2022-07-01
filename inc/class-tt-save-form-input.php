@@ -281,7 +281,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'TaskID' => $this->task_id,
                 'Invoiced' => $data['invoiced'],
                 'InvoiceNumber' => $data['invoice-number'],
-                'InvoicedTime' => $data['invoiced-time'],
+                'InvoicedTime' => $data['invoiced-time'] == "" ? Null : $data['invoiced-time'],
                 'InvoiceComments' => $data['invoice-notes'],
                 'FollowUp' => $data['follow-up'],
                 'NewTaskStatus' => $data['new-task-status'],
