@@ -26,3 +26,5 @@ function update_end_timer() {
 
     document.getElementById('end-time').value = dstring;
 }
+
+setInterval(update_end_timer(), 1000);
