@@ -107,6 +107,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-project-dropdown.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-pending-time-export.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-delete-record.php');
+      include_once(TT_PLUGIN_DIR_INC . 'function-tt-load-dynamic-stylesheets.php');
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
@@ -211,6 +212,8 @@ if ( ! class_exists('Time_Tracker') ) {
     public function time_tracker_styles() {
       //STYLES
       wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.php');
+      //wp_enqueue_style( 'time-tracker-style-buttons', TT_PLUGIN_WEB_DIR_INC . 'css/tt-css-buttons.php');  //load as dynamic stylesheet
+
     }
 
 
@@ -255,6 +258,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_ADMIN . 'tt-admin-menu.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'tt-admin-menu-home.php');
       include_once(TT_PLUGIN_DIR_ADMIN . 'tt-admin-menu-tools.php');
+      include_once(TT_PLUGIN_DIR_ADMIN . 'tt-admin-menu-style.php');
 
       //CLASSES and FUNCTIONS
       include_once(TT_PLUGIN_DIR_ADMIN . 'function-tt-export-button.php');
@@ -273,6 +277,7 @@ if ( ! class_exists('Time_Tracker') ) {
      */    
     public function time_tracker_styles_admin() {
       wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.php');
+      //wp_enqueue_style( 'time-tracker-style-buttons', TT_PLUGIN_WEB_DIR_INC . 'css/tt-css-buttons.php');    //no - load as dynamic stylesheet
     }
 
 
@@ -282,7 +287,9 @@ if ( ! class_exists('Time_Tracker') ) {
      */
     public function time_tracker_scripts_admin() {
       wp_enqueue_script( 'tt_add_line_break', TT_PLUGIN_WEB_DIR_ADMIN . 'js/add_line_break.js', array(), null, true); 
-		
+      wp_enqueue_script( 'tt_override_theme_style', TT_PLUGIN_WEB_DIR_ADMIN . 'js/override_theme_style.js', array(), null, true);
+      wp_enqueue_script( 'tt_color_samples', TT_PLUGIN_WEB_DIR_ADMIN . 'js/color_samples.js', array(), null, true);
+
       wp_enqueue_script( 'export_tt_data', TT_PLUGIN_WEB_DIR_ADMIN . 'js/export_tt_data.js', array('jquery'), null, true);
       wp_enqueue_script( 'delete_tt_data', TT_PLUGIN_WEB_DIR_ADMIN . 'js/delete_tt_data.js', array('jquery'), null, true);
       
