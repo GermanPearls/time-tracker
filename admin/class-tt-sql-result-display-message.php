@@ -38,7 +38,7 @@ if ( ! class_exists('Time_Tracker_SQL_Result_Display_Message') ) {
          * 
          */
         public function __construct() {
-            $this->option = get_option('time-tracker-sql-result');
+            $this->option = get_option('time_tracker_sql_result');
             //$this->result = $option['result'];
         }
 
