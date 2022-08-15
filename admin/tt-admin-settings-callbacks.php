@@ -20,6 +20,15 @@ function tt_categories_section_callback() {
 
 
 /**
+ * Settings Section - Style
+ * Callback Function
+ */
+function tt_style_section_callback() {
+}
+
+
+
+/**
  * Settings Field - Bill to Names
  * Callback Function
  */
@@ -123,4 +132,113 @@ function tt_categories_client_sub_categories_callback() {
     ?></textarea><br></div>
     <br>
     <?php
+}
+
+
+/**
+ * Settings Field - CSS - Buttons - Override colors
+ * Callback Function
+ */
+function tt_css_buttons_override_callback() {
+    //display on menu page
+    ?>
+    <div class="tt-indent">
+    <input type="checkbox" id="tt-css-button-override" name="time_tracker_style[css][buttons][override]" class="tt-options-form" form="tt-options" <?php
+    if (tt_css_button_override_value()) {
+        echo 'checked';
+    }
+    ?>
+    >   </text>    <br>    </div>
+    <?php
+}
+
+
+/** Get Value of CSS Button Style Override
+ * 
+ * 
+ */
+function tt_css_button_override_value() {
+    //get the value if it's already been entered
+    $styles = get_option('time_tracker_style');
+    if (is_array($styles)) {
+        if (array_key_exists('css', $styles)) {
+            if (is_array($styles['css'])) {
+                if (array_key_exists('buttons', $styles['css'])) {
+                    if (is_array($styles['css']['buttons'])) {
+                        if (array_key_exists('override', $styles['css']['buttons'])) {
+                            if (trim(sanitize_textarea_field($styles['css']['buttons']['override'])) == "on") {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
+function tt_css_option_callback($args) {
+    //get the value if it's already been entered
+    $optn = '';
+    $styles = get_option('time_tracker_style');
+    if (is_array($styles)) {
+        if (array_key_exists('css', $styles)) {
+            $optn = $styles['css'];
+            foreach ($args as $arg) {
+                if (is_array($optn)) {
+                    if (array_key_exists($arg, $optn)) {
+                        $optn = $optn[$arg];
+                    }
+                } else {
+                    $optn = trim(sanitize_text_field($optn));
+                }
+            }
+        }
+    }    
+
+    //display on menu page
+    ?><div class="tt-indent">
+    <input type="text" id="tt-css-<?php echo implode("-", $args); ?>" name="time_tracker_style[css][<?php echo implode("][", $args); ?>]" rows="1" cols="20" form="tt-options" class="tt-options-form <?php
+    if (tt_css_button_override_value() == false) {
+        echo 'tt-disabled" disabled';
+    } else {
+        echo '"';
+    }
+    ?> value="<?php echo $optn; ?>"><div id="tt-color-display-<?php echo implode("-", $args); ?>"" style="display:inline-block; margin-left: 30px; min-width: 30px; min-height: 30px; background-color: <?php echo $optn; ?>;"><p></p></div>   <br>    </div>
+    <?php
+}
+
+
+/**
+ * Settings Field - CSS - Buttons - Background Color
+ * Callback Function
+ */
+function tt_css_buttons_background_callback() {
+    tt_css_option_callback(array('buttons', 'background', 'normal'));
+}
+
+/**
+ * Settings Field - CSS - Buttons - Text Color
+ * Callback Function
+ */
+function tt_css_buttons_text_callback() {
+    tt_css_option_callback(array('buttons', 'text', 'normal'));
+}
+
+/**
+ * Settings Field - CSS - Buttons - Background Color - Hover
+ * Callback Function
+ */
+function tt_css_buttons_background_hover_callback() {
+    tt_css_option_callback(array('buttons', 'background', 'hover'));
+}
+
+/**
+ * Settings Field - CSS - Buttons - Text Color - Hover
+ * Callback Function
+ */
+function tt_css_buttons_text_hover_callback() {
+    tt_css_option_callback(array('buttons', 'text', 'hover'));
 }
