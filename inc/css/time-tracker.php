@@ -11,7 +11,7 @@
     $brand_color = '#01375d';  //base blue
     $brand_color_minor = '#809bae';  //lighter grayish blue
 
-    $neutral_background = '#d3d3d3';  //light gray
+    $neutral_background = '#f5f5f5';  //light gray
     $neutral_background_light = '#e4e4e4';  //lighter grayish
     $neutral_background_dark = '';
     
@@ -19,6 +19,7 @@
     $text_color_dark = $brand_color;
     
     $alert_color = 'red';
+
 ?>
 
 
@@ -39,10 +40,6 @@ div#tt-all-content {
     max-width: 100%;
     margin-bottom: 10px;
 }
-
-/** */.tt-page-template div#tt-content.site-content {
-    margin-bottom: 10px;
-}**/
 
 div#tt-primary, div#tt-sidebar, {
     display: inline-block;
@@ -128,9 +125,7 @@ div.tt-sidebar {
     -webkit-appearance: button;
     appearance: button;
     padding: 5px 20px;
-    background-color: <?php echo $brand_color; ?>;
     box-shadow: 5px 5px 8px #888888;
-    color: <?php echo $text_color_light; ?>;
     font-size: 1.2em;
     line-height: 1.2em;
     text-decoration: none;
@@ -211,9 +206,7 @@ a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, input[type="subm
     -webkit-appearance: button;
     appearance: button;
     padding: 5px 10px;
-    background-color: <?php echo $brand_color; ?>;
     box-shadow: 5px 5px 8px #888888;
-    color: <?php echo $text_color_light; ?>;
     font-size: 1.2em;
     line-height: 1.2em;
     text-decoration: none;
@@ -228,27 +221,28 @@ input[type="submit"].tt-form-button.tt-inline-button, .tt-form input[type="submi
 }
 
 a.tt-sidebar-button:visited, a.tt-header-button:visited, input[type="submit"].tt-form-button:visited {
-    color: <?php echo $text_color_light; ?>;
     text-decoration: none;
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    appearance: button;
 }
 
 button.end-work-timer:hover, a.tt-sidebar-button:hover, a.tt-header-button:hover, input[type="submit"].tt-form-button:hover, 
 .tt-form input[type="submit"]:hover, .tt-form button:hover {
-    background-color: <?php echo $brand_color_minor; ?>;
-    color: <?php echo $text_color_dark; ?>;
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    appearance: button;
     text-decoration: none;
     font-weight: bold;
     border: none;
 }
 
 a.tt-sidebar-button {
-    width: 85%; /*of sidebar*/
+    width: 85%; /**of sidebar**/
     margin: 10px auto;
 }
 
 button.clear-error {
-    background-color: <?php echo $neutral_background; ?>;
-    color: <?php echo $text_color_dark; ?>;
     padding: 5px 10px;
     font-size: 0.8em;
     border-radius: 0;
@@ -257,15 +251,12 @@ button.clear-error {
 }
 
 button.clear-error:hover {
-    background-color: <?php echo $brand_color; ?>;
-    color: <?php echo $text_color_light; ?>;
     font-weight: bold;
 }
 
 /*** Delete Confirmation Buttons and Text ***/
 .tt-delete-confirmation-button {
     text-decoration: none;
-    background-color: <?php echo $brand_color; ?>;
     padding: 10px;
     margin: 20px;
     width: 100px;
@@ -273,7 +264,7 @@ button.clear-error:hover {
 }
 
 .tt-delete-confirmation-button:hover, .tt-delete-confirmation-button:focus {
-    background-color: rgba(255,0,0,1);
+    background-color: red;
     text-decoration: none;
 }
 
@@ -293,7 +284,6 @@ button.clear-error:hover {
 .start-work-timer, .open-task-detail, .tt-table-button {
     width: 100%;
     padding: 0.2em;
-    background-color: <?php echo $brand_color; ?>;
     margin-right: 0.1em;
     margin-bottom: 0.1em;
     font-size: 0.8em;
@@ -305,8 +295,6 @@ button.clear-error:hover {
 
 .start-work-timer:hover, .open-task-detail:hover, .tt-table-button:hover, .tt-table-button:focus  {
     padding: 2.5px;
-    background-color: <?php echo $brand_color_minor; ?>;
-    color: <?php echo $text_color_dark; ?>;
     text-decoration: none;
     font-weight: bold;
 }
@@ -314,14 +302,10 @@ button.clear-error:hover {
 /********** General Buttons Mid-Page **********/
 .end-work-timer, .tt-midpage-button {
     padding: 5px;
-    color: <?php echo $text_color_light; ?>;
-    background-color: <?php echo $brand_color_minor; ?>;
     margin-bottom: 10px;
 }
 
 .end-work-timer:hover, .tt-midpage-button:hover {
-    color: <?php echo $text_color_light; ?>;
-    background-color: <?php echo $brand_color; ?>;
     text-decoration: none;
 }
 
@@ -343,20 +327,6 @@ div.tt-pagination-nav {
     text-decoration: none;
 }
 
-.tt-pagination-nav a {
-    background-color: <?php echo $brand_color; ?>;
-    color: <?php echo $text_color_light; ?>;
-}
-
-.tt-pagination-nav a:hover {
-	color: <?php echo $brand_color_minor; ?>;
-}
-
-.tt-pagination-nav .current {
-    background-color: <?php echo $brand_color_minor; ?>;
-    color: <?php echo $text_color_dark; ?>;
-}
-
 @media only screen and (max-width: 768px) {
   a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, button.clear-error, button.tt-export-pending-time {
     padding: 5px;
@@ -372,8 +342,6 @@ div.tt-pagination-nav {
 /******** Accordions *******/
 /***************************/
 .tt-accordion {
-  background-color: <?php echo $brand_color; ?>;
-  color: <?php echo $text_color_light; ?>;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -391,8 +359,6 @@ div.tt-pagination-nav {
 }
 
 .tt-accordion.active, .tt-accordion:hover, .tt-accordion:focus {
-    background-color: <?php echo $brand_color_minor; ?>;
-    color: <?php echo $text_color_dark; ?>;
     text-decoration: none;
     font-weight: bold;
     border: none;
@@ -433,9 +399,8 @@ div.tt-pagination-nav {
 .tt-table th {
     font-weight: bold;
     position: sticky;
-    background-color: <?php echo $brand_color; ?>; 
-    color: <?php echo $text_color_light; ?>;
     vertical-align: bottom;
+    line-height: 1em;
 }
 
 .tt-table td.not-editable {
@@ -514,7 +479,6 @@ div.tt-pagination-nav {
 
 /********** Project List Table **********/
 .project-list-table td#status-header-row {
-    background-color: <?php echo $neutral_background_light; ?>;
     font-weight: bold;
 }
 
