@@ -39,6 +39,14 @@ function tt_admin_menu_tools() {
             <button onclick="delete_tt_data(&quot;second&quot;)" class="button-primary delete-btn">YES, Delete Everything</button>
          </span>         
          <hr/>
+         <h2>Create Tickets for Recurting Tasks</h2>
+         <p>
+            Use the button below to check recurring tasks and create individual tasks as necessary.   
+            For example, if you have a monthly task that is generated on the 1st of the month, it's now the 3rd and the task wasn't created yet, <br>
+            click the button below.<br/>
+         </p>
+         <button onclick="tt_create_recurring_tasks();" class="button-primary tt-run-cron-manually">Add Recurring Tasks</button>    
+         <hr/>
       </div>
    <?php   
 }

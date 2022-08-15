@@ -453,10 +453,10 @@ function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {
 		}
         
 		//save to options table to alert user
-        if (get_option('time-tracker-sql-result')) {
-			update_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+        if (get_option('time_tracker_sql_result')) {
+			update_option('time_tracker_sql_result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
 		} else {
-			add_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+			add_option('time_tracker_sql_result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
 		}
     
     //it was a success!
@@ -466,25 +466,25 @@ function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {
 		}
         
         //if there are no results in the db, add them
-        if (get_option('time-tracker-sql-result')) {
+        if (get_option('time_tracker_sql_result')) {
 			
-			$option = get_option('time-tracker-sql-result');			
+			$option = get_option('time_tracker_sql_result');			
 			
 			//if option already was a success, just update the date
 			if ($option['result'] == 'success') {			
-				update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
+				update_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
 				
         	//if option was a failure, leave it there for 7 days and only update if it's at least 7 days old
         	} else {
             	$last_updated = date_create_from_format('m-d-Y g:i A', $option['updated']);
             	if ( date_diff($last_updated, $now)->format('%a') > 7 ) {
-                	update_option('time-tracker-sql-result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
+                	update_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>$filename, 'function'=>$functionname));
             	}
 			}
 		
 		//option doesn't exist in db, create it
 		} else {
-			add_option('time-tracker-sql-result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
+			add_option('time_tracker_sql_result', array('result'=>'failure','updated'=>$now->format('m-d-Y g:i A'),'error'=>$lasterror, 'file'=>$filename, 'function'=>$functionname));
 		}
     }
 }
@@ -544,4 +544,14 @@ function log_tt_misc($msg) {
 		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
 		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
 	}
+}
+
+
+/**
+ * Run cron manually
+ * 
+ */
+function tt_create_recurring_tasks() {
+    $recurring_task_check = new TT_Cron_Recurring_Tasks();
+    $recurring_task_check->create_new_tasks();
 }
