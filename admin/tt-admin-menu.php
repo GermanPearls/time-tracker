@@ -72,6 +72,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
             //add sub-pages
             self::add_sub_menu('time-tracker', 'Time Tracker Options', 'Options', 'manage_options', 'time-tracker', 'Logically_Tech\Time_Tracker\Admin\tt_admin_menu_home', null);
             self::add_sub_menu('time-tracker', 'Time Tracker Tools', 'Tools', 'manage_options', 'time-tracker-tools', 'Logically_Tech\Time_Tracker\Admin\tt_admin_menu_tools', null);
+            self::add_sub_menu('time-tracker', 'Time Tracker Style', 'Style', 'manage_options', 'time-tracker-style', 'Logically_Tech\Time_Tracker\Admin\tt_admin_menu_style', null);
         }       
           
                 
