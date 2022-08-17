@@ -95,6 +95,9 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
+= next =
+* New Feature: End timer on time entry form stays in sync with clock (removed 'Set End Timer' button as no longer necessary)
+
 = 2.3.0 =
 * New Feature: Give user ability to create recurring tasks on demand (currently run once per day, now user can manually run check if a task isn't created automatically)
 * New Feature: Give user ability to override theme css for button colors, new page in admin (Time Tracker > Style)
