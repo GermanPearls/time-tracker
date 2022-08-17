@@ -31,6 +31,6 @@ jQuery(window).on("load", function() {
 	if (document.getElementById('end-time')) {
 		setInterval(function() {
 			update_end_timer();
-		}, 5000);		
+		}, 60000);		
 	}
 });
