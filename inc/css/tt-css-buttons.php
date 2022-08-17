@@ -32,7 +32,7 @@ if (trim(sanitize_textarea_field($settings['css']['buttons']['override'])) == "o
                     $button_text_color = sanitize_text_field($settings['css']['buttons']['text']['normal']);
                 }
                 if (array_key_exists('hover', $settings['css']['buttons']['text'])) {
-                    $button_hover_text_color = sanitize_text_field($settings['css']['text']['background']['hover']);
+                    $button_hover_text_color = sanitize_text_field($settings['css']['buttons']['text']['hover']);
                 }            
             }  
         }
