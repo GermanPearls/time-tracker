@@ -95,6 +95,9 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
+= Next =
+* Fix: Adjust accordion panel display so all toggles work properly
+
 = 2.3.1 =
 * New Feature: End timer on time entry form stays in sync with clock (removed 'Set End Timer' button as no longer necessary)
 * Fix: Resolve console error related to watching for color changes on all pages instead of just style admin
