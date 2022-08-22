@@ -345,7 +345,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Log",
                 "Parent" => $parent,
                 "Slug" => "time-log",
-                "Content" => "<button class=\"tt-accordion\">Search</button><div class=\"tt-accordion-panel\">[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]</div>[tt_time_log_table type=\'summary\'][tt_year_summary]<h3>Time Details</h3>[tt_time_log_table type=\'detail\']",
+                "Content" => "<div class=\"tt-accordion\">Search</div><div class=\"tt-accordion-panel\">[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]</div>[tt_time_log_table type=\'summary\'][tt_year_summary]<h3>Time Details</h3>[tt_time_log_table type=\'detail\']",
 				"Paginate" => array(
 					"Flag" => true,
 					"RecordsPerPage" => 100,

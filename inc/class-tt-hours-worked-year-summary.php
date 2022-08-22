@@ -185,11 +185,11 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             $bill_to_names = $this->listBillToNames($time_summary); //all dates
 
             //accordion
-            $acc_start = "<button class='tt-accordion";
+            $acc_start = "<div class='tt-accordion";
             if ($yr == date('Y')) {
                 $acc_start .= " active";
             }
-            $acc_start .= "'>" . $yr . " Summary</button><div class='tt-accordion-panel'>";
+            $acc_start .= "'>" . $yr . " Summary</div><div class='tt-accordion-panel'>";
             $acc_end = "</div>";
 
             //table begin
