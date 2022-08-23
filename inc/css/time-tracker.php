@@ -39,6 +39,7 @@
 div#tt-all-content {
     max-width: 100%;
     margin-bottom: 10px;
+    overlfow: auto;
 }
 
 div#tt-primary, div#tt-sidebar, {

@@ -96,6 +96,7 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = Next =
+* Fix: Adjust height/overflow of main content to correct css issue with some themes
 * Fix: Adjust accordion panel display so all toggles work properly
 
 = 2.3.1 =
