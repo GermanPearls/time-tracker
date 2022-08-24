@@ -336,8 +336,10 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * 
          */
         private function get_client_id($data) {
+            //no client information passed
             if ( !array_key_exists('client-name', $data) or $data['client-name'] == '' or $data['client-name'] == null) {
-                $this->client_id = null;
+                //use default client if one exists, if not just enter null
+                $this->client_id = get_option('time-tracker'['default-client'], null);
             } else {
                 $this->client_id = get_client_id_from_name($data['client-name']);
             }
@@ -368,7 +370,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private function get_task_id($data) {
             //Task field in table requires a valid Task ID or null value, won't except empty string
             if (!array_key_exists('task-name', $data) or $data['task-name'] == '' or $data['task-name'] == null) {
-                $this->task_id = null;
+                $this->task_id = get_option('time-tracker'['default-task'], null);
             } else {
                 $task = $data['task-name'];
                 $task_number_from_string = substr($task,0,strpos($task,'-'));

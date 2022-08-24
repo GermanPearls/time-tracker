@@ -96,6 +96,7 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = Next =
+* New Feature: Added default client and task to be used when none entered by user
 * Fix: Filter time entries by ticket #
 
 = 2.3.3 =
