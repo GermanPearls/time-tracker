@@ -82,7 +82,7 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
                         
                         //we added a new task and want to start working
                         } else {
-                            if (startworking) {
+                            if (startworking == true) {
                                 <?php
                                 //if user clicked start task forward to time log page, filling data with last entered task
                                 global $wpdb;
