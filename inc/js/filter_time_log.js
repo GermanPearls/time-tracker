@@ -16,7 +16,7 @@ function tt_filter_time_log(event) {
             last_date = input.value;
         } else if (input.name == 'client-name') {
             client = input.value;
-        } else if (input.name == 'time-notes') {
+        } else if (input.name == 'notes') {
             notes = input.value;
         } else if (input.name == 'project-name') {
             project = input.value;

@@ -42,12 +42,14 @@ if ( !class_exists( 'Time_Log' ) ) {
          */        
         public function __construct() {
             $this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
-            if (isset($_GET['task-name'])) {
-                if ($_GET['task-name'] <> null) {
-                    $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task-name']));
-                }
-            } elseif (isset($_GET['task-id'])) {
+            if (isset($_GET['task-id'])) {
                 $this->taskid = intval($_GET['task-id']);
+            } elseif (isset($_GET['task-number'])) {
+                $this->taskid = intval($_GET['task-number']);
+            } elseif (isset($_GET['task'])) {
+                if ($_GET['task'] <> null) {
+                    $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task']));
+                }
             } else {
                 $this->taskid  = null;
             };
