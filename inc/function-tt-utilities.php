@@ -443,7 +443,7 @@ function get_record_numbers_for_pagination_sql_query() {
  * 
  */
 function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {           
-    $now = new \DateTime;
+    $now = new \DateTime("now", new \DateTimeZone('America/New_York'));
     //there was a sql error
     if( ($lasterror !== "") and ($lasterror !== null) ) {
 		if (WP_DEBUG_LOG) {
