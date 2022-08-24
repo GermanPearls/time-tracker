@@ -50,6 +50,8 @@ if ( !class_exists( 'Task_List' ) ) {
                 }
             } elseif (isset($_GET['task-id'])) {
                 $this->taskid = intval($_GET['task-id']);
+            } elseif (isset($_GET['task-number']) {
+                $this->taskid = intval($_GET['task-number']);
             } else {
                 $this->taskid  = null;
             };

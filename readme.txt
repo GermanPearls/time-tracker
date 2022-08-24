@@ -95,6 +95,9 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
+= Next =
+* Fix: Filter time entries by ticket #
+
 = 2.3.3 =
 * Fix: Typo
 
