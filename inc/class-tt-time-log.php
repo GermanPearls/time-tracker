@@ -161,18 +161,18 @@ if ( !class_exists( 'Time_Log' ) ) {
             global $wpdb;
             $where_clauses = array();
             $where_clause = "";
-            if (! is_null($this->clientid)) {
+            if (! is_null($this->clientid) or $this->clientid === 0) {
                 array_push($where_clauses, "tt_time.ClientID = " . $this->clientid);
             }
-            if (! is_null($this->projectid)) {
+            if (! is_null($this->projectid) or $this->projectid === 0) {
                 //no project id field in time table - so we have to get tasks and then time associated with those tasks
                 array_push($where_clauses, "tt_task.ProjectID = " . $this->projectid);
             }
-            if (! is_null($this->rectaskid)) {
+            if (! is_null($this->rectaskid) or $this->rectaskid === 0) {
                 //no recurring task id field in time table - so we have to get tasks and then time associated with those tasks
                 array_push($where_clauses, "tt_task.RecurringTaskID = " . $this->rectaskid);
             }
-            if (! is_null($this->taskid)) {
+            if (! is_null($this->taskid) or $this->taskid === 0) {
                 array_push($where_clauses, "tt_time.TaskID = " . $this->taskid);
             }
             if ( ($this->timeid <> "") and (! is_null($this->timeid)) and ($this->timeid <> "null") ) {
