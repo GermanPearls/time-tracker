@@ -167,7 +167,7 @@ if ( !class_exists( 'Time_Log' ) ) {
             global $wpdb;
             $where_clauses = array();
             $where_clause = "";
-            if ($this->clientid <> null) {
+            if ($this->clientid >= 0) {
                 array_push($where_clauses, "tt_time.ClientID = " . $this->clientid);
             }
             if ($this->projectid <> null) {
