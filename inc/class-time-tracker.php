@@ -183,6 +183,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'tt_clear_sql_error', TT_PLUGIN_WEB_DIR_INC . 'js/clear_sql_error.js', array('jquery'), null, true);
       wp_enqueue_script( 'updateDatabase', TT_PLUGIN_WEB_DIR_INC . 'js/update_table.js', array('jquery'), null, true);
       wp_enqueue_script( 'deleteRecord', TT_PLUGIN_WEB_DIR_INC . 'js/delete_record.js', array('jquery'), null, true);
+      wp_enqueue_script( 'tt_start_timer_for_new_task', TT_PLUGIN_WEB_DIR_INC . 'js/start_timer_for_new_task.js', array('jquery'), null, true);
 
       wp_enqueue_script( 'export_pending_time_to_csv', TT_PLUGIN_WEB_DIR_INC . 'js/export_pending_time_to_csv.js', array('jquery'), null, true);
       wp_enqueue_script( 'tt_download_file', TT_PLUGIN_WEB_DIR_INC . 'js/tt_download_file.js', array(), null, true);
@@ -195,7 +196,8 @@ if ( ! class_exists('Time_Tracker') ) {
 	    wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
       wp_localize_script('export_pending_time_to_csv', 'wp_ajax_object_tt_export_pending_time', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_nonce')));
       wp_localize_script('deleteRecord', 'wp_ajax_object_tt_delete_record', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_record_nonce')));
-    
+      wp_localize_script('tt_start_timer_for_new_task', 'wp_ajax_object_tt_start_timer_for_new_task', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_start_timer_for_new_task_nonce')));
+
       //pass time tracker homepage to functions - to work better with wordpress subfolder installs
       wp_localize_script( 'tt_filter_time_log', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_detail_for_task', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
@@ -229,6 +231,7 @@ if ( ! class_exists('Time_Tracker') ) {
 	    add_action('wp_ajax_tt_clear_sql_error', 'Logically_Tech\Time_Tracker\Inc\tt_clear_sql_error_function');
       add_action('wp_ajax_tt_export_pending_time', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time');
 	    add_action('wp_ajax_tt_delete_record', 'Logically_Tech\Time_Tracker\Inc\tt_delete_record_function');
+	    add_action('tt_start_timer_for_new_task_action', 'Logically_Tech\Time_Tracker\Inc\tt_get_new_task_details_function');
 
 	    //SCRIPTS
       add_action('wp_enqueue_scripts', array($this,'time_tracker_scripts'));

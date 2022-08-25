@@ -47,24 +47,18 @@ if ( !class_exists( 'Time_Log' ) ) {
             } elseif (isset($_GET['task-number'])) {
                 $this->taskid = intval($_GET['task-number']);
             } elseif (isset($_GET['task'])) {
-                if (! is_null($_GET['task'])) {
-                    $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task']));
-                }
+                $this->taskid = (! is_null($_GET['task']) and $_GET['task'] <> "") ? get_task_id_from_name(sanitize_text_field($_GET['task'])) : null;
             };
-            $this->rectaskid = (isset($_GET['recurring-task-id']) ? intval($_GET['recurring-task-id']) : null);
+            $this->rectaskid = (isset($_GET['recurring-task-id']) and $_GET['recurring-taask-id'] <> "") ? intval($_GET['recurring-task-id']) : null;
             if (isset($_GET['project-name'])) {
-                if (! is_null($_GET['project-name'])) {
-                    $this->projectid = get_project_id_from_name(sanitize_text_field($_GET['project-name']));
-                }
+                $this->projectid = (! is_null($_GET['project-name']) and $_GET['project-name'] <> "") ? get_project_id_from_name(sanitize_text_field($_GET['project-name'])) : null;
             } elseif (isset($_GET['project-id'])) {
-                $this->projectid = intval($_GET['project-id']);
+                $this->projectid = (! is_null($_GET['project-id']) and $_GET['project-id'] <> "") ? intval($_GET['project-id']) : null;
             }
             if (isset($_GET['client-name'])) {
-                if (! is_null($_GET['client-name'])) {
-                    $this->clientid = get_client_id_from_name(sanitize_text_field($_GET['client-name']));
-                }
+                $this->clientid = (! is_null($_GET['client-name']) and $_GET['client-name'] <> "") ? get_client_id_from_name(sanitize_text_field($_GET['client-name'])) : null;
             } elseif (isset($_GET['client-id'])) {
-                $this->clientid = intval($_GET['client-id']);
+				$this->clientid = (! is_null($_GET['client-id']) and $_GET['client-id'] <> "") ? intval($_GET['client-id']) : null;
             };
             $this->notes = (isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : null);
             $this->startdate = (isset($_GET['first-date']) ? sanitize_text_field($_GET['first-date']) : null);
