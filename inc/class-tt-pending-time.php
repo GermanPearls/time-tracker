@@ -73,7 +73,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     } else {
                         $html .= "<h2 id=\"None\">Pending Time, No Bill To Specified</h2>";
                     }
-                    $html .= $this->create_table($time_details);
+                    $html .= $this->create_table($this->get_all_data_for_dispay($time_details));
                 }
             } else {
                 $html = "All caught up!";
@@ -87,8 +87,6 @@ if ( !class_exists( 'Pending_Time' ) ) {
          * 
          */
         private function get_pending_time_from_db() {
-            //Connect to Time Tracker Database
-            //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
             $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
@@ -117,13 +115,6 @@ if ( !class_exists( 'Pending_Time' ) ) {
             if ($pending_time) {
                 $lastbillto = "not started";
                 foreach ($pending_time as $item) {
-                    //$this_item_billto = sanitize_text_field($item['BillTo']);
-
-                    //if ($this_item_billto == "") {
-                    //    $billto = "Unknown";
-                    //} else {
-                    //    $billto = $this_item_billto;
-                    //}
                     $billto = sanitize_text_field($item['BillTo']) == "" ? "Unknown" : sanitize_text_field($item['BillTo']);
 
                     //create new key if first time seeing this bill to
