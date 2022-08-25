@@ -73,7 +73,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     } else {
                         $html .= "<h2 id=\"None\">Pending Time, No Bill To Specified</h2>";
                     }
-                    $html .= $this->create_table($this->get_all_data_for_dispay($time_details));
+                    $html .= $this->create_table($this->get_all_data_for_display($time_details));
                 }
             } else {
                 $html = "All caught up!";
