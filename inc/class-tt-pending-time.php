@@ -254,7 +254,6 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item["LoggedHours"]), sanitize_text_field($item["LoggedMinutes"]));
                 $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
                 $time_worked_vs_estimate_class = get_time_estimate_class($percent_time_logged);
-				echo("log hours is " . $item["LoggedHours"] . " log min is " . $item["LoggedMinutes"] . " percent time logged is " . $percent_time_logged);
 				$item["TimeLoggedVsEstimate"] = [
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
