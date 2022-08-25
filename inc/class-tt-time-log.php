@@ -25,14 +25,14 @@ if ( !class_exists( 'Time_Log' ) ) {
     class Time_Log
     {
 
-        private $clientid;
-        private $projectid;
-        private $rectaskid;
-        private $taskid;
-        private $timeid;        
-        private $notes;
-        private $startdate;
-        private $enddate;
+        private $clientid = null;
+        private $projectid = null;
+        private $rectaskid = null;
+        private $taskid = null;
+        private $timeid = null;        
+        private $notes = null;
+        private $startdate = null;
+        private $enddate = null;
         private $record_limit = true;
 
 
@@ -47,30 +47,24 @@ if ( !class_exists( 'Time_Log' ) ) {
             } elseif (isset($_GET['task-number'])) {
                 $this->taskid = intval($_GET['task-number']);
             } elseif (isset($_GET['task'])) {
-                if ($_GET['task'] <> null) {
+                if (! is_null($_GET['task'])) {
                     $this->taskid = get_task_id_from_name(sanitize_text_field($_GET['task']));
                 }
-            } else {
-                $this->taskid  = null;
             };
             $this->rectaskid = (isset($_GET['recurring-task-id']) ? intval($_GET['recurring-task-id']) : null);
             if (isset($_GET['project-name'])) {
-                if ($_GET['project-name'] <> null) {
+                if (! is_null($_GET['project-name'])) {
                     $this->projectid = get_project_id_from_name(sanitize_text_field($_GET['project-name']));
                 }
             } elseif (isset($_GET['project-id'])) {
                 $this->projectid = intval($_GET['project-id']);
-            } else {
-                $this->projectid = null;
             }
             if (isset($_GET['client-name'])) {
-                if ($_GET['client-name'] <> null) {
+                if (! is_null($_GET['client-name'])) {
                     $this->clientid = get_client_id_from_name(sanitize_text_field($_GET['client-name']));
                 }
             } elseif (isset($_GET['client-id'])) {
                 $this->clientid = intval($_GET['client-id']);
-            } else {
-                $this->clientid  = null;
             };
             $this->notes = (isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : null);
             $this->startdate = (isset($_GET['first-date']) ? sanitize_text_field($_GET['first-date']) : null);
@@ -167,30 +161,30 @@ if ( !class_exists( 'Time_Log' ) ) {
             global $wpdb;
             $where_clauses = array();
             $where_clause = "";
-            if ($this->clientid >= 0) {
+            if (! is_null($this->clientid)) {
                 array_push($where_clauses, "tt_time.ClientID = " . $this->clientid);
             }
-            if ($this->projectid <> null) {
+            if (! is_null($this->projectid)) {
                 //no project id field in time table - so we have to get tasks and then time associated with those tasks
                 array_push($where_clauses, "tt_task.ProjectID = " . $this->projectid);
             }
-            if ($this->rectaskid <> null) {
+            if (! is_null($this->rectaskid)) {
                 //no recurring task id field in time table - so we have to get tasks and then time associated with those tasks
                 array_push($where_clauses, "tt_task.RecurringTaskID = " . $this->rectaskid);
             }
-            if ($this->taskid >= 0) {
+            if (! is_null($this->taskid)) {
                 array_push($where_clauses, "tt_time.TaskID = " . $this->taskid);
             }
-            if ( ($this->timeid <> "") and ($this->timeid <> null) and ($this->timeid <> "null") ) {
+            if ( ($this->timeid <> "") and (! is_null($this->timeid)) and ($this->timeid <> "null") ) {
                 array_push($where_clauses, "tt_time.TimeID = " . $this->timeid);
             }
-            if ( ($this->startdate <> "") and ($this->startdate <> null) ) {
+            if ( ($this->startdate <> "") and (! is_null($this->startdate)) ) {
                 array_push($where_clauses, "tt_time.StartTime >= '" . $this->startdate . " 00:00:01'");
             }
-            if ( ($this->enddate <> "") and ($this->enddate <> null) ) {
+            if ( ($this->enddate <> "") and (! is_null($this->enddate)) ) {
                 array_push($where_clauses, "tt_time.EndTime <= '" . $this->enddate . " 23:59:59'");
             }
-            if ( ($this->notes <> "") and ($this->notes <> null) ) {
+            if ( ($this->notes <> "") and (! is_null($this->notes)) ) {
                 //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
                 $wild = "%";
                 $search_like = "'" . $wild . $wpdb->esc_like( $this->notes ) . $wild . "'";
@@ -352,7 +346,7 @@ if ( !class_exists( 'Time_Log' ) ) {
             //$time_entries = $this->time_details;
 
             foreach ($time_entries as $item) {
-                if ( (sanitize_text_field($item->RecurringTaskID) != null) and (sanitize_text_field($item->RecurringTaskID) != "") ) {
+                if ( (! is_null(sanitize_text_field($item->RecurringTaskID))) and (sanitize_text_field($item->RecurringTaskID) != "") ) {
                     $icon = tt_add_recurring_task_icon();
                     $task_category = $item->TCategory;
                     $item->TCategory = [
