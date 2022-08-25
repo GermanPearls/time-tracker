@@ -83,16 +83,7 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
                         //we added a new task and want to start working
                         } else {
                             if (startworking) {
-                                <?php
-                                //if user clicked start task forward to time log page, filling data with last entered task
-                                global $wpdb;
-                                $task_row = $wpdb->get_results('SELECT max(TaskID) as TaskID FROM tt_task');
-                                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-                                //task hasn't saved yet so predict new task number
-                                $taskid = $task_row[0]->TaskID + 1;
-                                ?>
-                                var recordtime = <?php $home = "'" . TT_HOME . "'"; echo $home; ?> + 'new-time-entry/?client-name=' + encodeURIComponent(client) + '&task-name=' + '<?php echo esc_attr($taskid); ?>' + '-' + encodeURIComponent(taskdesc);
-                                location = recordtime;
+                                tt_start_timer_for_new_task();
                             } else {
                                 //if it's a time tracker form submission, go back to tt homepage after submit
                                 if (str.includes('time-tracker')) {

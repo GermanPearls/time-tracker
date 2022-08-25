@@ -108,6 +108,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-pending-time-export.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-delete-record.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-load-dynamic-stylesheets.php');
+	  include_once(TT_PLUGIN_DIR_INC . 'function-tt-get-new-task-details.php');
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
@@ -231,7 +232,7 @@ if ( ! class_exists('Time_Tracker') ) {
 	    add_action('wp_ajax_tt_clear_sql_error', 'Logically_Tech\Time_Tracker\Inc\tt_clear_sql_error_function');
       add_action('wp_ajax_tt_export_pending_time', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time');
 	    add_action('wp_ajax_tt_delete_record', 'Logically_Tech\Time_Tracker\Inc\tt_delete_record_function');
-	    add_action('tt_start_timer_for_new_task_action', 'Logically_Tech\Time_Tracker\Inc\tt_get_new_task_details_function');
+	    add_action('wp_ajax_tt_start_timer_for_new_task', 'Logically_Tech\Time_Tracker\Inc\tt_get_new_task_details_function');
 
 	    //SCRIPTS
       add_action('wp_enqueue_scripts', array($this,'time_tracker_scripts'));
