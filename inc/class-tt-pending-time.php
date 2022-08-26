@@ -249,7 +249,11 @@ if ( !class_exists( 'Pending_Time' ) ) {
             if (empty($time_entries)) {
                 return "<strong>All caught up!</strong>";
             }
-            $insert_divider_row_before = [];
+            //$insert_divider_row_before = [];
+            $divider = [
+                "Company" => "DividerRow",
+                "mergedcells" => "all"
+            ];
 			//need the ampersand to pass by reference so item gets updated since we converted time_entries from object to array
             foreach ($time_entries as $i=>&$item) {
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item["TTimeEstimate"]));
@@ -263,11 +267,13 @@ if ( !class_exists( 'Pending_Time' ) ) {
 
                 $thisclient = $item["Company"];
                 if ($thisclient != $lastclient) {
-                    array_push($insert_divider_row_before, $i);
+                    //array_push($insert_divider_row_before, $i);
+                    array_splice($time_entries, $i, 0, $divider);
                 }
                 $lastclient = $thisclient;
             }
-            return $this->add_divider_rows($time_entries, $insert_divider_row_before);
+            //return $this->add_divider_rows($time_entries, $insert_divider_row_before);
+            return $time_entries;
         }
 
 
