@@ -26,8 +26,8 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
     class Time_Tracker_Activator {
 
         private static $cf7_active = false;
-        private $default_client = "";
-        private $default_task = "";
+        private static $default_client = "";
+        private static $default_task = "";
 
 
         public static function activate() {
@@ -85,7 +85,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }
 
             if ( ! (get_option('time-tracker')) ) {
-                add_option('time-tracker', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>$this->default_client == "" ? null : $this->default_client, 'default_task'=>$this->default_task == "" ? null : $this->default_task));
+                add_option('time-tracker', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>self::$default_client == "" ? null : self::$default_client, 'default_task'=>self::$default_task == "" ? null : self::$default_task));
             }
 		}
 
@@ -93,10 +93,10 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         private static function add_default_task() {
             $task_lookup = self::lookup_record("SELECT tt_task.TaskID FROM tt_task WHERE tt_task.TDescription = 'Undefined'");
             if ($task_lookup[0] > 0 and ($task_lookup[1]->tt_task.TaskID == 0 or $task_lookup[1]->tt_task.TaskID == 9999)) {
-                $this->default_task = $task_lookup[1]->tt_task.TaskID;
+                self::$default_task = $task_lookup[1]->tt_task.TaskID;
             } else {
                 self::try_to_add_default_task(0);
-                if ($this->default_task == "" or $this->default_task = null) {
+                if (self::$default_task == "" or self::$default_task = null) {
                     self::try_to_add_default_task(9999);
                 } else {
                     //we still do not have a default client!
@@ -108,10 +108,10 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             $possible_default_ids = array(0, 9999, 999999);
             $client_lookup = self::lookup_record("SELECT ClientID FROM tt_client WHERE Company='Undefined'");
             if ($client_lookup[0] > 0 and in_array($client_lookup[1]->tt_client.ClientID, $possible_default_ids)) {
-                $this->default_client = $client_lookup[1]->tt_client.ClientID;
+                self::$default_client = $client_lookup[1]->tt_client.ClientID;
             } else {
                 $i = 0;
-                while ($this->default_client == "" and $i >= count($possible_default_ids)) {
+                while (self::$default_client == "" and $i >= count($possible_default_ids)) {
                     self::try_to_add_default_client($possible_default_ids($i));
                     $i = $i + 1;
                 }          
@@ -121,9 +121,9 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         private static function try_to_add_default_task($num) {
             $task_lookup = self::lookup_record("SELECT tt_task.TDescription FROM tt_task WHERE tt_task.TaskID=" . intval($num));
             if ($task_lookup[0] == 0) {
-                $rst = self::insert_record('tt_task', array('TaskID'=>$num, 'TDescription'=>'Undefined', 'ClientID'=> $this->default_client, 'TNotes'=>'Default Task'), array('%d', '%s', '%d', '%s'));
+                $rst = self::insert_record('tt_task', array('TaskID'=>$num, 'TDescription'=>'Undefined', 'ClientID'=> self::default_client, 'TNotes'=>'Default Task'), array('%d', '%s', '%d', '%s'));
                 if ($rst > 0) {
-                    $this->default_task = $num;
+                    self::$default_task = $num;
                 }
             } 
         }
@@ -133,7 +133,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             if ($client_lookup[0] == 0) {
                 $rst = self::insert_record('tt_client', array('ClientID'=>$num, 'Company'=>'Undefined', 'Billable'=>1, 'Source'=>'Default Client'), array('%d', '%s', '%d', '%s'));
                 if ($rst > 0) {
-                    $this->default_client = $num;
+                    self::$default_client = $num;
                 }
             } 
         }
