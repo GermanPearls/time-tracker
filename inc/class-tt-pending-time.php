@@ -261,13 +261,14 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"class" => $time_worked_vs_estimate_class
 				];
             }
-            foreach ($time_entries as $i => &$item) {
-                if ($item["Company"] != $lastclient and $i != 0) {
-                    foreach ($time_entries[$i] as &$cell) {
+            var_dump($time_entries);
+            foreach ($time_entries as $i => &$row_data) {
+                if ($row_data["Company"] != $lastclient and $i != 0) {
+                    foreach ($row_data as &$cell) {
                         $cell["class"] = $cell["class"] . " " . "tt-border-top-divider";
                     }
                 }
-                $lastclient = $item["Company"];
+                $lastclient = $row_data["Company"];
             }
             return $time_entries;
         }
