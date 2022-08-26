@@ -264,11 +264,29 @@ if ( !class_exists( 'Pending_Time' ) ) {
 
                 $thisclient = $item["Company"];
                 if ($thisclient != $lastclient and $i != 0) {
-                    array_push($insert_divider_row_before, $i);
+                    $item = $this->add_class($item, "row", "tt-border-bottom-divider");
+                    //array_push($insert_divider_row_before, $i);
                 }
                 $lastclient = $thisclient;
             }
-            return $this->add_divider_rows($time_entries, $insert_divider_row_before);
+            //return $this->add_divider_rows($time_entries, $insert_divider_row_before);
+            return $time_entries;
+        }
+
+
+        /**
+         * Add Class to item(s)
+         * 
+         */
+        private function add_class($thing, $typ, $cls) {
+            if ($typ == "row") {
+                foreach ($thing as &$cell) {
+                    $cell["class"] = $cell["class"] . " " . $cls;
+                }
+            } elseif ($typ == "cell") {
+                $thing["class"] = $thing["class"] . " " . $cls;
+            }
+            return $thing;
         }
 
 
