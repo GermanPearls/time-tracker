@@ -265,7 +265,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                         $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
                     }
                 }
-                $lastclient = $item["Company"];
+                $lastclient = is_array($item["Company"]) ? $item["Company"]["value"] : $item["Company"];
             }
             return $time_entries;
         }
