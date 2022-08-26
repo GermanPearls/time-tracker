@@ -149,7 +149,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             global $wpdb;
             $rslts = $wpdb->get_results($sql);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return array($rslts->num_rows, $rslts[0]);            
+            if ($rslts) {
+                return array($rslts->num_rows, $rslts[0]);
+            } else {
+                return array(0,null);
+            }
         }
 
 
