@@ -88,7 +88,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
          */
         private function get_pending_time_from_db() {
             global $wpdb;
-            $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate,
+            $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate, tt_task.TStatus,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 
@@ -260,11 +260,10 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
 				];
-
+                var_dump()
                 if ($item["Company"] != $lastclient and $i != 0) {
                     foreach ($item as &$cell) {
                         $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
-                        //$cell["class"] = $cell["class"] . " " . "tt-border-top-divider";
                     }
                 }
                 $lastclient = $item["Company"];
