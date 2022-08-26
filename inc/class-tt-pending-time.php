@@ -251,7 +251,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 return "<strong>All caught up!</strong>";
             }
 			//need the ampersand to pass by reference so item gets updated since we converted time_entries from object to array
-            foreach ($time_entries as $i=>&$item) {
+            foreach ($time_entries as $i => &$item) {
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item["TTimeEstimate"]));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item["LoggedHours"]), sanitize_text_field($item["LoggedMinutes"]));
                 $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
@@ -260,7 +260,8 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
 				];
-
+            }
+            foreach ($time_entries as $i => &$item) {
                 if ($item["Company"] != $lastclient and $i != 0) {
                     foreach ($time_entries[$i] as &$cell) {
                         $cell["class"] = $cell["class"] . " " . "tt-border-top-divider";
