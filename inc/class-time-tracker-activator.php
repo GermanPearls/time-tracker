@@ -119,9 +119,9 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
 
         private static function try_to_add_default_task($num) {
-            $task_lookup = self::lookup_record("SELECT tt_task.TDescription FROM tt_task WHERE tt_task.TaskID=" . intval($num));
+            $task_lookup = self::lookup_record("SELECT TDescription FROM tt_task WHERE sTaskID=" . intval($num));
             if ($task_lookup[0] == 0) {
-                $rst = self::insert_record('tt_task', array('TaskID'=>$num, 'TDescription'=>'Undefined', 'ClientID'=> self::default_client, 'TNotes'=>'Default Task'), array('%d', '%s', '%d', '%s'));
+                $rst = self::insert_record('tt_task', array('TaskID'=>$num, 'TDescription'=>'Undefined', 'ClientID'=> self::$default_client, 'TNotes'=>'Default Task'), array('%d', '%s', '%d', '%s'));
                 if ($rst > 0) {
                     self::$default_task = $num;
                 }
@@ -129,7 +129,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
         
         private static function try_to_add_default_client($num) {
-            $client_lookup = self::lookup_record("SELECT tt_client.Company FROM tt_client WHERE tt_client.ClientID=" . intval($num));
+            $client_lookup = self::lookup_record("SELECT Company FROM tt_client WHERE ClientID=" . intval($num));
             if ($client_lookup[0] == 0) {
                 $rst = self::insert_record('tt_client', array('ClientID'=>$num, 'Company'=>'Undefined', 'Billable'=>1, 'Source'=>'Default Client'), array('%d', '%s', '%d', '%s'));
                 if ($rst > 0) {
@@ -149,7 +149,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             global $wpdb;
             $rslts = $wpdb->get_results($sql);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            if ($rslts) {
+            if (is_object($rslts)) {
                 return array($rslts->num_rows, $rslts[0]);
             } else {
                 return array(0,null);
