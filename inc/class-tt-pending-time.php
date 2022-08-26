@@ -146,6 +146,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     "columnwidth" => "",
                     "type" => "text",
                     "class" => "",
+                    "dividerrow" => true,
                     "mergedcells" => 0
                 ],
                 "Task" => [
@@ -278,7 +279,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
         private function add_divider_rows($time_entries, $locations) {
             if ($locations != []) {
                 $divider = [
-                    "Company" => "DividerRow",
+                    "dividerrow" => true,
                     "mergedcells" => "all"
                 ];
                 $added = 0;
