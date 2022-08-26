@@ -313,7 +313,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             //no client information passed
             if ( !array_key_exists('client-name', $data) or $data['client-name'] == '' or $data['client-name'] == null) {
                 //use default client if one exists, if not just enter null
-                return bget_option('time-tracker'['default-client'], null);
+                return get_option('time-tracker'['default-client'], null);
             } else {
                 return get_client_id_from_name($data['client-name']);
             }
