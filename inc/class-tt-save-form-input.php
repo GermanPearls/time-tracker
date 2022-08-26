@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 if ( !class_exists( 'Save_Form_Input' ) ) {
     
 
-
     /**
      * Class
      * 
@@ -38,7 +37,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private $client_id;
         private $project_id;
         private $task_id;
-        //private $tt_db;
                 
         
         /**
@@ -53,48 +51,28 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $this->client_id = $this->get_client_id($data);
             $this->project_id = $this->get_project_id($data);
             $this->task_id = $this->get_task_id($data);		
-            
 			
-			/**
-             * Add new task
-             * 
-             */
+			/*** Add new task ***/
             if ( $this->form_post_id == tt_get_form_id('Add New Task') ) {
                 $this->save_new_task($data,$this->client_id,$this->project_id,$this->task_id,$this->original_submission);
             }
-
             
-            /**
-             * Add new project
-             * 
-             */
+            /*** Add new project ***/
             if ( $this->form_post_id == tt_get_form_id('Add New Project') ) {
                 $this->save_new_project($data,$this->client_id,$this->original_submission);           
             }
 
-
-            /**
-             * Add new client
-             * 
-             */
+            /*** Add new client ***/
             if ( $this->form_post_id == tt_get_form_id('Add New Client') ) {
                 $this->save_new_client($data,$this->original_submission);
             }
 
-
-            /**
-             * Add new recurring task
-             * 
-             */
+            /*** Add new recurring task ***/
             if ( $this->form_post_id == tt_get_form_id('Add New Recurring Task') ) {
                 $this->save_new_recurring_task($data,$this->client_id,$this->project_id,$this->original_submission);
             }
 
-
-            /**
-             * Add new time entry
-             * 
-             */
+            /*** Add new time entry ***/
             if ( $this->form_post_id == tt_get_form_id('Add Time Entry') ) {
                 $this->save_new_time_entry($data);
                 
@@ -107,15 +85,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 if ( ($data['follow-up'] <> null) and ($data['follow-up'] <> '') ) {
                     $this->create_follow_up_task($data);            
                 }
-
             } 
         }
      
         
         /**
          * Sanitize data
-         * 
-         * 
          * 
          */
         private function clean_data($raw_data) {
@@ -143,7 +118,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * 
          */
         private function serialize_data($data) {
-            //serialize for storing in database and lookup ID's for variables
             $this->original_submission = serialize($data);
             return $this->original_submission;
         }
@@ -339,11 +313,10 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             //no client information passed
             if ( !array_key_exists('client-name', $data) or $data['client-name'] == '' or $data['client-name'] == null) {
                 //use default client if one exists, if not just enter null
-                $this->client_id = get_option('time-tracker'['default-client'], null);
+                return bget_option('time-tracker'['default-client'], null);
             } else {
-                $this->client_id = get_client_id_from_name($data['client-name']);
+                return get_client_id_from_name($data['client-name']);
             }
-            return $this->client_id;        
         }
 
 
@@ -354,12 +327,11 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private function get_project_id($data) {
             //Project field in table requires a valid Project ID or null value, won't except empty string
             if (!array_key_exists('project-name', $data) or $data['project-name'] == '' or $data['project-name'] == null) {
-                $this->project_id = null;
+                return null;
             } else {
                 $project = $data['project-name'];
-                $this->project_id = get_project_id_from_name($project);
+                return get_project_id_from_name($project);
             }
-            return $this->project_id;
         }
 
 
@@ -370,13 +342,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         private function get_task_id($data) {
             //Task field in table requires a valid Task ID or null value, won't except empty string
             if (!array_key_exists('task-name', $data) or $data['task-name'] == '' or $data['task-name'] == null) {
-                $this->task_id = get_option('time-tracker'['default-task'], null);
+                return get_option('time-tracker'['default-task'], null);
             } else {
                 $task = $data['task-name'];
                 $task_number_from_string = substr($task,0,strpos($task,'-'));
-                $this->task_id = $task_number_from_string;
+                return $task_number_from_string;
             }
-            return $this->task_id;
         }
 
 
@@ -387,7 +358,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         public function get_result() {
             return $this->result;
         }
-
 
     } //close class
 
