@@ -284,6 +284,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 $added = 0;
                 foreach ($locations as $location) {
                     array_splice($time_entries, $location + $added, 0, $divider);
+                    $added = $added + 1;
                 }
             }
             return $time_entries;
