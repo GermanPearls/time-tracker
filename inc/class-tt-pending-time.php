@@ -260,17 +260,32 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
 				];
-            }
-            var_dump($time_entries);
-            foreach ($time_entries as $i => &$row_data) {
-                if ($row_data["Company"] != $lastclient and $i != 0) {
-                    foreach ($row_data as &$cell) {
-                        $cell["class"] = $cell["class"] . " " . "tt-border-top-divider";
+
+                if ($item["Company"] != $lastclient and $i != 0) {
+                    foreach ($item as &$cell) {
+                        $this->add_class_to_cell($cell, "tt-border-top-divider");
+                        //$cell["class"] = $cell["class"] . " " . "tt-border-top-divider";
                     }
                 }
-                $lastclient = $row_data["Company"];
+                $lastclient = $item["Company"];
             }
             return $time_entries;
+        }
+
+
+        /**
+         * Add class to cell
+         * 
+         */
+        private function add_class_to_cell($cel, $cls) {
+            if (is_array($cel)) {
+                $cel["class"] = $cel["class"] . " " . $cls;
+            } else {
+                $cel = [
+                    "value" => $cel,
+                    "class" => $cls
+                ];
+            }
         }
 
         
