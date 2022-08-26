@@ -260,7 +260,6 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
 				];
-                var_dump()
                 if ($item["Company"] != $lastclient and $i != 0) {
                     foreach ($item as &$cell) {
                         $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
