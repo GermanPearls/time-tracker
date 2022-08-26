@@ -106,7 +106,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
         private static function add_default_client() {
             $possible_default_ids = array(0, 9999, 999999);
-            $client_lookup = self::lookup_record("SELECT tt_client.ClientID FROM tt_client WHERE tt_client.Company = 'Undefined'");
+            $client_lookup = self::lookup_record("SELECT ClientID FROM tt_client WHERE Company='Undefined'");
             if ($client_lookup[0] > 0 and in_array($client_lookup[1]->tt_client.ClientID, $possible_default_ids)) {
                 $this->default_client = $client_lookup[1]->tt_client.ClientID;
             } else {
@@ -139,12 +139,14 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
 
         private static function insert_record($tbl, $flds, $frmts) {
+            global $wpdb;
             $wpdb->insert($tbl, $flds, $frmts);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return $wpdb->last_result;
         }
 
         private static function lookup_record($sql) {
+            global $wpdb;
             $rslts = $wpdb->get_results($sql);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return array($rslts->num_rows, $rslts[0]);            
