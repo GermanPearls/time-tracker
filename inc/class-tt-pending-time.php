@@ -66,7 +66,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 $html.= "</ul>";
                 $html .= "<br/>";
 
-                //DETAILS
+                //DETAILS - TABLE WITHIN EACH SECTION
                 foreach ($grouped_time as $billtoname => $time_details) {
                     if ($billtoname != null) {    
                         $html .= "<h2 id=\"" . esc_attr($billtoname) . "\">Pending Time, Bill To: " . esc_textarea($billtoname) . "</h2>";
@@ -145,7 +145,8 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     "editable" => false,
                     "columnwidth" => "",
                     "type" => "text",
-                    "class" => ""
+                    "class" => "",
+                    "mergedcells" => 0
                 ],
                 "Task" => [
                     "fieldname" =>"TaskID",
@@ -248,8 +249,9 @@ if ( !class_exists( 'Pending_Time' ) ) {
             if (empty($time_entries)) {
                 return "<strong>All caught up!</strong>";
             }
+            $insert_divider_row_before = [];
 			//need the ampersand to pass by reference so item gets updated since we converted time_entries from object to array
-            foreach ($time_entries as &$item) {
+            foreach ($time_entries as $i=>&$item) {
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item["TTimeEstimate"]));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item["LoggedHours"]), sanitize_text_field($item["LoggedMinutes"]));
                 $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
@@ -258,6 +260,31 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
 				];
+
+                $thisclient = $item["Company"];
+                if ($thisclient != $lastclient) {
+                    array_push($insert_divider_row_before, $i);
+                }
+                $lastclient = $thisclient;
+            }
+            return $this->add_divider_rows($time_entries, $insert_divider_row_before);
+        }
+
+
+        /**
+         * Add Divider Rows Between Clients
+         * 
+         */
+        private function add_divider_rows($time_entries, $locations) {
+            if ($locations != []) {
+                $divider = [
+                    "Company" => "DividerRow",
+                    "mergedcells" => "all"
+                ];
+                $added = 0;
+                foreach ($locations as $location) {
+                    array_splice($time_entries, $location + $added, 0, $divider);
+                }
             }
             return $time_entries;
         }
