@@ -25,4 +25,4 @@ function tt_display_admin_notice() {
     //}
 }
 
-add_action( 'admin_notices', 'tt_display_admin_notice' );
+add_action( 'admin_notices', 'tt_display_admin_notice ' );
