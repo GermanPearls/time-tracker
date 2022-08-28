@@ -15,25 +15,7 @@ namespace Logically_Tech\Time_Tracker\Admin;
 function tt_admin_settings_init() {
 
 
-    $now = date('m-d-Y g:i A');
-
-
-    /**
-    * upgrades / revisions
-    *
-    **/
-    if (get_option(time_tracker_version) < 2.4.0) {
-        delete_option('time-tracker-sql-result');
-        delete_option('time_tracker-sql-result');
-        add_option('time_tracker_categories', array(
-            'bill_to_names' => get_option('time-tracker'['bill-to-names']),
-            'work_categories' => get_option('time-tracker'['work-categories']),
-            'client_categories' => get_option('time-tracker'['client-categories']),
-            'client_sub_categories' => get_option('time-tracker'['client-sub-categories'])
-            );
-        delete_option('time-tracker');
-    }
-    
+    $now = date('m-d-Y g:i A');    
     
     /**
      *register new settings in the database
