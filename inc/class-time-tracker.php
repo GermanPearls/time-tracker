@@ -37,6 +37,7 @@ if ( ! class_exists('Time_Tracker') ) {
         self::$instance->load_dependencies();
         self::$instance->add_scripts();
         self::$instance->add_styles();
+	self::$instance->log_plugin_installation();
         self::$instance->check_plugin_version();
         //add_action( 'init', array( self::$instance, 'init' ) );
       }
@@ -50,8 +51,19 @@ if ( ! class_exists('Time_Tracker') ) {
       return self::$instance;
     }  //end public function instance
   
-  
-    /**
+	  
+   /**
+   * Log Install Time
+   *
+   **/
+   private function log_plugin_installation() {
+	if (! get_option('time_tracker_install_time')) {
+		add_option('time_tracker_install_time', new \DateTime());
+	}
+   }
+     
+	  
+     /**
      * Check Plugin Version
      * 
      */  
