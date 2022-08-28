@@ -84,11 +84,8 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
                 update_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
             }
 
-            if ( ! (get_option('time_tracker')) ) {
-                add_option('time_tracker', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>self::$default_client == "" ? null : self::$default_client, 'default_task'=>self::$default_task == "" ? null : self::$default_task));
-            }
-	    if ( ! (get_option('time_tracker_install_time')) ) {
-		    add_option('time_tracker_install_time', $now);
+            if ( ! (get_option('time_tracker_categories')) ) {
+                add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>self::$default_client == "" ? null : self::$default_client, 'default_task'=>self::$default_task == "" ? null : self::$default_task));
 	    }
 	}
 
