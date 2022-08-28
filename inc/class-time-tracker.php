@@ -58,7 +58,7 @@ if ( ! class_exists('Time_Tracker') ) {
     private function check_plugin_version() {
       $installed_version = get_option('time_tracker_version');
       if ($installed_version != TIME_TRACKER_VERSION) {
-        echo 'do not match';
+        //echo 'do not match';
         include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-updater.php');
         $updater = New Time_Tracker_Updater;
         $new_version = $updater->tt_update_from($installed_version);
