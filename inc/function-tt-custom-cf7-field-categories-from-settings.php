@@ -115,7 +115,7 @@ function custom_bill_to_name_form_tag_handler($tag) {
 function custom_category_form_tag_handler( $tag, $type ) {
 
     //Get work categories from Time Tracker settings page
-    $settings = get_option('time-tracker');
+    $settings = get_option('time_tracker_categories');
     $list = $settings[$type];
 	if ($settings) {
 		$array = explode("\r\n", $list);
