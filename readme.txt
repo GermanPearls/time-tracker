@@ -95,10 +95,12 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
-= Next =
+= 2.4.0 beta =
 * Improvement: General code cleanup
 * New Feature: Added default client and task to be used when none entered by user
+* New Feature: Added feedback request information to improve plugin usability for all
 * Fix: Filter time entries by ticket #
+* Improvement: General database option naming cleanup
 
 = 2.3.3 =
 * Fix: Typo
