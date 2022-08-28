@@ -59,6 +59,11 @@ if ( ! class_exists('Time_Tracker') ) {
    private function log_plugin_installation() {
 	if (! get_option('time_tracker_install_time')) {
 		add_option('time_tracker_install_time', new \DateTime());
+		if (! get_option('time_tracker_admin_notices')) {
+			add_option('time_tracker_admin_notices' array('tt_feedback_request'=>new \DateTime("+2months")));
+		} else {
+			update_option('time_tracker_admin_notices' array('tt_feedback_request'=>new \DateTime("+2months")));
+		}
 	}
    }
      
