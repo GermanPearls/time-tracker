@@ -19,7 +19,7 @@ function tt_feedback_request() {
     $msg .= "<button href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post' ";
 	$msg .= "style='padding: 5px 15px; margin-top:15px;'>";
     $msg .= "Leave a Review</button>";
-	$msg .= tt_dismiss_notice_button("feedback_request", 6);
+	$msg .= tt_dismiss_notice_button("tt_feedback_request", 6);
     $msg .= "</p></div>";
     return $msg;    
 }
@@ -33,7 +33,15 @@ function tt_dismiss_notice_button($notice, $mnths) {
 
 
 function tt_dashboard_notice() {
-    echo tt_feedback_request();
+    $notices = array('tt_feedback_request');
+    $timers = get_option('time_tracker_admin_notices');
+    foreach ($notices as $notice) {
+	    if (! array_key_exists($notice, $timers)) {
+		 echo call_user_func($notice);
+	    } elseif ( (array_key_exists($notice, $timers)) and (($timers[$notice] == null) or ($timers[$notice] < new \DateTime())) ) {
+	    	echo call_user_func($notice);
+	    }
+    }
 }
 
 add_action( 'admin_notices', 'tt_dashboard_notice' );
