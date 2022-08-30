@@ -46,7 +46,8 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
                 $this->tt_update_to_two();
                 $this->tt_update_to_two_four();
             } else {
-                if ( (substr($current_ver, 0, 1) == "2") and (int(substr($current_ver, 2, 1)) < 4) ) {
+                $ver = explode(".", $current_ver);
+                if ( (intval($ver[0]) == 2) and (intval($ver[1]) < 4) ) {
                     $this->tt_update_to_two_four();
                 }
                 $this->tt_update_plugin();
