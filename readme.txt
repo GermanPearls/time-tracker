@@ -13,7 +13,7 @@ Short Description: Time Tracker enables you to manage your projects, to do lists
 == Description ==
 Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
-**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.5.6.1)
+**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.6.2)
 
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
