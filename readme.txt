@@ -95,7 +95,7 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
-= 2.4.0 beta =
+= 2.4.0 alpha =
 * Improvement: General code cleanup
 * New Feature: Added default client and task to be used when none entered by user
 * New Feature: Added feedback request information to improve plugin usability for all
