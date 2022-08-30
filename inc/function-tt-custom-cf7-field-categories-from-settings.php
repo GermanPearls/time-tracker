@@ -69,7 +69,7 @@ function custom_add_form_tag_bill_to_name() {
  * 
  */
 function custom_work_category_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'work-categories');    
+    $form_field = custom_category_form_tag_handler($tag, 'work_categories');    
     return $form_field;
 }
 
@@ -79,7 +79,7 @@ function custom_work_category_form_tag_handler($tag) {
  * 
  */
 function custom_client_category_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'client-categories');    
+    $form_field = custom_category_form_tag_handler($tag, 'client_categories');    
     return $form_field;
 }
 
@@ -89,7 +89,7 @@ function custom_client_category_form_tag_handler($tag) {
  * 
  */
 function custom_client_sub_category_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'client-sub-categories');    
+    $form_field = custom_category_form_tag_handler($tag, 'client_sub_categories');    
     return $form_field;
 }
 
@@ -99,7 +99,7 @@ function custom_client_sub_category_form_tag_handler($tag) {
  * 
  */
 function custom_bill_to_name_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'bill-to-names');    
+    $form_field = custom_category_form_tag_handler($tag, 'bill_to_names');    
     return $form_field;
 }
 
