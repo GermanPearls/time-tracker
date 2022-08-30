@@ -54,8 +54,8 @@ function tt_admin_menu_home() {
          ?>
       <form action="options.php" method="post" id="tt-options">
          <?php
-         do_settings_sections( 'time-tracker' );
-         settings_fields( 'time-tracker' );
+         do_settings_sections( 'time_tracker_categories_section' );
+         settings_fields( 'time_tracker_categories' );
          submit_button( 'Save Settings' );
          ?>
       </form>
