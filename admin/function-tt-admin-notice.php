@@ -44,4 +44,21 @@ function tt_dashboard_notice() {
     }
 }
 
+function tt_update_admin_notice_timer($name, $nexttime) {
+    if (! get_option('time_tracker_admin_notices')) {
+        add_option('time_tracker_admin_notices', array($name=>$nexttime));
+    } else {
+        $notices = get_option('time_tracker_admin_notices');
+        $notices[$name] = $nexttime;
+        update_option('time_tracker_admin_notices', $notices);
+    }
+}
+
+function tt_add_admin_notice_timer($name, $nexttime) {
+    if ( (! get_option('time_tracker_admin_notices')) or (! array_key_exists($name, get_option('time_tracker_admin_notices'))) ) {
+        tt_update_admin_notice_timer($name, $nexttime);
+    }
+}
+
+tt_add_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 2 months"));
 add_action( 'admin_notices', 'tt_dashboard_notice' );
