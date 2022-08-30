@@ -355,7 +355,8 @@ div.tt-pagination-nav {
   text-decoration: none;
 }
 
-.separate-containers .site-main>button.tt-accordion.active {
+.separate-containers .site-main>button.tt-accordion.active,
+.separate-containers .site-main>.tt-accordion {
   margin-bottom: 0px;
 }
 
