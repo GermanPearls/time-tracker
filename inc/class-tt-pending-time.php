@@ -221,10 +221,10 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     "type" => "long text",
                     "class" => ""
                 ],
-                "Status" => [
+                "Task Status" => [
                     "fieldname" => "TStatus",
                     "id" => "task-status",
-                    "editable" => true,
+                    "editable" => false,
                     "columnwidth" => "",
                     "type" => "text",
                     "class" => ""
