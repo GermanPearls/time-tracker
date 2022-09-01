@@ -202,7 +202,7 @@ function tt_run_recurring_task_cron() {
 }
 //$recurring_task_check = new TT_Cron_Recurring_Tasks();
 //add_action('tt_recurring_task_check', array($recurring_task_check, 'create_new_tasks'), 10, 2);
-add_action('tt_recurring_task_check', tt_run_recurring_task_cron, 10, 2);
+add_action('tt_recurring_task_check', 'tt_run_recurring_task_cron', 10, 2);
 
 
 /**

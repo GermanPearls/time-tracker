@@ -325,7 +325,7 @@ if ( ! class_exists('Time_Tracker') ) {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
 	    add_action('wp_ajax_tt_export_data', 'Logically_Tech\Time_Tracker\Admin\tt_export_button_function');
 	    add_action('wp_ajax_tt_delete_data', 'Logically_Tech\Time_Tracker\Admin\tt_delete_data_function');
-      add_action('wp_ajax_tt_run_recurring_task_cron', 'Logically_Tech\Time_Tracker\Inc\tt_recurring_task_check');
+      add_action('wp_ajax_tt_run_recurring_task_cron', 'Logically_Tech\Time_Tracker\Inc\tt_run_recurring_task_cron');
 		
       //ADMIN SCRIPTS
       add_action('admin_enqueue_scripts', array($this,'time_tracker_scripts_admin'));
