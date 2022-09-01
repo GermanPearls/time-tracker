@@ -196,8 +196,13 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
  * Define cron function
  * 
  */
-$recurring_task_check = new TT_Cron_Recurring_Tasks();
-add_action('tt_recurring_task_check', array($recurring_task_check, 'create_new_tasks'), 10, 2);
+function tt_run_recurring_task_cron() {
+    $recurring_task_check = new TT_Cron_Recurring_Tasks();
+    $recurring_task_check->create_new_tasks();
+}
+//$recurring_task_check = new TT_Cron_Recurring_Tasks();
+//add_action('tt_recurring_task_check', array($recurring_task_check, 'create_new_tasks'), 10, 2);
+add_action('tt_recurring_task_check', tt_run_recurring_task_cron, 10, 2);
 
 
 /**
@@ -205,8 +210,5 @@ add_action('tt_recurring_task_check', array($recurring_task_check, 'create_new_t
  * 
  */
 if ( ! wp_next_scheduled('tt_recurring_task_check') ) {
-    //$args = array(
-    //    'sslverify' => apply_filters('https_local_ssl_verify', true)
-    //);
     wp_schedule_event(time(), 'daily', 'tt_recurring_task_check');
 }
