@@ -45,7 +45,7 @@ function tt_admin_menu_tools() {
             For example, if you have a monthly task that is generated on the 1st of the month, it's now the 3rd and the task wasn't created yet, <br>
             click the button below.<br/>
          </p>
-         <button onclick="tt_create_recurring_tasks();" class="button-primary tt-run-cron-manually">Add Recurring Tasks</button>    
+         <button onclick="run_recurring_task_cron();" class="button-primary tt-run-cron-manually">Add Recurring Tasks</button>    
          <hr/>
       </div>
    <?php   

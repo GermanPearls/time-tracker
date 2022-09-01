@@ -96,8 +96,9 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = Next =
-* Improvement: General code cleanup
 * New Feature: Added default client and task to be used when none entered by user
+* New Feature: Add function to enable user to check for any missing recurring tasks and add them; Useful as automated check only runs once daily
+* Improvement: General code cleanup
 * Fix: Filter time entries by ticket #
 
 = 2.3.3 =
