@@ -15,36 +15,35 @@ namespace Logically_Tech\Time_Tracker\Admin;
 function tt_admin_settings_init() {
 
 
-    $now = date('m-d-Y g:i A');
-
-
-    /*
+    $now = date('m-d-Y g:i A');    
+    
+    /**
      *register new settings in the database
      *
-     */
-    register_setting('time-tracker',    //option group
-        'time-tracker'                  //option name
+     **/
+    register_setting('time_tracker_categories_group',    //option group
+        'time_tracker_categories'                  //option name (in db)
     );
-    register_setting('time_tracker_style',  //option group
+    register_setting('time_tracker_style_group',  //option group
         'time_tracker_style'                //option name
     );
-    add_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now, 'error'=>'N/A', 'file'=>'N/A', 'function'=>'N/A'));
+    add_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now, 'error'=>'N/A', 'file'=>'N/A', 'function'=>'N/A'));   
 
 
 
-    /*
+    /**
      *register new sections on different pages
      *
-     */
+     **/
     add_settings_section(
-        'time-tracker',             //id
+        'time_tracker_categories_section',             //section id
         'Category Options',         //title
         'Logically_Tech\Time_Tracker\Admin\tt_categories_section_callback',  //callable callback
         'time-tracker'              //page
     );
 
     add_settings_section(
-        'time-tracker-style',       //section id
+        'time_tracker_style_section',       //section id
         'Style Options',            //title
         'Logically_Tech\Time_Tracker\Admin\tt_style_section_callback',      //callback
         'time-tracker-style'        //page
@@ -57,35 +56,35 @@ function tt_admin_settings_init() {
      *
      */
     add_settings_field(
-        'time-tracker[bill-to-names]',    //id
+        'time_tracker_categories[bill_to_names]',    //field id
         'Bill To Names',            //title
         'Logically_Tech\Time_Tracker\Admin\tt_categories_bill_to_names_callback',   //callable callback
         'time-tracker',               //page
-        'time-tracker'       //section
+        'time_tracker_categories_section'       //section
     );
     
     add_settings_field(
-        'time-tracker[work-categories]',    //id
+        'time_tracker_categories[work_categories]',    //id
         'Work Categories',            //title
         'Logically_Tech\Time_Tracker\Admin\tt_categories_work_categories_callback',   //callable callback
         'time-tracker',               //page
-        'time-tracker'       //section
+        'time_tracker_categories_section'       //section
     );
 
     add_settings_field(
-        'time-tracker[client-categories]',
+        'time_tracker_categories[client_categories]',
         'Client Categories',
         'Logically_Tech\Time_Tracker\Admin\tt_categories_client_categories_callback',
         'time-tracker',
-        'time-tracker'
+        'time_tracker_categories_section'
     );
 
     add_settings_field(
-        'time-tracker[client-sub-categories]',
+        'time_tracker_categories[client_sub_categories]',
         'Client Sub-Categories',
         'Logically_Tech\Time_Tracker\Admin\tt_categories_client_sub_categories_callback',
         'time-tracker',
-        'time-tracker'
+        'time_tracker_categories_section'
     );
 
 
@@ -99,7 +98,7 @@ function tt_admin_settings_init() {
         'Override Theme Button Colors',
         'Logically_Tech\Time_Tracker\Admin\tt_css_buttons_override_callback',
         'time-tracker-style',
-        'time-tracker-style'
+        'time_tracker_style_section'
     );
     
     add_settings_field(
@@ -107,7 +106,7 @@ function tt_admin_settings_init() {
         'Button Background Color',
         'Logically_Tech\Time_Tracker\Admin\tt_css_buttons_background_callback',
         'time-tracker-style',
-        'time-tracker-style'
+        'time_tracker_style_section'
     );
 
     add_settings_field(
@@ -115,7 +114,7 @@ function tt_admin_settings_init() {
         'Button Text Color',
         'Logically_Tech\Time_Tracker\Admin\tt_css_buttons_text_callback',
         'time-tracker-style',
-        'time-tracker-style'
+        'time_tracker_style_section'
     );
 
     add_settings_field(
@@ -123,7 +122,7 @@ function tt_admin_settings_init() {
         'Button Hover Background Color',
         'Logically_Tech\Time_Tracker\Admin\tt_css_buttons_background_hover_callback',
         'time-tracker-style',
-        'time-tracker-style'
+        'time_tracker_style_section'
     );
 
     add_settings_field(
@@ -131,6 +130,6 @@ function tt_admin_settings_init() {
         'Button Hover Text Color',
         'Logically_Tech\Time_Tracker\Admin\tt_css_buttons_text_hover_callback',
         'time-tracker-style',
-        'time-tracker-style'
+        'time_tracker_style_section'
     );
 }

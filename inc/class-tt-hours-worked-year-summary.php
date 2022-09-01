@@ -84,11 +84,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
                         $workmonth = $workmonth;
                         
                         //get bill to of current item
-                        if ($billto == "") {
-                            $billto = "Unknown";
-                        } else {
-                            $billto = $billto;
-                        }
+                        $billto = $billto == "" ? "Unknown" : $billto;
 
                         $grouped_time[$workmonth][$billto][] = $item;
                     } //if work is current year                
@@ -186,9 +182,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
 
             //accordion
             $acc_start = "<div class='tt-accordion";
-            if ($yr == date('Y')) {
-                $acc_start .= " active";
-            }
+            //if ($yr == date('Y')) {
+                //$acc_start .= " active";
+            //}
             $acc_start .= "'>" . $yr . " Summary</div><div class='tt-accordion-panel'>";
             $acc_end = "</div>";
 
