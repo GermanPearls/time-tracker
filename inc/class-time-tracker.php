@@ -37,7 +37,7 @@ if ( ! class_exists('Time_Tracker') ) {
         self::$instance->load_dependencies();
         self::$instance->add_scripts();
         self::$instance->add_styles();
-	self::$instance->log_plugin_installation();
+	      self::$instance->log_plugin_installation();
         self::$instance->check_plugin_version();
         //add_action( 'init', array( self::$instance, 'init' ) );
       }
@@ -56,11 +56,11 @@ if ( ! class_exists('Time_Tracker') ) {
    * Log Install Time
    *
    **/
-   private function log_plugin_installation() {
-	if (! get_option('time_tracker_install_time')) {
-		add_option('time_tracker_install_time', new \DateTime());
-	}
-   }
+    private function log_plugin_installation() {
+      if (! get_option('time_tracker_install_time')) {
+        add_option('time_tracker_install_time', new \DateTime());
+      }
+    }
      
 	  
      /**
@@ -70,7 +70,6 @@ if ( ! class_exists('Time_Tracker') ) {
     private function check_plugin_version() {
       $installed_version = get_option('time_tracker_version');
       if ($installed_version != TIME_TRACKER_VERSION) {
-        //echo 'do not match';
         include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-updater.php');
         $updater = New Time_Tracker_Updater;
         $new_version = $updater->tt_update_from($installed_version);
@@ -82,9 +81,7 @@ if ( ! class_exists('Time_Tracker') ) {
      * Definitions
      * 
      */  
-    private function setup_constants() {
-      //define('TT_DB_NAME', DB_NAME . "_tt"); //time tracker database name
-      
+    private function setup_constants() {     
       //TT Home - Allow for WP Install in Sub-Directories
       define('TT_HOME', home_url() . '/time-tracker/');
       
@@ -355,4 +352,4 @@ if ( ! class_exists('Time_Tracker') ) {
   
   } //end time tracker class
   
-} //end class exists check
+}
