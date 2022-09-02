@@ -243,7 +243,7 @@ function tt_run_recurring_task_cron() {
     } else {
         $return = array(
             'success' => false,
-            'msg' => 'Incorrec request. Action aborted.'
+            'msg' => 'Incorrect request. Action aborted.'
         );
         wp_send_json_error($return, 500);
     }
