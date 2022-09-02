@@ -20,7 +20,9 @@ function tt_clear_sql_error_function() {
 				//update the settings
 				if ( sanitize_text_field($_POST['update']) == "clear") {
       	    		$now = new \DateTime;
-     	    		$now->setTimezone(new \DateTimeZone(get_option('timezone_string')));
+					if (get_option('timezone_string')) {
+     	    			$now->setTimezone(new \DateTimeZone(get_option('timezone_string')));
+					}
     	    	    $update = update_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'N/A', 'file'=>"", 'function'=>""));
     	    	} //if update says clear
 				
