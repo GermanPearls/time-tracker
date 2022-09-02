@@ -198,7 +198,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
  * Define cron callback function
  * 
  */
-function tt_create_recurring_tasks() {
+function tt_create_recurring_tasks_function() {
     $recurring_task_check = new TT_Cron_Recurring_Tasks();
     return $recurring_task_check->create_new_tasks();
 }
@@ -208,7 +208,7 @@ function tt_create_recurring_tasks() {
  * Add action to cron
  * 
  */
-add_action('tt_recurring_task_check', 'tt_create_recurring_tasks', 10, 2);
+add_action('tt_recurring_task_check', 'tt_create_recurring_tasks_function', 10, 2);
 
 
 /**
@@ -227,7 +227,7 @@ if ( ! wp_next_scheduled('tt_recurring_task_check') ) {
 function tt_run_recurring_task_cron() {
     if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		if (check_ajax_referer('tt_run_recurring_task_cron_nonce', 'security')) {
-            $tsks = tt_create_recurring_tasks();
+            $tsks = tt_create_recurring_tasks_function();
             $return = array(
                 'success' => true,
                 'msg' => "System checked for missing tasks from recurring jobs, " . $tsks . " were created."

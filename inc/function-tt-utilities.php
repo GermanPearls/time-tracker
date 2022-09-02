@@ -545,13 +545,3 @@ function log_tt_misc($msg) {
 		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
 	}
 }
-
-
-/**
- * Run cron manually
- * 
- */
-function tt_create_recurring_tasks() {
-    $recurring_task_check = new TT_Cron_Recurring_Tasks();
-    $recurring_task_check->create_new_tasks();
-}
