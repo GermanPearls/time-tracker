@@ -61,8 +61,14 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
          * 
          */
         private function setYears() {
-            $this->first_year = sanitize_text_field($this->hours_worked[0]['WorkYear']);
-            $this->last_year = sanitize_text_field(end($this->hours_worked)['WorkYear']);
+            if ( count($this->hours_worked) == 0 ) {
+                $this->first_year = date('Y');
+                $this->last_year = date('Y');
+            } else {
+                $this->first_year = sanitize_text_field($this->hours_worked[0]['WorkYear']);
+                $this->last_year = sanitize_text_field(end($this->hours_worked)['WorkYear']);
+            }
+            
         }
         
         /**
