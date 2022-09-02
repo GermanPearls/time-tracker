@@ -30,8 +30,6 @@ function tt_update_table_function() {
 				sanitize_text_field($_POST['id_field']) => sanitize_text_field($_POST['id'])
 			];
 
-			//var_dump(strtolower(sanitize_text_field($_POST['field'])));
-			//var_dump(strpos(strtolower(sanitize_text_field($_POST['field']), 'endrepeat')));
 			//deal with date entries, must be inserted into database in yyyy-mm-dd format
 			if ( ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') OR strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') OR strtolower(sanitize_text_field($_POST['field'])) == 'endrepeat' ) AND !(sanitize_text_field($_POST['field']) == 'InvoicedTime') ) {
 

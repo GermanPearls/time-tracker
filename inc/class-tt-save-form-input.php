@@ -101,8 +101,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                     //$raw = $data[0];
                     //$clean_data[$key] = htmlspecialchars_decode(filter_var($raw, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NO_QUOTES);
                     $clean_data[$key] = filter_var($data[0], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                    //var_dump(htmlspecialchars_decode('Weekly', ENT_NO_QUOTES, ENT_SUBSTITUTE));  //this is outputting null! do we need htmlspecialchars_decode??
-                    //var_dump($clean_data[$key]);
                 } else {
                     //$clean_data[$key] = filter_var(htmlspecialchars_decode($data, ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
                     //$clean_data[$key] = htmlspecialchars_decode(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NOQUOTES);

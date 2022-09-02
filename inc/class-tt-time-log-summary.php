@@ -121,7 +121,6 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
                     
                         if ( ($entry['BillTo'] = $bill_to) && ($entry['Week Starting'] == $week_start) ) {
                             if (array_key_exists($week_start, $summarized)) {
-                                //var_dump($summarized);
                                 if (array_key_exists($bill_to, $summarized[$week_start])) { 
                                     //echo $summarized[$week_start][$bill_to]['Time Worked']; 
                                     $summarized[$week_start][$bill_to]['Time Worked'] += $entry['Time Worked'];

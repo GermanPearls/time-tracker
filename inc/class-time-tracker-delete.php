@@ -192,4 +192,4 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
         }
 
     }  //close class
- }  //close if class exists
+ }

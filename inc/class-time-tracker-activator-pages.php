@@ -374,4 +374,4 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
     }  //close class
 
-}  //close if class exists
+}

@@ -126,4 +126,4 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         }
 
     }  //close class
- }  //close if class exists
+ }

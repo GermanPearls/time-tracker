@@ -444,4 +444,4 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
 
     }  //close class
 
-}  //close if class exists
+}

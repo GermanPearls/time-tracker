@@ -136,4 +136,4 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
 
     } //close class
 
-} //close if class exists
+}
