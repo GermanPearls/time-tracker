@@ -1,5 +1,5 @@
 <?php
-    header("Content-type: text/css; charset: UTF-8");
+    header("Content-type: text/css;");
 
     //default fonts
     $font_family = 'Arial, sans-serif';
@@ -381,6 +381,11 @@ div.tt-pagination-nav {
 /****************************/
 /********** Tables **********/
 /****************************/
+.tt-table, .tt-table td, .tt-table th, .tt-table tr {
+    border-collapse: collapse;
+    border: 1px solid <?php echo $neutral_background_light; ?>
+}
+
 .tt-table {
   	display: table;  
   	max-width: 100%;
@@ -391,7 +396,6 @@ div.tt-pagination-nav {
 .tt-table td {
     position: inherit;
 	padding: 4px;
-    border-collapse: collapse; 
 	font-family: <?php echo $font_family; ?>;
 	font-weight: <?php echo $font_weight; ?>;
 	font-size: <?php echo $font_size; ?>;
