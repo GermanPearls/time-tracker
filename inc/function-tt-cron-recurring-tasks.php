@@ -61,7 +61,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 			log_cron('recurring tasks is ' . print_r($recurring_tasks, true));
             if ($recurring_tasks == null) {
 				log_cron('no recurring tasks returned from db query');
-                return;
+                return 0;
             }
 
             foreach ($recurring_tasks as $task) {      
@@ -126,6 +126,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                 } //monthly
             }  //for each
             log_cron('Recurring task cron completed, ' . $this->created . ' new task(s) were created.');
+            return $this->created;
         }
         
                 
@@ -192,17 +193,22 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 } //close if class exists
 
 
+
 /**
- * Define cron function
+ * Define cron callback function
  * 
  */
-function tt_run_recurring_task_cron() {
+function tt_create_recurring_tasks() {
     $recurring_task_check = new TT_Cron_Recurring_Tasks();
-    $recurring_task_check->create_new_tasks();
+    return $recurring_task_check->create_new_tasks();
 }
-//$recurring_task_check = new TT_Cron_Recurring_Tasks();
-//add_action('tt_recurring_task_check', array($recurring_task_check, 'create_new_tasks'), 10, 2);
-add_action('tt_recurring_task_check', 'tt_run_recurring_task_cron', 10, 2);
+
+
+/**
+ * Add action to cron
+ * 
+ */
+add_action('tt_recurring_task_check', 'tt_create_recurring_tasks', 10, 2);
 
 
 /**
@@ -211,4 +217,35 @@ add_action('tt_recurring_task_check', 'tt_run_recurring_task_cron', 10, 2);
  */
 if ( ! wp_next_scheduled('tt_recurring_task_check') ) {
     wp_schedule_event(time(), 'daily', 'tt_recurring_task_check');
+}
+
+
+/**
+ * Manual request to run recurring task check - via ajax call
+ * 
+ */
+function tt_run_recurring_task_cron() {
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		if (check_ajax_referer('tt_run_recurring_task_cron_nonce', 'security')) {
+            $tsks = tt_create_recurring_tasks();
+            $return = array(
+                'success' => true,
+                'msg' => "System checked for missing tasks from recurring jobs, " . $tsks . " were created."
+            );
+            wp_send_json_success($return, 200); 
+        } else {
+            $return = array(
+                'success' => false,
+                'msg' => 'Security check failed. Action aborted.'
+            );
+            wp_send_json_error($return, 500);
+        }
+    } else {
+        $return = array(
+            'success' => false,
+            'msg' => 'Incorrec request. Action aborted.'
+        );
+        wp_send_json_error($return, 500);
+    }
+    die();
 }
