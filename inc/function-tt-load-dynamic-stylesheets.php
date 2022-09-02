@@ -9,5 +9,5 @@ function tt_load_dynamic_stylesheets(){
     include_once( dirname(__FILE__) . '/css/tt-css-buttons.php' );
 }
 
-add_action('init', 'tt_load_dynamic_stylesheets');
+add_action('wp_head', 'tt_load_dynamic_stylesheets');
 ?>
