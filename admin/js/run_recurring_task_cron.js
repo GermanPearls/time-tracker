@@ -11,7 +11,7 @@ function run_recurring_task_cron(button_type) {
         success: function(results){
         	if (results.success) {
 				//success
-        	    window.alert('Active recurring tasks have been checked and any missing tasks created.');
+        	    window.alert(results.msg);
        	 	} else {
          	   window.alert('There was an error manually checking for missing recurring tasks. Please check the logs or contact support.');
           	  console.log(results.msg);
