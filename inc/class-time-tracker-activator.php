@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Time_Tracker_ACtivator
+ * Class Time_Tracker_Activator
  *
  * Initial activation of Time Tracker Plugin
  * 
@@ -17,7 +17,6 @@ namespace Logically_Tech\Time_Tracker\Inc;
  */
 if ( ! class_exists('Time_Tracker_Activator') ) {
 
-    //global $TT_DB_NAME;
     
     /**
      * Class
@@ -26,8 +25,8 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
     class Time_Tracker_Activator {
 
         private static $cf7_active = false;
-        private static $default_client = "";
-        private static $default_task = "";
+        private static $default_client = null;
+        private static $default_task = null;
 
 
         public static function activate() {
@@ -60,84 +59,111 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
          * 
          */
         private static function define_plugin_variables() {
-            //Time Tracker Database Name
-            //if (! defined('TT_DB_NAME')) {
-                //define('TT_DB_NAME', DB_NAME . "_tt"); //time tracker database name
-            //}
+
         }
 
 
         private static function cf7_plugin_activated() {
-            //if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
             if (class_exists('WPCF7')) {
-                //plugin is activated
                 self::$cf7_active = true;
             }
         }
 		
 		
-	private static function set_initial_database_options() {
-		$now = new \DateTime;
+        private static function set_initial_database_options() {
+            $now = new \DateTime;
             if ( ! (get_option('time_tracker_sql_result')) ) {
-			    add_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
+                add_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
             } else {
                 update_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
             }
 
             if ( ! (get_option('time_tracker_categories')) ) {
-                add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>self::$default_client == "" ? null : self::$default_client, 'default_task'=>self::$default_task == "" ? null : self::$default_task));
-	    }
-	}
+                add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>print_r(self::$default_client), 'default_task'=>print_r(self::$default_task)));
+            } else {
+                $optns = get_option('time_tracker_categories');
+                if ($optns['default_client'] == null and self::$default_client != null) {
+                    $optns['default_client'] = self::$default_client;
+                }
+                if ($optns['default_task'] == null and self::$default_task != null) {
+                    $optns['default_task'] = self::$default_client;
+                }
+                update_option('time_tracker_categories', $optns);
+            }
+        }
+
+
+        
+
+        private static function add_default_client() {
+            self::get_default_client();
+            $i = 0;
+            while (self::$default_client == null and $i<5) {
+                self::try_to_add_default_client();
+                $i = $i + 1;
+            }          
+        }
+
+        private static function get_default_client() {
+            $client_lookup = self::lookup_record("SELECT ClientID FROM tt_client WHERE Company='Undefined'");
+            if ($client_lookup) {
+                if (array_key_exists("ClientID", $client_lookup)) {
+                    self::$default_client = $client_lookup["ClientID"];
+                } else {
+                    foreach ($client_lookup as $rslt) {
+                        foreach ($rslt as $col=>$val) {
+                            if ($col == "ClientID") {
+                                self::$default_client = $val;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static function try_to_add_default_client() {
+            $rst = self::insert_record('tt_client', array('Company'=>'Undefined', 'Billable'=>1, 'Source'=>'Default Client'), array('%s', '%d', '%s'));
+            if ($rst > 0) {
+                self::get_default_client();
+            } 
+        }
 
 
         private static function add_default_task() {
-            $task_lookup = self::lookup_record("SELECT tt_task.TaskID FROM tt_task WHERE tt_task.TDescription = 'Undefined'");
-            if ($task_lookup[0] > 0 and ($task_lookup[1]->tt_task.TaskID == 0 or $task_lookup[1]->tt_task.TaskID == 9999)) {
-                self::$default_task = $task_lookup[1]->tt_task.TaskID;
-            } else {
-                self::try_to_add_default_task(0);
-                if (self::$default_task == "" or self::$default_task = null) {
-                    self::try_to_add_default_task(9999);
-                } else {
-                    //we still do not have a default client!
-                }            
+            self::get_default_task();
+            $i = 0;
+            while (self::$default_task == null and $i<5) {
+                self::try_to_add_default_task();
+                $i = $i + 1;
             }
-        }
-
-        private static function add_default_client() {
-            $possible_default_ids = array(0, 9999, 999999);
-            $client_lookup = self::lookup_record("SELECT ClientID FROM tt_client WHERE Company='Undefined'");
-            if ($client_lookup[0] > 0 and in_array($client_lookup[1]->tt_client.ClientID, $possible_default_ids)) {
-                self::$default_client = $client_lookup[1]->tt_client.ClientID;
-            } else {
-                $i = 0;
-                while (self::$default_client == "" and $i >= count($possible_default_ids)) {
-                    self::try_to_add_default_client($possible_default_ids($i));
-                    $i = $i + 1;
-                }          
-            }
-        }
-
-        private static function try_to_add_default_task($num) {
-            $task_lookup = self::lookup_record("SELECT TDescription FROM tt_task WHERE sTaskID=" . intval($num));
-            if ($task_lookup[0] == 0) {
-                $rst = self::insert_record('tt_task', array('TaskID'=>$num, 'TDescription'=>'Undefined', 'ClientID'=> self::$default_client, 'TNotes'=>'Default Task'), array('%d', '%s', '%d', '%s'));
-                if ($rst > 0) {
-                    self::$default_task = $num;
-                }
-            } 
         }
         
-        private static function try_to_add_default_client($num) {
-            $client_lookup = self::lookup_record("SELECT Company FROM tt_client WHERE ClientID=" . intval($num));
-            if ($client_lookup[0] == 0) {
-                $rst = self::insert_record('tt_client', array('ClientID'=>$num, 'Company'=>'Undefined', 'Billable'=>1, 'Source'=>'Default Client'), array('%d', '%s', '%d', '%s'));
-                if ($rst > 0) {
-                    self::$default_client = $num;
+        private static function get_default_task() {
+            $task_lookup = self::lookup_record("SELECT TaskID FROM tt_task WHERE TDescription='Undefined'");
+            if ($task_lookup) {
+                if (array_key_exists("TaskID", $task_lookup)) {
+                    self::$default_task = $task_lookup["TaskID"];
+                } else {
+                    foreach ($task_lookup as $rslt) {
+                        foreach ($rslt as $col=>$val) {
+                            if ($col == "TaskID") {
+                                self::$default_task = $val;
+                            }
+                        }
+                    }
                 }
-            } 
+            }
         }
-
+        
+        private static function try_to_add_default_task() {
+            $rst = self::insert_record('tt_task', array('TDescription'=>'Undefined', 'ClientID'=> self::$default_client, 'TNotes'=>'Default Task'), array('%s', '%d', '%s'));
+            log_tt_misc('rst is ' . $rst);
+            if ($rst > 0) {
+                self::get_default_task();
+                log_tt_misc('rst is ' . $rst . 'and default client is ' . self::$default_client);
+            }
+        }
+        
         private static function insert_record($tbl, $flds, $frmts) {
             global $wpdb;
             $wpdb->insert($tbl, $flds, $frmts);
@@ -147,14 +173,10 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
         private static function lookup_record($sql) {
             global $wpdb;
-            $rslts = $wpdb->get_results($sql);
+            $rslts = $wpdb->get_results($sql, ARRAY_A);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            if (is_object($rslts)) {
-                return array($rslts->num_rows, $rslts[0]);
-            } else {
-                return array(0,null);
-            }
+            return $rslts;
         }	
 
     }  //close class
- }  //close if class exists
+ }
