@@ -56,7 +56,7 @@ if ( ! class_exists('Time_Tracker_Display_Message_Check_Client_Added') ) {
         private function get_message() {
             if ($this->client_count < 1) {
                 $display = "<div class=\"error-message\" id=\"no-client-alert\">";
-                $display .= "Add a Client to Get Started. Use the 'Add Client' button in the menu or <a href='" . TT_HOME . "new-client/'>click here</a>.";
+                $display .= "Add a client to get started. Use the 'Add Client' button in the menu or <a href='" . TT_HOME . "new-client/'>click here</a>.";
                 $display .= "</div>";
             } else {
                 $display = "";
