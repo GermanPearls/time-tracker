@@ -80,7 +80,8 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
                 'client_sub_categories' => get_option('time-tracker')['client-sub-categories'],
                 'default_client' => null,
                 'default_task' => null
-                );
+                )
+            );
             delete_option('time-tracker');    
         }
         
