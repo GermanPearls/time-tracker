@@ -88,7 +88,7 @@ if ( !class_exists( 'Task_Details' ) ) {
             //$display .= "<button id='tt-start-work-on-task-" . $this->taskid . "' class='tt-button tt-start-work-timer' onclick='start_timer_for_task("Logically Tech", "0-Undefined");'>Start Working</button>";
             $btn = "<button ";
             $btn .= "id='tt-start-work-for-" . $tsk_id . "' ";
-            $btn .= "class='tt-button start-work-timer' ";
+            $btn .= "class='tt-button tt-midpage-button' ";
             $btn .= "onclick='start_timer_for_task(esc_textarea($company), $tsk_id . '-' . $tsk_desc);";
             $btn .= ">Start Working</button>";
             return $btn;         
