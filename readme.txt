@@ -96,9 +96,10 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = 2.4.0 alpha =
+* New Feature: Added 'start working' button to task detail page
 * New Feature: Added default client and task to be used when none entered by user
-* New Feature: Add function to enable user to check for any missing recurring tasks and add them; Useful as automated check only runs once daily
-* New Feature: Added feedback request information to improve plugin usability for all
+* New Feature: Added function to enable user to check for any missing recurring tasks and add them; Useful as automated check only runs once daily
+* New Feature: Added feedback request information to improve plugin usability for all, gave user ability to snooze request
 * Improvement: General code cleanup
 * Improvement: General database option naming cleanup
 * Fix: Filter time entries by ticket #
