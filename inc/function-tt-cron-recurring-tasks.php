@@ -55,7 +55,9 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
         public function create_new_tasks() {
 		if ($this->recurring_tasks != null) {
 			return $this->create_missing_tasks();
-		}            
+		} else {
+			return 0;
+		}
         }
 	    
 	    
