@@ -538,7 +538,8 @@ td.on-hold-date {
 .tt-form input[type="text"], .tt-form input[type="password"], .tt-form input[type="email"], .tt-form input[type="url"],
 .tt-form input[type="date"], .tt-form input[type="month"], .tt-form input[type="time"], .tt-form input[type="datetime"],
 .tt-form input[type="datetime-local"], .tt-form input[type="week"], .tt-form input[type="number"],
-.tt-form input[type="search"], .tt-form input[type="tel"], .tt-form input[type="color"], .tt-form textarea, .tt-form select {
+.tt-form input[type="search"], .tt-form input[type="tel"], .tt-form input[type="color"], form.tt-form textarea, .tt-form input[type="textarea"],
+.tt-form select {
     padding: 5px;
     border: 1px solid <?php echo $neutral_background; ?>;
     margin-bottom: 10px; 
@@ -550,68 +551,26 @@ td.on-hold-date {
     width: 100%;
 }
 
-.tt-form-row {
-    display: flex;
-    width: 100%;
+.tt-form input[type="datetime"]:not(.tt-one-third input[type="datetime"], .tt-two-thirds input[type="datetime"], .tt-one-half input[type="datetime"]) {
+    width: 20%;
 }
 
-.tt-col-right {
-    float: right;
-}
-
-.tt-col-left {
+.tt-form input[type="submit"] :not(.tt-form-row input[type="submit"]) {
     float: left;
+    width: 20%;
 }
 
-.tt-col-middle {
-    margin: 0 auto;
-}
-
-.tt-col-right:after {
-    clear: both;
-}
-
-.tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-two-thirds {
+.tt-form input:not(input[type="submit"], input[type="datetime"], span>input),
+.tt-form label, 
+.tt-form select, 
+.tt-form span {
     display: inline-block;
-}
-
-.tt-form .tt-form-element.tt-one-third {
-    width: 33%;
-}
-
-.tt-form label, .tt-form select, .tt-form input:not(input[type="submit"], input[type="datetime"], span>input), .tt-form span {
-    display: inline-block;
-    width: 80%;
+    width: 90%;
     margin-right: 20px;
-}
-
-.tt-form input[type="submit"] :not(.tt-form-row input[type="submit"]), .tt-form input[type="datetime"] {
-    float: left;
-    width: 20%;
-}
-
-.tt-form input[type-="datetime"] {
-    width: 20%;
 }
 
 .tt-form input[type="submit"]:after, .tt-form input[type="datetime"]:after {
     clear:both;
-}
-
-
-.tt-form .tt-form-element.tt-two-thirds {
-    width: 66%;
-}
-
-@media only screen and (max-width: 768px) {
-	.tt-col-right, .tt-col-left, .tt-col-middle, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
-    .tt-form .tt-form-element.tt-two-thirds, .tt-form .tt-form-element.tt-two-thirds label,
-    .tt-form .tt-form-element.tt-one-third input, .tt-form .tt-form-element.tt-one-third select,
-    .tt-form .tt-form-element.tt-two-thirds input, .tt-form .tt-form-element.tt-two-thirds select {
-        clear: both;
-		display: block;
-        width: 100%
-	}
 }
 
 /********** Form for Filtering **********/
@@ -637,6 +596,57 @@ td.on-hold-date {
 .filter-time-form #task-name {
     max-width: 700px;
     margin-bottom: 20px;
+}
+
+/*************** columned forms *******************/
+.tt-form-row {
+    display: flex;
+    width: 100%;
+}
+
+.tt-col-right {
+    float: right;
+}
+
+.tt-col-left {
+    float: left;
+}
+
+.tt-col-middle {
+    margin: 0 auto;
+}
+
+.tt-col-right:after {
+    clear: both;
+}
+
+.tt-form .tt-form-element.tt-one-third,
+.tt-form .tt-form-element.tt-two-thirds,
+.tt-form .tt-form-element.tt-one-half {
+    display: inline-block;
+}
+
+.tt-form .tt-form-element.tt-one-third {
+    width: 33%;
+}
+
+.tt-form .tt-form-element.tt-two-thirds {
+    width: 66%;
+}
+
+.tt-form .tt-form-element.tt-one-half {
+    width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+	.tt-col-right, .tt-col-left, .tt-col-middle, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
+    .tt-form .tt-form-element.tt-two-thirds, .tt-form .tt-form-element.tt-two-thirds label,
+    .tt-form .tt-form-element.tt-one-third input, .tt-form .tt-form-element.tt-one-third select,
+    .tt-form .tt-form-element.tt-two-thirds input, .tt-form .tt-form-element.tt-two-thirds select {
+        clear: both;
+		display: block;
+        width: 100%
+	}
 }
 
 /*********************************/
