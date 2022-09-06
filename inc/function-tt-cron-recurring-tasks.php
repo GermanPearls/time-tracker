@@ -36,7 +36,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 
         
         public $created = 0;
-	private $recurring_tasks;
+	    public $recurring_tasks;
 
         
         /**
@@ -45,98 +45,99 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
          */
         public function __construct() {
         	$this->query_db_for_recurring_tasks();
-	}
+	    }
 
 
         /**
          * Create new tasks
-         * 
-         */
+        * 
+        */
         public function create_new_tasks() {
-		if ($this->recurring_tasks != null) {
-			return $this->create_missing_tasks();
-		} else {
-			return 0;
-		}
+            if ($this->recurring_tasks != null) {
+                return $this->create_missing_tasks();
+            } else {
+                return 0;
+            }
         }
 	    
 	    
-	/**
-	* Create  recurring tasks
-	*
-	**/
-	private function create_missing_tasks() {
-		foreach ($this->recurring_tasks as $task) {      
-			$last_created_obj = get_last_created_date($task);
-			$last_created_plus_week = $last_created_obj->modify('next Sunday');
-			$last_created_plus_month = $last_created_obj->modify('first day of next month');
+        /**
+        * Create  recurring tasks
+        *
+        **/
+        private function create_missing_tasks() {
+            foreach ($this->recurring_tasks as $task) {      
+                $last_created_obj = get_last_created_date($task);
+                $last_created_plus_week = $last_created_obj->modify('next Sunday');
+                $last_created_plus_month = $last_created_obj->modify('first day of next month');
 
-			/** For weekly tasks, if it's been more than a week since the last task was created, create the next Sunday's task **/
-			if ( (sanitize_text_field($task->Frequency) == "Weekly") && ($today >= $last_created_plus_week)) {                                      
-			    $this->create_new_task(
-				sanitize_text_field($task->RTName) . " " . $last_created_plus_week->format("n/j/y"),
-				sanitize_text_field($task->ClientID),
-				(($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
-				sanitize_text_field($task->RTTimeEstimate),
-				date_format($last_created_plus_week->modify('next Friday'), 'Y-m-d'),
-				sanitize_text_field($task->RTDescription),
-				sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
-				sanitize_text_field($task->RTCategory),
-				sanitize_text_field($task->RecurringTaskID)
-			    );
-			    $this->created = $this->created + 1;
-			    $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_week->format("Y-m-d"));
+                /** For weekly tasks, if it's been more than a week since the last task was created, create the next Sunday's task **/
+                if ( (sanitize_text_field($task->Frequency) == "Weekly") && ($today >= $last_created_plus_week)) {                                      
+                    $this->create_new_task(
+                    sanitize_text_field($task->RTName) . " " . $last_created_plus_week->format("n/j/y"),
+                    sanitize_text_field($task->ClientID),
+                    (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
+                    sanitize_text_field($task->RTTimeEstimate),
+                    date_format($last_created_plus_week->modify('next Friday'), 'Y-m-d'),
+                    sanitize_text_field($task->RTDescription),
+                    sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
+                    sanitize_text_field($task->RTCategory),
+                    sanitize_text_field($task->RecurringTaskID)
+                    );
+                    $this->created = $this->created + 1;
+                    $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_week->format("Y-m-d"));
 
-			/** For monthly tasks, if it's past the next 1st of the month, create the next month's task **/
-			} elseif ( (sanitize_text_field($task->Frequency) == "Monthly") && ($today >= $last_created_plus_month)) {
-			    $this->create_new_task(
-				sanitize_text_field($task->RTName). " " . $last_created_plus_month->format("F Y"),
-				sanitize_text_field($task->ClientID),
-				(($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
-				sanitize_text_field($task->RTTimeEstimate),
-				date_format($last_created_plus_month->modify('last day of this month'), 'Y-m-d'),
-				sanitize_text_field($task->RTDescription),
-				sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
-				sanitize_text_field($task->RTCategory),
-				sanitize_text_field($task->RecurringTaskID)
-			    );
-			    $this->created = $this->created + 1;
-			    $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_month->format("Y-m-d"));
-			} 
-		    }  
-		    log_cron('Recurring task cron completed, ' . $this->created . ' new task(s) created.');
-		    return $this->created;		
-	}
+                /** For monthly tasks, if it's past the next 1st of the month, create the next month's task **/
+                } elseif ( (sanitize_text_field($task->Frequency) == "Monthly") && ($today >= $last_created_plus_month)) {
+                    $this->create_new_task(
+                    sanitize_text_field($task->RTName). " " . $last_created_plus_month->format("F Y"),
+                    sanitize_text_field($task->ClientID),
+                    (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
+                    sanitize_text_field($task->RTTimeEstimate),
+                    date_format($last_created_plus_month->modify('last day of this month'), 'Y-m-d'),
+                    sanitize_text_field($task->RTDescription),
+                    sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
+                    sanitize_text_field($task->RTCategory),
+                    sanitize_text_field($task->RecurringTaskID)
+                    );
+                    $this->created = $this->created + 1;
+                    $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_month->format("Y-m-d"));
+                } 
+                }  
+                log_cron('Recurring task cron completed, ' . $this->created . ' new task(s) created.');
+                return $this->created;		
+        }
 	
 	    
-	/**
-	* Check if any recurring tasks need to be created
-	*
-	**/
-	private function query_db_for_recurring_tasks() {
+        /**
+        * Check if any recurring tasks need to be created
+        *
+        **/
+        private function query_db_for_recurring_tasks() {
             $today = new \DateTimeImmutable();
             $this->recurring_tasks = $this->get_recurring_tasks_from_db();
-		log_cron('recurring tasks is ' . print_r($this->recurring_tasks, true));
             if ($this->recurring_tasks == null) {
-		log_cron('no recurring tasks returned from db query');
+                log_cron('no recurring tasks returned from db query');
+            } else {
+                log_cron('recurring tasks is ' . print_r($this->recurring_tasks, true));
             }
-	}
+        }
 	
 	    
-	/**
-	* Get Last Created Date
-	*
-	**/
-    private function get_last_created_date($tsk) {
-	if ($tsk->LastCreated == "0000-00-00") {
-		$today = new \DateTimeImmutable();
-	    $last_created_obj = $today->modify('last day of last month');
-	} else {
-		$tz = (get_option('timezone_string')) ? new DateTimeZone(get_option('timezone_string')) : new DateTimeZone('UTC');  
-	    $last_created_obj = date_create_immutable_from_format('Y-m-d', trim($tsk->LastCreated), $tz);
-	}
-	return $last_created_obj;
-    }
+        /**
+        * Get Last Created Date
+        *
+        **/
+        private function get_last_created_date($tsk) {
+            if ($tsk->LastCreated == "0000-00-00") {
+                $today = new \DateTimeImmutable();
+                $last_created_obj = $today->modify('last day of last month');
+            } else {
+                $tz = (get_option('timezone_string')) ? new DateTimeZone(get_option('timezone_string')) : new DateTimeZone('UTC');  
+                $last_created_obj = date_create_immutable_from_format('Y-m-d', trim($tsk->LastCreated), $tz);
+            }
+            return $last_created_obj;
+        }
         
                 
         /**
