@@ -78,6 +78,21 @@ if ( !class_exists( 'Task_Details' ) ) {
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
             return $sql_result;
         }
+        
+        
+        /**
+        * Add Start Work Timer Button
+        *
+        **/
+        private function add_start_work_button($tsk_id, $tsk_desc, $company) {
+            //$display .= "<button id='tt-start-work-on-task-" . $this->taskid . "' class='tt-button tt-start-work-timer' onclick='start_timer_for_task("Logically Tech", "0-Undefined");'>Start Working</button>";
+            $btn = "<button ";
+            $btn .= "id='tt-start-work-for-" . $tsk_id . "' ";
+            $btn .= "class='tt-button tt-start-work-timer' ";
+            $btn .= "onclick='start_timer_for_task(esc_textarea($company), $tsk_id . "-" . $tsk_desc);';
+            $btn .= ">Start Working</button>"
+            return $btn;         
+        }
 
 
         /**
@@ -122,6 +137,7 @@ if ( !class_exists( 'Task_Details' ) ) {
             $display .= "<strong>Due Date:</strong>  " . $due_date_formatted . "<br/>";
             $display .= "<strong>Notes:</strong>  " . wp_kses_post(nl2br($task[0]->TaskNotes)) . "<br/>";
             $display .= "<strong>Total Time:</strong>  " . $total_time_display . "<br/>";
+            $display .= $this->add_start_work_button(intval($this->taskid), sanitize_text_field($this->TDescription), sanitize_text_field($this->Company));
             $display .= "<br/><hr/>";
 
             $display .= "<h2>Time Entries for Task # " . esc_textarea(sanitize_text_field($this->taskid)) . "</h2>";
