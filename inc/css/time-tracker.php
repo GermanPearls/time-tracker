@@ -295,7 +295,7 @@ button.clear-error:hover {
 }
 
 .start-work-timer:hover, .open-task-detail:hover, .tt-table-button:hover, .tt-table-button:focus  {
-    padding: 2.5px;
+    padding: 0.2em;
     text-decoration: none;
     font-weight: bold;
 }
