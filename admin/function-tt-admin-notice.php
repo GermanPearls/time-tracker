@@ -60,5 +60,5 @@ function tt_add_admin_notice_timer($name, $nexttime) {
     }
 }
 
-tt_add_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 2 months"));
+tt_add_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
 add_action( 'admin_notices', 'tt_dashboard_notice' );
