@@ -137,7 +137,7 @@ if ( !class_exists( 'Task_Details' ) ) {
             $display .= "<strong>Due Date:</strong>  " . $due_date_formatted . "<br/>";
             $display .= "<strong>Notes:</strong>  " . wp_kses_post(nl2br($task[0]->TaskNotes)) . "<br/>";
             $display .= "<strong>Total Time:</strong>  " . $total_time_display . "<br/>";
-            $display .= $this->add_start_work_button(intval($this->taskid), sanitize_text_field($this->TDescription), sanitize_text_field($this->Company));
+            $display .= $this->add_start_work_button(intval($this->taskid), sanitize_text_field($task[0]->TDescription), sanitize_text_field($task[0]->Company));
             $display .= "<br/><hr/>";
 
             $display .= "<h2>Time Entries for Task # " . esc_textarea(sanitize_text_field($this->taskid)) . "</h2>";
