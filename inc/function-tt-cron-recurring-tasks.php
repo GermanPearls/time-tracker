@@ -67,7 +67,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
         **/
         private function create_missing_tasks() {
             foreach ($this->recurring_tasks as $task) {      
-                $last_created_obj = get_last_created_date($task);
+                $last_created_obj = $this->get_last_created_date($task);
                 $last_created_plus_week = $last_created_obj->modify('next Sunday');
                 $last_created_plus_month = $last_created_obj->modify('first day of next month');
 
