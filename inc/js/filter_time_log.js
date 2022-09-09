@@ -18,9 +18,9 @@ function tt_filter_time_log(event) {
             client = input.value;
         } else if (input.name == 'notes') {
             notes = input.value;
-        } else if (input.name == 'project-name') {
+        } else if (input.name == 'project-name' && input.value != null) {
             project = input.value;
-        } else if (input.name == 'task-name') {
+        } else if (input.name == 'task-name' && input.value != null) {
             //pull out task number, to the left of the hyphen  
             var task = input.value;
             ticket = task.split("-", 1);
