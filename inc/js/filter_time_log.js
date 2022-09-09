@@ -18,7 +18,7 @@ function tt_filter_time_log(event) {
             client = input.value;
         } else if (input.name == 'notes') {
             notes = input.value;
-        } else if (input.name == 'project-name' && input.value != null) {
+        } else if (input.name == 'project-name' && input.value != null && input.value != "null") {
             project = input.value;
         } else if (input.name == 'task-name' && input.value != null) {
             //pull out task number, to the left of the hyphen  
