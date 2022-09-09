@@ -198,7 +198,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          */
         private function get_table_fields() {
             $cols = [
-                "ID" => [
+                " Time ID" => [
                     "fieldname" => "TimeID",
                     "id" => "time-id",
                     "editable" => false,
@@ -206,14 +206,14 @@ if ( !class_exists( 'Time_Log' ) ) {
                     "type" => "text",
                     "class" => ""
                 ],
-                "Client ID" => [
-                    "fieldname" => "ClientID",
-                    "id" => "client-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
+                //"Client ID" => [
+                //    "fieldname" => "ClientID",
+                //    "id" => "client-id",
+                //    "editable" => false,
+                //    "columnwidth" => "",
+                //    "type" => "text",
+                //    "class" => ""
+                //],
                 "Client" => [
                     "fieldname" => "Company",
                     "id" => "client-name",
