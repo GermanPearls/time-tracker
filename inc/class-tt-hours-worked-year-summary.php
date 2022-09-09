@@ -47,7 +47,8 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         public function getHTML() {
             $this->setYears();
             $i = intval($this->last_year);
-            $display = "<h2>Hours Worked by Year</h2>";
+            //$display = "<h2>Hours Worked by Year</h2>";
+            $display = "";
             while ($i >= intval($this->first_year)) {
                 $display .= $this->createHTMLTableForOneYear($i);
                 $i = $i - 1;
@@ -191,7 +192,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
             //if ($yr == date('Y')) {
                 //$acc_start .= " active";
             //}
-            $acc_start .= "'>" . $yr . " Summary</div><div class='tt-accordion-panel'>";
+            $acc_start .= "'>" . $yr . " Monthly Summary</div><div class='tt-accordion-panel'>";
             $acc_end = "</div>";
 
             //table begin
