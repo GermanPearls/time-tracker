@@ -166,7 +166,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                 //no recurring task id field in time table - so we have to get tasks and then time associated with those tasks
                 array_push($where_clauses, "tt_task.RecurringTaskID = " . $this->rectaskid);
             }
-            if (! is_null($this->taskid) or $this->taskid === 0) {
+            if ( $this->taskid != null or $this->taskid === 0) {
                 array_push($where_clauses, "tt_time.TaskID = " . $this->taskid);
             }
             if ( ($this->timeid <> "") and (! is_null($this->timeid)) and ($this->timeid <> "null") ) {
