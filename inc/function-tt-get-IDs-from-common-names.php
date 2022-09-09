@@ -14,8 +14,6 @@ namespace Logically_Tech\Time_Tracker\Inc;
  * 
  */
 function get_client_id_from_name($client_name) {
-  //Query time tracker database to get list of current clients and client id's
-  //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
   global $wpdb;
   $client_id_search_string = $wpdb->prepare('SELECT ClientID FROM tt_client WHERE Company= "%s"', $client_name);
   $client_id_search_result = $wpdb->get_results($client_id_search_string);
@@ -24,7 +22,7 @@ function get_client_id_from_name($client_name) {
     $client_id = $client_id_search_result[0]->ClientID;
     return $client_id;    
   } else {
-    return "";
+    return;
   }
 }
 
@@ -58,11 +56,13 @@ function get_project_id_from_name($project_name) {
  * 
  */
 function get_task_id_from_name($task_name) {
-  //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
   global $wpdb;
   $task_id_search_string = $wpdb->prepare('SELECT TaskID FROM tt_task WHERE TDescription= "%s"', $task_name);
   $task_id_search_result = $wpdb->get_results($task_id_search_string);
-  $task_id = $task_id_search_result[0]->TaskID;
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query . ' result is ' . $task_id, $wpdb->last_error);
-  return $task_id;    
+  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query . ' result is ' . $task_id, $wpdb->last_error);    
+  if ($task_id_search_result) {
+    return $task_id_search_result[0]->TaskID;
+  } else {
+    return;
+  }
 }
