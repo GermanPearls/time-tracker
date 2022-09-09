@@ -14,13 +14,13 @@ function tt_filter_time_log(event) {
             first_date = input.value;
         } else if (input.name == 'last-date') {
             last_date = input.value;
-        } else if (input.name == 'client-name') {
+        } else if (input.name == 'client-name' && input.value != "null") {
             client = input.value;
-        } else if (input.name == 'notes') {
+        } else if (input.name == 'notes' && input.value != "null") {
             notes = input.value;
-        } else if (input.name == 'project-name' && input.value != null && input.value != "null") {
+        } else if (input.name == 'project-name' && input.value != "null") {
             project = input.value;
-        } else if (input.name == 'task-name' && input.value != null) {
+        } else if (input.name == 'task-name' && input.value != "null") {
             //pull out task number, to the left of the hyphen  
             var task = input.value;
             ticket = task.split("-", 1);
