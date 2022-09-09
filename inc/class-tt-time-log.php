@@ -59,7 +59,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                 $this->clientid = (! is_null($_GET['client-name']) and $_GET['client-name'] <> "") ? get_client_id_from_name(sanitize_text_field($_GET['client-name'])) : null;
             } elseif (isset($_GET['client-id'])) {
 				$this->clientid = (! is_null($_GET['client-id']) and $_GET['client-id'] <> "") ? intval($_GET['client-id']) : null;
-            };
+            }
             $this->notes = (isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : null);
             $this->startdate = (isset($_GET['first-date']) ? sanitize_text_field($_GET['first-date']) : null);
             $this->enddate = (isset($_GET['last-date']) ? sanitize_text_field($_GET['last-date']) : null);
