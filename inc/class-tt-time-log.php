@@ -48,7 +48,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                 $this->taskid = intval($_GET['task-number']);
             } elseif (isset($_GET['task'])) {
                 $this->taskid = (! is_null($_GET['task']) and $_GET['task'] <> "") ? get_task_id_from_name(sanitize_text_field($_GET['task'])) : null;
-            };
+            }
             $this->rectaskid = (isset($_GET['recurring-task-id']) and $_GET['recurring-taask-id'] <> "") ? intval($_GET['recurring-task-id']) : null;
             if (isset($_GET['project-name'])) {
                 $this->projectid = (! is_null($_GET['project-name']) and $_GET['project-name'] <> "") ? get_project_id_from_name(sanitize_text_field($_GET['project-name'])) : null;
