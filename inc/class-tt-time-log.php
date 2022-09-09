@@ -44,7 +44,7 @@ if ( !class_exists( 'Time_Log' ) ) {
             $this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
             if (isset($_GET['task-id'])) {
                 $this->taskid = intval($_GET['task-id']);
-            } elseif (isset($_GET['task-number'])) {
+            } elseif (isset($_GET['task-number']) && $_GET['task-number'] <> "") {
                 $this->taskid = intval($_GET['task-number']);
             } elseif (isset($_GET['task'])) {
                 $this->taskid = (! is_null($_GET['task']) and $_GET['task'] <> "") ? get_task_id_from_name(sanitize_text_field($_GET['task'])) : null;
