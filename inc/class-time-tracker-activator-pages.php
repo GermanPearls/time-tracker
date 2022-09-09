@@ -177,7 +177,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Tracker Home",
                 "Parent" => 0,
                 "Slug" => "time-tracker",
-                "Content" => "[tt_month_summary][tt_year_summary]"
+                "Content" => "[tt_month_summary]<br/>[tt_year_summary]"
             );
             array_push($details_all, $details);
             self::$page_details = $details_all;

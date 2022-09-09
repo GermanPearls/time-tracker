@@ -40,8 +40,6 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
          * 
          */ 
         private function query_database() {
-            //Connect to Time Tracker Database
-            //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
             $result = $wpdb->get_results($query = $this->get_sql_string(), $output = ARRAY_A);
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);

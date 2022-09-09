@@ -284,7 +284,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
             $display_data = $this->get_summary_data_for_display();
             $args["class"] = ["tt-table", "time-log-table", "time-log-summary-table"];
             $tbl = new Time_Tracker_Display_Table();
-            $accordion_heading = "<div class='tt-accordion'>Weekly Summary</div><div class='tt-accordion-panel'>";
+            $accordion_heading = "<div class='tt-accordion'>" . date('Y') . " Weekly Summary</div><div class='tt-accordion-panel'>";
 			$accordion_closing = "</div>";
             $table = $tbl->create_html_table($fields, $display_data, $args, "Time Log Summary by Bill To and Week", "");
             return $accordion_heading . $table . $accordion_closing;
