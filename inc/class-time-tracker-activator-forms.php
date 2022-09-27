@@ -359,7 +359,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
                 "<label> End Time (required)</label>[datetime end-time id:end-time]",
                 "<label> New Task Status</label>[select new-task-status id:new-task-status include_blank \"In Process\" \"Not Started\" \"Ongoing\" \"Waiting Client\" \"Complete\" \"Canceled\"]"
             );
-            $html .= "<label> Notes (required)</label>[textarea* time-notes maxlength:1999 x10]";
+            $html .= "<label> Notes (required)</label>[textarea* time-notes maxlength:1999 x7]";
             $html .= self::create_33_33_33_row(
                 "<label> Invoiced?</label> [text invoiced id:invoiced]",
                 "<label> Invoice #</label> [text invoice-number id:invoice-number]",
