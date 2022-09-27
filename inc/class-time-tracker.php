@@ -118,6 +118,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-delete-record.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-load-dynamic-stylesheets.php');
 	    include_once(TT_PLUGIN_DIR_INC . 'function-tt-get-new-task-details.php');
+      include_once(TT_PLUGIN_DIR_INC . 'function-tt-recaptcha.php');
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
@@ -171,7 +172,6 @@ if ( ! class_exists('Time_Tracker') ) {
      */
     public function time_tracker_scripts() {
       //SCRIPTS
-      wp_enqueue_script ( 'time_tracker_remove_cf7_recaptcha', TT_PLUGIN_WEB_DIR_INC . 'function-tt-recaptcha.php', array(), null, true);
 
       //wp_enqueue_script( 'update_project_list', TT_PLUGIN_WEB_DIR_INC . 'js/get_projects_for_client.js', array(), null, true);
       wp_enqueue_script( 'update_end_timer', TT_PLUGIN_WEB_DIR_INC . 'js/update_end_timer.js', array(), null, true);
@@ -231,7 +231,7 @@ if ( ! class_exists('Time_Tracker') ) {
 
 
     /**
-     * Enqueue Scipts
+     * Enqueue Scripts
      * 
      */
     public function add_scripts() {
