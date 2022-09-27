@@ -154,13 +154,21 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     "id" => "task-id",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "long text",
+                    "type" => "text",
                     "class" => ""
                 ],
                 "Task Description" => [
                     "fieldname" =>"TDescription",
                     "id" => "task-description",
-                    "editable" => true,
+                    "editable" => false,
+                    "columnwidth" => "",
+                    "type" => "text",
+                    "class" => ""
+                ],
+                "Time ID" => [
+                    "fieldname" => "TimeID",
+                    "id" => "time-id",
+                    "editable" => false,
                     "columnwidth" => "",
                     "type" => "text",
                     "class" => ""
