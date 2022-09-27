@@ -171,6 +171,7 @@ if ( ! class_exists('Time_Tracker') ) {
      */
     public function time_tracker_scripts() {
       //SCRIPTS
+      wp_enqueue_script ( 'time_tracker_remove_cf7_recaptcha', TT_PLUGIN_WEB_DIR_INC . 'function-tt-recaptcha.php', array(), null, true);
 
       //wp_enqueue_script( 'update_project_list', TT_PLUGIN_WEB_DIR_INC . 'js/get_projects_for_client.js', array(), null, true);
       wp_enqueue_script( 'update_end_timer', TT_PLUGIN_WEB_DIR_INC . 'js/update_end_timer.js', array(), null, true);
