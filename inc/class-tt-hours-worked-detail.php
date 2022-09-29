@@ -69,7 +69,7 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
                 YEAR(tt_time.StartTime) as WorkYear,
                 Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as MinutesWorked,
                 Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as HoursWorked,
-                tt_client.Company, tt_client.Billable, tt_client.BillTo, tt_project.ProjectName, tt_time.Invoiced, tt_time.InvoicedTime as BilledTime
+                tt_client.Company, tt_client.Billable, tt_client.BillTo, tt_project.PName, tt_time.Invoiced, tt_time.InvoicedTime as BilledTime
             FROM tt_time 
             LEFT JOIN tt_client ON tt_time.ClientID = tt_client.ClientID 
             LEFT JOIN tt_task ON tt_time.TaskID = tt_task.TaskID 
