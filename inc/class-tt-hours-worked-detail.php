@@ -70,8 +70,9 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
                 Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as MinutesWorked,
                 Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as HoursWorked,
                 tt_client.Company, tt_client.Billable, tt_client.BillTo, tt_project.ProjectName, tt_time.Invoiced, tt_time.InvoicedTime as BilledTime
-            FROM tt_time LEFT JOIN tt_client ON tt_time.ClientID = tt_client.ClientID,
-            LEFT JOIN tt_task ON tt_time.TaskID = tt_task.TaskID
+            FROM tt_time 
+            LEFT JOIN tt_client ON tt_time.ClientID = tt_client.ClientID 
+            LEFT JOIN tt_task ON tt_time.TaskID = tt_task.TaskID 
             LEFT JOIN tt_project ON tt_task.ProjectID = tt_project.ProjectID";
             $orderby = "ORDER BY WorkYear ASC, WorkMonth ASC, BillTo ASC, Company ASC";
             return $sql_start . " " . $this->get_where_clauses() . " " . $orderby;
