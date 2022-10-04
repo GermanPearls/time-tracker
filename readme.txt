@@ -104,6 +104,7 @@ installation and provide detailed feedback if you find features that don't work 
 * Improvement: General code cleanup
 * Improvement: General database option naming cleanup
 * Fix: Filter time entries by ticket #
+* Fix: Recurring tasks cron
 
 = 2.3.3 =
 * Fix: Typo
