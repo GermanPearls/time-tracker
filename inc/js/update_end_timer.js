@@ -28,9 +28,14 @@ function update_end_timer() {
 }
 
 jQuery(window).on("load", function() {
-	if (document.getElementById('end-time')) {
-		setInterval(function() {
+    var endtimer = document.getElementById('end-time');
+	if (endtimer) {
+		var autoupdate = setInterval(function() {
 			update_end_timer();
-		}, 60000);		
+		}, 60000);
+
+        jQuery(endtimer).on("input", function() {
+            clearInterval(autoupdate);
+        });
 	}
 });
