@@ -135,7 +135,7 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
                 "Frequency" => [
                     "fieldname" => "Frequency",
                     "id" => "frequency",
-                    "editable" => false,
+                    "editable" => true,
                     "columnwidth" => "",
                     "type" => "text",
                     "class" => ""

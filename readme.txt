@@ -3,7 +3,7 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, project management, freelancer tools, billing, to-do, to do, to do list, list, task, cf7 extension, contact form 7
 Requires at least: 5.3
-Tested up to: 6.0.1
+Tested up to: 6.1
 Requires PHP: 7.0
 Stable tag: 2.4.0
 License: GPLv3 or later
@@ -94,6 +94,9 @@ installation and provide detailed feedback if you find features that don't work 
 
  
 == Changelog ==
+
+= 2.4.1 alpha =
+* Improvement: Provide user ability to edit more recurring task and project details in front end forms
 
 = 2.4.0 =
 * New Feature: Added 'start working' button to task detail page

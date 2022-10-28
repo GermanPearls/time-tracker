@@ -223,7 +223,7 @@ if ( !class_exists( 'Project_List' ) ) {
                 "Status" => [
                     "fieldname" => "PStatus",
                     "id" => "task-category",
-                    "editable" => false,
+                    "editable" => true,
                     "columnwidth" => "",
                     "type" => "text",
                     "class" => ""
