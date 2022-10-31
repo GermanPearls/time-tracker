@@ -16,7 +16,7 @@ function tt_feedback_request() {
     $msg .= "<a href='mailto:info@logicallytech.com'>info@logicallytech.com</a>. ";
     $msg .= "If you're enjoying the plugin and could take a few moments to leave a review, ";
     $msg .= "it would be greatly appreciated.<br/>";
-    $msg .= "<button href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post' ";
+    $msg .= "<button href=\"window.location.href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post'\" ";
 	$msg .= "style='padding: 5px 15px; margin-top:15px;'>";
     $msg .= "Leave a Review</button>";
 	$msg .= tt_dismiss_notice_button("tt_feedback_request", 6);
@@ -41,6 +41,14 @@ function tt_dashboard_notice() {
 	    } elseif ( (array_key_exists($notice, $timers)) and (($timers[$notice] == null) or ($timers[$notice] < new \DateTime())) ) {
 	    	echo call_user_func($notice);
 	    }
+    }
+}
+
+function tt_dismiss_admin_notice($name, $months_out) {
+    if ($months_out > 0) {
+        tt_update_admin_notice_timer($name, new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + " . $months_out + " months"));
+    } else {
+        tt_update_admin_notice_timer($name, new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 2 months"));
     }
 }
 
