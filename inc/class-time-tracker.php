@@ -307,11 +307,13 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'export_tt_data', TT_PLUGIN_WEB_DIR_ADMIN . 'js/export_tt_data.js', array('jquery'), null, true);
       wp_enqueue_script( 'delete_tt_data', TT_PLUGIN_WEB_DIR_ADMIN . 'js/delete_tt_data.js', array('jquery'), null, true);
       wp_enqueue_script( 'run_recurring_task_cron', TT_PLUGIN_WEB_DIR_ADMIN . 'js/run_recurring_task_cron.js', array('jquery'), null, true);
+      wp_enqueue_script( 'dismiss_admin_notice', TT_PLUGIN_WEB_DIR_ADMIN . 'js/dismiss_admin_notice.js', array('jquery'), null, true);
       
       //SAVE PATH TO SCRIPTS FOR USE IN JS
       wp_localize_script('export_tt_data', 'wp_ajax_object_tt_export_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_data_nonce')));
       wp_localize_script('delete_tt_data', 'wp_ajax_object_tt_delete_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_data_nonce')));
       wp_localize_script('run_recurring_task_cron', 'wp_ajax_object_tt_run_recurring_task_cron', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_run_recurring_task_cron_nonce')));
+      wp_localize_script('dismiss_admin_notice', 'wp_ajax_object_tt_dismiss_admin_notice', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_dismiss_admin_notice_nonce')));
     }
 
     
@@ -324,7 +326,8 @@ if ( ! class_exists('Time_Tracker') ) {
 	    add_action('wp_ajax_tt_export_data', 'Logically_Tech\Time_Tracker\Admin\tt_export_button_function');
 	    add_action('wp_ajax_tt_delete_data', 'Logically_Tech\Time_Tracker\Admin\tt_delete_data_function');
       add_action('wp_ajax_tt_run_recurring_task_cron', 'Logically_Tech\Time_Tracker\Inc\tt_run_recurring_task_cron');
-		
+      add_action('wp_ajax_tt_dismiss_admin_notice', 'Logically_Tech\Time_Tracker\Admin\tt_dismiss_admin_notice_function');
+
       //ADMIN SCRIPTS
       add_action('admin_enqueue_scripts', array($this,'time_tracker_scripts_admin'));
 
