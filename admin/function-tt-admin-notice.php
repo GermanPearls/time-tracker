@@ -16,7 +16,7 @@ function tt_feedback_request() {
     $msg .= "<a href='mailto:info@logicallytech.com'>info@logicallytech.com</a>. ";
     $msg .= "If you're enjoying the plugin and could take a few moments to leave a review, ";
     $msg .= "it would be greatly appreciated.<br/>";
-    $msg .= "<button href=\"window.location.href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post'\" ";
+    $msg .= "<button onclick=\"window.location.href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post'\" ";
 	$msg .= "style='padding: 5px 15px; margin-top:15px;'>";
     $msg .= "Leave a Review</button>";
 	$msg .= tt_dismiss_notice_button("tt_feedback_request", 6);
