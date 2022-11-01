@@ -247,11 +247,8 @@ function tt_get_form_name($form_id) {
  * 
  */
 function tt_is_tt_form($form_name='', $form_id=0) {
-    log_tt_misc('in tt check form function');
-    log_tt_misc($form_id);
     if ($form_id != 0) {
         $form_name = tt_get_form_name($form_id);
-        log_tt_misc($form_name);
     }
     if ( ($form_name == '') or ($form_name == null) ) {
         return false;
