@@ -97,6 +97,7 @@ installation and provide detailed feedback if you find features that don't work 
 
 = 2.4.2 alpha =
 * Fix: Fix error in month summary when no data exists for curent month
+* Fix: Misc bug fixes
 
 = 2.4.1 =
 * Improvement: Provide user ability to edit more recurring task and project details in front end forms

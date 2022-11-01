@@ -39,7 +39,7 @@ function tt_dashboard_notice() {
     $timers = get_option('time_tracker_admin_notices');
     foreach ($notices as $notice) {
 	    if (! array_key_exists($notice, $timers)) {
-		 echo call_user_func($notice);
+	        echo call_user_func($notice);
 	    } elseif ( (array_key_exists($notice, $timers)) and (($timers[$notice] == null) or ($timers[$notice] < new \DateTime())) ) {
 	    	echo call_user_func($notice);
 	    }
@@ -94,4 +94,4 @@ function tt_add_admin_notice_timer($name, $nexttime) {
 }
 
 tt_add_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
-add_action( 'admin_notices', 'tt_dashboard_notice' );
+add_action( 'admin_notices', 'Logically_Tech\Time_Tracker\Admin\tt_dashboard_notice' );
