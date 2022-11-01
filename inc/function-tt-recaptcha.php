@@ -23,7 +23,9 @@ add_action( 'wp', 'time_tracker_remove_cf7_recaptcha', 10);
 function time_tracker_skip_cf7_spam_check() {
     if(is_singular()) {
         $post_type = get_post_meta( get_post()->ID, '_wp_page_template', true );
+        echo $post_type;
         if ($post_type == "tt-page-template.php") {
+            echo 'should be off';
             return true;
         }
     }
