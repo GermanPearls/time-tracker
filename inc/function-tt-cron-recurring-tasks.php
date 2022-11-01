@@ -211,7 +211,7 @@ function tt_create_recurring_tasks_function() {
  * Add action to cron
  * 
  */
-add_action('tt_recurring_task_check', 'tt_create_recurring_tasks_function', 10, 2);
+add_action('tt_recurring_task_check', 'Logically_Tech\Time_Tracker\Inc\tt_create_recurring_tasks_function', 10, 2);
 
 
 /**
