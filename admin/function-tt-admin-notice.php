@@ -27,7 +27,7 @@ function tt_feedback_request() {
 }
 
 function tt_dismiss_notice_button($notice, $mnths) {
-	$btn = "<button onclick='dismiss_admin_notice('" . $notice . "', " . $mnths . ")' ";
+	$btn = "<button onclick=\"dismiss_admin_notice(\'" . $notice . "\', " . $mnths . ")\" ";
 	$btn .= "style='padding: 5px 15px; margin-left:15px; margin-top:15px;'>";
 	$btn .= "Dismiss for " . $mnths . " Months</button>";
 	return $btn;
