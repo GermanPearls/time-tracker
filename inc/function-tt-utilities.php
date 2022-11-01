@@ -247,17 +247,20 @@ function tt_get_form_name($form_id) {
  * 
  */
 function tt_is_tt_form($form_name='', $form_id=0) {
+    log_tt_misc('in tt check form function');
+    log_tt_misc($form_id);
     if ($form_id != 0) {
         $form_name = tt_get_form_name($form_id);
+        log_tt_misc($form_name);
     }
     if ( ($form_name == '') or ($form_name == null) ) {
         return false;
     }
     require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
     $tt_forms = new Time_Tracker_Activator_Forms();
-	$tt_form_names = $tt_forms->create_form_details_array();
-    foreach ($tt_form_names as $tt_form_name) {
-        if ($form_name == $tt_form_name) {
+	$tt_forms_arr = $tt_forms->create_form_details_array();
+    foreach ($tt_forms_arr as $tt_form) {
+        if ($form_name == $tt_form['Title']) {
             return true;
         }
     }
