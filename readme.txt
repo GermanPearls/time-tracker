@@ -5,7 +5,7 @@ Tags: time tracker, time management, project management, freelancer tools, billi
 Requires at least: 5.3
 Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Short Description: Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
@@ -94,6 +94,10 @@ installation and provide detailed feedback if you find features that don't work 
 
  
 == Changelog ==
+
+= 2.4.3 =
+* Improvement: Remove recaptcha from Time Track forms if using 3rd party 'Advanced Google Recaptcha' plugin
+* Fix: Remove recaptcha from Time Tracker forms, if enabled
 
 = 2.4.2 =
 * Fix: Fix error in month summary when no data exists for curent month
