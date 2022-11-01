@@ -9,7 +9,7 @@
  */
 
 
-add_action( 'template_redirect', 'time_tracker_remove_cf7_recaptcha', 10);
+add_action( 'wpcf7_init', 'time_tracker_remove_cf7_recaptcha', 7);
     
 function time_tracker_remove_cf7_recaptcha() {
     if(is_singular()) {
