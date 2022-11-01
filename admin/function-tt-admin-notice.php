@@ -46,12 +46,14 @@ function tt_dashboard_notice() {
     }
 }
 
-function tt_dismiss_admin_notice_function($name, $months_out) {
+function tt_dismiss_admin_notice_function() {
     if ( ($_SERVER['REQUEST_METHOD'] = 'POST') && isset($_POST['type']) ){
 		$type = sanitize_text_field($_POST['type']);
     	if ($type == 'confirmed') {
 			if (check_ajax_referer('tt_dismiss_admin_notice_nonce', 'security')) {
-                if ($months_out > 0) {
+                $name = isset($_POST['nm']) ? $_POST['nm'] : '';
+                $months_out = isset($_POST['mnths']) ? int($_POST['mnths']) : 0;
+                if ( ($months_out > 0) and ($name != '') ) {
                     tt_update_admin_notice_timer($name, new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + " . $months_out + " months"));
                     $return = array(
 						'success' => true,
