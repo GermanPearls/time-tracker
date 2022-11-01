@@ -21,8 +21,12 @@ add_action( 'wp', 'time_tracker_remove_cf7_recaptcha', 10);
 
 
 function time_tracker_skip_cf7_spam_check() {
+    require_once(TT_PLUGIN_DIR_INC . 'function-tt-utilities.php');
+    Logically_Tech\Time_Tracker\Inc\log_tt_misc('in spam check function');
     if (isset($_POST['_wpcf7'])) {
+        Logically_Tech\Time_Tracker\Inc\log_tt_misc('in spam check function 2');
         if (Logically_Tech\Time_Tracker\Inc\tt_is_tt_form(intval($_POST['_wpcf7']))) {
+            Logically_Tech\Time_Tracker\Inc\log_tt_misc('in spam check function 3');
             return true;
         }
     }
