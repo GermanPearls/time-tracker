@@ -8,9 +8,7 @@
  * 
  */
 
-
-add_action( 'wp', 'time_tracker_remove_cf7_recaptcha', 10);
-    
+   
 function time_tracker_remove_cf7_recaptcha() {
     if(is_singular()) {
         $post_type = get_post_meta( get_post()->ID, '_wp_page_template', true );
@@ -19,4 +17,19 @@ function time_tracker_remove_cf7_recaptcha() {
             add_filter('wpcf7_skip_spam_check', '__return_true');
         }
     }
+}
+add_action( 'wp', 'time_tracker_remove_cf7_recaptcha', 10);
+
+
+/** If user has Advanced Google Recaptcha Plugin installed, disable it on TT forms */
+if ( defined('ADVANCED_GOOGLE_RECAPTCHA_VERSION') ) {
+    function time_tracker_remove_advanced_google_recaptcha() {
+        if(is_singular()) {
+            $post_type = get_post_meta( get_post()->ID, '_wp_page_template', true );
+            if ($post_type == "tt-page-template.php") {
+                remove_action ( 'init', 'advanced_google_recaptcha_init', 10, 0 );
+            }
+        }    
+    }
+    add_action( 'wp', 'time_tracker_remove_advanced_google_recaptcha', 10);
 }
