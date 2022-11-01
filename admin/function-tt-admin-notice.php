@@ -52,14 +52,14 @@ function tt_dismiss_admin_notice_function() {
             $name = isset($_POST['nm']) ? $_POST['nm'] : '';
             $months_out = isset($_POST['mnths']) ? \intval($_POST['mnths']) : 0;
             if ( ($months_out > 0) and ($name != '') ) {
-                tt_update_admin_notice_timer($name, new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + " . $months_out + " months"));
+                tt_update_admin_notice_timer($name, new \DateTime(strtotime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + " . $months_out + " months")));
                 $return = array(
                     'success' => true,
-                    'msg' => 'Admin notice delayed for ' + $months_out + ' months.'
+                    'msg' => 'Admin notice delayed for ' + str($months_out) + ' months.'
                 );
                 wp_send_json_success($return, 200);
             } else {
-                tt_update_admin_notice_timer($name, new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 2 months"));
+                tt_update_admin_notice_timer($name, new \DateTime(strtotime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 2 months")));
                 $return = array(
                     'success' => false,
                     'msg' => 'Error delaying admin notice, no delay time frame specified.'
