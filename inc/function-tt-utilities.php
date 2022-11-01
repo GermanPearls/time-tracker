@@ -232,6 +232,38 @@ function tt_get_form_id($form_name) {
 
 
 /**
+ * Get form name from form ID
+ * 
+ */
+function tt_get_form_name($form_id) {
+    if ( ($form_id > 0) and ($form_id != null) ) {
+        return get_the_title($form_id);
+    }
+}
+
+
+/**
+ * Check if this is a Time Tracker form
+ * 
+ */
+function tt_is_tt_form($form_name='', $form_id=0) {
+    if ($form_id != 0) {
+        $form_name = tt_get_form_name($form_id);
+    }
+    if ( ($form_name == '') or ($form_name == null) ) {
+        return false;
+    }
+    $tt_forms = new Time_Tracker_Activator_Forms();
+	$tt_form_names = $forms->create_form_details_array();
+    foreach ($tt_form_names as $tt_form_name) {
+        if ($form_name == $tt_form_name) {
+            return true;
+        }
+    }
+}
+
+
+/**
  * Check page status to verify it's private
  * 
  */

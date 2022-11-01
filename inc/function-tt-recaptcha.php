@@ -22,7 +22,7 @@ add_action( 'wp', 'time_tracker_remove_cf7_recaptcha', 10);
 
 function time_tracker_skip_cf7_spam_check() {
     if (isset($_POST['_wpcf7'])) {
-        if (tt_is_tt_form(intval($_POST['_wpcf7']))) {
+        if (Logically_Tech\Time_Tracker\Inc\tt_is_tt_form(intval($_POST['_wpcf7']))) {
             return true;
         }
     }
