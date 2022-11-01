@@ -255,7 +255,7 @@ function tt_is_tt_form($form_name='', $form_id=0) {
     }
     require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
     $tt_forms = new Time_Tracker_Activator_Forms();
-	$tt_form_names = $forms->create_form_details_array();
+	$tt_form_names = $tt_forms->create_form_details_array();
     foreach ($tt_form_names as $tt_form_name) {
         if ($form_name == $tt_form_name) {
             return true;
