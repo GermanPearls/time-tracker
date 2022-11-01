@@ -28,6 +28,7 @@ if ( defined('ADVANCED_GOOGLE_RECAPTCHA_VERSION') ) {
             $post_type = get_post_meta( get_post()->ID, '_wp_page_template', true );
             if ($post_type == "tt-page-template.php") {
                 remove_action ( 'init', 'advanced_google_recaptcha_init', 10, 0 );
+                remove_action ( 'wp_enqueue_scripts', 'advanced_google_recaptcha_load_frontend_scripts', 10, 0);
             }
         }    
     }
