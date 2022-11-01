@@ -30,7 +30,8 @@ function time_tracker_skip_cf7_spam_check() {
         }
     }
 }
-add_filter( 'wpcf7_skip_spam_check', 'time_tracker_skip_cf7_spam_check');
+//add_filter( 'wpcf7_skip_spam_check', 'time_tracker_skip_cf7_spam_check');
+add_filter( 'wpcf7_skip_spam_check', '__return_true');
 
 
 /** If user has Advanced Google Recaptcha Plugin installed, disable it on TT forms */
