@@ -50,7 +50,7 @@ function tt_dismiss_admin_notice_function() {
     if ($_SERVER['REQUEST_METHOD'] = 'POST'){
         if (check_ajax_referer('tt_dismiss_admin_notice_nonce', 'security')) {
             $name = isset($_POST['nm']) ? $_POST['nm'] : '';
-            $months_out = isset($_POST['mnths']) ? int($_POST['mnths']) : 0;
+            $months_out = isset($_POST['mnths']) ? \int($_POST['mnths']) : 0;
             if ( ($months_out > 0) and ($name != '') ) {
                 tt_update_admin_notice_timer($name, new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + " . $months_out + " months"));
                 $return = array(
