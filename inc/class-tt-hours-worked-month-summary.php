@@ -231,7 +231,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             //pending time
             $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Pending</td>";
             foreach ($bill_to_names as $bill_to_name) {        
-                if (empty($time_summary)) {
+                if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
                     $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['PendingTime']) . "</td>";
@@ -244,7 +244,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             //invoiced time
             $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Invoiced</td>";
             foreach ($bill_to_names as $bill_to_name) {        
-                if (empty($time_summary)) {
+                if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
                     $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['TimeInvoiced']) . "</td>";
