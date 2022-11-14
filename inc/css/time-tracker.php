@@ -419,7 +419,7 @@ div.tt-pagination-nav {
     background-color:  <?php echo $brand_color; ?>;
 }
 
-.tt-border-top-divider {
+.tt-table td.tt-border-top-divider {
     border-top: 10px solid <?php echo $brand_color; ?>;
 }
 
