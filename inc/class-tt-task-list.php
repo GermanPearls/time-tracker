@@ -377,7 +377,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 ];
 
                 //put border above row if date >12 months out
-                if ( ($due_date_class == "far-future-date") && (!$future_dates_divider_added) ) {
+                if ( ($due_date_class == "far-future-date") && ($future_dates_divider_added == false) ) {
                     $future_dates_divider_added = true;
                     foreach ($item as &$cell) {
                         $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");

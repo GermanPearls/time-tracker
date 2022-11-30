@@ -189,10 +189,10 @@ function get_due_date_class($duedate, $status) {
             $due_date_class = "late-date";
         } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days")))) {
             $due_date_class = "soon-date";
-        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days")))) {
-            $due_date_class = "on-hold-date";
-        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days")))) {
+		} elseif (\DateTime::createFromFormat("Y-m-d", $duedate) >= new \DateTime(date("Y-m-d", strtotime("+365 days")))) {
             $due_date_class = "far-future-date";
+		} elseif (\DateTime::createFromFormat("Y-m-d", $duedate) >= new \DateTime(date("Y-m-d", strtotime("+90 days")))) {
+            $due_date_class = "on-hold-date";
         } else {
             $due_date_class = "ok-date";
         }
