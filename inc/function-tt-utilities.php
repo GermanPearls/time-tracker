@@ -179,16 +179,20 @@ function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
  */
 function get_due_date_class($duedate, $status) {
     if ( ($duedate == "0000-00-00") || ($duedate == null) ) {
-        $due_date_formatted = "";
+        //$due_date_formatted = "";
         $due_date_class = "no-date";
+    } else if ( ($status == "Canceled") || ($status == "Complete") ) {
+        $due_date_class = "ok-date";
     } else {
-        $due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
-        if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime() AND $status<>"Canceled" AND $status<>"Complete") {
+        //$due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
+        if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime()) {
             $due_date_class = "late-date";
-        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days")))) {
             $due_date_class = "soon-date";
-        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days"))) AND $status<>"Canceled" AND $status<>"Complete") {
+        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days")))) {
             $due_date_class = "on-hold-date";
+        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) > new \DateTime(date("Y-m-d", strtotime("+90 days")))) {
+            $due_date_class = "far-future-date";
         } else {
             $due_date_class = "ok-date";
         }

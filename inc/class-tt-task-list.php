@@ -328,6 +328,7 @@ if ( !class_exists( 'Task_List' ) ) {
          * 
          */
         private function get_all_data_for_display($type) {
+            $future_dates_divider_added = false;
             if ($type == "open_tasks") {
                 $tasks = $this->get_open_tasks_from_db();
             } else {
@@ -374,8 +375,33 @@ if ( !class_exists( 'Task_List' ) ) {
                     "value" => $hours_logged . $percent_time_logged,
                     "class" => $time_worked_vs_estimate_class
                 ];
+
+                //put border above row if date >12 months out
+                if ( ($due_date_class == "far-future-date") && (!$future_dates_divider_added) ) {
+                    $future_dates_divider_added = true;
+                    foreach ($item as &$cell) {
+                        $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
+                    }
+                }
             }
             return $tasks;
+        }
+
+
+        /**
+         * Add class to cell
+         * 
+         */
+        private function add_class_to_cell($cel, $cls) {
+            if (is_array($cel)) {
+                $cel["class"] = $cel["class"] . " " . $cls;
+            } else {
+                $cel = [
+                    "value" => $cel,
+                    "class" => $cls
+                ];
+            }
+            return $cel;
         }
 
 
