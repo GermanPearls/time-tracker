@@ -280,9 +280,11 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 ];
 
                 //add separation between companies
-                if ($item["Company"] != $lastclient and $i != 0) {
-                    foreach ($item as &$cell) {
-                        $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
+                if ($i != 0) {
+                    if ($item["Company"] != $lastclient) {
+                        foreach ($item as &$cell) {
+                            $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
+                        }
                     }
                 }
                 $lastclient = is_array($item["Company"]) ? $item["Company"]["value"] : $item["Company"];
