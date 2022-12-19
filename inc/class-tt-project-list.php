@@ -205,7 +205,7 @@ if ( !class_exists( 'Project_List' ) ) {
                     "class" => ""
                 ],
                 "Client" => [
-                    "fieldname" => "ClientID",
+                    "fieldname" => "Company",
                     "id" => "project-id",
                     "editable" => false,
                     "columnwidth" => "",
