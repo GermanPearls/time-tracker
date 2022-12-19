@@ -271,9 +271,9 @@ if ( !class_exists( 'Pending_Time' ) ) {
 				];
                 
                 //add view task detail button
-                $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "task-detail/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"view-task-detail-" . esc_attr($item->TaskID) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
-                $item->TaskID = [
-                    "value" => $item->TaskID,
+                $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "task-detail/?task-id=" . esc_attr($item["TaskID"]) . "\"' id=\"view-task-detail-" . esc_attr($item["TaskID"]) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
+                $item["TaskID"] = [
+                    "value" => $item["TaskID"],
                     "button" => [
                         $view_task_detail_button
                     ]
