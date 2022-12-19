@@ -212,11 +212,11 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          */
         private function get_cell_args($details, $item, $sql_fieldname, $table_name, $table_key) {
             //@param $details	array consisting of information for this cell
-	    //@param $item	array or object consisting of information for this entire row
-	    //@param $sql_fieldname	string of this cell's fieldname in sql result
-	    //@param $table_name	string of main database table this table data originates from
-	    //@param $table_key	string containing name of main ID column in database table to reference this record in the table
-	    $args = [];
+            //@param $item	array or object consisting of information for this entire row
+            //@param $sql_fieldname	string of this cell's fieldname in sql result
+            //@param $table_name	string of main database table this table data originates from
+            //@param $table_key	string containing name of main ID column in database table to reference this record in the table
+            $args = [];
             $args["id"] = $details["id"];
             $args["class"] = [];
 
@@ -234,11 +234,11 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             if ($details["editable"]) {
                 array_push($args["class"], "editable");
                 $args["contenteditable"] = "true";
-		if ( is_object($item) ) {
-			$table_key_value = is_array($item->$table_key) ? $item->$table_key["value"] : $item->$table_key;
-		} elseif ( is_array($item) ) {
-			$table_key_value = is_array($item[$table_key]) ? $item[$table_key]["value"] : $item[$table_key];
-		}
+                if ( is_object($item) ) {
+                    $table_key_value = is_array($item->$table_key) ? $item->$table_key["value"] : $item->$table_key;
+                } elseif ( is_array($item) ) {
+                    $table_key_value = is_array($item[$table_key]) ? $item[$table_key]["value"] : $item[$table_key];
+                }
                 $args["onBlur"] = "updateDatabase(this, '" . $table_name . "', '" . $table_key . "', '" . $sql_fieldname . "', '" . $table_key_value. "')";
             } else {
                 array_push($args["class"], "not-editable");
@@ -366,9 +366,6 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             }
             return $icon;            
         }
-	
-		
-
 
     }  //close class
  }  //close if class exists
