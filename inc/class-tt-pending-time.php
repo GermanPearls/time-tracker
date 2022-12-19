@@ -260,6 +260,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
             }
 			//need the ampersand to pass by reference so item gets updated since we converted time_entries from object to array
             foreach ($time_entries as $i => &$item) {
+                //style based on time logged vs estimate
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item["TTimeEstimate"]));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item["LoggedHours"]), sanitize_text_field($item["LoggedMinutes"]));
                 $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
@@ -268,6 +269,17 @@ if ( !class_exists( 'Pending_Time' ) ) {
 					"value" => $hours_logged . $percent_time_logged,
 					"class" => $time_worked_vs_estimate_class
 				];
+                
+                //add view task detail button
+                $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "task-detail/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"view-task-detail-" . esc_attr($item->TaskID) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
+                $item->TaskID = [
+                    "value" => $item->TaskID,
+                    "button" => [
+                        $view_task_detail_button
+                    ]
+                ];
+
+                //add separation between companies
                 if ($item["Company"] != $lastclient and $i != 0) {
                     foreach ($item as &$cell) {
                         $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
