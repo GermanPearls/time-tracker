@@ -413,7 +413,7 @@ function get_pagination_qty_per_page() {
     require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-pages.php');
 	$pages = new Time_Tracker_Activator_Pages();
 	$pages_detail = $pages->create_subpage_details_array(0);
-	$slug = get_post_field( 'post_name');
+	$slug = get_post_field('post_name');
 	$current_page = null;
 	$i = 0;
 	do {
