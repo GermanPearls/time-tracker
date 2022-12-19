@@ -357,6 +357,14 @@ if ( !class_exists( 'Time_Log' ) ) {
                     ]
                 ];
 
+                $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "task-detail/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"view-task-detail-" . esc_attr($item->TaskID) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
+                $item->TaskID = [
+                    "value" => $item->TaskID,
+                    "button" => [
+                        $view_task_detail_button
+                    ]
+                ];
+
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item->TTimeEstimate));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item->LoggedHours), sanitize_text_field($item->LoggedMinutes));
                 $percent_time_logged = get_percent_time_logged($time_estimate_formatted, $hours_logged);
