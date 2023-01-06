@@ -199,11 +199,10 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }            
             $table .= "</tr>";
 
-            //add data to table
-            $table .= "<tr>";                
+            //add data to table                
             
-            //current week hours worked
-            $table .= "<td class=\"tt-align-center\">Current Week Hours Worked</td>";
+            //row - current week hours worked
+            $table .= "<tr><td class=\"tt-align-center\">Current Week Hours Worked</td>";
             foreach ($bill_to_names as $bill_to_name) {        
                 //no data for at all
                 if (empty($time_summary)) {
@@ -221,8 +220,8 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }
             $table .= "</tr>";
 
-            //current month hours worked
-            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Worked</td>";
+            //row - current month hours worked
+            $table .= "<tr><td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Worked</td>";
             foreach ($bill_to_names as $bill_to_name) {      
                 //no data at all
                 if (empty($time_summary)) {
@@ -240,8 +239,8 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }
             $table .= "</tr>";
 
-            //pending time
-            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Pending</td>";
+            //row - pending time
+            $table .= "<tr><td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Pending</td>";
             foreach ($bill_to_names as $bill_to_name) {        
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -253,8 +252,8 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }
             $table .= "</tr>";
 
-            //invoiced time
-            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Invoiced</td>";
+            //row - invoiced time
+            $table .= "<tr><td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " Hours Invoiced</td>";
             foreach ($bill_to_names as $bill_to_name) {        
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -266,9 +265,9 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }
             $table .= "</tr>"; 
             
-            //pending value estimate
+            //row - pending value estimate
             $curr_sign = tt_get_currency_type();
-            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Pending (Estimate)</td>";
+            $table .= "<tr><td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Pending (Estimate)</td>";
             foreach ($bill_to_names as $bill_to_name) {
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -278,9 +277,10 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 }
             }
+            $table .= "</tr>";
 
-            //billed estimate
-            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Invoiced (Estimate)</td>";
+            //row - billed estimate
+            $table .= "<tr><td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Invoiced (Estimate)</td>";
             foreach ($bill_to_names as $bill_to_name) {
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
@@ -290,6 +290,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 }
             }
+            $table .= "</tr>";
 
             //close table
             $table .= "</table>";
