@@ -45,7 +45,7 @@ function tt_categories_default_rate_callback() {
             echo intval($dr);
         }
     }
-    ?></text><br></div>
+    ?></input><br></div>
     <hr>
     <?php
 }
