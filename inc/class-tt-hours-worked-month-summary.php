@@ -105,12 +105,18 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                         foreach ($billto_array as $item) {
                             $totalminutes = $totalminutes + $item['MinutesWorked'];
                             $totalhours = $totalhours + $item['HoursWorked'];
-                            $billedtime = $billedtime + $item['BilledTime'];
-                            $valueinvoiced = $valueinvoiced + round(($item['BilledTime'] * $item['BillingRate']),2);
                             if ( ($item['Invoiced']=="") || ($item['Invoiced']==null) )  {
                                 $pendinghours = $pendinghours + $item['HoursWorked'];
                                 $pendingminutes = $pendingminutes + $item['MinutesWorked'];
-                                $pendingvalue = $pendingvalue + ($item['HoursWorked'] * $item['BillingRate']) + ($item['MinutesWorked'] / 60 * $item['BillingRate']);
+                                if ($item['BilledTime'] > 0) {
+                                    $billedtime = $billedtime + $item['BilledTime'];
+                                    $valueinvoiced = $valueinvoiced + ($item['BilledTime'] * $item['BillingRate']);
+                                } else {
+                                    $pendingvalue = $pendingvalue + ($item['HoursWorked'] * $item['BillingRate']) + ($item['MinutesWorked'] / 60 * $item['BillingRate']);
+                                }
+                            } else {
+                                $billedtime = $billedtime + $item['BilledTime'];
+                                $valueinvoiced = $valueinvoiced + round(($item['BilledTime'] * $item['BillingRate']),2);
                             }
                         } //total hours from each detailed record inside billto name array
                         //save the total from the last bill to in a new array
