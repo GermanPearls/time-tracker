@@ -200,7 +200,11 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             } elseif ($data_type == "email") {
                 $data_display = esc_html(sanitize_email($display_value));
             } elseif ($data_type == "integer") {
-                $data_display = intval($display_value);
+                if ($display_value == null) {
+                    $data_display = '';
+                } else {
+                    $data_display = intval($display_value);
+                }
             } else {
                 $data_display = esc_html(sanitize_text_field($display_value));
             }
