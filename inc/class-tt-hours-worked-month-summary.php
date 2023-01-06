@@ -92,16 +92,19 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $timeunithoursworked = 0.0;
                     $timeunithoursinvoiced = 0.0;
                     $timeunitpending = 0.0;
+                    $timeunitvalueinvoiced = 0.0;
                     foreach ($time_array as $billto => $billto_array) {                    
                         $totalhours = 0.0;
                         $totalminutes = 0.0;
                         $billedtime = 0.0;
                         $pendinghours = 0.0;
                         $pendingminutes = 0.0;
+                        $valueinvoiced = 0.0;
                         foreach ($billto_array as $item) {
                             $totalminutes = $totalminutes + $item['MinutesWorked'];
                             $totalhours = $totalhours + $item['HoursWorked'];
                             $billedtime = $billedtime + $item['BilledTime'];
+                            $valueinvoiced = $valueinvoiced + round(($item['BilledTime'] * $item['BillingRate']),2);
                             if ( ($item['Invoiced']=="") || ($item['Invoiced']==null) )  {
                                 $pendinghours = $pendinghours + $item['HoursWorked'];
                                 $pendingminutes = $pendingminutes + $item['MinutesWorked'];
@@ -111,6 +114,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                         $decimal_time_worked = tt_convert_to_decimal_time($totalhours, $totalminutes);
                         $totaled_time[$timeunit][$billto]['TimeWorked'] = round($decimal_time_worked,1);
                         $totaled_time[$timeunit][$billto]['TimeInvoiced'] = round($billedtime,1);
+                        $totaled_time[$timeunit][$billto]['ValueInvoiced'] = round($valueinvoiced, 0);
                         if ($decimal_time_worked == 0) {
                             $totaled_time[$timeunit][$billto]['PercentTimeInvoiced'] = 0;
                         } else {
@@ -122,6 +126,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                         //cumulative total for month (of all bill tos)
                         $timeunithoursworked = $timeunithoursworked + $decimal_time_worked;
                         $timeunithoursinvoiced = $timeunithoursinvoiced + $billedtime;
+                        $timeunitvalueinvoiced = $timeunitvalueinvoiced + $valueinvoiced;
                         if ($timeunithoursworked == 0) {
                             $timeunitpercenthoursinvoiced = 0;
                         } else {
@@ -137,6 +142,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $totaled_time[$timeunit]['Total']['PercentTimeInvoiced'] = $timeunitpercenthoursinvoiced;
                     $totaled_time[$timeunit]['Total']['PendingTime'] = $timeunitpending;
                     $totaled_time[$timeunit]['Total']['Billable'] = 1;
+                    $totaled_time[$timeunit]['Total']['ValueInvoiced'] = $timeunitvalueinvoiced;
                 } //loop through each month
             } //if not empty
             return $totaled_time;
@@ -252,7 +258,19 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 }
             }
-            $table .= "</tr>";      
+            $table .= "</tr>"; 
+            
+            //billed estimate
+            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . tt_get_currency_type . " Invoiced (Estimate)</td>";
+            foreach ($bill_to_names as $bill_to_name) {
+                if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
+                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
+                    $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['ValueInvoiced']) . "</td>";
+                } else {
+                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                }
+            }
 
             //close table
             $table .= "</table>";
