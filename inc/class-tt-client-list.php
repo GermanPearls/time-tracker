@@ -144,7 +144,7 @@ if ( !class_exists( 'Client_List' ) ) {
                     "type" => "text",
                     "class" => ""
                 ],
-                "Billing Rate" => [
+                "Billing Rate " . tt_get_currency_type() => [
                     "fieldname" => "BillingRate",
                     "id" => "billing-rate",
                     "editable" => true,
