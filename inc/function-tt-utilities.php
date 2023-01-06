@@ -378,8 +378,8 @@ function tt_add_recurring_task_icon() {
  */
 function tt_get_currency_type() {
     $optns = get_option('time_tracker_categories');
-    if (array_key_exists('currency_type', $optns)) {
-        return esc_html($optns['currency_type']);
+    if (array_key_exists('currency_sign', $optns)) {
+        return esc_html($optns['currency_sign']);
     }
     return '';
 }
