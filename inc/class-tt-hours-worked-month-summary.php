@@ -261,12 +261,13 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             $table .= "</tr>"; 
             
             //billed estimate
-            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . tt_get_currency_type() . " Invoiced (Estimate)</td>";
+            $curr_sign = tt_get_currency_type();
+            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Invoiced (Estimate)</td>";
             foreach ($bill_to_names as $bill_to_name) {
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
-                    $table .= "<td class=\"tt-align-right\">" . esc_textarea($time_summary['This Month'][$bill_to_name]['ValueInvoiced']) . "</td>";
+                    $table .= "<td class=\"tt-align-right\">" . $curr_sign . " " . number_format($time_summary['This Month'][$bill_to_name]['ValueInvoiced'], 0, '.', ',') . "</td>";
                 } else {
                     $table .= "<td class=\"tt-align-right\">N/A</td>";
                 }
