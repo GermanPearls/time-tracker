@@ -106,7 +106,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                             $totalminutes = $totalminutes + $item['MinutesWorked'];
                             $totalhours = $totalhours + $item['HoursWorked'];
                             if ( ($item['Invoiced']=="") || ($item['Invoiced']==null) )  {
-                                if ($item['BilledTime'] > 0) {
+                                if ($item['BilledTime'] >= 0) {
                                     $pendinghours = $pendinghours + $item['HoursWorked'];
                                     $pendingminutes = $pendingminutes + $item['MinutesWorked'];
                                     $billedtime = $billedtime + $item['BilledTime'];
