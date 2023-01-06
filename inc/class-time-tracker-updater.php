@@ -160,7 +160,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          * 
          */
         private function tt_update_tables($from_version) {
-            require_once(TT_PLUGIN-DIR-INC . 'class-time-tracker-activator-tables.php');
+            require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
             $tt_tables = Time_Tracker_Activator_Tables::check_tables_for_updates($from_version);
         }
 
