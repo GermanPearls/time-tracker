@@ -98,8 +98,11 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
             $defaults = get_option('time_tracker_categories');
             if (!array_key_exists('default_rate', $defaults)) {
                 $defaults['default_rate'] = null;
-                update_option('time_tracker_categories', $defaults);
-            }            
+            }
+            if (!array_key_exists('currency_sign', $defaults)) {
+                $defaults['currency_sign'] = '$';
+            }
+            update_option('time_tracker_categories', $defaults);            
         }
         
 

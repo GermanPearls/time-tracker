@@ -37,12 +37,35 @@ function tt_categories_default_rate_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">Enter a default hourly billing rate.<br><br>
+    <div class="tt-indent">Enter a default hourly billing rate. (Enter whole number only.)<br><br>
     <input type="text" id="tt-default-rate" name="time_tracker_categories[default_rate]" rows=1 cols=20 class="tt-options-form" form="tt-options"
     <?php $dr = trim(sanitize_textarea_field($settings['default_rate']));
     if (isset($dr)) {
         if ($dr != null) {
             echo " value=" . intval($dr);
+        }
+    }
+    ?>><br></div>
+    <hr>
+    <?php
+}
+
+/**
+ * Settings Field - Default Currency
+ * Callback function
+ */
+function tt_categories_default_currency_callback() {
+    //get the value if it's already been saved
+    $settings = get_option('time_tracker_categories');
+
+    //display on menu page
+    ?>
+    <div class="tt-indent">Enter currency sign.<br><br>
+    <input type="text" id="tt-currency-sign" name="time_tracker_categories[currency_sign]" rows=1 cols=20 class="tt-options-form" form="tt-options"
+    <?php $cs = trim(sanitize_textarea_field($settings['currency_sign']));
+    if (isset($cs)) {
+        if ($cs != null) {
+            echo " value=" . esc_html($cs);
         }
     }
     ?>><br></div>

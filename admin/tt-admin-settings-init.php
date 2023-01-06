@@ -62,7 +62,15 @@ function tt_admin_settings_init() {
         'time-tracker',
         'time_tracker_categories_section'
     );
-    
+
+    add_settings_field(
+        'time_tracker_categories[default_currency]',
+        'Default Currency',
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_default_currency_callback',
+        'time-tracker',
+        'time_tracker_categories_section'
+    );
+
     add_settings_field(
         'time_tracker_categories[bill_to_names]',    //field id
         'Bill To Names',            //title

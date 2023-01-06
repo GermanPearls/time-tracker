@@ -94,6 +94,9 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
                 if (!array_key_exists('default_rate', $optns)) {
                     $optns['default_rate'] = null;
                 }
+                if (!array_key_exists('currency_sign', $optns)) {
+                    $optns['currency_sign'] = '$';
+                }
                 update_option('time_tracker_categories', $optns);
             }
         }
