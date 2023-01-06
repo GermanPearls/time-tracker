@@ -45,12 +45,16 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
             if ( (!$current_ver) or (substr($current_ver, 0, 1) == "1") ) {
                 $this->tt_update_to_two();
                 $this->tt_update_to_two_four();
+                $this->tt_update_to_two_five();
             } else {
                 $ver = explode(".", $current_ver);
                 if ( (intval($ver[0]) == 2) and (intval($ver[1]) < 4) ) {
                     $this->tt_update_to_two_four();
                 }
-                $this->tt_update_plugin();
+                if ( (intval($ver[0]) ==2) and (intval($ver[1]) < 5)) {
+                    $this->tt_update_to_two_five();
+                }
+                $this->tt_update_plugin($current_ver);
             }
         }
 
@@ -84,6 +88,19 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
             );
             delete_option('time-tracker');    
         }
+
+        /**
+         * Update to 2.5.0
+         * 
+         */
+        private function tt_update_to_two_five() {
+            //add default rate
+            $defaults = get_option('time_tracker_categories');
+            if (!array_key_exists('default_rate', $defaults)) {
+                $defaults['default_rate'] = null;
+                update_option('time_tracker_categories', $defaults);
+            }            
+        }
         
 
 
@@ -91,9 +108,10 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          * General Plugin Update
          * 
          */
-        private function tt_update_plugin() {
+        private function tt_update_plugin($from_version) {
             $this->tt_update_pages();
             $this->tt_update_forms();
+            $this->tt_update_tables($from_version);
             $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
         }
 
@@ -132,6 +150,15 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
             } else {
                 $tt_forms = Time_Tracker_Activator_Forms::check_forms_for_updates();
             }            
+        }
+
+        /**
+         * Updtae database tables
+         * 
+         */
+        private function tt_update_tables($from_version) {
+            require_once(TT_PLUGIN-DIR-INC . 'class-time-tracker-activator-tables.php');
+            $tt_tables = Time_Tracker_Activator_Tables::check_tables_for_updates($from_version);
         }
 
     } //close class

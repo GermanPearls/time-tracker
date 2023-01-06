@@ -27,6 +27,30 @@ function tt_style_section_callback() {
 }
 
 
+/**
+ * Settings Field - Default Rate
+ * Callback Function
+ */
+function tt_categories_default_rate_callback() {
+    //get the value if it's already been saved
+    $settings = get_option('time_tracker_categories');
+
+    //display on menu page
+    ?>
+    <div class="tt-indent">Enter a default hourly billing rate.<br><br>
+    <input type="text" id="tt-default-rate" name="time_tracker_categories[default_rate]" rows=1 cols=20 class="tt-options-form" form="tt-options">
+    <?php $dr = trim(sanitize_textarea_field($setting['default_rate']));
+    if (isset($dr)) {
+        if ($dr != null) {
+            echo intval($dr);
+        }
+    }
+    ?></text><br></div>
+    <hr>
+    <?php
+}
+
+
 
 /**
  * Settings Field - Bill to Names

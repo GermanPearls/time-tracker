@@ -78,9 +78,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
                 update_option('time_tracker_sql_result', array('result'=>'success','updated'=>$now->format('m-d-Y g:i A'),'error'=>'none', 'file'=>'none', 'function'=>'none'));
             }
 
+            //initial setup
             if ( ! (get_option('time_tracker_categories')) ) {
-                add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>print_r(self::$default_client), 'default_task'=>print_r(self::$default_task)));
+                add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>print_r(self::$default_client), 'default_task'=>print_r(self::$default_task), 'default_rate'=>null));
             } else {
+                //updates
                 $optns = get_option('time_tracker_categories');
                 if ($optns['default_client'] == null and self::$default_client != null) {
                     $optns['default_client'] = self::$default_client;
@@ -88,11 +90,13 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
                 if ($optns['default_task'] == null and self::$default_task != null) {
                     $optns['default_task'] = self::$default_client;
                 }
+                //added in 2.5.0
+                if (!array_key_exists('default_rate', $optns)) {
+                    $optns['default_rate'] = null;
+                }
                 update_option('time_tracker_categories', $optns);
             }
         }
-
-
         
 
         private static function add_default_client() {
