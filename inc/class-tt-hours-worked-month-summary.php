@@ -267,14 +267,14 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             
             //row - pending value estimate
             $curr_sign = tt_get_currency_type();
-            $table .= "<tr><td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Pending (Estimate)</td>";
+            $table .= "<tr><td class=\"tt-align-center tt-border-top-divider\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Pending (Estimate)</td>";
             foreach ($bill_to_names as $bill_to_name) {
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
-                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                    $table .= "<td class=\"tt-align-right tt-border-top-divider\">N/A</td>";
                 } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
-                    $table .= "<td class=\"tt-align-right\">" . $curr_sign . " " . number_format($time_summary['This Month'][$bill_to_name]['PendingValue'], 0, '.', ',') . "</td>";
+                    $table .= "<td class=\"tt-align-right tt-border-top-divider\">" . $curr_sign . " " . number_format($time_summary['This Month'][$bill_to_name]['PendingValue'], 0, '.', ',') . "</td>";
                 } else {
-                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                    $table .= "<td class=\"tt-align-right tt-border-top-divider\">N/A</td>";
                 }
             }
             $table .= "</tr>";
