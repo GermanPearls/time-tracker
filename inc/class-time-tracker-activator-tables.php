@@ -65,7 +65,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         public function check_tables_for_updates($old_ver) {
             $ver = explode(".", $old_ver);
             if ( (intval($ver[0]) ==2) and (intval($ver[1]) < 5)) {
-                $this->tt_update_tables_to_two_five();
+                self::tt_update_tables_to_two_five();
             }
         }
 
