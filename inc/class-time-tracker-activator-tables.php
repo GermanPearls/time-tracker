@@ -75,7 +75,10 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
          */
         private function tt_update_tables_to_two_five() {
             //add rate to client table
-            $wpdb->query("ALTER TABLE tt_client ADD BillingRate int(11) NULL DEFAULT NULL");
+            global $wpdb;
+            $sql = "IF NOT EXISTS (SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME='tt_client' AND COLUMN_NAME='BillingRate')";
+            $sql .= " BEGIN ALTER TABLE tt_client ADD BillingRate int(11) NULL DEFAULT NULL END";
+            $wpdb->query($sql);
         }
         
         
