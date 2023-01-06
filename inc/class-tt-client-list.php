@@ -144,6 +144,14 @@ if ( !class_exists( 'Client_List' ) ) {
                     "type" => "text",
                     "class" => ""
                 ],
+                "Billing Rate" => [
+                    "fieldname" => "BillingRate",
+                    "id" => "billing-rate",
+                    "editable" => true,
+                    "columnwidth" => "five",
+                    "type" => "integer",
+                    "class" => "tt-align-right"
+                ],
                 "Source" => [
                     "fieldname" => "Source",
                     "id" => "source",
@@ -172,7 +180,7 @@ if ( !class_exists( 'Client_List' ) ) {
                     "fieldname" => "DateAdded",
                     "id" => "date-added",
                     "editable" => false,
-                    "columnwidth" => "ten",
+                    "columnwidth" => "five",
                     "type" => "date",
                     "class" => "tt-align-right"
                 ]
