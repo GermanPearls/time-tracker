@@ -386,6 +386,19 @@ function tt_get_currency_type() {
 
 
 /**
+ * Get default billing rate
+ * 
+ */
+function tt_get_default_billing_rate() {
+    $optns = get_option('time_tracker_categories');
+    if (array_key_exists('default_rate', $optns)) {
+        return intval($optns['default_rate']);
+    }
+    return;
+}
+
+
+/**
  * Check for Pagination
  * 
  */

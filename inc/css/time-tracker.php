@@ -420,7 +420,7 @@ div.tt-pagination-nav {
 }
 
 .tt-table td.tt-border-top-divider {
-    border-top: 10px solid <?php echo $brand_color; ?>;
+    border-top: 5px solid <?php echo $brand_color; ?>;
 }
 
 .tt-total-row, .tt-header-row {
