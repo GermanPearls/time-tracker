@@ -62,7 +62,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
          * Database Table Updates
          * 
          */
-        public function check_tables_for_updates($old_ver) {
+        public static function check_tables_for_updates($old_ver) {
             $ver = explode(".", $old_ver);
             if ( (intval($ver[0]) ==2) and (intval($ver[1]) < 5)) {
                 self::tt_update_tables_to_two_five();
@@ -73,12 +73,15 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
          * Update to version 2.5.0
          * 
          */
-        private function tt_update_tables_to_two_five() {
+        private static function tt_update_tables_to_two_five() {
             //add rate to client table
             global $wpdb;
-            $sql = "IF NOT EXISTS (SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME='tt_client' AND COLUMN_NAME='BillingRate')";
-            $sql .= " BEGIN ALTER TABLE tt_client ADD BillingRate int(11) NULL DEFAULT NULL END";
-            $wpdb->query($sql);
+            $sqlcheck = "SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME='tt_client' AND COLUMN_NAME='BillingRate'";
+            $col = $wpdb->query($sqlcheck);
+            if (empty($col)) {
+                $sqladd = "ALTER TABLE tt_client ADD BillingRate int(11) NULL DEFAULT NULL";
+                $wpdb->query($sqladd);
+            }
         }
         
         
