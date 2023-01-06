@@ -93,6 +93,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $timeunithoursinvoiced = 0.0;
                     $timeunitpending = 0.0;
                     $timeunitvalueinvoiced = 0.0;
+                    $timeunitpendingvalue = 0;
                     foreach ($time_array as $billto => $billto_array) {                    
                         $totalhours = 0.0;
                         $totalminutes = 0.0;
@@ -100,6 +101,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                         $pendinghours = 0.0;
                         $pendingminutes = 0.0;
                         $valueinvoiced = 0.0;
+                        $pendingvalue = 0.0;
                         foreach ($billto_array as $item) {
                             $totalminutes = $totalminutes + $item['MinutesWorked'];
                             $totalhours = $totalhours + $item['HoursWorked'];
@@ -108,6 +110,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                             if ( ($item['Invoiced']=="") || ($item['Invoiced']==null) )  {
                                 $pendinghours = $pendinghours + $item['HoursWorked'];
                                 $pendingminutes = $pendingminutes + $item['MinutesWorked'];
+                                $pendingvalue = $pendingvalue + ($item['HoursWorked'] * $item['BillingRate']) + ($item['MinutesWorked'] / 60 * $item['BillingRate']);
                             }
                         } //total hours from each detailed record inside billto name array
                         //save the total from the last bill to in a new array
@@ -122,11 +125,13 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                         }
                         $decimal_time_pending = tt_convert_to_decimal_time($pendinghours, $pendingminutes);
                         $totaled_time[$timeunit][$billto]['PendingTime'] = round($decimal_time_pending,1);
+                        $totaled_time[$timeunit][$billto]['PendingValue'] = round($pendingvalue, 0);
                         $totaled_time[$timeunit][$billto]['Billable'] = $item['Billable'];
                         //cumulative total for month (of all bill tos)
                         $timeunithoursworked = $timeunithoursworked + $decimal_time_worked;
                         $timeunithoursinvoiced = $timeunithoursinvoiced + $billedtime;
                         $timeunitvalueinvoiced = $timeunitvalueinvoiced + $valueinvoiced;
+                        $timeunitpendingvalue = $timeunitpendingvalue + $pendingvalue;
                         if ($timeunithoursworked == 0) {
                             $timeunitpercenthoursinvoiced = 0;
                         } else {
@@ -141,6 +146,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $totaled_time[$timeunit]['Total']['TimeInvoiced'] = $timeunithoursinvoiced;
                     $totaled_time[$timeunit]['Total']['PercentTimeInvoiced'] = $timeunitpercenthoursinvoiced;
                     $totaled_time[$timeunit]['Total']['PendingTime'] = $timeunitpending;
+                    $totaled_time[$timeunit]['Total']['PendingValue'] = $timeunitpendingvalue;
                     $totaled_time[$timeunit]['Total']['Billable'] = 1;
                     $totaled_time[$timeunit]['Total']['ValueInvoiced'] = $timeunitvalueinvoiced;
                 } //loop through each month
@@ -260,8 +266,20 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }
             $table .= "</tr>"; 
             
-            //billed estimate
+            //pending value estimate
             $curr_sign = tt_get_currency_type();
+            $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Pending (Estimate)</td>";
+            foreach ($bill_to_names as $bill_to_name) {
+                if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
+                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                } elseif (array_key_exists($bill_to_name, $time_summary['This Month']) && ($time_summary['This Month'][$bill_to_name]['Billable'] == 1)) {
+                    $table .= "<td class=\"tt-align-right\">" . $curr_sign . " " . number_format($time_summary['This Month'][$bill_to_name]['PendingValue'], 0, '.', ',') . "</td>";
+                } else {
+                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                }
+            }
+
+            //billed estimate
             $table .= "<td class=\"tt-align-center\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Invoiced (Estimate)</td>";
             foreach ($bill_to_names as $bill_to_name) {
                 if ( (empty($time_summary)) or (!array_key_exists('This Month', $time_summary)) ) {
