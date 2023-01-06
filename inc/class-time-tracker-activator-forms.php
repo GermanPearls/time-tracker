@@ -56,6 +56,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */ 
         public static function check_forms_for_updates() {
+            self::setup();
             self::create_forms('true');
         }
 
@@ -65,6 +66,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */ 
         public static function force_form_updates() {
+            self::setup();
             self::create_forms('true');
         }
         
@@ -74,18 +76,18 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          * 
          */
         private static function check_form_is_up_to_date($i, $form_post_id, $force_update) {
-                $installed_form = get_post($form_post_id);
-                $installed_form_content = $installed_form->post_content;
-                $updated_content = self::$form_content[$i];
-                //does the content match the current version}              
-                if (($installed_form_content != $updated_content) || ($force_update == true)) {
-                    $updated_form = array(
-                        'ID' => $form_post_id,
-                        'post_content' => $updated_content
-                    );
-                    $result = wp_update_post($updated_form);
-                    $result_meta = update_post_meta($form_post_id, '_form', $updated_content);
-                }                
+            $installed_form = get_post($form_post_id);
+            $installed_form_content = $installed_form->post_content;
+            $updated_content = self::$form_content[$i];
+            //does the content match the current version}              
+            if (($installed_form_content != $updated_content) || ($force_update == true)) {
+                $updated_form = array(
+                    'ID' => $form_post_id,
+                    'post_content' => $updated_content
+                );
+                $result = wp_update_post($updated_form);
+                $result_meta = update_post_meta($form_post_id, '_form', $updated_content);
+            }                
             return $form_post_id;
         }
 
@@ -96,6 +98,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          */
         public static function create_forms($force_update) {
             $i = 0;
+            if (self::$form_details == array() || self::$form_content == array()) {
+                self::setup();
+            }
             $number_forms = count(self::$form_details);
             for ($i==0; $i<$number_forms; $i++) {
                 $form_arr = self::get_form_details($i);
@@ -255,9 +260,10 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
          */
         public static function get_form_content_new_client() {
             $html = "";
-            $html .= self::create_50_50_row(
+            $html .= self::create_33_33_33_row(
                 "<label> Company (required)</label>[text* company maxlength:100]",
-                "<label> Bill To (required)</label>[bill_to_name bill-to ie:bill-to-name-dropdown]"
+                "<label> Bill To (required)</label>[bill_to_name bill-to id:bill-to-name-dropdown]",
+                "<label> Billing Rate</label>[number billing-rate min:0 max:99999999999 \"" . tt_get_default_billing_rate() . "\"]"
             );
             $html .= self::create_50_50_row(
                 "<label> Source (required)</label>[client_category client-source id:client-source-dropdown]",
