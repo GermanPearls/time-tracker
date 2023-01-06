@@ -38,14 +38,14 @@ function tt_categories_default_rate_callback() {
     //display on menu page
     ?>
     <div class="tt-indent">Enter a default hourly billing rate.<br><br>
-    <input type="text" id="tt-default-rate" name="time_tracker_categories[default_rate]" rows=1 cols=20 class="tt-options-form" form="tt-options">
+    <input type="text" id="tt-default-rate" name="time_tracker_categories[default_rate]" rows=1 cols=20 class="tt-options-form" form="tt-options"
     <?php $dr = trim(sanitize_textarea_field($settings['default_rate']));
     if (isset($dr)) {
         if ($dr != null) {
-            echo intval($dr);
+            echo " value=" . intval($dr);
         }
     }
-    ?></input><br></div>
+    ?>><br></div>
     <hr>
     <?php
 }
