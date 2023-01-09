@@ -106,7 +106,12 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                             $totalminutes = $totalminutes + $item['MinutesWorked'];
                             $totalhours = $totalhours + $item['HoursWorked'];
                             if ( ($item['Invoiced']=="") || ($item['Invoiced']==null) )  {
-                                if ($item['BilledTime'] >= 0) {
+                                if (is_null($item['BilledTime'])) {
+                                    $pendinghours = $pendinghours + $item['HoursWorked'];
+                                    $pendingminutes = $pendingminutes + $item['MinutesWorked'];
+                                    $pendingvalue = $pendingvalue + ($item['HoursWorked'] * $item['BillingRate']) + ($item['MinutesWorked'] / 60 * $item['BillingRate']);
+                                }
+                                elseif ($item['BilledTime'] >= 0) {
                                     $billedtime = $billedtime + $item['BilledTime'];
                                     $valueinvoiced = $valueinvoiced + ($item['BilledTime'] * $item['BillingRate']);
                                 } else {
