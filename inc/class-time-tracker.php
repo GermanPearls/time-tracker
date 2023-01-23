@@ -185,7 +185,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'tt_open_mobile_menu', TT_PLUGIN_WEB_DIR_INC . 'js/open_mobile_menu.js', array(), null, true);
       wp_enqueue_script( 'tt_accordion', TT_PLUGIN_WEB_DIR_INC . 'js/tt_accordion.js', array(), null, true );
 
-      wp_enqueue_script( 'tt_watch_for_client_change_project', TT_PLUGIN_WEB_DIR_INC . 'js/watch_for_client_change_to_update_project.js', array(), null, true);
+      //wp_enqueue_script( 'tt_watch_for_client_change_project', TT_PLUGIN_WEB_DIR_INC . 'js/watch_for_client_change_to_update_project.js', array(), null, true);
       wp_enqueue_script( 'tt_update_project_dropdown', TT_PLUGIN_WEB_DIR_INC . 'js/get_projects_for_client.js', array('jquery'), null, true);
       
       //wp_enqueue_script( 'tt_watch_for_client_change_task', TT_PLUGIN_WEB_DIR_INC . 'js/watch_for_client_change_to_update_task.js', array(), null, true);

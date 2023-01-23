@@ -46,7 +46,7 @@ function custom_client_name_form_tag_handler( $tag ) {
         'class' => $tag->get_class_option(),
         'default' => $tag->get_default_option(),
         'list' => $tag->name . '-options',
-        'onchange' => 'tt_update_task_dropdown()'
+        'onchange' => 'tt_update_task_dropdown(); tt_update_project_dropdown();'
     );
     
     $input = sprintf(
