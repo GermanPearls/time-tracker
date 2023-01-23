@@ -1,7 +1,8 @@
 function tt_update_task_dropdown() {
   var taskField = document.getElementsByName('task-name');
+  var clientField = document.getElementsByName('client-name');
   if (clientField.length > 0 && taskField.length > 0) {
-    var clientName =  encodeURIComponent(document.getElementsByName('client-name')[0].value);
+    var clientName =  encodeURIComponent(clientField[0].value);
     var send = {
         'security': wp_ajax_object_tt_update_task_list.security,
         'action': 'tt_update_task_list',
@@ -16,7 +17,7 @@ function tt_update_task_dropdown() {
         if (response.success) {
           //success
           //console.log(response.data.details);
-          document.getElementsByName('task-name')[0].innerHTML = response.data.details;
+          taskField[0].innerHTML = response.data.details;
         } else {
           //failed
           console.log('Get tasks for client function failed' + response.data.details + '. Error: ' + response.data.message);
