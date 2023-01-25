@@ -38,9 +38,9 @@ function tt_dashboard_notice() {
     $notices = array('tt_feedback_request');
     $timers = get_option('time_tracker_admin_notices');
     foreach ($notices as $notice) {
-	    if (! array_key_exists($notice, $timers)) {
+        if (! array_key_exists($notice, $timers)) {
 	        echo call_user_func($notice);
-	    } elseif ( (array_key_exists($notice, $timers)) and (($timers[$notice] == null) or ($timers[$notice] < new \DateTime())) ) {
+	    } elseif ( (array_key_exists($notice, $timers)) and (($timers[$notice] == null) or ($timers[$notice] < time())) ) {
 	    	echo call_user_func('Logically_Tech\Time_Tracker\Admin\\' . $notice);
 	    }
     }
