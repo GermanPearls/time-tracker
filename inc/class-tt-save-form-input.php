@@ -226,7 +226,8 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'Source' => $data['client-source'],
                 'SourceDetails' => $data['client-source-details'],
                 'CComments' => $data['comments'],
-                'CSubmission' => $this->original_submission
+                'CSubmission' => $this->original_submission,
+                'BillingRate' => $data['billing-rate']
             ) );
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
         }
