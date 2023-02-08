@@ -10,8 +10,8 @@
  * @wordpress-plugin
  * Plugin Name:       Time Tracker
  * Plugin URI:        https://www.logicallytech.com/services/wordpress-plugins/time-tracker/
- * Description:       A project, task and time tracking program for freelancers.
- * Version:           2.5.0
+ * Description:       A task and time tracking program. Perfect for freelancers or indivdiuals keeping track of to do lists and time worked and billed to clients.
+ * Version:           2.4.3
  * Requires at least: 5.3
  * Requires PHP:      7.0
  * Author:            Amy McGarity
@@ -38,7 +38,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Current plugin version.
  * Use SemVer - https://semver.org
  */
-define('TIME_TRACKER_VERSION', '2.5.0');
+define('TIME_TRACKER_VERSION', '2.4.3');
 define('TIME_TRACKER_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 
@@ -47,6 +47,9 @@ define('TIME_TRACKER_PLUGIN_BASENAME', plugin_basename(__FILE__));
  * Define the plugin activation class
  */
 function activate_time_tracker() {
+	//establish dependent form plugin and load tt files for activation
+	tt_form_dependency();
+	time_tracker_load();
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker-activator.php';
 	Inc\Time_Tracker_Activator::activate();
 }
@@ -58,6 +61,9 @@ register_activation_hook( __FILE__, 'Logically_Tech\Time_Tracker\activate_time_t
  * Define the plugin deactivation class
  */
 function deactivate_time_tracker() {
+	//establish dependent form plugin and load tt files for deactivation
+	tt_form_dependency();
+	time_tracker_load();
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker-deactivator.php';
 	Inc\Time_Tracker_Deactivator::deactivate();
 }
@@ -69,6 +75,9 @@ register_deactivation_hook( __FILE__, 'Logically_Tech\Time_Tracker\deactivate_ti
  * Define the plugin uninstall/delete class
  */
 function uninstall_time_tracker() {
+	//establish dependent form plugin and load tt files for deletion
+	tt_form_dependency();
+	time_tracker_load();
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker-delete.php';
 	Inc\Time_Tracker_Deletor::delete_all();
 }
@@ -86,7 +95,28 @@ function time_tracker_load() {
 
 
 /**
+ * CHECK FORM PLUGIN DEPENDENCY
+ * 
+ */
+function tt_form_dependency() {
+	if (!defined('TT_PLUGIN_FORM_TYPE')) {
+		if (class_exists( 'WPCF7' )) {
+			define('TT_PLUGIN_FORM_TYPE', 'CF7');
+		}
+		elseif (class_exists( 'WPForms' )) {
+			define('TT_PLUGIN_FORM_TYPE', 'WPF');
+		}
+		else {
+			define('TT_PLUGIN_FORM_TYPE', '');
+		}
+	}
+}
+
+
+/**
  * START PLUGIN
  * Start it up!
  */
-time_tracker_load();
+add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\tt_form_dependency', 10 );
+add_action ( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11 );
+//time_tracker_load();
