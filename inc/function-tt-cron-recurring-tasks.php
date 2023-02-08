@@ -219,7 +219,7 @@ add_action('tt_recurring_task_check', 'Logically_Tech\Time_Tracker\Inc\tt_create
  * 
  */
 if ( ! wp_next_scheduled('tt_recurring_task_check') ) {
-    wp_schedule_event(time(), 'daily', 'Logically_Tech\Time_Tracker\Inc\tt_create_recurring_tasks_function');
+    wp_schedule_event(time(), 'daily', 'tt_recurring_task_check');
 }
 
 
