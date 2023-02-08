@@ -35,6 +35,7 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         private $projectid;
         private $assoc_field;
         private $assoc_id;
+        private $recurring_tasks;
 
         /**
          * Constructor
