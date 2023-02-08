@@ -1,5 +1,4 @@
 function export_pending_time_to_csv() {
-  console.log('in function');
     var send = {
         'security': wp_ajax_object_tt_export_pending_time.security,
         'action': 'tt_export_pending_time',
@@ -12,8 +11,7 @@ function export_pending_time_to_csv() {
       data: send,
       success: function(response) {
         if (response.success) {
-          //success
-          //download each file
+          //success - download each file
           let fils = response.data.files;
           for (let fil of fils){
             tt_download_file(fil['fname'], fil['fcontent']);
