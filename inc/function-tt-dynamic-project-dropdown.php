@@ -24,10 +24,9 @@ function tt_update_project_list_function() {
             $client_id = get_client_id_from_name($client_name);
 
             /**
-             * Query time tracker database to get list of current projects and project id's
+             * Get list of current projects and project id's
              * 
              */
-            //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
             global $wpdb;
             $project_list_search_string = $wpdb->prepare('SELECT ProjectID, PName FROM tt_project WHERE ClientID= "%s"', $client_id);
             $project_list = $wpdb->get_results($project_list_search_string);
