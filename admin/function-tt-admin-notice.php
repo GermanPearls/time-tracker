@@ -21,7 +21,7 @@ function tt_feedback_request() {
     $msg .= "<button onclick=\"window.location.href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post'\" ";
 	$msg .= "style='padding: 5px 15px; margin-top:15px;'>";
     $msg .= "Leave a Review</button>";
-	$msg .= tt_dismiss_notice_button("tt_feedback_request", 6);
+	$msg .= tt_dismiss_notice_button("tt_feedback_request", 3);
     $msg .= "</p></div>";
     return $msg;    
 }
@@ -51,15 +51,16 @@ function tt_dismiss_admin_notice_function() {
         if (check_ajax_referer('tt_dismiss_admin_notice_nonce', 'security')) {
             $name = isset($_POST['nm']) ? $_POST['nm'] : '';
             $months_out = isset($_POST['mnths']) ? \intval($_POST['mnths']) : 0;
+            $install_time = tt_get_install_timestamp();
             if ( ($months_out > 0) and ($name != '') ) {
-                tt_update_admin_notice_timer($name, strtotime("+" . $months_out . "months", strtotime(get_option('time_tracker_install_time'))));
+                tt_update_admin_notice_timer($name, strtotime("+" . $months_out . "months", $install_time));
                 $return = array(
                     'success' => true,
-                    'msg' => 'Admin notice delayed for ' + strval($months_out) + ' months.'
+                    'msg' => 'Admin notice delayed for ' . strval($months_out) . ' months.'
                 );
                 wp_send_json_success($return, 200);
             } else {
-                tt_update_admin_notice_timer($name, strtotime("+1month", strtotime(get_option('time_tracker_install_time'))));
+                tt_update_admin_notice_timer($name, strtotime("+1month", $install_time));
                 $return = array(
                     'success' => false,
                     'msg' => 'Error delaying admin notice, no delay time frame specified. Delayed for default of 1 month'
@@ -73,6 +74,19 @@ function tt_dismiss_admin_notice_function() {
             );
             wp_send_json_error($return, 500);
         }
+    }
+}
+
+function tt_get_install_timestamp() {
+    $opt = get_option('time_tracker_install_time');
+    if (is_int($opt)) {
+        return $opt;
+    }
+    if (is_object($opt)) {
+        return $opt->getTimestamp();
+    }
+    if (is_string($opt)) {
+        return strtotime($opt);
     }
 }
 
