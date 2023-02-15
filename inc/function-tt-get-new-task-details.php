@@ -1,6 +1,6 @@
 <?php 
 /**
- * Funciton Time_Tracker_Get_New_Task_Details
+ * Function Time_Tracker_Get_New_Task_Details
  *
  * Get details of most recent task added so we can pass it along to time entry form and start entering time
  * Called by ajax when user enters task and clicks 'save and start working' button
