@@ -5,8 +5,7 @@ function update_end_timer() {
     
     var month = d.getMonth() + 1;
     var day = d.getDate();
-    var year = d.getFullYear();
-    year = year.toString().slice(2,4);
+    var year = d.getFullYear().toString().slice(2,4);
     var hour = d.getHours();
     var minutes = d.getMinutes();
     if (minutes <10) {
