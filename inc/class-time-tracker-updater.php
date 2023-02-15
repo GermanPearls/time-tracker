@@ -75,18 +75,24 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         *
         **/
         private function tt_update_to_two_four() {
-            delete_option('time-tracker-sql-result');
-            delete_option('time_tracker-sql-result');
-            add_option('time_tracker_categories', array(
-                'bill_to_names' => get_option('time-tracker')['bill-to-names'],
-                'work_categories' => get_option('time-tracker')['work-categories'],
-                'client_categories' => get_option('time-tracker')['client-categories'],
-                'client_sub_categories' => get_option('time-tracker')['client-sub-categories'],
-                'default_client' => null,
-                'default_task' => null
-                )
-            );
-            delete_option('time-tracker');    
+            if (get_option('time-tracker-sql-result')) {
+                delete_option('time-tracker-sql-result');
+            }
+            if (get_option('time_tracker-sql-result')) {
+                delete_option('time_tracker-sql-result');
+            }
+            if (get_option('time-tracker') && !get_option('time_tracker_categories')) {
+                add_option('time_tracker_categories', array(
+                    'bill_to_names' => get_option('time-tracker')['bill-to-names'],
+                    'work_categories' => get_option('time-tracker')['work-categories'],
+                    'client_categories' => get_option('time-tracker')['client-categories'],
+                    'client_sub_categories' => get_option('time-tracker')['client-sub-categories'],
+                    'default_client' => null,
+                    'default_task' => null
+                    )
+                );
+                delete_option('time-tracker'); 
+            }
         }
 
         /**
