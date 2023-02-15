@@ -240,7 +240,7 @@ function tt_get_form_id($form_name) {
  * 
  */
 function tt_get_form_name($form_id) {
-    if ( ($form_id > 0) and ($form_id != null) ) {
+    if ( ($form_id != null) && ($form_id > 0) ) {
         return get_the_title($form_id);
     }
 }
@@ -391,8 +391,10 @@ function tt_get_currency_type() {
  */
 function tt_get_default_billing_rate() {
     $optns = get_option('time_tracker_categories');
-    if (array_key_exists('default_rate', $optns)) {
-        return intval($optns['default_rate']);
+    if ($optns) {
+        if (array_key_exists('default_rate', $optns)) {
+            return intval($optns['default_rate']);
+        }
     }
     return;
 }
