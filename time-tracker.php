@@ -117,6 +117,6 @@ function tt_form_dependency() {
  * START PLUGIN
  * Start it up!
  */
-add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\tt_form_dependency', 10 );
-add_action ( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11 );
+add_action( 'wp_loaded', 'Logically_Tech\Time_Tracker\tt_form_dependency', 10 );
+add_action ( 'wp_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11 );
 //time_tracker_load();
