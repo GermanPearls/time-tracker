@@ -4,14 +4,14 @@
  *
  * @package           
  * @author            Amy McGarity
- * @copyright         2020-2022 Amy McGarity
+ * @copyright         2020-2023 Amy McGarity
  * @license           GPL-3.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name:       Time Tracker
  * Plugin URI:        https://www.logicallytech.com/services/wordpress-plugins/time-tracker/
  * Description:       A task and time tracking program. Perfect for freelancers or indivdiuals keeping track of to do lists and time worked and billed to clients.
- * Version:           2.4.3
+ * Version:           2.4.4
  * Requires at least: 5.3
  * Requires PHP:      7.0
  * Author:            Amy McGarity
@@ -38,7 +38,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Current plugin version.
  * Use SemVer - https://semver.org
  */
-define('TIME_TRACKER_VERSION', '2.4.3');
+define('TIME_TRACKER_VERSION', '2.4.4');
 define('TIME_TRACKER_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 
@@ -89,8 +89,8 @@ register_uninstall_hook(__FILE__, 'Logically_Tech\Time_Tracker\uninstall_time_tr
  * This is the function that creates the main plugin class
  */
 function time_tracker_load() {
-  require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker.php';
-  return Inc\Time_Tracker::instance();
+	require_once plugin_dir_path( __FILE__ ) . 'inc/class-time-tracker.php';
+  	return Inc\Time_Tracker::instance();
 }
 
 

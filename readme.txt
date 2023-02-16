@@ -5,15 +5,15 @@ Tags: time tracker, time management, project management, freelancer tools, billi
 Requires at least: 5.3
 Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Short Description: Time Tracker enables you to manage your projects, to do lists, recurring tasks, and billable time. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
+Short Description: Time Tracker enables you to manage your to do lists, recurring tasks, billable and invoiced time, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
 == Description ==
 Time Tracker enables you to manage your to do lists, time worked, billable time, recurring tasks, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
-**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.6.4)
+**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.7.3)
 
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
@@ -94,6 +94,9 @@ installation and provide detailed feedback if you find features that don't work 
 
  
 == Changelog ==
+
+= 2.4.4 =
+* Fix: Bug fixes and code cleanup
 
 = 2.4.3 =
 * New Feature: Added billed value (ie: $) capability with default billing rate and currency as well as ability to set billing rate by client. Monthly total shows billed and pending estimates.
