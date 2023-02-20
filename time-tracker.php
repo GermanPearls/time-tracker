@@ -98,19 +98,30 @@ function time_tracker_load() {
  * CHECK FORM PLUGIN DEPENDENCY
  * 
  */
-function tt_check_form_dependency_and_load() {
+function tt_form_dependency() {
 	if (!defined('TT_PLUGIN_FORM_TYPE')) {
 		if (class_exists( 'WPCF7' )) {
 			define('TT_PLUGIN_FORM_TYPE', 'CF7');
-			time_tracker_load();
 		}
 		elseif (class_exists( 'WPForms' )) {
 			define('TT_PLUGIN_FORM_TYPE', 'WPF');
-			add_action ( 'wp_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11 );
 		}
 		else {
 			define('TT_PLUGIN_FORM_TYPE', '');
 		}
+	}
+}
+
+/**
+ * QUEUE UP PLUGIN LOAD
+ * 
+ */
+function tt_queue_load() {
+	if (class_exists( 'WPCF7' )) {
+		add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11);
+	} 		
+	elseif (class_exists( 'WPForms' )) {
+		add_action ( 'wp_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11 );
 	}
 }
 
@@ -119,5 +130,5 @@ function tt_check_form_dependency_and_load() {
  * START PLUGIN
  * Start it up!
  */
-add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\tt_check_form_dependency_and_load', 10 );
-//time_tracker_load();
+add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\tt_form_dependency', 10 );
+tt_queue_load();
