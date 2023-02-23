@@ -201,6 +201,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'PStatus' => "New",
                 'PTimeEstimate' => $time_est,
                 'PDueDate' => $data['due-date'],
+                'PDateStarted' => date('Y-m-d H:i:s'),
                 'PDetails' => $data['project-details'],
                 'PSubmission' => $this->original_submission
             ) );

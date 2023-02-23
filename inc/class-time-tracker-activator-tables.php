@@ -134,7 +134,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     PCategory varchar(100) NULL,
                     PStatus varchar(100) DEFAULT NULL,
                     PTimeEstimate time DEFAULT NULL,
-                    PDateStarted datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    PDateStarted datetime NULL,
                     PDueDate date NOT NULL,
                     PDetails varchar(500) DEFAULT NULL,
                     Link varchar(100) DEFAULT NULL,
