@@ -181,8 +181,8 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
             } elseif ($table_name == 'tt_time') {
                 $sql = "CREATE TABLE IF NOT EXISTS tt_time (
                     TimeID int(11) NOT NULL auto_increment,
-                    StartTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    EndTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    StartTime datetime NULL,
+                    EndTime datetime NULL,
                     TNotes text DEFAULT NULL,
                     ClientID int(11) DEFAULT NULL,
                     TaskID int(11) DEFAULT NULL,
