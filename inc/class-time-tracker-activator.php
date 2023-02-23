@@ -164,10 +164,10 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         
         private static function try_to_add_default_task() {
             $rst = self::insert_record('tt_task', array('TDescription'=>'Undefined', 'ClientID'=> self::$default_client, 'TNotes'=>'Default Task'), array('%s', '%d', '%s'));
-            log_tt_misc('rst is ' . print_r($rst));
+            log_tt_misc('rst is ' . var_export($rst, true));
             if ($rst > 0) {
                 self::get_default_task();
-                log_tt_misc('rst is ' . print_r($rst) . 'and default client is ' . self::$default_client);
+                log_tt_misc('rst is ' . var_export($rst, true) . 'and default client is ' . self::$default_client);
             }
         }
         
