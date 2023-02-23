@@ -11,13 +11,14 @@
  * Plugin Name:       Time Tracker
  * Plugin URI:        https://www.logicallytech.com/services/wordpress-plugins/time-tracker/
  * Description:       A task and time tracking program. Perfect for freelancers or indivdiuals keeping track of to do lists and time worked and billed to clients.
- * Version:           2.4.5
+ * Version:           2.4.6
  * Requires at least: 5.3
  * Requires PHP:      7.0
  * Author:            Amy McGarity
  * Author URI:        https://www.logicallytech.com/
  * Text Domain:       time-tracker
  * License:           GPL v3 or later
+ * 
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -38,7 +39,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Current plugin version.
  * Use SemVer - https://semver.org
  */
-define('TIME_TRACKER_VERSION', '2.4.5');
+define('TIME_TRACKER_VERSION', '2.4.6');
 define('TIME_TRACKER_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 
