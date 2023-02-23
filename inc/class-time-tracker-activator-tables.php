@@ -152,7 +152,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
                     RecurringTaskID int(11) DEFAULT NULL,
                     TStatus varchar(50) DEFAULT NULL,
                     TTimeEstimate time DEFAULT '00:00:00',
-                    TDateAdded datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    TDateAdded datetime NULL,
                     TDueDate date NOT NULL,
                     TNotes text DEFAULT NULL,
                     TSubmission text DEFAULT NULL,

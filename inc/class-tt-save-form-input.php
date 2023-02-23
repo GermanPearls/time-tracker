@@ -144,6 +144,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'TStatus' => "New",
                 'TTimeEstimate' => $time_est,
                 'TDueDate' => $data['due-date'],
+                'TDateAdded' => date('Y-m-d H:i:s'),
                 'TNotes' => $data['notes'],
                 'TSubmission' => $this->original_submission
             ) );
