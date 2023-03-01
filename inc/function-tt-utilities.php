@@ -223,9 +223,10 @@ function get_month_name_from_number($monthnumber) {
  */
 function tt_get_form_id($form_name) {
     //$forms = WPCF7_ContactForm::find(array("title" => $form_name));
+    require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
 	$forms = get_posts(array(
         'title'=> $form_name,
-        'post_type' => 'wpcf7_contact_form'
+        'post_type' => Time_Tracker_Activator_Forms::get_post_type()
     ), ARRAY_A);
     if ($forms) {
         return $forms[0]->ID;
@@ -258,13 +259,15 @@ function tt_is_tt_form($form_name='', $form_id=0) {
         return false;
     }
     require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
-    $tt_forms = new Time_Tracker_Activator_Forms();
-	$tt_forms_arr = $tt_forms->create_form_details_array();
+    require_once(TT_PLUGIN_DIR_INC . '/' . TT_PLUGIN_FORM_TYPE . '/class-time-tracker-activator-forms-' . strtolower(TT_PLUGIN_FORM_TYPE) . '.php');
+    //$tt_forms = new Time_Tracker_Activator_Forms();
+	$tt_forms_arr = Time_Tracker_Activator_Forms::create_form_details_array();
     foreach ($tt_forms_arr as $tt_form) {
         if ($form_name == $tt_form['Title']) {
             return true;
         }
     }
+    return false;
 }
 
 
@@ -609,4 +612,58 @@ function log_tt_misc($msg) {
 		$log_str = date_format($now, 'M d, Y h:i:s A (T)') . ": " . $msg;
 		file_put_contents($log_filename, $log_str . "\n", FILE_APPEND);
 	}
+}
+
+
+/**
+ * Query db
+ * 
+ */
+function tt_query_db($sql_string) {
+    global $wpdb;
+    $sql_result = $wpdb->get_results(esc_sql($sql_string), ARRAY_A );
+    \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+    return $sql_result;
+}
+
+
+/**
+ * Get user options
+ * 
+ */
+function tt_get_user_options($option_name, $sub_option_name) {
+    $optns = get_option($option_name);
+    if (array_key_exists($sub_option_name, $optns)) {
+        //var_dump(nl2br($optns[$sub_option_name]));
+        //var_dump(sanitize_text_field(nl2br($optns[$sub_option_name])));
+        return $optns[$sub_option_name];
+    }
+    return "";
+}
+
+
+/**
+ * Get clients
+ * 
+ */
+function tt_get_clients() {
+    return tt_query_db("SELECT ClientID, Company FROM tt_client ORDER BY Company ASC");
+}
+
+
+/**
+ * Get tasks
+ * 
+ */
+function tt_get_tasks() {
+    return tt_query_db("SELECT TaskID, TDescription FROM tt_task ORDER BY TaskID ASC");
+}
+
+
+/**
+ * Get projects
+ * 
+ */
+function tt_get_projects() {
+    return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC");
 }

@@ -7,14 +7,14 @@
  * 
  */
 
-namespace Logically_Tech\Time_Tracker\Inc;
+namespace Logically_Tech\Time_Tracker\Inc\CF7;
 
 
 /**
  * Create Custom CF7 Form Tag, Task Name Dropdown
  * 
  */
-add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_task_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_add_form_tag_task_name');
 
 
 /**
@@ -22,7 +22,7 @@ add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_t
  * 
  */
 function custom_add_form_tag_task_name() {
-  wpcf7_add_form_tag( 'task_name', 'Logically_Tech\Time_Tracker\Inc\custom_task_name_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'task_name', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_task_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -37,7 +37,7 @@ function custom_task_name_form_tag_handler( $tag ) {
   global $wpdb;
   $task_list_search_string = "SELECT TaskID, TDescription FROM tt_task WHERE TStatus <> 'Completed' AND TStatus <> 'Canceled' AND TStatus <> 'Closed' ORDER BY TaskID ASC";
   $task_list = $wpdb->get_results($task_list_search_string);
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
 
   $atts = array(
         'type' => 'text',

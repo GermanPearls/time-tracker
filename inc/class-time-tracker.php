@@ -35,6 +35,7 @@ if ( ! class_exists('Time_Tracker') ) {
         self::$instance = new Time_Tracker;
         self::$instance->setup_constants();
         self::$instance->load_dependencies();
+        self::$instance->load_form_dependencies();
         self::$instance->add_scripts();
         self::$instance->add_styles();
 	      self::$instance->log_plugin_installation();
@@ -52,10 +53,10 @@ if ( ! class_exists('Time_Tracker') ) {
     }  //end public function instance
   
 	  
-   /**
-   * Log Install Time
-   *
-   **/
+    /**
+    * Log Install Time
+    *
+    **/
     private function log_plugin_installation() {
       if (! get_option('time_tracker_install_time')) {
         add_option('time_tracker_install_time', new \DateTime());
@@ -63,16 +64,22 @@ if ( ! class_exists('Time_Tracker') ) {
     }
      
 	  
-     /**
+    /**
      * Check Plugin Version
      * 
-     */  
+    **/  
     private function check_plugin_version() {
       $installed_version = get_option('time_tracker_version');
-      if ($installed_version != TIME_TRACKER_VERSION) {
-        include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-updater.php');
-        $updater = New Time_Tracker_Updater;
-        $new_version = $updater->tt_update_from($installed_version);
+      if ($installed_version) {
+        //updates
+        if ($installed_version != TIME_TRACKER_VERSION) {
+          include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-updater.php');
+          $updater = New Time_Tracker_Updater;
+          $new_version = $updater->tt_update_from($installed_version);
+        }
+      } else {
+        //new installations
+        add_option('time_tracker_version', TIME_TRACKER_VERSION);
       }
     }
       
@@ -94,6 +101,21 @@ if ( ! class_exists('Time_Tracker') ) {
       define('TT_PLUGIN_WEB_DIR_ADMIN', plugin_dir_url(__FILE__) . '../admin/');
       define('TT_PLUGIN_WEB_DIR_INC', plugin_dir_url(__FILE__));
     }
+
+
+    /**
+     * Form Plugin Dependent Items Init
+     * 
+     */
+    private function load_form_dependencies() {      
+      //load time tracker functions based on form plugin being used
+      if (TT_PLUGIN_FORM_TYPE == "CF7") {
+        self::$instance->load_dependencies_cf7();
+      }
+      elseif (TT_PLUGIN_FORM_TYPE == "WPF") {
+        self::$instance->load_dependencies_wpf();
+      }
+    }
   
   
     /**
@@ -105,11 +127,6 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-update-table.php');  //do we need this? called in js
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-utilities.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-get-IDs-from-common-names.php');
-      include_once(TT_PLUGIN_DIR_INC . 'function-tt-custom-cf7-field-datetime.php');
-      include_once(TT_PLUGIN_DIR_INC . 'function-tt-custom-cf7-field-task-dropdown.php');
-      include_once(TT_PLUGIN_DIR_INC . 'function-tt-custom-cf7-field-project-dropdown.php');
-      include_once(TT_PLUGIN_DIR_INC . 'function-tt-custom-cf7-field-client-dropdown.php');
-      include_once(TT_PLUGIN_DIR_INC . 'function-tt-custom-cf7-field-categories-from-settings.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-clear-sql-error.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-dynamic-task-dropdown.php');
@@ -118,7 +135,6 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-delete-record.php');
       include_once(TT_PLUGIN_DIR_INC . 'function-tt-load-dynamic-stylesheets.php');
 	    include_once(TT_PLUGIN_DIR_INC . 'function-tt-get-new-task-details.php');
-      include_once(TT_PLUGIN_DIR_INC . 'function-tt-recaptcha.php');
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
@@ -147,7 +163,6 @@ if ( ! class_exists('Time_Tracker') ) {
 
       //CONTACT FORM 7 HOOKS
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-hook-after-form-data-saved.php');  
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-hook-save-form-data.php');
 
       //SHORTCODES
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-month-summary.php');
@@ -162,9 +177,37 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php'); 
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-delete-confirmation-content.php');
       require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php');  
-
     } 
 
+    /**
+     * Load Dependencies - CF7
+     * 
+     */
+    public function load_dependencies_cf7() {
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-custom-cf7-field-datetime.php');
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-custom-cf7-field-task-dropdown.php');
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-custom-cf7-field-project-dropdown.php');
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-custom-cf7-field-client-dropdown.php');
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-custom-cf7-field-categories-from-settings.php');
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-recaptcha-cf7.php');
+
+      //CONTACT FORM 7 HOOKS
+      include_once(TT_PLUGIN_DIR_INC . 'CF7/class-tt-hook-save-form-data-cf7.php');
+    }
+
+
+    /**
+     * Load Dependencies - WPForms
+     * 
+     */
+    public function load_dependencies_wpf() {
+      include_once(TT_PLUGIN_DIR_INC . 'WPF/class-time-tracker-activator-forms-wpf.php');
+      include_once(TT_PLUGIN_DIR_INC . 'WPF/class-time-tracker-wpf-select-fields-dynamic-options.php');
+      include_once(TT_PLUGIN_DIR_INC . 'WPF/class-time-tracker-wpf-fields-add-properties.php');
+
+      //WPFORMS HOOKS
+      include_once(TT_PLUGIN_DIR_INC . 'WPF/class-tt-hook-save-form-data-wpf.php');
+    }
 
     /**
      * Load Scripts
@@ -185,10 +228,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'tt_open_mobile_menu', TT_PLUGIN_WEB_DIR_INC . 'js/open_mobile_menu.js', array(), null, true);
       wp_enqueue_script( 'tt_accordion', TT_PLUGIN_WEB_DIR_INC . 'js/tt_accordion.js', array(), null, true );
 
-      //wp_enqueue_script( 'tt_watch_for_client_change_project', TT_PLUGIN_WEB_DIR_INC . 'js/watch_for_client_change_to_update_project.js', array(), null, true);
       wp_enqueue_script( 'tt_update_project_dropdown', TT_PLUGIN_WEB_DIR_INC . 'js/get_projects_for_client.js', array('jquery'), null, true);
-      
-      //wp_enqueue_script( 'tt_watch_for_client_change_task', TT_PLUGIN_WEB_DIR_INC . 'js/watch_for_client_change_to_update_task.js', array(), null, true);
       wp_enqueue_script( 'tt_update_task_dropdown', TT_PLUGIN_WEB_DIR_INC . 'js/get_tasks_for_client.js', array('jquery'), null, true);
       
       wp_enqueue_script( 'tt_clear_sql_error', TT_PLUGIN_WEB_DIR_INC . 'js/clear_sql_error.js', array('jquery'), null, true);

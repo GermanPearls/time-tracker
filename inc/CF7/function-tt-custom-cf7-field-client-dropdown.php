@@ -7,14 +7,14 @@
  * 
  */
 
-namespace Logically_Tech\Time_Tracker\Inc;
+namespace Logically_Tech\Time_Tracker\Inc\CF7;
 
 
 /**
  * Create Custom CF7 Form Tag, Client Name Dropdown
  * 
  */
-add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_client_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_add_form_tag_client_name');
 
 
 /**
@@ -22,7 +22,7 @@ add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_c
  * 
  */
 function custom_add_form_tag_client_name() {
-  wpcf7_add_form_tag( 'client_name', 'Logically_Tech\Time_Tracker\Inc\custom_client_name_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'client_name', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_client_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -32,12 +32,7 @@ function custom_add_form_tag_client_name() {
  */
 function custom_client_name_form_tag_handler( $tag ) {
 
-  //Query time tracker database to get list of current clients and client id's
-  //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
-  global $wpdb;
-  $client_list_search_string = "SELECT ClientID, Company FROM tt_client ORDER BY Company ASC";
-  $client_list = $wpdb->get_results($client_list_search_string);
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  $client_list = Logically_Tech\Time_Tracker\Inc\tt_get_clients();
 
   $atts = array(
         'type' => 'text',

@@ -1,9 +1,17 @@
 //Update Project List When Client Name is Updated
 function tt_update_project_dropdown() {
-  var clientField = document.getElementsByName('client-name');
-  var projectField = document.getElementsByName('project-name');
-  if (clientField.length > 0 && projectField.length > 0) {
-    var clientName =  encodeURIComponent(clientField[0].value);
+  var clientField = jQuery(".tt-form").find("#client-name")[0];
+  if (!clientField) {
+    clientField = document.getElementById(jQuery(".tt-form").find("label:contains(Client)").prop("for"));
+  }   
+
+  var projectField = jQuery(".tt-form").find("#project-name")[0];
+  if (!projectField) {
+    projectField = document.getElementById(jQuery(".tt-form").find("label:contains(Project)").prop("for"));
+  }   
+
+  if (clientField && projectField) {
+    var clientName =  encodeURIComponent(clientField.value);
     var send = {
         'security': wp_ajax_object_tt_update_project_list.security,
         'action': 'tt_update_project_list',
@@ -17,8 +25,7 @@ function tt_update_project_dropdown() {
       success: function(response) {
         if (response.success) {
           //success
-          //console.log(response.data.details);
-          projectField[0].innerHTML = response.data.details;
+          projectField.innerHTML = response.data.details;
         } else {
           //failed
           console.log('Get projects for client function failed' + response.data.details + '. Error: ' + response.data.message);

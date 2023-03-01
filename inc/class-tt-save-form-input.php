@@ -31,8 +31,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Class Variables
          * 
          */ 
-        private $data;
+        //private $data;
         private $form_post_id;
+        private $original_submission;
         private $result;
         private $client_id;
         private $project_id;
@@ -43,10 +44,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Constructor
          * 
          */ 
-        public function __construct($raw_data, $id) {
+        public function __construct($cleaned_data, $id) {
             //removed $form added insertid
             $this->form_post_id = $id;
-            $data = $this->clean_data($raw_data);
+            //$data = $this->clean_data($raw_data);
+            $data = $cleaned_data;
+
             $this->original_submission = $this->serialize_data($data);
             $this->client_id = $this->get_client_id($data);
             $this->project_id = $this->get_project_id($data);
@@ -54,26 +57,22 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
 			
 			/*** Add new task ***/
             if ( $this->form_post_id == tt_get_form_id('Add New Task') ) {
-                $this->save_new_task($data,$this->client_id,$this->project_id,$this->task_id,$this->original_submission);
-            }
+                $this->save_new_task($data, $this->client_id, $this->project_id, $this->task_id, $this->original_submission);
             
             /*** Add new project ***/
-            if ( $this->form_post_id == tt_get_form_id('Add New Project') ) {
-                $this->save_new_project($data,$this->client_id,$this->original_submission);           
-            }
+            } elseif ( $this->form_post_id == tt_get_form_id('Add New Project') ) {
+                $this->save_new_project($data, $this->client_id, $this->original_submission);           
 
             /*** Add new client ***/
-            if ( $this->form_post_id == tt_get_form_id('Add New Client') ) {
-                $this->save_new_client($data,$this->original_submission);
-            }
+            } elseif ( $this->form_post_id == tt_get_form_id('Add New Client') ) {
+                $this->save_new_client($data, $this->original_submission);
 
             /*** Add new recurring task ***/
-            if ( $this->form_post_id == tt_get_form_id('Add New Recurring Task') ) {
-                $this->save_new_recurring_task($data,$this->client_id,$this->project_id,$this->original_submission);
-            }
+            } elseif ( $this->form_post_id == tt_get_form_id('Add New Recurring Task') ) {
+                $this->save_new_recurring_task($data, $this->client_id, $this->project_id, $this->original_submission);
 
             /*** Add new time entry ***/
-            if ( $this->form_post_id == tt_get_form_id('Add Time Entry') ) {
+            } elseif ( $this->form_post_id == tt_get_form_id('Add Time Entry') ) {
                 $this->save_new_time_entry($data);
                 
                 //if the user entered a new task status update it in the task table
@@ -86,28 +85,6 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                     $this->create_follow_up_task($data);            
                 }
             } 
-        }
-     
-        
-        /**
-         * Sanitize data
-         * 
-         */
-        private function clean_data($raw_data) {
-            $clean_data = array();
-            foreach ($raw_data as $key => $data) {
-                if (is_array($data)) {
-                    //$clean_data[$key] = filter_var(htmlspecialchars_decode($data[0], ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                    //$raw = $data[0];
-                    //$clean_data[$key] = htmlspecialchars_decode(filter_var($raw, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NO_QUOTES);
-                    $clean_data[$key] = filter_var($data[0], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                } else {
-                    //$clean_data[$key] = filter_var(htmlspecialchars_decode($data, ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                    //$clean_data[$key] = htmlspecialchars_decode(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NOQUOTES);
-                    $clean_data[$key] = filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-                }
-            }
-            return $clean_data;
         }
         
         
@@ -131,20 +108,22 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
 
             //Add New Record to Database
             //wpdb class prepares this so it doesn't need to be SQL escaped
-            if ( ($data['time-estimate'] == null) or ($data['time-estimate'] == "") ) {
-                $time_est = 0;
-            } else {
-                $time_est = tt_convert_fraction_to_time($data['time-estimate']);
+            foreach ($data as $key => $val) {
+                //supports task-category and category
+                if (strpos(strtolower($key), "category") !== false) {
+                    $cat = $val;
+                }
             }
+
             $wpdb->insert( $table_name, array(
                 'TDescription' => $data['task-description'],
                 'ClientID'   => $this->client_id,
                 'ProjectID'    => $this->project_id,
-                'TCategory' => $data['task-category'],
+                'TCategory' => $cat,
                 'TStatus' => "New",
-                'TTimeEstimate' => $time_est,
-                'TDueDate' => $data['due-date'],
+                'TTimeEstimate' => $this->get_time_estimate($data),
                 'TDateAdded' => date('Y-m-d H:i:s'),
+                'TDueDate' => $this->reformat_date($data, "due-date"),
                 'TNotes' => $data['notes'],
                 'TSubmission' => $this->original_submission
             ) );
@@ -162,19 +141,31 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
 
             //Add New Record to Database
             //wpdb class prepares this so it doesn't need to be SQL escaped
-            if ( ($data['time-estimate'] == null) or ($data['time-estimate'] == "") ) {
-                $time_est = 0;
-            } else {
-                $time_est = tt_convert_fraction_to_time($data['time-estimate']);
+
+            //CF7 vs WPF
+            $freq = "Monthly";
+            if ( array_key_exists("recur-freq", $data) ) {
+                $freq = $data["recur-freq"];
+            } elseif ( array_key_exists("frequency", $data)) {
+                $freq = $data["frequency"];
             }
+
+            $desc = "";
+            if ( array_key_exists("task-desc", $data) ) {
+                $desc = $data["task-desc"];
+            } elseif ( array_key_exists("task-notes", $data)) {
+                $desc = $data["task-notes"];
+            }            
+
             $wpdb->insert( $table_name, array(
                 'RTName' => $data['task-name'],
                 'ClientID'   => $this->client_id,
                 'ProjectID'    => $this->project_id,
-                'RTTimeEstimate' => $time_est,
-                'RTDescription' => $data['task-desc'],
-                'Frequency' => $data['recur-freq'],
-                'EndRepeat' => $data['end-repeat'],
+                'RTTimeEstimate' => $this->get_time_estimate($data),
+                'RTDescription' => $desc,
+                'RTCategory' => $data['category'],
+                'Frequency' => $freq,
+                'EndRepeat' => $this->reformat_date($data, "end-repeat"),
                 'RTSubmission' => $this->original_submission
             ) );
             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
@@ -190,19 +181,14 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $table_name = 'tt_project';
 
             //Add New Record to Database
-            if ( ($data['time-estimate'] == null) or ($data['time-estimate'] == "") ) {
-                $time_est = 0;
-            } else {
-                $time_est = tt_convert_fraction_to_time($data['time-estimate']);
-            }
             $wpdb->insert( $table_name, array(
                 'PName' => $data['project-name'],
                 'ClientID'   => $this->client_id,
                 'PCategory'    => $data['project-category'],
                 'PStatus' => "New",
-                'PTimeEstimate' => $time_est,
-                'PDueDate' => $data['due-date'],
+                'PTimeEstimate' => $this->get_time_estimate($data),
                 'PDateStarted' => date('Y-m-d H:i:s'),
+                'PDueDate' => $this->reformat_date($data, "due-date"),
                 'PDetails' => $data['project-details'],
                 'PSubmission' => $this->original_submission
             ) );
@@ -247,6 +233,16 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $start = \DateTime::createFromFormat('n/j/y g:i A', $data['start-time'])->format('Y-m-d H:i:ss');
             $end = \DateTime::createFromFormat('n/j/y g:i A', $data['end-time'])->format('Y-m-d H:i:ss');
 
+            //find follow up field
+            $follow_up = "";
+            foreach ($data as $key => $val) {
+                if (strpos(strtolower($key), "follow-up") !== false) {
+                    if ($val != null && $val != "") {
+                        $follow_up = $val;
+                    }
+                }
+            }
+
             //Add New Record to Database
             $wpdb->insert( $table_name, array(
                 'StartTime' => $start,
@@ -258,7 +254,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 'InvoiceNumber' => $data['invoice-number'],
                 'InvoicedTime' => $data['invoiced-time'] == "" ? Null : $data['invoiced-time'],
                 'InvoiceComments' => $data['invoice-notes'],
-                'FollowUp' => $data['follow-up'],
+                'FollowUp' => $follow_up,
                 'NewTaskStatus' => $data['new-task-status'],
                 'TimeSubmission' => $this->original_submission
             ) );
@@ -311,12 +307,13 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * 
          */
         private function get_client_id($data) {
-            //no client information passed
-            if ( !array_key_exists('client-name', $data) or $data['client-name'] == '' or $data['client-name'] == null) {
+            if (array_key_exists("client-name", $data) && $data["client-name"] !="" && $data["client-name"] != null ) {
+                return get_client_id_from_name($data['client-name']);
+            } elseif (array_key_exists("client", $data) && $data["client"] !="" && $data["client"] != null ) {
+                return get_client_id_from_name($data['client']);
+            } else {
                 //use default client if one exists, if not just enter null
                 return array_key_exists('default_client', get_option('time_tracker_categories')) ? get_option('time_tracker_categories')['default_client'] : null;
-            } else {
-                return get_client_id_from_name($data['client-name']);
             }
         }
 
@@ -327,12 +324,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          */        
         private function get_project_id($data) {
             //Project field in table requires a valid Project ID or null value, won't except empty string
-            if (!array_key_exists('project-name', $data) or $data['project-name'] == '' or $data['project-name'] == null) {
-                return null;
-            } else {
-                $project = $data['project-name'];
-                return get_project_id_from_name($project);
+            if (array_key_exists('project-name', $data) && $data['project-name'] != '' && $data['project-name'] != null) {
+                return get_project_id_from_name(($data["project-name"]));
+            } elseif (array_key_exists('project', $data) && $data['project'] != '' && $data['project'] != null) {
+                return get_project_id_from_name(($data["project"]));
             }
+            return null;
         }
 
 
@@ -342,12 +339,52 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          */
         private function get_task_id($data) {
             //Task field in table requires a valid Task ID or null value, won't except empty string
-            if (!array_key_exists('task-name', $data) or $data['task-name'] == '' or $data['task-name'] == null) {
-                return array_key_exists('default_task', get_option('time_tracker_categories')) ? get_option('time_tracker_categories')['default_task'] : null;
-            } else {
+            if (array_key_exists('task-name', $data) and $data['task-name'] != '' and $data['task-name'] != null) {
                 $task = $data['task-name'];
-                $task_number_from_string = substr($task,0,strpos($task,'-'));
+                $task_number_from_string = substr($task, 0, strpos($task,'-'));
                 return $task_number_from_string;
+            } elseif (array_key_exists('ticket', $data) and $data['ticket'] != '' and $data['ticket'] != null) {
+                $task = $data['ticket'];
+                $task_number_from_string = substr($task, 0, strpos($task,'-'));
+                return $task_number_from_string;
+            }
+            return array_key_exists('default_task', get_option('time_tracker_categories')) ? get_option('time_tracker_categories')['default_task'] : null;
+        }
+
+
+        /**
+         * Get time estimate
+         * 
+         */
+        private function get_time_estimate($data) {
+            $time_est = 0;
+            foreach ($data as $key => $val) {
+                if (strpos(strtolower($key), "time-estimate") !== false) {
+                    if ($val != null && $val != "") {
+                        $time_est = tt_convert_fraction_to_time($val);
+                    }
+                }
+            }
+            return $time_est;
+        }
+
+
+        /**
+         * Get date from field and reformat for db
+         * 
+         */
+        private function reformat_date($data, $key) {
+            if (array_key_exists($key, $data)) {
+                //return \DateTime::createFromFormat('m/d/Y', $data[$key])->format('Y-m-d');
+                //if it is already in correct format pass it back
+                if (\DateTime::createFromFormat('Y-m-d', $data[$key])) {
+                    return $data[$key];
+                }
+                $obj = \DateTime::createFromFormat('m/d/Y', $data[$key]);
+                if ($obj) {
+                    return $obj->format('Y-m-d');
+                }
+                return $data[$key];
             }
         }
 

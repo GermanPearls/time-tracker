@@ -24,25 +24,21 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
      */
     class Time_Tracker_Activator {
 
-        private static $cf7_active = false;
         private static $default_client = null;
         private static $default_task = null;
 
-
         public static function activate() {
             self::define_plugin_variables();
-            self::cf7_plugin_activated();
-            if (self::$cf7_active) {
-                include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
-                require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
-                require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
-                require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-pages.php');
-                Time_Tracker_Activator_Tables::setup();
-                Time_Tracker_Activator_Forms::setup();
-                Time_Tracker_Activator_Pages::setup();
-                self::add_default_client();
-                self::add_default_task();
-				self::set_initial_database_options();
+            if (TT_PLUGIN_FORM_TYPE == "CF7") {
+				self::setup();
+            } elseif (TT_PLUGIN_FORM_TYPE == "WPF") {
+                /**?>
+                <script type="text/javascript">
+                window.alert('Time Tracker is not yet compatible with WPForms. Please install the Contact Form 7 plugin before activating Time Tracker.');
+                </script>
+                <?php
+                **/
+                self::setup();
             } else {
                 ?>
                 <script type="text/javascript">
@@ -63,10 +59,18 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
 
 
-        private static function cf7_plugin_activated() {
-            if (class_exists('WPCF7')) {
-                self::$cf7_active = true;
-            }
+        private static function setup() {
+            include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
+            require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
+            require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
+            require_once(TT_PLUGIN_DIR_INC . TT_PLUGIN_FORM_TYPE . '/class-time-tracker-activator-forms-' . strtolower(TT_PLUGIN_FORM_TYPE) . '.php');
+            require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-pages.php');
+            Time_Tracker_Activator_Tables::setup();
+            Time_Tracker_Activator_Forms::setup();
+            Time_Tracker_Activator_Pages::setup();
+            self::add_default_client();
+            self::add_default_task();
+            self::set_initial_database_options();
         }
 		
 		

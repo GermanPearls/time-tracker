@@ -9,14 +9,14 @@
  * 
  */
 
-namespace Logically_Tech\Time_Tracker\Inc;
+namespace Logically_Tech\Time_Tracker\Inc\CF7;
 
 
 /**
  * Create Custom CF7 Form Tag, DateTime
  * 
  */
-add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_datetime' );
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_add_form_tag_datetime' );
 
 
 /**
@@ -24,7 +24,7 @@ add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_d
  * 
  */
 function custom_add_form_tag_datetime()  {
-  wpcf7_add_form_tag( 'datetime', 'Logically_Tech\Time_Tracker\Inc\custom_datetime_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'datetime', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_datetime_form_tag_handler', array('name-attr'=>true));
 }
 
 

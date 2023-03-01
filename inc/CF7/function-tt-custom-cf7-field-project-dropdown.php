@@ -7,14 +7,14 @@
  * 
  */
 
-namespace Logically_Tech\Time_Tracker\Inc;
+namespace Logically_Tech\Time_Tracker\Inc\CF7;
 
 
 /**
  * Add New CF7 Custom Form Field - Project Name Dropdown
  * 
  */
-add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_project_name');
+add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_add_form_tag_project_name');
 
 
 /**
@@ -22,7 +22,7 @@ add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\custom_add_form_tag_p
  * 
  */
 function custom_add_form_tag_project_name() {
-  wpcf7_add_form_tag( 'project_name', 'Logically_Tech\Time_Tracker\Inc\custom_project_name_form_tag_handler', array('name-attr'=>true));
+  wpcf7_add_form_tag( 'project_name', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_project_name_form_tag_handler', array('name-attr'=>true));
 }
 
 
@@ -37,7 +37,7 @@ function custom_project_name_form_tag_handler( $tag ) {
   global $wpdb;
   $project_list_search_string = 'SELECT ProjectID, PName, ClientID FROM tt_project ORDER BY ProjectID ASC';
   $project_list = $wpdb->get_results($project_list_search_string);
-  catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
 
   //Build form tag
   $atts = array(

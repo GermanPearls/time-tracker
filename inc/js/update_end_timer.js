@@ -1,6 +1,5 @@
 //Update the "End" Timer for a Time Entry to the Current Time
-
-function update_end_timer() {
+function tt_update_timer(timer) {
     var d = new Date();
     
     var month = d.getMonth() + 1;
@@ -23,18 +22,34 @@ function update_end_timer() {
 
     var dstring = month + "/" + day + "/" + year + " " + hour + ":" + minutes + " " + ampm;
 
-    document.getElementById('end-time').value = dstring;
+    //document.getElementById('end-time').value = dstring;
+    timer.value = dstring;
 }
 
-jQuery(window).on("load", function() {
-    var endtimer = document.getElementById('end-time');
-	if (endtimer) {
-		var autoupdate = setInterval(function() {
-			update_end_timer();
-		}, 60000);
+jQuery(window).on('load', function() {
+    //look for cf7 end timer
+    var endtimer = jQuery('.tt-form').find('#end-time')[0];
+    //if not found look for wpf end timer
+    if (!endtimer) {
+        endtimer = document.getElementById(jQuery('.tt-form').find('label:contains(End Time)').prop('for'));
+    }    
+    if (endtimer) {
+        //update every 600 milliseconds
+        var autoupdate = setInterval(function() {
+            tt_update_timer(endtimer);
+        }, 600);
 
-        jQuery(endtimer).on("input", function() {
+        //if user enters data stop updating
+        jQuery(endtimer).on('input', function() {
             clearInterval(autoupdate);
         });
-	}
+    }
+
+    //wpf only
+    var starttimer = document.getElementById(jQuery('.tt-form').find('label:contains(Start Time)').prop('for'));
+    if (starttimer) {
+        if (starttimer.value == '' || starttimer.value == null) {
+            tt_update_timer(starttimer);
+        }
+    }
 });

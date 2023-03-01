@@ -1,6 +1,6 @@
 <?php
 /**
- * Time Tracker Handle Recaptcha on TT Forms
+ * Time Tracker Handle Recaptcha on TT Forms (CF7)
  *
  * Remove recaptcha for TT forms only
  * 

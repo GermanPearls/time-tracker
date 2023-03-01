@@ -99,7 +99,6 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 $installed_page_content = $installed_page->post_content;
 
                 $updated_content = self::get_page_details($i)['post_content'];
-
                 //does the content match the current version
                 if ($installed_page_content != $updated_content) {
                     //update content of page in db
@@ -182,6 +181,23 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             array_push($details_all, $details);
             self::$page_details = $details_all;
         }
+
+
+        /**
+         * Get shortcode for form
+         * 
+         */
+        private static function get_form_shortcode($nm) {
+            if (TT_PLUGIN_FORM_TYPE == "CF7") {
+                return "[contact-form-7 id=\"" . tt_get_form_id($nm) . "\" title=\"" . $nm . "\" html_class=\"tt-form\"]";
+            }
+            elseif (TT_PLUGIN_FORM_TYPE == "WPF") {
+                return "[wpforms id=\"" . tt_get_form_id($nm) . "\"]";
+            }
+            else {
+                return "Error: Either Contact Form 7 or WPForms must be activated to use the Time Tracker plugin.";
+            }
+        }
             
             
         /**
@@ -209,7 +225,8 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Client",
                 "Parent" => $parent,
                 "Slug" => "new-client",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Client") . "\" title=\"Add New Client\" html_class=\"tt-form\"]",
+                //"Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Client") . "\" title=\"Add New Client\" html_class=\"tt-form\"]",
+                "Content" => self::get_form_shortcode("Add New Client"),
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -221,7 +238,8 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Project",
                 "Parent" => $parent,
                 "Slug" => "new-project",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Project") . "\" title=\"Add New Project\" html_class=\"tt-form\"]",
+                //"Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Project") . "\" title=\"Add New Project\" html_class=\"tt-form\"]",
+                "Content" => self::get_form_shortcode("Add New Project"),
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -233,7 +251,8 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Recurring Task",
                 "Parent" => $parent,
                 "Slug" => "new-recurring-task",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Recurring Task") . "\" title=\"Add New Recurring Task\" html_class=\"tt-form\"]",
+                //"Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Recurring Task") . "\" title=\"Add New Recurring Task\" html_class=\"tt-form\"]",
+                "Content" => self::get_form_shortcode("Add New Recurring Task"),
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -245,7 +264,8 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Task",
                 "Parent" => $parent,
                 "Slug" => "new-task",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Task") . "\" title=\"Add New Task\" html_class=\"tt-form\"]",
+                //"Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add New Task") . "\" title=\"Add New Task\" html_class=\"tt-form\"]",
+                "Content" => self::get_form_shortcode("Add New Task"),
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -257,7 +277,8 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "New Time Entry",
                 "Parent" => $parent,
                 "Slug" => "new-time-entry",
-                "Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add Time Entry") . "\" title=\"Add Time Entry\" html_class=\"tt-form\"]",
+                //"Content" => "[contact-form-7 id=\"" . tt_get_form_id("Add Time Entry") . "\" title=\"Add Time Entry\" html_class=\"tt-form\"]",
+                "Content" => self::get_form_shortcode("Add Time Entry"),
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -345,8 +366,9 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Log",
                 "Parent" => $parent,
                 "Slug" => "time-log",
-                "Content" => "<div class=\"tt-accordion\">Search</div><div class=\"tt-accordion-panel\">[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]</div>[tt_time_log_table type=\'summary\']<br/>[tt_year_summary]<h3>Time Details</h3>[tt_time_log_table type=\'detail\']",
-				"Paginate" => array(
+                //"Content" => "<div class=\"tt-accordion\">Search</div><div class=\"tt-accordion-panel\">[contact-form-7 id=\"" . tt_get_form_id("Filter Time") . "\" title=\"Filter Time\" html_class=\"filter-time-form\" html_class=\"tt-form\"]</div>[tt_time_log_table type=\'summary\']<br/>[tt_year_summary]<h3>Time Details</h3>[tt_time_log_table type=\'detail\']",
+				"Content" => "<div class=\"tt-accordion\">Search</div><div class=\"tt-accordion-panel\">" . self::get_form_shortcode("Filter Time") . "</div>[tt_time_log_table type=\'summary\']<br/>[tt_year_summary]<h3>Time Details</h3>[tt_time_log_table type=\'detail\']",
+                "Paginate" => array(
 					"Flag" => true,
 					"RecordsPerPage" => 100,
 					"PreviousText" => '« Newer',
