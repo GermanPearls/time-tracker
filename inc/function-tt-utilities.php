@@ -619,9 +619,14 @@ function log_tt_misc($msg) {
  * Query db
  * 
  */
-function tt_query_db($sql_string) {
+function tt_query_db($sql_string, $return_type="object") {
     global $wpdb;
-    $sql_result = $wpdb->get_results(esc_sql($sql_string), ARRAY_A );
+	if ($return_type == "array") {
+    	$sql_result = $wpdb->get_results(esc_sql($sql_string), ARRAY_A );
+	} else {
+        //default return type for get_results is object
+		$sql_result = $wpdb->get_results(esc_sql($sql_string));
+	}
     \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
     return $sql_result;
 }
