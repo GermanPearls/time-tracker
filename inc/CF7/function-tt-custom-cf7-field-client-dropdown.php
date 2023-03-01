@@ -32,7 +32,7 @@ function custom_add_form_tag_client_name() {
  */
 function custom_client_name_form_tag_handler( $tag ) {
 
-  $client_list = Logically_Tech\Time_Tracker\Inc\tt_get_clients();
+  $client_list = \Logically_Tech\Time_Tracker\Inc\tt_get_clients();
 
   $atts = array(
         'type' => 'text',
