@@ -46,11 +46,9 @@ function tt_dashboard_notice() {
 
 function tt_time_to_display_notice($nm) {
     $timers = get_option('time_tracker_admin_notices');
-    foreach ($timers as $timer) {
-        if ($nm == $timer[0]) {
-            if ($timer[1] == null or $timer[1] < time()) {
-                return true;
-            }
+    if (array_key_exists($nm, $timers)) {
+        if ($timers[$nm] == null or $timers[$nm] < time()) {
+            return true;
         }
     }
     return false;
@@ -101,25 +99,15 @@ function tt_get_install_timestamp() {
 }
 
 function tt_add_or_update_admin_notice_timer($name, $nexttime) {
-    $timer = array($name=>$nexttime);
-
     if (! get_option('time_tracker_admin_notices')) {
-        add_option('time_tracker_admin_notices', array($timer));
-        return;
+        $val = array();
+        $val[$name] = $nexttime;
+        add_option('time_tracker_admin_notices', $val);
+    } else {
+        $notices = get_option('time_tracker_admin_notices');
+        $notices[$name] = $nexttime;
+        update_option('time_tracker_admin_notices', $notices);
     }
-
-    $notices = get_option('time_tracker_admin_notices');
-
-    foreach($notices as $notice) {
-        if ($notice[0] == $name) {
-            $notice[1] = $nexttime;
-            update_option('time_tracker_admin_notices', $notices);
-            return;
-        }
-    }
-
-    array_push($notices, $notice);
-    update_option('time_tracker_admin_notices', $notices);
 }
 
 tt_add_or_update_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
