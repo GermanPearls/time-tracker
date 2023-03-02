@@ -63,14 +63,14 @@ function tt_dismiss_admin_notice_function() {
             $months_out = isset($_POST['mnths']) ? \intval($_POST['mnths']) : 0;
             $install_time = tt_get_install_timestamp();
             if ( ($months_out > 0) and ($name != '') ) {
-                tt_update_admin_notice_timer($name, strtotime("+" . $months_out . "months", $install_time));
+                tt_add_or_update_admin_notice_timer($name, strtotime("+" . $months_out . "months", $install_time));
                 $return = array(
                     'success' => true,
                     'msg' => 'Admin notice delayed for ' . strval($months_out) . ' months.'
                 );
                 wp_send_json_success($return, 200);
             } else {
-                tt_update_admin_notice_timer($name, strtotime("+1month", $install_time));
+                tt_add_or_update_admin_notice_timer($name, strtotime("+1month", $install_time));
                 $return = array(
                     'success' => false,
                     'msg' => 'Error delaying admin notice, no delay time frame specified. Delayed for default of 1 month'
@@ -100,21 +100,27 @@ function tt_get_install_timestamp() {
     }
 }
 
-function tt_update_admin_notice_timer($name, $nexttime) {
+function tt_add_or_update_admin_notice_timer($name, $nexttime) {
+    $timer = array($name=>$nexttime);
+
     if (! get_option('time_tracker_admin_notices')) {
-        add_option('time_tracker_admin_notices', array($name=>$nexttime));
-    } else {
-        $notices = get_option('time_tracker_admin_notices');
-        $notices[$name] = $nexttime;
-        update_option('time_tracker_admin_notices', $notices);
+        add_option('time_tracker_admin_notices', array($timer));
+        return;
     }
+
+    $notices = get_option('time_tracker_admin_notices');
+
+    foreach($notices as $notice) {
+        if ($notice[0] == $name) {
+            $notice[1] = $nexttime;
+            update_option('time_tracker_admin_notices', $notices);
+            return;
+        }
+    }
+
+    array_push($notices, $notice);
+    update_option('time_tracker_admin_notices', $notices);
 }
 
-function tt_add_admin_notice_timer($name, $nexttime) {
-    if ( (! get_option('time_tracker_admin_notices')) or (! array_key_exists($name, get_option('time_tracker_admin_notices'))) ) {
-        tt_update_admin_notice_timer($name, $nexttime);
-    }
-}
-
-tt_add_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
+tt_add_or_update_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
 add_action( 'admin_notices', 'Logically_Tech\Time_Tracker\Admin\tt_dashboard_notice' );
