@@ -36,14 +36,24 @@ function tt_dismiss_notice_button($notice, $mnths) {
 
 function tt_dashboard_notice() {
     $notices = array('tt_feedback_request');
-    $timers = get_option('time_tracker_admin_notices');
     foreach ($notices as $notice) {
-        if (! array_key_exists($notice, $timers)) {
-	        echo call_user_func($notice);
-	    } elseif ( (array_key_exists($notice, $timers)) and (($timers[$notice] == null) or ($timers[$notice] < time())) ) {
-	    	echo call_user_func('Logically_Tech\Time_Tracker\Admin\\' . $notice);
-	    }
+        if (tt_time_to_display_notice($notice)) {
+            echo call_user_func('Logically_Tech\Time_Tracker\Admin\\' . $notice);
+        }
     }
+}
+
+
+function tt_time_to_display_notice($nm) {
+    $timers = get_option('time_tracker_admin_notices');
+    foreach ($timers as $timer) {
+        if ($nm == $timer[0]) {
+            if ($timer[1] == null or $timer[1] < time()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 function tt_dismiss_admin_notice_function() {
