@@ -47,12 +47,23 @@ function tt_dashboard_notice() {
 function tt_time_to_display_notice($nm) {
     $timers = get_option('time_tracker_admin_notices');
     if (array_key_exists($nm, $timers)) {
-        if ($timers[$nm] == null or $timers[$nm] < time()) {
+        if ($timers[$nm] == null) {
             return true;
+        }
+        if (is_int($timers[$nm])) {
+            if ($timers[$nm] < time()) {
+                return true;
+            }
+        }
+        if (is_object($timers[$nm])) {
+            if ($timers[$nm] < new \DateTime()) {
+                return true;
+            }
         }
     }
     return false;
 }
+
 
 function tt_dismiss_admin_notice_function() {
     if ($_SERVER['REQUEST_METHOD'] = 'POST'){
