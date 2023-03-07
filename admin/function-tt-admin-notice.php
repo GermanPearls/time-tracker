@@ -11,7 +11,7 @@
 namespace Logically_Tech\Time_Tracker\Admin;
 
 function tt_feedback_request() {
-	$msg = tt_admin_notice_div_start(__FUNCTION__);
+	$msg = tt_admin_notice_div_start(str_replace(__NAMESPACE__ . "\\", "", __FUNCTION__));
     $msg .= "<p><h3>Thank you for trying the Time Tracker plugin.</h3>";
 	$msg .= "We'd love to hear your feedback. ";
     $msg .= "Feel free to reach out directly with issues or recommendations at ";
@@ -21,19 +21,19 @@ function tt_feedback_request() {
     $msg .= "<button onclick=\"window.location.href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post'\" ";
 	$msg .= "style='padding: 5px 15px; margin-top:15px;'>";
     $msg .= "Leave a Review</button>";
-	$msg .= tt_dismiss_notice_button(__FUNCTION__, 3);
+	$msg .= tt_dismiss_notice_button(str_replace(__NAMESPACE__ . "\\", "", __FUNCTION__), 3);
     $msg .= "</p></div>";
     return $msg;    
 }
 
 function tt_beta_tester_search() {
-    $msg = tt_admin_notice_div_start(__FUNCTION__);
+    $msg = tt_admin_notice_div_start(str_replace(__NAMESPACE__ . "\\", "", __FUNCTION__));
     $msg .= "<p><h3>Time Tracker Plugin is Looking for Beta Testers!</h3>";
     $msg .= "Interested in testing the next major update to the Time Tracker plugin? ";
     $msg .= "Based on user feedback, Time Tracker was updated to integrate with EITHER Contact Forms 7 <i>OR</i> WP Forms! ";
     $msg .= "We've been testing internally but would love for others to use the updated version and let us know of any bugs or thoughts. ";
     $msg .= "If interested, please email " . tt_email_lt_link() . ".</p>";
-    $msg .= tt_email_lt_button() . tt_dismiss_notice_button(__FUNCTION__, 1);
+    $msg .= tt_email_lt_button() . tt_dismiss_notice_button(str_replace(__NAMESPACE__ . "\\", "", __FUNCTION__), 1);
     $msg .= "</div>";
     return $msg;
 }
