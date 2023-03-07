@@ -56,29 +56,26 @@ function tt_email_lt_link() {
 function tt_dashboard_notice() {
     $notices = get_option('time_tracker_admin_notices');
     if ($notices) {
-        foreach ($notices as $notice) {
-            if (tt_time_to_display_notice($notice)) {
+        foreach ($notices as $notice=>$tm) {
+            if (tt_time_to_display_notice($tm)) {
                 echo call_user_func('Logically_Tech\Time_Tracker\Admin\\' . $notice);
             }
         }
     }
 }
 
-function tt_time_to_display_notice($nm) {
-    $timers = get_option('time_tracker_admin_notices');
-    if (array_key_exists($nm, $timers)) {
-        if ($timers[$nm] == null) {
+function tt_time_to_display_notice($tm) {
+    if ($tm == null) {
+        return true;
+    }
+    if (is_int($tm)) {
+        if ($tm < time()) {
             return true;
         }
-        if (is_int($timers[$nm])) {
-            if ($timers[$nm] < time()) {
-                return true;
-            }
-        }
-        if (is_object($timers[$nm])) {
-            if (date_timestamp_get($timers[$nm]) < time()) {
-                return true;
-            }
+    }
+    if (is_object($tm)) {
+        if (date_timestamp_get($tm) < time()) {
+            return true;
         }
     }
     return false;
