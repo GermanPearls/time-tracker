@@ -48,7 +48,7 @@ function tt_email_lt_button() {
 function tt_dismiss_notice_button($notice, $mnths) {
 	$btn = "<button onclick=\"dismiss_admin_notice('" . $notice . "', " . $mnths . ")\" ";
 	$btn .= "style='padding: 5px 15px; margin: 10px 15px;'>";
-	$btn .= "Dismiss for " . $mnths . " Months</button>";
+	$btn .= "Dismiss for " . $mnths . " Month(s)</button>";
 	return $btn;
 }
 
