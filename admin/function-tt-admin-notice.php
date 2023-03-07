@@ -11,11 +11,11 @@
 namespace Logically_Tech\Time_Tracker\Admin;
 
 function tt_feedback_request() {
-	$msg = "<div id='tt-admin-notice-review' class='notice notice-info is-dismissable tt-admin-notice'>";
+	$msg = tt_admin_notice_div_start("tt-admin-notice-review");
     $msg .= "<p><h3>Thank you for trying the Time Tracker plugin.</h3>";
 	$msg .= "We'd love to hear your feedback. ";
     $msg .= "Feel free to reach out directly with issues or recommendations at ";
-    $msg .= "<a href='mailto:info@logicallytech.com'>info@logicallytech.com</a>. ";
+    $msg .= tt_email_lt_link() . ". ";
     $msg .= "If you're enjoying the plugin and could take a few moments to leave a review, ";
     $msg .= "it would be greatly appreciated.<br/>";
     $msg .= "<button onclick=\"window.location.href='https://wordpress.org/support/plugin/time-tracker/reviews/#new-post'\" ";
@@ -26,6 +26,18 @@ function tt_feedback_request() {
     return $msg;    
 }
 
+function tt_beta_tester_search() {
+    $msg = tt_admin_notice_div_start("tt-admin-notice-beta-testers");
+    $msg .= "<p><h3>Looking for Beta Testers!</h3>";
+    $msg .= "Interested in testing the next major update to the Time Tracker plugin?";
+    $msg .= "We're looking for beta testers for the next update. As requested, this next update can integrate with Contact Forms 7 OR WP Forms!";
+    $msg .= "We've been testing it in house but would love for others to use it and report back and bugs or thoughts.";
+    $msg .= "If you're interested, please email " . tt_email_lt_link() . ".";
+    $msg .= tt_dismiss_notice_button("tt_beta_tester_search", 1);
+    $msg .= "</p></div>";
+    return $msg;
+}
+
 function tt_dismiss_notice_button($notice, $mnths) {
 	$btn = "<button onclick=\"dismiss_admin_notice('" . $notice . "', " . $mnths . ")\" ";
 	$btn .= "style='padding: 5px 15px; margin-left:15px; margin-top:15px;'>";
@@ -33,6 +45,13 @@ function tt_dismiss_notice_button($notice, $mnths) {
 	return $btn;
 }
 
+function tt_admin_notice_div_start($idtext) {
+    return "<div id='" . $idtext . "' class='notice notice-info is-dismissable tt-admin-notice'>";
+}
+
+function tt_email_lt_link() {
+    return "<a href='mailto:info@logicallytech.com'>info@logicallytech.com</a>";
+}
 
 function tt_dashboard_notice() {
     $notices = array('tt_feedback_request');
@@ -42,7 +61,6 @@ function tt_dashboard_notice() {
         }
     }
 }
-
 
 function tt_time_to_display_notice($nm) {
     $timers = get_option('time_tracker_admin_notices');
@@ -136,4 +154,6 @@ function tt_add_new_admin_notice_timer($name, $nexttime) {
 }
 
 tt_add_new_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
+tt_add_new_admin_notice_timer('tt_beta_tester_search', new \DateTime());
+
 add_action( 'admin_notices', 'Logically_Tech\Time_Tracker\Admin\tt_dashboard_notice' );
