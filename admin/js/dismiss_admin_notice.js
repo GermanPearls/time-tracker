@@ -12,7 +12,7 @@ function dismiss_admin_notice(nm, mnths) {
         success: function(results){
         	if (results.success) {
 				//success
-        	    jQuery(document.getElementById('tt-admin-notice-review')).hide();
+        	    jQuery(document.getElementById(nm)).hide();
        	 	} else {
           	    console.log('tt error delaying the admin notice');
                 console.log(results.data.msg);
