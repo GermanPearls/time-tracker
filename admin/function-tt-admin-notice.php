@@ -31,7 +31,7 @@ function tt_beta_tester_search() {
     $msg .= "<p><h3>Time Tracker Plugin is Looking for Beta Testers!</h3>";
     $msg .= "Interested in testing the next major update to the Time Tracker plugin? ";
     $msg .= "Based on user feedback, Time Tracker was updated to integrate with EITHER Contact Forms 7 <i>OR</i> WP Forms! ";
-    $msg .= "We've been testing internally but would love for others to use the updated version and report back and bugs or thoughts. ";
+    $msg .= "We've been testing internally but would love for others to use the updated version and let us know of any bugs or thoughts. ";
     $msg .= "If interested, please email " . tt_email_lt_link() . ".</p>";
     $msg .= tt_email_lt_button() . tt_dismiss_notice_button("tt_beta_tester_search", 1);
     $msg .= "</div>";
@@ -40,14 +40,14 @@ function tt_beta_tester_search() {
 
 function tt_email_lt_button() {
 	$btn = "<button onclick=\"location.href='mailto:info@logicallytech.com';\" ";
-	$btn .= "style='padding: 5px 15px; margin-left:15px; margin-top:15px;'>";
+	$btn .= "style='padding: 5px 15px; margin: 10px 15px;'>";
 	$btn .= "Send Email</button>";
 	return $btn;
 }
 
 function tt_dismiss_notice_button($notice, $mnths) {
 	$btn = "<button onclick=\"dismiss_admin_notice('" . $notice . "', " . $mnths . ")\" ";
-	$btn .= "style='padding: 5px 15px; margin-left:15px; margin-top:15px;'>";
+	$btn .= "style='padding: 5px 15px; margin: 10px 15px;'>";
 	$btn .= "Dismiss for " . $mnths . " Months</button>";
 	return $btn;
 }
