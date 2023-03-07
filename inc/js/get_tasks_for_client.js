@@ -1,10 +1,10 @@
 function tt_update_task_dropdown() {
-  var taskField = jQuery(".tt-form").find('#task-name')[0];
+  var taskField = jQuery(".tt-form").find("[name='task-name']")[0];
   if (!taskField) {
     taskField = document.getElementById(jQuery(".tt-form").find("label:contains(Task)").prop("for"));
   }
 
-  var clientField = jQuery(".tt-form").find("#client-name")[0];
+  var clientField = jQuery(".tt-form").find("[name='client-name']")[0];
   if (!clientField) {
     clientField = document.getElementById(jQuery(".tt-form").find("label:contains(Client)").prop("for"));
   }   
