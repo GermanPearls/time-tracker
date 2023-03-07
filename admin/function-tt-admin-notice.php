@@ -54,10 +54,12 @@ function tt_email_lt_link() {
 }
 
 function tt_dashboard_notice() {
-    $notices = array('tt_feedback_request');
-    foreach ($notices as $notice) {
-        if (tt_time_to_display_notice($notice)) {
-            echo call_user_func('Logically_Tech\Time_Tracker\Admin\\' . $notice);
+    $notices = get_option('time_tracker_admin_notices');
+    if ($notices) {
+        foreach ($notices as $notice) {
+            if (tt_time_to_display_notice($notice)) {
+                echo call_user_func('Logically_Tech\Time_Tracker\Admin\\' . $notice);
+            }
         }
     }
 }
