@@ -28,14 +28,21 @@ function tt_feedback_request() {
 
 function tt_beta_tester_search() {
     $msg = tt_admin_notice_div_start("tt-admin-notice-beta-testers");
-    $msg .= "<p><h3>Looking for Beta Testers!</h3>";
-    $msg .= "Interested in testing the next major update to the Time Tracker plugin?";
-    $msg .= "We're looking for beta testers for the next update. As requested, this next update can integrate with Contact Forms 7 OR WP Forms!";
-    $msg .= "We've been testing it in house but would love for others to use it and report back and bugs or thoughts.";
-    $msg .= "If you're interested, please email " . tt_email_lt_link() . ".";
-    $msg .= tt_dismiss_notice_button("tt_beta_tester_search", 1);
-    $msg .= "</p></div>";
+    $msg .= "<p><h3>Time Tracker Plugin is Looking for Beta Testers!</h3>";
+    $msg .= "Interested in testing the next major update to the Time Tracker plugin? ";
+    $msg .= "Based on user feedback, Time Tracker was updated to integrate with EITHER Contact Forms 7 <i>OR</i> WP Forms! ";
+    $msg .= "We've been testing internally but would love for others to use the updated version and report back and bugs or thoughts. ";
+    $msg .= "If interested, please email " . tt_email_lt_link() . ".</p>";
+    $msg .= tt_email_lt_button() . tt_dismiss_notice_button("tt_beta_tester_search", 1);
+    $msg .= "</div>";
     return $msg;
+}
+
+function tt_email_lt_button() {
+	$btn = "<button onclick=\"location.href='mailto:info@logicallytech.com';\" ";
+	$btn .= "style='padding: 5px 15px; margin-left:15px; margin-top:15px;'>";
+	$btn .= "Send Email</button>";
+	return $btn;
 }
 
 function tt_dismiss_notice_button($notice, $mnths) {
