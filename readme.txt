@@ -5,7 +5,7 @@ Tags: time tracker, time management, project management, freelancer tools, billi
 Requires at least: 5.3
 Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Short Description: Time Tracker enables you to manage your to do lists, recurring tasks, billable and invoiced time, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
@@ -13,7 +13,10 @@ Short Description: Time Tracker enables you to manage your to do lists, recurrin
 == Description ==
 Time Tracker enables you to manage your to do lists, time worked, billable time, recurring tasks, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
-**Please Note**: This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.7.3)
+= Requirements =
+This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.7.3)
+
+**Update**: Would you like to use this plugin with WPForms? We have a pre-release available for testing with the WPForms plugin. If you're interested in trying or helping us test the next release (with CF7 or WPF) email [info@logicallytech.com](mailto:info@logicallytech.com).
 
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
@@ -94,6 +97,9 @@ installation and provide detailed feedback if you find features that don't work 
 
  
 == Changelog ==
+
+= 2.4.7 =
+* New Feature: Notice to users - looking for beta testers for next major release!
 
 = 2.4.6 =
 * Improvement: Changes for older versions of MariaDB and MySql (Project date started, Task date added, Time start and end, defaul and null values handled differently)
