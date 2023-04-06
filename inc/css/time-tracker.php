@@ -166,6 +166,11 @@ div #tt-nav-links {
 		width: 100%;
 	}
 
+    div#tt-primary {
+        width: 100%;
+        max-width: 100%;
+    }
+
 	.content-area .site {
 		margin:0px;
 	}
