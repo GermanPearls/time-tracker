@@ -77,7 +77,6 @@ if ($pagination['Flag'] == true) {
 				}
 
 				?>
-				<a href="<?php echo TT_HOME ?>" class="tt-header-button">Home</a>
 				</header>
 			<!----------end page header----------->
 			
