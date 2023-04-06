@@ -110,7 +110,7 @@ div.tt-sidebar {
 .tt-sidebar-header {
   font-size: 1.3em;
   display: block;
-  padding: 5px 0;
+  padding: 0;
 }
 
 .tt-sidebar-hr {

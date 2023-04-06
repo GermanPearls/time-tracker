@@ -11,6 +11,7 @@ namespace Logically_Tech\Time_Tracker\Templates;
 
  ?>
 <div id="tt-favorite-functions">
+<a href=<?php echo TT_HOME ?> class="tt-sidebar-button">Time Tracker Home</a>
 <div class="tt-sidebar-header">Favorites</div>
 <a href=<?php echo TT_HOME . "open-task-list" ?> class="tt-sidebar-button">Open Tasks</a>
 <a href=<?php echo TT_HOME . "new-time-entry" ?> class="tt-sidebar-button">Log Time</a>
