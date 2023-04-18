@@ -14,10 +14,15 @@ Short Description: Time Tracker enables you to manage your to do lists, recurrin
 Time Tracker enables you to manage your to do lists, time worked, billable time, recurring tasks, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
 = Requirements =
-This plugin is a Contact Form 7 add-on and requires the Contact Form 7 plugin to be installed first. (Tested with Contact Form 7 up to version 5.7.3)
+This plugin is an add-on and requires a form plugin to work properly.
 
-**Update**: Would you like to use this plugin with WPForms? We have a pre-release available for testing with the WPForms plugin. If you're interested in trying or helping us test the next release (with CF7 or WPF) email [info@logicallytech.com](mailto:info@logicallytech.com).
+**NEW:** Based on user request, this plugin now works with EITHER **Contact Form 7** OR **WP Forms**.
 
+One of these form plugins must be installed and activated before installing Time Tracker.
+
+Note that Time Tracker is in no way affiliated with Contact Form 7 or WP Forms.
+
+= Time Tracker Features =
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
 * Clients including contact information, separate bill-to information, and how the client found you
@@ -38,9 +43,9 @@ Time Tracker helps to:
 
 == Installation ==
  
-**Please Note: This plugin requires the Contact Form 7 to function properly.**
+**Please Note: This plugin requires a form plugin to function properly. (Contact Form 7 or WP Forms are currently supported prerequisites. One of these must be installed and activated prior to activating Time Tracker.)**
 
-1. Install and activate the Contact Form 7 plugin, if it's not already installed
+1. Install and activate the Contact Form 7 or WP Forms plugin, if you don't have either already installed
 2. Install and activate the Time Tracker plugin
 3. Go to the Time Tracker Options menu page and add your business specific information, then save all changes
 4. To begin using your new task management system, open a browser and navigate to your website /time-tracker. (NOTE: You will need to be logged in as an admin for the time tracker pages to be accessible.)
