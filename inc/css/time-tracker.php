@@ -568,7 +568,8 @@ td.on-hold-date {
 .tt-form input:not(input[type="submit"], input[type="datetime"], span>input),
 .tt-form label, 
 .tt-form select, 
-.tt-form span {
+.tt-form span,
+.tt-form p:has(input[type="datetime"]) {
     display: inline-block;
     width: 90%;
     margin-right: 20px;
