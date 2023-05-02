@@ -21,23 +21,25 @@ if ( ! class_exists('Time_Tracker_WPF_Fields_Add_Properties') ) {
 
     class Time_Tracker_WPF_Fields_Add_Properties {
 
-
         /**
          * Add a 2nd submit button to add new task 
          * 
          */
-        public function tt_add_second_submit_button($form_data, $form) {
+        public function tt_add_second_submit_button($form_data) {
             $formid = absint($form_data['id']);
             if (\Logically_Tech\Time_Tracker\Inc\tt_get_form_name($formid) == "Add New Task") {
-                //ref wpforms-lite/includes/class-frontend.php:178
-                $errors = empty( wpforms()->process->errors[$formid] ) ? [] : wpforms()->process->errors[$formid];
-                $form_data['settings']['submit_text'] = "Start Working";
-                require_once(WPFORMS_PLUGIN_DIR . '/includes/class-frontend.php');
-                $front = new \WPForms_Frontend();
-                $front->foot($form_data, null, false, false, $errors);
+                $btn = "<button type=\"submit\"";
+                $btn .= " name=\"wpforms[submit]\"";
+                $btn .= " id=\"wpforms-submit-and-start-" . $formid . "\"";
+                $btn .= " class=\"wpforms-submit tt-button tt-inline-button\"";
+                $btn .= " data-alt-text=\"Saving...\"";
+                $btn .= " data-submit-text=\"Start Working\"";
+                $btn .= " aria-live=\"assertive\"";
+                $btn .= " value=\"wpforms-submit\"";
+                $btn .= ">Start Working</button>";
+                echo $btn;
             }
         }
-
 
 
         /**
@@ -49,7 +51,7 @@ if ( ! class_exists('Time_Tracker_WPF_Fields_Add_Properties') ) {
 
                 if ($field['label'] == 'Client') {
                     //update project and task based on client selected
-                    $properties = $this->add_container_property_to_select_field($properties, "onchange", "tt_update_task_dropdown(); tt_update_project_dropdown();");
+                    $properties = $this->add_container_property_to_select_field($properties, "onChange", "tt_update_task_dropdown(); tt_update_project_dropdown();");
 
                     //add html property to identify field later
                     $properties = $this->add_container_property_to_select_field($properties, "data-tt-field", "client");
@@ -113,6 +115,7 @@ if ( ! class_exists('Time_Tracker_WPF_Fields_Add_Properties') ) {
             return $properties;
         }
 
+        
         /**
          * Add default via query_var to select field
          * Note this will not work on other field types - their wpforms structure is different
@@ -138,4 +141,5 @@ if ( ! class_exists('Time_Tracker_WPF_Fields_Add_Properties') ) {
 
 $new_props = new Time_Tracker_WPF_Fields_Add_Properties();
 add_action ('wpforms_field_properties', array($new_props, 'tt_add_wpf_field_properties'), 10, 5);
-add_action ('wpforms_frontend_output', array($new_props, 'tt_add_second_submit_button'), 50, 5);
+//add_action ('wpforms_frontend_output', array($new_props, 'tt_add_second_submit_button'), 50, 5);
+add_action ('wpforms_display_submit_after', array($new_props, 'tt_add_second_submit_button'), 10, 1);
