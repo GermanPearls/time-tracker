@@ -20,11 +20,12 @@ function tt_admin_menu_home() {
    <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
    <button onclick="javascript:location.href='<?php echo TT_HOME ?>'" class="tt-admin-to-front button-primary ">Time Tracker Home</button>
    <?php 
-         if ( !is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
+         //if ( !is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
+         if ( !(TT_PLUGIN_FORM_TYPE == "CF7" Or TT_PLUGIN_FORM_TYPE == "WPF") ) {
             ?>
             <div class="tt-indent">
                <h2>IMPORTANT</h2>
-               <p class="tt-important">The Contact Form 7 plugin must be installed and activated for Time Tracker to work properly. Please <a href="/wp-admin/plugin-install.php?s=contact+form+7&tab=search&type=term">install CF7</a> and activate it now.</p>
+               <p class="tt-important">The Contact Form 7 or WP Forms plugin must be installed and activated for Time Tracker to work properly. Please install <a href="/wp-admin/plugin-install.php?s=contact+form+7&tab=search&type=term">Contact Form 7</a> or <a href="/wp-admin/plugin-install.php?tab=search&type=term&s=wp+forms">WP Forms</a>and activate it now.</p>
             </div>
             <?php
          }
