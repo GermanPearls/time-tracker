@@ -20,6 +20,9 @@
     
     $alert_color = 'red';
 
+    //breakpoints
+    $menu_breakpoint = '992px';
+
 ?>
 
 
@@ -144,13 +147,13 @@ div #tt-nav-links {
   background-color: lightgray;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: <?php $menu_breakpoint ?>) {
 	.tt-mobile-menu {
 		display: none;
 	}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: <?php $menu_breakpoint ?>) {
 	div.tt-sidebar {
 		display: none;
   	}
@@ -333,7 +336,7 @@ div.tt-pagination-nav {
     text-decoration: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: <?php $menu_breakpoint ?>) {
   a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, button.clear-error, button.tt-export-pending-time {
     padding: 5px;
   }
@@ -644,7 +647,7 @@ td.on-hold-date {
     width: 50%;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: <?php $menu_breakpoint ?>) {
 	.tt-col-right, .tt-col-left, .tt-col-middle, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
     .tt-form .tt-form-element.tt-two-thirds, .tt-form .tt-form-element.tt-two-thirds label,
     .tt-form .tt-form-element.tt-one-third input, .tt-form .tt-form-element.tt-one-third select,
