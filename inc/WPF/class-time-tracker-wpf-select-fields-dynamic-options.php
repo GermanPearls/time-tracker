@@ -99,7 +99,11 @@ if ( ! class_exists('Time_Tracker_WPF_Select_Fields_Dynamic_Options') ) {
             $clients = \Logically_Tech\Time_Tracker\Inc\tt_get_clients();
             if (is_array($clients) && count($clients) > 0) {
                 foreach ($clients as $client) {
-                    array_push($arr, sanitize_text_field($client['Company']));
+                    if (is_array($client)) {
+                        array_push($arr, sanitize_text_field($client['Company']));
+                    } else {
+                        array_push($arr, sanitize_text_field($client->Company));
+                    }
                 }
             }
             return $arr;
@@ -115,7 +119,11 @@ if ( ! class_exists('Time_Tracker_WPF_Select_Fields_Dynamic_Options') ) {
             $tasks = \Logically_Tech\Time_Tracker\Inc\tt_get_tasks();
             if (is_array($tasks) && count($tasks) > 0) {
                 foreach ($tasks as $task) {
-                    array_push($arr, sanitize_text_field($task['TaskID'] . "-" . $task['TDescription']));
+                    if (is_array($task)) {
+                        array_push($arr, sanitize_text_field($task['TaskID'] . "-" . $task['TDescription']));
+                    } else {
+                        array_push($arr, sanitize_text_field($task->TaskID . "-" . $task->TDescription));
+                    }
                 }
             }
             return $arr;
@@ -123,7 +131,7 @@ if ( ! class_exists('Time_Tracker_WPF_Select_Fields_Dynamic_Options') ) {
 
 
         /**
-         * Get Client Name Array
+         * Get Project Name Array
          * 
          */
         private static function get_project_name_array() {
@@ -131,7 +139,11 @@ if ( ! class_exists('Time_Tracker_WPF_Select_Fields_Dynamic_Options') ) {
             $projects = \Logically_Tech\Time_Tracker\Inc\tt_get_projects();
             if (is_array($projects) && count($projects) > 0) {
                 foreach ($projects as $project) {
-                    array_push($arr, sanitize_text_field($project['PName']));
+                    if (is_array($project)) {
+                        array_push($arr, sanitize_text_field($project['PName']));
+                    } else {
+                        array_push($arr, sanitize_text_field($project->PName));
+                    }
                 }
             }
             return $arr;
@@ -160,11 +172,6 @@ if ( ! class_exists('Time_Tracker_WPF_Select_Fields_Dynamic_Options') ) {
             }
             return $arr;
         }
-
-
-
-
-
     }   //end class
 
 }   //class exists
