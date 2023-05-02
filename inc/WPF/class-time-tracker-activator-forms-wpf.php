@@ -238,7 +238,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_WPF') ) {
          * Create form for WPForms
          * 
          */
-        private static function create_form_base($ttl, $btn="Enter", $txt="Saving...") {
+        private static function create_form_base($ttl, $btn="Save", $txt="Saving...") {
             $frm = array(
                 "fields" => array(),
                 "id" => "0",              //will be post id - have to get later when adding to db
@@ -367,7 +367,10 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_WPF') ) {
             $fld = self::create_field_base("text", $lbl, $desc, $sz, $plchldr, $dflt, $css);
             $fld["required"] = $reqd;
             $fld["input_mask"] = $inptmsk;
-            $fld["limit_enabled"] = $lmtd;
+            //if no limit set, do not add to field, this may default to on with limit_count set to 1 and limit_mode set to words
+            if ($lmtd !== "") {
+                $fld["limit_enabled"] = $lmtd;
+            }
             $fld["limit_count"] = $lmt;
             $fld["limit_mode"] = $lmtmd;
             return $fld;
@@ -381,7 +384,10 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_WPF') ) {
         private static function create_field_textarea($lbl, $desc, $reqd, $sz, $plchldr, $lmtd, $lmt, $lmtmd, $dflt, $css) {
             $fld = self::create_field_base("textarea", $lbl, $desc, $sz, $plchldr, $dflt, $css);
             $fld["required"] = $reqd;
-            $fld["limit_enabled"] = $lmtd;
+            //if no limit set, do not add to field, this may default to on with limit_count set to 1 and limit_mode set to words
+            if ($lmtd !== "") {
+                $fld["limit_enabled"] = $lmtd;
+            }
             $fld["limit_count"] = $lmt;
             $fld["limit_mode"] = $lmtmd;
             return $fld;
