@@ -28,7 +28,7 @@ function tt_update_project_dropdown() {
           projectField.innerHTML = response.data.details;
         } else {
           //failed
-          console.log('Get projects for client function failed' + response.data.details + '. Error: ' + response.data.message);
+          console.log("Get projects for client function failed, details: " + response.data.details + ". Error: " + response.data.message);
         }
       }
     });

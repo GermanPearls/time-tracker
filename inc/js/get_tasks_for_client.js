@@ -1,3 +1,4 @@
+console.log('loaded tt_update_task_dropdown');
 function tt_update_task_dropdown() {
   var taskField = jQuery(".tt-form").find("[name='task-name']")[0];
   if (!taskField) {
@@ -27,7 +28,7 @@ function tt_update_task_dropdown() {
           taskField.innerHTML = response.data.details;
         } else {
           //failed
-          console.log('Get tasks for client function failed' + response.data.details + '. Error: ' + response.data.message);
+          console.log("Get tasks for client function failed, details: " + response.data.details + ". Error: " + response.data.message);
         }
       }
     });
