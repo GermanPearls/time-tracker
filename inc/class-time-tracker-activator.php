@@ -32,12 +32,6 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             if (TT_PLUGIN_FORM_TYPE == "CF7") {
 				self::setup();
             } elseif (TT_PLUGIN_FORM_TYPE == "WPF") {
-                /**?>
-                <script type="text/javascript">
-                window.alert('Time Tracker is not yet compatible with WPForms. Please install the Contact Form 7 plugin before activating Time Tracker.');
-                </script>
-                <?php
-                **/
                 self::setup();
             } else {
                 ?>
