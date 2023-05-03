@@ -336,7 +336,7 @@ div.tt-pagination-nav {
     text-decoration: none;
 }
 
-@media only screen and (max-width: <?php $menu_breakpoint ?>) {
+@media only screen and (max-width: <?php echo $menu_breakpoint; ?>) {
   a.tt-sidebar-button, a.tt-header-button, button.end-work-timer, button.clear-error, button.tt-export-pending-time {
     padding: 5px;
   }
@@ -647,7 +647,7 @@ td.on-hold-date {
     width: 50%;
 }
 
-@media only screen and (max-width: <?php $menu_breakpoint ?>) {
+@media only screen and (max-width: <?php echo $menu_breakpoint; ?>) {
 	.tt-col-right, .tt-col-left, .tt-col-middle, .tt-form .tt-form-element.tt-one-third, .tt-form .tt-form-element.tt-one-third label,
     .tt-form .tt-form-element.tt-two-thirds, .tt-form .tt-form-element.tt-two-thirds label,
     .tt-form .tt-form-element.tt-one-third input, .tt-form .tt-form-element.tt-one-third select,
