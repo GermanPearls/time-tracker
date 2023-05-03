@@ -147,13 +147,13 @@ div #tt-nav-links {
   background-color: lightgray;
 }
 
-@media only screen and (min-width: <?php $menu_breakpoint ?>) {
+@media only screen and (min-width: <?php echo $menu_breakpoint; ?>) {
 	.tt-mobile-menu {
 		display: none;
 	}
 }
 
-@media only screen and (max-width: <?php $menu_breakpoint ?>) {
+@media only screen and (max-width: <?php echo $menu_breakpoint; ?>) {
 	div.tt-sidebar {
 		display: none;
   	}
