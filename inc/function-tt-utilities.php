@@ -489,8 +489,7 @@ function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext
  */
 function get_record_numbers_for_pagination_sql_query() {
 	$records_per_page = get_pagination_qty_per_page();
-	
-	$page_num = basename($_SERVER['REQUEST_URI']);
+	$page_num = tt_get_page_number_from_url();
 	if (!(is_numeric($page_num))) {
 		$records = array(
 			'limit' => $records_per_page,
@@ -499,10 +498,29 @@ function get_record_numbers_for_pagination_sql_query() {
 	} else {
 		$records = array(
 			'limit' => $records_per_page,
-			'offset' => ($page_num*100)-101
+			'offset' => $page_num == 1 ? 0 : (($page_num-1)*intval($records_per_page))-1
 		);
 	}
 	return $records;
+}
+
+
+/**
+ * Get page number from url if paginated
+ * 
+ * @since ver3.0.5
+ * 
+ **/
+function tt_get_page_number_from_url() {
+	$uri = $_SERVER['REQUEST_URI'];
+	if (strpos($uri, "page") !== false) {
+		$uri_parts = explode("/", $uri);
+		for ($i = 0; $i < count($uri_parts); $i++) {
+			if ($uri_parts[$i] == "page") {
+				return $uri_parts[$i+1];
+			}
+		}
+	}
 }
 	
 
