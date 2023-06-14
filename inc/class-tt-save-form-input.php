@@ -268,11 +268,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          */
         private function update_task_status($data) {
             //flag task as complete if user checks complete box in time entry page
-            global $wpdb;
+            //global $wpdb;
             $new_task_status = $data['new-task-status'];
             $update_task_status_string = 'UPDATE tt_task SET TStatus ="' . $new_task_status . '" WHERE TaskID="' . $this->task_id . '"';
-            $update_task_status_result = $wpdb->get_results($update_task_status_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+            //$update_task_status_result = $wpdb->get_results($update_task_status_string);
+            //catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+            $update_task_status_result = tt_query_db($update_task_status_string);
         }
 
 

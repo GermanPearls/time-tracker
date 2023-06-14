@@ -4,7 +4,7 @@
  *
  * Get work time history from database
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -12,17 +12,9 @@ namespace Logically_Tech\Time_Tracker\Inc;
 
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
-/**
- * If class doesn't already exist
- * 
- */
 if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
 
-
-    /**
-     * Class
-     * 
-     */ 
+ 
     class Class_Hours_Worked_Detail
     {
 
@@ -34,6 +26,7 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
         private $notes = null;
         private $startdate = null;
         private $enddate = null;
+        private $hours_worked;
 
 
         /**
@@ -50,10 +43,7 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
          * 
          */ 
         private function query_database() {
-            global $wpdb;
-            $result = $wpdb->get_results($query = $this->get_sql_string(), $output = ARRAY_A);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $result;
+            return tt_query_db($this->get_sql_string(), "array");
         }
 
 

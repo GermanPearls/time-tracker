@@ -389,6 +389,18 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 )
             );
             array_push($details_all, $details);
+
+            //time entry detail
+            //@since 3.1.0
+            $details = array(
+                "Title" => "Time Detail",
+                "Parent" => $parent,
+                "Slug" => "time-detail",
+                "Content" => "[tt_show_time_details]",
+                "Paginate" => array(
+                    "Flag" => false
+                )
+            );
             
             self::$page_details = $details_all;
             return $details_all;

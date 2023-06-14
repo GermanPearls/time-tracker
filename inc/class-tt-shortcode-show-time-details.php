@@ -1,9 +1,10 @@
 <?php
 /**
- * Class Time_Tracker_Shortcode_Show_Task_Details
+ * Class Time_Tracker_Shortcode_Show_Time_Details
  *
- * SHORTCODE TO DISPLAY ENTIRE TASK LIST
+ * SHORTCODE TO DISPLAY DETAILS OF INDIVIDUAL TIME ENTRY
  * 
+ * @since 3.1.0
  * 
  */
 
@@ -15,13 +16,13 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  * If class doesn't already exist
  * 
  */
-if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
+if ( ! class_exists('Time_Tracker_Shortcode_Show_Time_Details') ) {
 
     /**
      * Class
      * 
      */  
-    class Time_Tracker_Shortcode_Show_Task_Details {
+    class Time_Tracker_Shortcode_Show_Time_Details {
 
         
         
@@ -29,7 +30,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
          * Class variables
          * 
          */
-        public $shortcode = 'tt_show_task_details';
+        public $shortcode = 'tt_show_time_details';
 
 
         /**
@@ -37,7 +38,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
          * 
          */
         public function __construct() {
-            add_shortcode( $this->shortcode, array( $this, 'show_task_details_shortcode' ) );
+            add_shortcode( $this->shortcode, array( $this, 'show_time_details_shortcode' ) );
         }
 
 
@@ -45,9 +46,10 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
          * Callback
          * 
          */
-        public function show_task_details_shortcode() {
-            $task = new Task_Details;
-            return $task->generate_output_for_display();
+        public function show_time_details_shortcode() {
+            $time = new Time_Details;
+            $display = $time->generate_output_for_display();
+            return $display;
         }
     
 
@@ -62,4 +64,4 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
     } //class
 } //if class exists
 
-$tt_Shortcode_Show_Task_Details = new Time_Tracker_Shortcode_Show_Task_Details();
+$tt_Shortcode_Show_Time_Details = new Time_Tracker_Shortcode_Show_Time_Details();

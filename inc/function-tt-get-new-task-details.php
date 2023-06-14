@@ -16,10 +16,9 @@ function tt_get_new_task_details_function() {
 
        		if ( check_ajax_referer('tt_start_timer_for_new_task_nonce', 'security')) {
 				
-                global $wpdb;
-                $task_row = $wpdb->get_results('SELECT TaskID, TDescription, tt_client.Company as Client from tt_task LEFT JOIN tt_client ON tt_task.ClientID=tt_client.ClientID WHERE tt_task.TaskID=(SELECT MAX(TaskID) FROM tt_task)');
-                catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-
+				$sql_string = 'SELECT TaskID, TDescription, tt_client.Company as Client from tt_task LEFT JOIN tt_client ON tt_task.ClientID=tt_client.ClientID WHERE tt_task.TaskID=(SELECT MAX(TaskID) FROM tt_task)';
+				$task_row = task_list_search_string($sql_string);
+				
                 $return = array(
                     'success' => true,
                     'msg' => 'We found the new task, ID# ' . $task_row[0]->TaskID . ' and will start logging time for this task.',

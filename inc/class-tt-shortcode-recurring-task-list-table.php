@@ -47,8 +47,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Recurring_Task_List_Table') ) {
          */
         public function recurring_task_list_table_shortcode() {
             $list = new Recurring_Task_List;
-            $table = $list->create_table();
-            return $table;
+            return $list->create_table();
         }
     
 

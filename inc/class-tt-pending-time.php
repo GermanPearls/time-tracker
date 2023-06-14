@@ -87,7 +87,6 @@ if ( !class_exists( 'Pending_Time' ) ) {
          * 
          */
         private function get_pending_time_from_db() {
-            global $wpdb;
             $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate, tt_task.TStatus,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
@@ -98,10 +97,8 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     ON tt_time.TaskID = tt_task.TaskID
                 WHERE (tt_time.Invoiced = \"\" OR tt_time.Invoiced IS NULL) AND tt_client.Billable = true
                 ORDER BY tt_client.BillTo ASC, tt_time.ClientID ASC, tt_time.TaskID ASC, tt_time.StartTime ASC";
-            $sql_result = $wpdb->get_results($query = $sql_string, $output = ARRAY_A);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $sql_result;
-        } //close function get to do list from db
+            return tt_query_db($sql_string, "array");
+        }
 
                         
             

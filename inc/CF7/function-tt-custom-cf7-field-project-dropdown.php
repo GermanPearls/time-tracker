@@ -32,12 +32,9 @@ function custom_add_form_tag_project_name() {
  */
 function custom_project_name_form_tag_handler( $tag ) {
 
-//Query time tracker database to get list of current projects and project id's
-  //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
-  global $wpdb;
+  //Query time tracker database to get list of current projects and project id's
   $project_list_search_string = 'SELECT ProjectID, PName, ClientID FROM tt_project ORDER BY ProjectID ASC';
-  $project_list = $wpdb->get_results($project_list_search_string);
-  \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  $project_list = tt_query_db($project_list_search_string);
 
   //Build form tag
   $atts = array(

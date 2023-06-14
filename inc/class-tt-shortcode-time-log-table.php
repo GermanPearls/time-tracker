@@ -63,13 +63,10 @@ if ( ! class_exists('Time_Tracker_Shortcode_Time_Log_Table') ) {
 
             $time_detail = new Time_Log;
             if ($timelog_atts['type'] == 'detail') {
-                $table = $time_detail->create_table();
-                return $table;
+                return $time_detail->create_table();
             } elseif ($timelog_atts['type'] == 'summary') {
-                //$time_detail_array = $time_detail->get_time_log_from_db();
                 $time_summary = new Time_Log_Summary;
-                $table = $time_summary->create_summary_table();
-                return $table;                
+                return $time_summary->create_summary_table();                
             }
         }
     

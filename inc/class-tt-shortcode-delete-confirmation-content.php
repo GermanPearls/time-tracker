@@ -109,7 +109,6 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
                 $display = "Error - Nothing was Chosen To Delete";
             }
             $this->details = $display;
-            return;
         }
     
 
@@ -139,7 +138,6 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
             $msg .=  $this->related_records_warning . "</div>";
             $msg .= "<div id='tt-delete-confirmation-result'></div>";
             $this->confirmation_msg = $msg;
-            return;
         }
 
 
@@ -169,7 +167,6 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
                     This can NOT be undone.
                     </div>";
             }
-            return;
         }
 
 

@@ -46,8 +46,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Task_List_Table') ) {
          */
         public function task_list_table_shortcode() {
             $list = new Task_List;
-            $table = $list->create_table("all_tasks");
-            return $table;
+            return $list->create_table("all_tasks");
         }
     
 

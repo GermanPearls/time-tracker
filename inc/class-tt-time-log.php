@@ -4,6 +4,7 @@
  *
  * CLASS TO DISPLAY TIME LOG TABLE
  * 
+ *  @since 1.0.0
  * 
  */
 
@@ -11,17 +12,9 @@ namespace Logically_Tech\Time_Tracker\Inc;
 
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
-/**
- * If class doesn't already exist
- * 
- */
 if ( !class_exists( 'Time_Log' ) ) {
 
 
-    /**
-     * Class
-     * 
-     */  
     class Time_Log
     {
 
@@ -80,11 +73,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function get_time_log_from_db() {
-            global $wpdb;
-            $sql_string = $this->create_sql_string();
-            $sql_result = $wpdb->get_results($sql_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $sql_result;
+            return tt_query_db($this->create_sql_string(), "object");
         }
 
 
@@ -93,11 +82,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         protected function get_time_log_array_from_db() {
-            global $wpdb;
-            $sql_string = $this->create_sql_string();
-            $sql_result = $wpdb->get_results($sql_string, 'ARRAY_A');
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $sql_result;
+            return tt_query_db($this->create_sql_string(), "array");
         }
 
 
@@ -106,7 +91,6 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function create_sql_string() {   
-            global $wpdb;	
 			$selectfrom = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours

@@ -124,7 +124,6 @@ if ( !class_exists( 'Project_List' ) ) {
          * 
          */
         private function get_projects_from_db($pstatus=null) {
-            global $wpdb;
             $sql_string = "SELECT tt_project.*, tt_client.Company, 
                     NewTable.Minutes as LoggedMinutes,
                     NewTable.Hours as LoggedHours,
@@ -139,9 +138,7 @@ if ( !class_exists( 'Project_List' ) ) {
                     ON tt_project.ProjectID = NewTable.ProjectID";
             $sql_string .= $this->get_where_clauses($pstatus);
             $sql_string .= " ORDER BY tt_project.ProjectID DESC";
-            $sql_result = $wpdb->get_results($sql_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $sql_result;
+            return tt_query_db($sql_string);
         }
 
 

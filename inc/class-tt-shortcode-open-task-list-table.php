@@ -46,8 +46,7 @@ if ( ! class_exists('Time_Tracker_Open_Task_List_Table') ) {
          */
         public function open_task_list_table_shortcode() {
             $list = new Task_List;
-            $table = $list->create_table("open_tasks");
-            return $table;
+            return $list->create_table("open_tasks");
         }
     
 

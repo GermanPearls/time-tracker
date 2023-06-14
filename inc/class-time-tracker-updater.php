@@ -163,7 +163,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         }
 
         /**
-         * Updtae database tables
+         * Update database tables
          * 
          */
         private function tt_update_tables($from_version) {

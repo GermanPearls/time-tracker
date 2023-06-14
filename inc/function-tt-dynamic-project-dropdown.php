@@ -23,35 +23,22 @@ function tt_update_project_list_function() {
             $client_name = sanitize_text_field(stripslashes(urldecode($_POST['client'])));
             $client_id = get_client_id_from_name($client_name);
 
-            /**
-             * Get list of current projects and project id's
-             * 
-             */
+            //Get list of current projects and project id's
             global $wpdb;
             $project_list_search_string = $wpdb->prepare('SELECT ProjectID, PName FROM tt_project WHERE ClientID= "%s"', $client_id);
-            $project_list = $wpdb->get_results($project_list_search_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+            $project_list = tt_query_db($project_list_search_string);
 
             $project_options = '<option value=null></options>';
 
-            /**
-             * Create new options for dropdown based on narrowed search results
-             * 
-             */
+            //Create new options for dropdown based on narrowed search results
             foreach ($project_list as $val) {
                 $project_options .= '<option value="' . esc_html($val->PName) . '">' . esc_html($val->PName) . '</option>';
             }
 
-            /**
-             * close out select tag
-             * 
-             */
+            //close out select tag
             $project_options .= '</select>';
 
-            /**
-             * display response
-             * 
-             */
+            //display response
             //echo $project_options;
 
             //return result to ajax call

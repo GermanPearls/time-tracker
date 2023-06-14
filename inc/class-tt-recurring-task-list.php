@@ -175,8 +175,6 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
          * 
          */
         private function get_recurring_tasks_from_db() {
-            global $wpdb;
-
             $sql_string = "SELECT tt_recurring_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName
                 FROM tt_recurring_task 
                 LEFT JOIN tt_client
@@ -184,10 +182,8 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
                 LEFT JOIN tt_project
                     ON tt_recurring_task.ProjectID = tt_project.ProjectID";
             $sql_string .= $this->get_where_clauses();
-            $sql_string .= " ORDER BY tt_recurring_task.RecurringTaskID ASC";
-            $sql_result = $wpdb->get_results($sql_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);            
-            $this->recurring_tasks = $sql_result;
+            $sql_string .= " ORDER BY tt_recurring_task.RecurringTaskID ASC";          
+            $this->recurring_tasks = tt_query_db($sql_string);
         }
 
 

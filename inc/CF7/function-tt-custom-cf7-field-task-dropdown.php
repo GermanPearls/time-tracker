@@ -9,6 +9,7 @@
 
 namespace Logically_Tech\Time_Tracker\Inc\CF7;
 
+use function Logically_Tech\Time_Tracker\Inc\tt_query_db;
 
 /**
  * Create Custom CF7 Form Tag, Task Name Dropdown
@@ -33,11 +34,8 @@ function custom_add_form_tag_task_name() {
 function custom_task_name_form_tag_handler( $tag ) {
 
   //Query time tracker database to get list of current tasks and task id's
-  //$tt_db = new wpdb(DB_USER, DB_PASSWORD, TT_DB_NAME, DB_HOST);
-  global $wpdb;
   $task_list_search_string = "SELECT TaskID, TDescription FROM tt_task WHERE TStatus <> 'Completed' AND TStatus <> 'Canceled' AND TStatus <> 'Closed' ORDER BY TaskID ASC";
-  $task_list = $wpdb->get_results($task_list_search_string);
-  \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+  $task_list = tt_query_db($task_list_search_string);
 
   $atts = array(
         'type' => 'text',

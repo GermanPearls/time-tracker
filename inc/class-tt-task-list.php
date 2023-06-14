@@ -32,6 +32,8 @@ if ( !class_exists( 'Task_List' ) ) {
         private $timeid;
         private $notes;
         private $projectid;
+        private $startdate;
+        private $enddate;
         private $assoc_field;
         private $assoc_id;
         private $closed_status = ["COMPLETE", "CANCEL", "CLOSE"];
@@ -210,25 +212,6 @@ if ( !class_exists( 'Task_List' ) ) {
         private function get_open_tasks_from_db() {
             $this->status_search = "OPEN";
             return $this->get_all_tasks_from_db();
-            
-            /**global $wpdb;
-
-            $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName,
-                    NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
-                FROM tt_task 
-                LEFT JOIN tt_client
-                    ON tt_task.ClientID = tt_client.ClientID
-                LEFT JOIN tt_project
-                    ON tt_task.ProjectID = tt_project.ProjectID
-                LEFT JOIN (SELECT TaskID, SUM(Minute(TIMEDIFF(EndTime, StartTime))) as Minutes, SUM(Hour(TIMEDIFF(EndTime, StartTime))) as Hours FROM tt_time GROUP BY TaskID) NewTable
-                    ON tt_task.TaskID = NewTable.TaskID
-                WHERE tt_task.TStatus LIKE \"%Closed%\" AND tt_task.TStatus LIKE \"%Canceled%\" AND tt_task.TStatus LIKE \"%Complete%\" AND tt_task.TStatus NOT LIKE \"%Incomplete%\"";
-            $sql_string .= str_replace("WHERE", "AND", $this->get_where_clauses());            
-            $sql_string .= " ORDER BY tt_task.TDueDate ASC, tt_task.TDateAdded ASC";			
-            
-			$sql_result = $wpdb->get_results($sql_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);            
-            return $sql_result;**/
         }
 
 
@@ -237,8 +220,6 @@ if ( !class_exists( 'Task_List' ) ) {
          * 
          */
         private function get_all_tasks_from_db() {
-            global $wpdb;
-
             $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName,
                     NewTable.Minutes as LoggedMinutes, NewTable.Hours as LoggedHours
                 FROM tt_task 
@@ -249,15 +230,12 @@ if ( !class_exists( 'Task_List' ) ) {
                 LEFT JOIN (SELECT TaskID, SUM(Minute(TIMEDIFF(EndTime, StartTime))) as Minutes, SUM(Hour(TIMEDIFF(EndTime, StartTime))) as Hours FROM tt_time GROUP BY TaskID) NewTable
                     ON tt_task.TaskID = NewTable.TaskID";
             $sql_string .= $this->get_where_clauses();
-            $sql_string .= $this->get_order_by();
-            //$sql_string .= " ORDER BY tt_task.TaskID DESC";    
+            $sql_string .= $this->get_order_by();  
 			$record_numbers = get_record_numbers_for_pagination_sql_query();	
 			$subset_for_pagination = "LIMIT " . $record_numbers['limit'] . " OFFSET " . $record_numbers['offset'];
 			$sql_string .= " " . $subset_for_pagination;
 			
-            $sql_result = $wpdb->get_results($sql_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-            return $sql_result;
+            return tt_query_db($sql_string);
         }
 
 

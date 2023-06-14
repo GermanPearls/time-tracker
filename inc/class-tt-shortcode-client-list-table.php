@@ -46,8 +46,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Client_List_Table') ) {
          */
         public function client_list_table_shortcode() {
             $list = new Client_List;
-            $table = $list->create_table();
-            return $table;
+            return $list->create_table();
         }
     
 

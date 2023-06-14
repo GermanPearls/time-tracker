@@ -27,7 +27,8 @@ if ( !class_exists( 'Client_List' ) ) {
     {
 
 
-        private $clientid;
+        private $clientid; 
+        private $all_clients;
 
         /**
          * Constructor
@@ -61,22 +62,20 @@ if ( !class_exists( 'Client_List' ) ) {
          * 
          */
         private function get_clients_from_db() {
-            global $wpdb;
             $sql_string = "SELECT tt_client.*
                 FROM tt_client";
             $sql_string .= $this->get_where_clauses();
             $sql_string .= " ORDER BY tt_client.Company ASC";
-            $sql_result = $wpdb->get_results($sql_string);
-            catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+            $sql_result = tt_query_db($sql_string);
             $this->all_clients = $sql_result;
         }
+
 
         /**
          * Get where clauses depending on input
          * 
          */
         private function get_where_clauses() {
-            global $wpdb;
             $where_clauses = array();
             $where_clause = "";
             if ($this->clientid <> null) {

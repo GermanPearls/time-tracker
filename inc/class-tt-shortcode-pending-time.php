@@ -65,9 +65,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
         public function pending_time_table_shortcode($atts) {
             $this->billto = $this->get_attributes($atts);
             $list = new Pending_Time;
-            $html = $list->display_pending_time();
-            //$table = $list->create_table($this->billto);
-            return $html;
+            return $list->display_pending_time();
         }
 
         

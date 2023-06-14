@@ -46,8 +46,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Month_Summary') ) {
      */
     public function month_summary_shortcode() {    
       $month_summary= new Class_Hours_Worked_Month_Summary;
-      $month_summary_display = $month_summary->createHTMLTable();
-      return $month_summary_display;
+      return $month_summary->createHTMLTable();
     }
   
 
