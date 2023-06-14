@@ -34,7 +34,7 @@ function custom_project_name_form_tag_handler( $tag ) {
 
   //Query time tracker database to get list of current projects and project id's
   $project_list_search_string = 'SELECT ProjectID, PName, ClientID FROM tt_project ORDER BY ProjectID ASC';
-  $project_list = tt_query_db($project_list_search_string);
+  $project_list = Logically_Tech\Time_Tracker\Inc\tt_query_db($project_list_search_string);
 
   //Build form tag
   $atts = array(
