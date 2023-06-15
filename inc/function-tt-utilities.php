@@ -424,9 +424,14 @@ function check_for_pagination() {
     } elseif (key_exists('Paginate', $pages_detail[$current_page])) {
         $pagination = $pages_detail[$current_page]['Paginate'];
         if ($pagination['Flag'] == true) {
-            global $wpdb;
-            $sql_string = sanitize_text_field($pagination['TotalRecordsQuery']);
-            $total_records = $wpdb->get_var($sql_string);
+            if ($slug == "time-log") {
+                $timelog = new Time_Log();
+                $total_records = $timelog->get_record_count();
+            } else {
+                global $wpdb;
+                $sql_string = sanitize_text_field($pagination['TotalRecordsQuery']);
+                $total_records = $wpdb->get_var($sql_string);
+            }            
             $pagination['RecordCount'] = $total_records;
         }
     } else {
@@ -639,11 +644,12 @@ function log_tt_misc($msg) {
  */
 function tt_query_db($sql_string, $return_type="object") {
     global $wpdb;
+    $sql_string_cleaned = stripslashes(str_replace("\n", "", $sql_string));
 	if ($return_type == "array") {
-    	$sql_result = $wpdb->get_results(esc_sql($sql_string), ARRAY_A );
+    	$sql_result = $wpdb->get_results($sql_string_cleaned, ARRAY_A );
 	} else {
         //default return type for get_results is object
-		$sql_result = $wpdb->get_results(esc_sql($sql_string));
+		$sql_result = $wpdb->get_results($sql_string_cleaned);
 	}
     \Logically_Tech\Time_Tracker\Inc\catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
     return $sql_result;

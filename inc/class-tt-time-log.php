@@ -66,7 +66,32 @@ if ( !class_exists( 'Time_Log' ) ) {
         public function create_table() {
             return $this->get_html();
         }
-
+        
+        
+        /**
+         * Get record count
+         * 
+         * @since 3.0.5
+         * 
+         */
+        public function get_record_count() {
+            return $this->get_time_log_record_count();
+        }        
+        
+          
+        /**
+         * Get count of results
+         * 
+         * @since 3.0.5
+         * 
+         */
+        private function get_time_log_record_count() {
+            $result = tt_query_db($this->create_sql_string("count"));
+            if ($result) {
+                return intval($result["TimeCount"]);
+            }
+        }
+        
 
         /**
          * Get data from db - returns object
@@ -90,34 +115,73 @@ if ( !class_exists( 'Time_Log' ) ) {
          * Prepare sql string
          * 
          */
-        private function create_sql_string() {   
-			$selectfrom = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
-                    Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
-                    Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
-                FROM tt_time 
-                LEFT JOIN tt_client
-                    ON tt_time.ClientID = tt_client.ClientID
-                LEFT JOIN tt_task
-                    ON tt_time.TaskID = tt_task.TaskID";
-            $orderby = "ORDER BY tt_time.StartTime DESC";
-            
-            $sql_string = $selectfrom . $this->get_where_clauses() . " " . $orderby . $this->get_limit_parameter();
+        private function create_sql_string($type="select") {   
+            if ($type=="select") {
+                $sql_string = $this->get_select_clause() . $this->get_from_clause() . $this->get_where_clauses() . $this->get_order_by_clause() . $this->get_limit_parameter();
+            } elseif ($type=="count") {
+                $sql_string = $this->get_count_clause() . $this->get_from_clause() . $this->get_where_clauses();
+            }
 			//echo $sql_string;
             return $sql_string;
         }
 
 
         /**
-         * Set pagination property
+         * Prepare sql string - SELECT portion
+         * 
+         * @since 3.0.5
          * 
          */
-        protected function remove_record_limit() {
-            $this->record_limit = false;
+        private function get_select_clause() {
+            $selectpart = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
+                Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
+                Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours";
+            return $selectpart;
         }
         
         
         /**
-         * Get LIMIT parameter for query
+         * Prepare sql string - SELECT portion for COUNT only
+         * 
+         * @since 3.0.5
+         * 
+         */
+        private function get_count_clause() {
+            $selectpart = "SELECT COUNT(tt_time.*) as TimeCount";
+            return $selectpart;
+        }
+
+
+        /**
+         * Prepare sql string - FROM portion
+         * 
+         * @since 3.0.5
+         * 
+         */
+        private function get_from_clause() {
+            $sql_from = " FROM tt_time 
+                LEFT JOIN tt_client
+                    ON tt_time.ClientID = tt_client.ClientID
+                LEFT JOIN tt_task
+                    ON tt_time.TaskID = tt_task.TaskID";
+            return $sql_from;
+        }
+
+        
+        /**
+         * Prepare sql string - ORDER portion
+         * 
+         * @since 3.0.5
+         * 
+         */
+        private function get_order_by_clause() {
+            $orderby = " ORDER BY tt_time.StartTime DESC";
+            return $orderby;
+        }
+
+        
+        /**
+         * Prepare sql string - LIMIT parameter
          * 
          */
         private function get_limit_parameter() {
@@ -176,6 +240,15 @@ if ( !class_exists( 'Time_Log' ) ) {
         }
 
 
+        /**
+         * Set pagination property
+         * 
+         */
+        protected function remove_record_limit() {
+            $this->record_limit = false;
+        }
+        
+        
         /**
          * Get table column order and table fields
          * 
