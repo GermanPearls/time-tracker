@@ -86,9 +86,9 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function get_time_log_record_count() {
-            $result = tt_query_db($this->create_sql_string("count"));
+            $result = tt_query_db($this->create_sql_string("count"), "array");
             if ($result) {
-                return intval($result["TimeCount"]);
+                return intval($result[0]["TimeCount"]);
             }
         }
         
