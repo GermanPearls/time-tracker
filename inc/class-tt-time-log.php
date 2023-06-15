@@ -147,7 +147,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          */
         private function get_count_clause() {
-            $selectpart = "SELECT COUNT(tt_time.*) as TimeCount";
+            $selectpart = "SELECT COUNT(tt_time.TimeID) as TimeCount";
             return $selectpart;
         }
 
