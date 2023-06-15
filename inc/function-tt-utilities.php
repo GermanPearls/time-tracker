@@ -482,7 +482,7 @@ function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext
 		'current' => $current_page_num,
 		'prev_text' => $prevtext,
 		'next_text' => $nexttext,
-		'mid_size' => 10
+		'mid_size' => 3
 	);
 	echo paginate_links($args);
 }
