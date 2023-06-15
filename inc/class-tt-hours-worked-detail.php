@@ -26,7 +26,7 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
         private $notes = null;
         private $startdate = null;
         private $enddate = null;
-        private $hours_worked;
+        protected $hours_worked;
 
 
         /**

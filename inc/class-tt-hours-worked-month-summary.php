@@ -27,7 +27,6 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
     class Class_Hours_Worked_Month_Summary extends Class_Hours_Worked_Detail
     {
 
-        private $hours_worked;
         
         /**
          * Constructor
