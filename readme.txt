@@ -105,7 +105,7 @@ installation and provide detailed feedback if you find features that don't work 
 
 = 3.0.5 =
 * Improvement: General code cleanup throughout
-* Fix: Pagination when filtering time log
+* Fix: Pagination when filtering time log - correct final page count
 
 = 3.0.4 =
 * New Feature: Time Tracker HOME link in admin menu, called 'Track Time'

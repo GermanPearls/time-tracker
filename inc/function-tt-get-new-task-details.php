@@ -17,7 +17,7 @@ function tt_get_new_task_details_function() {
        		if ( check_ajax_referer('tt_start_timer_for_new_task_nonce', 'security')) {
 				
 				$sql_string = 'SELECT TaskID, TDescription, tt_client.Company as Client from tt_task LEFT JOIN tt_client ON tt_task.ClientID=tt_client.ClientID WHERE tt_task.TaskID=(SELECT MAX(TaskID) FROM tt_task)';
-				$task_row = task_list_search_string($sql_string);
+				$task_row = tt_query_db($sql_string);
 				
                 $return = array(
                     'success' => true,
