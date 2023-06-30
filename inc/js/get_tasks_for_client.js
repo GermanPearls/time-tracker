@@ -1,4 +1,3 @@
-console.log('loaded tt_update_task_dropdown');
 function tt_update_task_dropdown() {
   var taskField = jQuery(".tt-form").find("[name='task-name']")[0];
   if (!taskField) {
