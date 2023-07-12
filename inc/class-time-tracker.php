@@ -32,15 +32,18 @@ if ( ! class_exists('Time_Tracker') ) {
      */  
     public static function instance() {
       if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Time_Tracker ) ) {
-        self::$instance = new Time_Tracker;
-        self::$instance->setup_constants();
-        self::$instance->load_dependencies();
-        self::$instance->load_form_dependencies();
-        self::$instance->add_scripts();
-        self::$instance->add_styles();
-	      self::$instance->log_plugin_installation();
-        self::$instance->check_plugin_version();
-        //add_action( 'init', array( self::$instance, 'init' ) );
+        //only load on tt pages or if admin
+        if (strpos($_SERVER['REQUEST_URI'], '/time-tracker/') !== false || is_admin() || ( defined( 'WP_CLI' ) && WP_CLI) ) {
+          self::$instance = new Time_Tracker;
+          self::$instance->setup_constants();
+          self::$instance->load_dependencies();
+          self::$instance->load_form_dependencies();
+          self::$instance->add_scripts();
+          self::$instance->add_styles();
+          self::$instance->log_plugin_installation();
+          self::$instance->check_plugin_version();
+          //add_action( 'init', array( self::$instance, 'init' ) );
+        }
       }
       //ADMIN
       if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
