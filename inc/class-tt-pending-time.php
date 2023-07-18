@@ -296,7 +296,11 @@ if ( !class_exists( 'Pending_Time' ) ) {
          */
         private function add_class_to_cell($cel, $cls) {
             if (is_array($cel)) {
-                $cel["class"] = $cel["class"] . " " . $cls;
+                if (array_key_exists("class", $cel)) {
+                    $cel["class"] = $cel["class"] . " " . $cls;
+                } else {
+                    $cel["class"] = $cls;
+                }
             } else {
                 $cel = [
                     "value" => $cel,
