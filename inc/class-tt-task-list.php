@@ -173,7 +173,17 @@ if ( !class_exists( 'Task_List' ) ) {
                     "id" => "task-status",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "select",
+                    "select_options" => [
+                        "data_type" => "text",
+                        "options" => [
+                            "New",
+                            "In Process",
+                            "Waiting Client",
+                            "Complete",
+                            "Canceled"
+                        ]
+                    ],
                     "class" => ""
                 ],
                 "Date Added" => [

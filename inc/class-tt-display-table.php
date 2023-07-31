@@ -186,7 +186,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Sanitize, Escape, and Display Data
          * 
          */
-        private function display_data_in_cell($data_type, $display_value) {
+        private function display_data_in_cell($data_type, $display_value, $args=[]) {
             if ($data_type == "text") {
                 $data_display = esc_html(sanitize_text_field($display_value));
             } elseif ($data_type == "long text") {
@@ -205,6 +205,8 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 } else {
                     $data_display = intval($display_value);
                 }
+            } elseif ($data_type == "select") {
+                $data_display = $this->create_select_dropdown($args, $display_value);
             } else {
                 $data_display = esc_html(sanitize_text_field($display_value));
             }
@@ -327,11 +329,33 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             }
 
             $cell = $this->start_data($args);
-            $cell .= $this->display_data_in_cell($field_details["type"], $display_value);
+            $cell .= $this->display_data_in_cell($field_details["type"], $display_value, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : []);
             $cell .= $this->add_button_to_cell($args);
             $cell .= $this->add_icon_to_cell($args);
             $cell .= $this->close_data();
             return $cell;
+        }
+
+
+        /**
+         * Create Select Dropdown
+         * 
+         */
+        private function create_select_dropdown($args, $val) {
+            $typ = array_key_exists("data_type", $args) ? $args["data_type"] : "text";
+            $optns = array_key_exists("options", $args) ? $args["options"] : [];
+            $dropdown = "<select>";
+            foreach ($optns as $optn) {
+                $dropdown .= "<option";
+                if ($optn == $val) {
+                    $dropdown .= " selected";
+                }
+                $dropdown .= ">";
+                $dropdown .= $this->display_data_in_cell($typ, $val);
+                $dropdown .= "</option>";
+            }
+            $dropdown .= "</select>";
+            return $dropdown;
         }
 
 
