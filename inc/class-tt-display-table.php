@@ -351,7 +351,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                     $dropdown .= " selected";
                 }
                 $dropdown .= ">";
-                $dropdown .= $this->display_data_in_cell($typ, $val);
+                $dropdown .= $this->display_data_in_cell($typ, $optn);
                 $dropdown .= "</option>";
             }
             $dropdown .= "</select>";
