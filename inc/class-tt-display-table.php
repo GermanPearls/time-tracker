@@ -346,9 +346,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $optns = array_key_exists("options", $args) ? $args["options"] : [];
             $dropdown = "<select>";
             foreach ($optns as $optn) {
-                $dropdown .= "<option";
+                $dropdown .= "<option value=\"" . $optn . "\"";
                 if ($optn == $val) {
-                    $dropdown .= " selected";
+                    $dropdown .= " selected=\"selected\"";
                 }
                 $dropdown .= ">";
                 $dropdown .= $this->display_data_in_cell($typ, $optn);
