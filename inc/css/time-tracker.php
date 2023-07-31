@@ -401,14 +401,21 @@ div.tt-pagination-nav {
     table-layout: fixed;
 }
 
-.tt-table td {
+.tt-table td, .tt-table td > select {
     position: inherit;
-	padding: 4px;
 	font-family: <?php echo $font_family; ?>;
 	font-weight: <?php echo $font_weight; ?>;
 	font-size: <?php echo $font_size; ?>;
 	line-height: <?php echo $line_height; ?>;
 	vertical-align: initial;
+}
+
+.tt-table td {
+    padding: 4px;
+}
+
+.tt-table td > select {
+    padding: 0;
 }
 
 .tt-table th {
@@ -433,10 +440,6 @@ div.tt-pagination-nav {
 
 .tt-total-row, .tt-header-row {
     font-weight: bold;
-}
-
-.tt-table td > select {
-    padding: 0;
 }
 
 /********** Table Column Widths **********/
