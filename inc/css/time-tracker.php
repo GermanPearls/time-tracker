@@ -435,6 +435,10 @@ div.tt-pagination-nav {
     font-weight: bold;
 }
 
+.tt-table td > select {
+    padding: 0;
+}
+
 /********** Table Column Widths **********/
 .tt-col-width-five-pct {
 	width: 5%;
