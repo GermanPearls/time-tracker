@@ -175,6 +175,7 @@ if ( !class_exists( 'Task_List' ) ) {
                     "columnwidth" => "",
                     "type" => "select",
                     "select_options" => [
+                        "title" => "task-status",
                         "data_type" => "text",
                         "options" => [
                             "New",

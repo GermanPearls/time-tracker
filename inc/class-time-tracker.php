@@ -235,6 +235,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'updateDatabase', TT_PLUGIN_WEB_DIR_INC . 'js/update_table.js', array('jquery'), null, true);
       wp_enqueue_script( 'deleteRecord', TT_PLUGIN_WEB_DIR_INC . 'js/delete_record.js', array('jquery'), null, true);
       wp_enqueue_script( 'tt_start_timer_for_new_task', TT_PLUGIN_WEB_DIR_INC . 'js/start_timer_for_new_task.js', array('jquery'), null, true);
+      wp_enqueue_script( 'tt_trigger_table_cell_blur_event', TT_PLUGIN_WEB_DIR_INC . 'js/trigger_table_cell_blur_event.js', array('jquery'), null, true);
 
       wp_enqueue_script( 'export_pending_time_to_csv', TT_PLUGIN_WEB_DIR_INC . 'js/export_pending_time_to_csv.js', array('jquery'), null, true);
       wp_enqueue_script( 'tt_download_file', TT_PLUGIN_WEB_DIR_INC . 'js/tt_download_file.js', array(), null, true);

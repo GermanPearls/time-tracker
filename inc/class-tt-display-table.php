@@ -344,7 +344,8 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         private function create_select_dropdown($args, $val) {
             $typ = array_key_exists("data_type", $args) ? $args["data_type"] : "text";
             $optns = array_key_exists("options", $args) ? $args["options"] : [];
-            $dropdown = "<select>";
+            $ttl = array_key_exists("title", $args) ? $args["title"] : "";
+            $dropdown = "<select title=\"" . $ttl . "\" onblur=\"tt_trigger_table_cell_blur_event();\">";
             foreach ($optns as $optn) {
                 $dropdown .= "<option value=\"" . $optn . "\"";
                 if ($optn == $val) {
