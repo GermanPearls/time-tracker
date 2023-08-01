@@ -36,7 +36,7 @@ if ( !class_exists( 'Task_List' ) ) {
         private $enddate;
         private $assoc_field;
         private $assoc_id;
-        private $closed_status = ["COMPLETE", "CANCEL", "CLOSE"];
+        private $closed_status = ["COMPLETE", "CANCELED"];
         private $status_search;
 
 
