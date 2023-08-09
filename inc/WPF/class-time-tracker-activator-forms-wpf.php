@@ -163,7 +163,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_WPF') ) {
             $frm = self::add_field_to_form($frm, self::create_field_text("Task Name", "", "1", "medium", "", "1", "1500", "characters", "", "", "wpforms-two-thirds wpforms-first"));
             
             $fld_freq = self::create_field_select("Frequency", "", "1", "small", "", "", "", "wpforms-one-third");
-            $fld_freq = self::add_dynamic_select_choices($fld_freq, '', ["Weekly", "Monthly"]);
+            $fld_freq = self::add_dynamic_select_choices($fld_freq, '', ["Weekly", "Monthly", "Yearly"]);
             $frm = self::add_field_to_form($frm, $fld_freq);
             
             $frm = self::add_field_to_form($frm, self::create_field_select("Client", "", "1", "medium", "", "{query_var key=\"client-name\"}", "", "wpforms-one-half wpforms-first"));

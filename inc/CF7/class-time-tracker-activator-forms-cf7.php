@@ -153,7 +153,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
             $html = "";
             $html .= self::create_66_33_row(
                 "<label> Task Name (required)</label>[textarea* task-name 20x1 maxlength:1500]",
-                "Recurring Frequency (required)[select* recur-freq use_label_element \"Monthly\" \"Weekly\"]"
+                "Recurring Frequency (required)[select* recur-freq use_label_element \"Weekly\" \"Monthly\" \"Yearly\"]"
             );
             $html .= self::create_50_50_row(
                 "<label> Client (required)</label>[client_name client-name]",
@@ -207,7 +207,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
             $html .= self::create_33_33_33_row(
                 "<label> Start Time (required)</label>[datetime start-time id:start-time]",
                 "<label> End Time (required)</label>[datetime end-time id:end-time]",
-                "<label> New Task Status</label>[select new-task-status id:new-task-status include_blank \"In Process\" \"Not Started\" \"Ongoing\" \"Waiting Client\" \"Complete\" \"Canceled\"]"
+                "<label> New Task Status</label>[select new-task-status id:new-task-status include_blank \"In Process\" \"New\" \"Waiting Client\" \"Complete\" \"Canceled\"]"
             );
             $html .= "<label> Notes (required)</label>[textarea* time-notes maxlength:1999 x7]";
             $html .= self::create_33_33_33_row(

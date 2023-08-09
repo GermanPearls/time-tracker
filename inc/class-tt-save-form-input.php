@@ -142,7 +142,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             //Add New Record to Database
             //wpdb class prepares this so it doesn't need to be SQL escaped
 
-            //CF7 vs WPF
+            //CF7 vs WPF - default to Monthly
             $freq = "Monthly";
             if ( array_key_exists("recur-freq", $data) ) {
                 $freq = $data["recur-freq"];

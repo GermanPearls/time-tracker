@@ -71,19 +71,20 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                 $last_created_obj = $this->get_last_created_date($task);
                 $last_created_plus_week = $last_created_obj->modify('next Sunday');
                 $last_created_plus_month = $last_created_obj->modify('first day of next month');
+                $last_created_plus_year = $last_created_obj->modify('+1 year');
 
                 /** For weekly tasks, if it's been more than a week since the last task was created, create the next Sunday's task **/
                 if ( (sanitize_text_field($task->Frequency) == "Weekly") && ($today >= $last_created_plus_week)) {                                      
                     $this->create_new_task(
-                    sanitize_text_field($task->RTName) . " " . $last_created_plus_week->format("n/j/y"),
-                    sanitize_text_field($task->ClientID),
-                    (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
-                    sanitize_text_field($task->RTTimeEstimate),
-                    date_format($last_created_plus_week->modify('next Friday'), 'Y-m-d'),
-                    sanitize_text_field($task->RTDescription),
-                    sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
-                    sanitize_text_field($task->RTCategory),
-                    sanitize_text_field($task->RecurringTaskID)
+                        sanitize_text_field($task->RTName) . " " . $last_created_plus_week->format("n/j/y"),
+                        sanitize_text_field($task->ClientID),
+                        (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
+                        sanitize_text_field($task->RTTimeEstimate),
+                        date_format($last_created_plus_week->modify('next Friday'), 'Y-m-d'),
+                        sanitize_text_field($task->RTDescription),
+                        sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
+                        sanitize_text_field($task->RTCategory),
+                        sanitize_text_field($task->RecurringTaskID)
                     );
                     $this->created = $this->created + 1;
                     $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_week->format("Y-m-d"));
@@ -91,22 +92,36 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
                 /** For monthly tasks, if it's past the next 1st of the month, create the next month's task **/
                 } elseif ( (sanitize_text_field($task->Frequency) == "Monthly") && ($today >= $last_created_plus_month)) {
                     $this->create_new_task(
-                    sanitize_text_field($task->RTName). " " . $last_created_plus_month->format("F Y"),
-                    sanitize_text_field($task->ClientID),
-                    (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
-                    sanitize_text_field($task->RTTimeEstimate),
-                    date_format($last_created_plus_month->modify('last day of this month'), 'Y-m-d'),
-                    sanitize_text_field($task->RTDescription),
-                    sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
-                    sanitize_text_field($task->RTCategory),
-                    sanitize_text_field($task->RecurringTaskID)
+                        sanitize_text_field($task->RTName). " " . $last_created_plus_month->format("F Y"),
+                        sanitize_text_field($task->ClientID),
+                        (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
+                        sanitize_text_field($task->RTTimeEstimate),
+                        date_format($last_created_plus_month->modify('last day of this month'), 'Y-m-d'),
+                        sanitize_text_field($task->RTDescription),
+                        sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
+                        sanitize_text_field($task->RTCategory),
+                        sanitize_text_field($task->RecurringTaskID)
                     );
                     $this->created = $this->created + 1;
                     $this->update_last_created(sanitize_text_field($task->RecurringTaskID), $last_created_plus_month->format("Y-m-d"));
-                } 
-                }  
-                log_cron('Recurring task cron completed, ' . $this->created . ' new task(s) created.');
-                return $this->created;		
+                
+                /** For yearly tasks, if it's one year past the last time it was created **/
+                } elseif ( (sanitize_text_field($task->Frequency) == "Yearly") && ($today >= $last_created_plus_year)) {
+                    $this->create_new_task(
+                        sanitize_text_field($task->RTName). " " . $last_created_plus_year->format("Y"),
+                        sanitize_text_field($task->ClientID),
+                        (($task->ProjectID == null) OR ($task->ProjectID == '')) ? null : sanitize_text_field($task->ProjectID),
+                        sanitize_text_field($task->RTTimeEstimate),
+                        date_format($last_created_plus_year, 'Y-m-d'),
+                        sanitize_text_field($task->RTDescription),
+                        sanitize_text_field($task->Frequency) . " Recurring Task ID " . sanitize_text_field($task->RecurringTaskID),
+                        sanitize_text_field($task->RTCategory),
+                        sanitize_text_field($task->RecurringTaskID)
+                    );
+                }
+            }  
+            log_cron('Recurring task cron completed, ' . $this->created . ' new task(s) created.');
+            return $this->created;		
         }
 	
 	    
