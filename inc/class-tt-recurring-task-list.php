@@ -138,7 +138,16 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
                     "id" => "frequency",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "select",
+                    "select_options" => [
+                        "title" => "recurring-frequency",
+                        "data_type" => "text",
+                        "options" => [
+                            "Weekly",
+                            "Monthly",
+                            "Yearly"
+                        ]
+                    ],
                     "class" => ""
                 ],
                 "Last Created" => [
