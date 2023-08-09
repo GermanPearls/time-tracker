@@ -34,7 +34,7 @@ function custom_add_form_tag_task_name() {
 function custom_task_name_form_tag_handler( $tag ) {
 
   //Query time tracker database to get list of current tasks and task id's
-  $task_list_search_string = "SELECT TaskID, TDescription FROM tt_task WHERE TStatus <> 'Completed' AND TStatus <> 'Canceled' AND TStatus <> 'Closed' ORDER BY TaskID ASC";
+  $task_list_search_string = "SELECT TaskID, TDescription FROM tt_task WHERE TStatus <> 'Complete' AND TStatus <> 'Canceled' ORDER BY TaskID ASC";
   $task_list = \Logically_Tech\Time_Tracker\Inc\tt_query_db($task_list_search_string);
 
   $atts = array(
