@@ -104,8 +104,10 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = 3.0.5 =
+* New Feature: Allowed for yearly recurring tasks
 * Improvement: General code cleanup throughout
 * Fix: Pagination when filtering time log - correct final page count
+* Fix: Adjusted for single quotation marks in client name or project name
 
 = 3.0.4 =
 * New Feature: Time Tracker HOME link in admin menu, called 'Track Time'

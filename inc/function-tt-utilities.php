@@ -643,8 +643,9 @@ function log_tt_misc($msg) {
  * 
  */
 function tt_query_db($sql_string, $return_type="object") {
+    //8/16/2023 - updated to replace single quotation mark with char(39)
     global $wpdb;
-    $sql_string_cleaned = stripslashes(str_replace("\n", "", $sql_string));
+    $sql_string_cleaned = stripslashes(str_replace("'", "+char(39)+", str_replace("\n", "", $sql_string)));
 	if ($return_type == "array") {
     	$sql_result = $wpdb->get_results($sql_string_cleaned, ARRAY_A );
 	} else {
