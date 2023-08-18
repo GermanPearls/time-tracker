@@ -207,7 +207,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
             $html .= self::create_33_33_33_row(
                 "<label> Start Time (required)</label>[datetime start-time id:start-time]",
                 "<label> End Time (required)</label>[datetime end-time id:end-time]",
-                "<label> New Task Status</label>[select new-task-status id:new-task-status include_blank \"In Process\" \"New\" \"Waiting Client\" \"Complete\" \"Canceled\"]"
+                "<label> New Task Status</label>[select new-task-status id:new-task-status include_blank " + self::get_task_status_options() + "]"
             );
             $html .= "<label> Notes (required)</label>[textarea* time-notes maxlength:1999 x7]";
             $html .= self::create_33_33_33_row(
@@ -221,6 +221,31 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
             );
             $html .= "[submit id:add-time-submit \"Send\"]";
             return $html . "\r\n" . implode("\r\n", self::$mail_meta) . "\r\n" . implode("\r\n", self::$msg_meta);
+        }
+
+        /**
+         * Get task status list
+         * 
+         */
+        private static function get_task_status_options() {
+            $setting = get_option('time_tracker_categories');
+            $task_status = $setting['task_status'];
+            if ($task_status <> "") {
+                $arr = explode(char(13), $task_status);
+            } else {
+                $arr = [
+                    "New",
+                    "In Process",
+                    "Waiting Client",
+                    "Complete",
+                    "Canceled"
+                ];
+            }
+            $out = "";
+            foreach ($arr as $optn) {
+                $out = $out + "\"" + $optn + "\"";
+            }
+            return $out;
         }
 
 

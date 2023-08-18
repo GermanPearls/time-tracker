@@ -177,13 +177,7 @@ if ( !class_exists( 'Task_List' ) ) {
                     "select_options" => [
                         "title" => "task-status",
                         "data_type" => "text",
-                        "options" => [
-                            "New",
-                            "In Process",
-                            "Waiting Client",
-                            "Complete",
-                            "Canceled"
-                        ]
+                        "options" => $this->get_task_status_options()
                     ],
                     "class" => ""
                 ],
@@ -213,6 +207,26 @@ if ( !class_exists( 'Task_List' ) ) {
                 ]
             ];
             return $cols;
+        }
+
+        /**
+         * Get task status options - user defined
+         * 
+         */
+        private function get_task_status_options() {
+            $setting = get_option('time_tracker_categories');
+            $task_status = $setting['task_status'];
+            if ($task_status <> "") {
+                return explode(char(13), $task_status);
+            } else {
+                return [
+                    "New",
+                    "In Process",
+                    "Waiting Client",
+                    "Complete",
+                    "Canceled"
+                ];
+            }
         }
         
         

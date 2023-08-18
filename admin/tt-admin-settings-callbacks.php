@@ -87,10 +87,15 @@ function tt_categories_task_status_callback() {
     <div class="tt-indent">
         <textarea id="tt-task-status" name="time_tracker_categories[task_status]" rows="7" cols="30" class="tt-options-form" form="tt-options"><?php
         $ts = trim(sanitize_textarea_field($setting['task_status']));
-        if (isset( $ts )) {
+        if (isset( $ts ) && $ts <> "") {
             echo esc_html($ts);
         } else {
-            echo 'New<br>In Process<br>Waiting Client<br>Complete<br>Canceled';
+            $str = 'New
+In Process
+Waiting Client
+Complete
+Canceled';
+			echo $str;
         }
         ?></textarea><span class="tt-options-form">List the statuses you'd like to use to keep track of your tasks.<br>
         Examples: New, In Process, Waiting Client, Complete, Canceled<br>
@@ -166,16 +171,17 @@ function tt_categories_client_categories_callback() {
     //display on menu page
     ?>
     <div class="tt-indent">
-    <textarea id="tt-csource" name="time_tracker_categories[client_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
-    $cc = trim(sanitize_textarea_field($setting['client_categories']));
-    if (isset( $cc )) {
-        echo esc_html($cc);
-    } else {
-        echo '';
-    }
-    ?></textarea><span class="tt-options-form">Time Tracker will maintain information on each of your clients. When adding a new client you'll be asked to enter how they found you.<br>
-    In this section, add the options you'd like to see for this field, one per line.<br>
-    Examples: Paid Ad, Organic Search, Referral.</span></div>
+        <textarea id="tt-csource" name="time_tracker_categories[client_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
+        $cc = trim(sanitize_textarea_field($setting['client_categories']));
+        if (isset( $cc )) {
+            echo esc_html($cc);
+        } else {
+            echo '';
+        }
+        ?></textarea><span class="tt-options-form">Time Tracker will maintain information on each of your clients.<br>
+        When adding a new client you'll be asked to enter how they found you.<br>
+        In this section, add the options you'd like to see for this field, one per line.<br>
+        Examples: Paid Ad, Organic Search, Referral.</span></div>
     <hr>
     <?php   
 }
