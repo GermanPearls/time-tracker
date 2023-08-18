@@ -759,6 +759,10 @@ td.on-hold-date {
     padding: 5px 10px;
 }
 
+#tt-options-form > input[type="text"], #tt-options-form > textarea {
+    margin: 10px;
+}
+
 #tt-options {
     margin-left: 20px;
     margin-top: 20px;

@@ -37,7 +37,7 @@ function tt_categories_default_rate_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">Enter a default hourly billing rate. (Enter whole number only.)<br><br>
+    <div class="tt-indent">
     <input type="text" id="tt-default-rate" name="time_tracker_categories[default_rate]" rows=1 cols=20 class="tt-options-form" form="tt-options"
     <?php $dr = trim(sanitize_textarea_field($settings['default_rate']));
     if (isset($dr)) {
@@ -45,7 +45,7 @@ function tt_categories_default_rate_callback() {
             echo " value=" . intval($dr);
         }
     }
-    ?>><br></div>
+    ?>>Enter a default hourly billing rate. (Enter whole number only.)</div>
     <hr>
     <?php
 }
@@ -60,7 +60,7 @@ function tt_categories_default_currency_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">Enter currency sign.<br><br>
+    <div class="tt-indent">
     <input type="text" id="tt-currency-sign" name="time_tracker_categories[currency_sign]" rows=1 cols=20 class="tt-options-form" form="tt-options"
     <?php $cs = trim(sanitize_textarea_field($settings['currency_sign']));
     if (isset($cs)) {
@@ -68,7 +68,7 @@ function tt_categories_default_currency_callback() {
             echo " value=" . esc_html($cs);
         }
     }
-    ?>><br></div>
+    ?>>Enter currency sign.</div>
     <hr>
     <?php
 }
@@ -85,11 +85,7 @@ function tt_categories_bill_to_names_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">Do you always bill directly to the client? 
-    Or do white-label services where you bill to a third party? 
-    Do you perform services under different business names?<br>
-    In the section below, add your different bill to names, one per line.<br>
-    Examples: Self, Client, Third Party Business Name<br><br>
+    <div class="tt-indent">
     <textarea id="tt-bill-to" name="time_tracker_categories[bill_to_names]" rows="5" cols="30" class="tt-options-form" form="tt-options"><?php
     $btn = trim(sanitize_textarea_field($setting['bill_to_names']));
     if (isset( $btn )) {
@@ -97,7 +93,11 @@ function tt_categories_bill_to_names_callback() {
     } else {
         echo '';
     }
-    ?></textarea><br></div>
+    ?></textarea>Do you always bill directly to the client? 
+    Or do white-label services where you bill to a third party? 
+    Do you perform services under different business names?<br>
+    In the section below, add your different bill to names, one per line.<br>
+    Examples: Self, Client, Third Party Business Name</div>
     <hr>
     <?php
 }
@@ -113,10 +113,7 @@ function tt_categories_work_categories_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">Time Tracker can help you keep track of different types of work.<br>
-    In the section below, add the options you'd like to see for this field when entering a new project or task.<br>
-    Examples: Website Design, Social Media Management, Website Updates.<br>
-    Enter one category on each line.<br><br>
+    <div class="tt-indent">
     <textarea id="tt-categories" name="time_tracker_categories[work_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
     $wc = trim(sanitize_textarea_field($setting['work_categories']));
     if (isset( $wc )) {
@@ -124,7 +121,10 @@ function tt_categories_work_categories_callback() {
     } else {
         echo '';
     }
-    ?></textarea><br></div>
+    ?></textarea>Time Tracker can help you keep track of different types of work.<br>
+    In the section below, add the options you'd like to see for this field when entering a new project or task.<br>
+    Examples: Website Design, Social Media Management, Website Updates.<br>
+    Enter one category on each line.</div>
     <hr>
     <?php
 }
@@ -140,9 +140,7 @@ function tt_categories_client_categories_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">Time Tracker will maintain information on each of your clients. When adding a new client you'll be asked to enter how they found you.<br>
-    In the section below, add the options you'd like to see for this field, one per line. <br>
-    Examples: Paid Ad, Organic Search, Referral.<br><br>
+    <div class="tt-indent">
     <textarea id="tt-csource" name="time_tracker_categories[client_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
     $cc = trim(sanitize_textarea_field($setting['client_categories']));
     if (isset( $cc )) {
@@ -150,7 +148,9 @@ function tt_categories_client_categories_callback() {
     } else {
         echo '';
     }
-    ?></textarea><br></div>
+    ?></textarea>Time Tracker will maintain information on each of your clients. When adding a new client you'll be asked to enter how they found you.<br>
+    In the section below, add the options you'd like to see for this field, one per line. <br>
+    Examples: Paid Ad, Organic Search, Referral.</div>
     <hr>
     <?php   
 }
@@ -166,9 +166,7 @@ function tt_categories_client_sub_categories_callback() {
 
     //display on menu page
     ?>
-    <div class="tt-indent">You can also add a second level of information on how the client found you.<br>
-    In the section below, add the options you'd like to see for this field, one per line.<br>
-    Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client<br><br>
+    <div class="tt-indent">
     <textarea id="tt-client-sub-categories" name="time_tracker_categories[client_sub_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
     $csc = sanitize_textarea_field($setting['client_sub_categories']);
     if (isset( $csc )) {
@@ -176,7 +174,9 @@ function tt_categories_client_sub_categories_callback() {
     } else {
         echo '';
     }
-    ?></textarea><br></div>
+    ?></textarea>You can also add a second level of information on how the client found you.<br>
+    In the section below, add the options you'd like to see for this field, one per line.<br>
+    Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client</div>
     <br>
     <?php
 }
