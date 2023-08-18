@@ -217,7 +217,7 @@ if ( !class_exists( 'Task_List' ) ) {
             $setting = get_option('time_tracker_categories');
             $task_status = $setting['task_status'];
             if ($task_status <> "") {
-                return explode(char(13), $task_status);
+                return explode(chr(13), $task_status);
             } else {
                 return [
                     "New",

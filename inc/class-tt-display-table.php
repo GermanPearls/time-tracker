@@ -347,12 +347,12 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $ttl = array_key_exists("title", $args) ? $args["title"] : "";
             $dropdown = "<select title=\"" . $ttl . "\" onblur=\"trigger_table_cell_blur_event(this);\">";
             foreach ($optns as $optn) {
-                $dropdown .= "<option value=\"" . $optn . "\"";
-                if ($optn == $val) {
+                $dropdown .= "<option value=\"" . trim($optn) . "\"";
+                if (trim($optn) == trim($val)) {
                     $dropdown .= " selected=\"selected\"";
                 }
                 $dropdown .= ">";
-                $dropdown .= $this->display_data_in_cell($typ, $optn);
+                $dropdown .= $this->display_data_in_cell($typ, trim($optn));
                 $dropdown .= "</option>";
             }
             $dropdown .= "</select>";
