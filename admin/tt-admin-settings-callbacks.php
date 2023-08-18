@@ -74,6 +74,32 @@ function tt_categories_default_currency_callback() {
 }
 
 
+/**
+ * Settings Field - Task Status Options
+ * Callback function
+ */
+function tt_categories_task_status_callback() {
+    //get the value if it's already been saved to db
+    $setting = get_option('time_tracker_categories');
+
+    //display on admin page
+    ?>
+    <div class="tt-indent">
+        <textarea id="tt-task-status" name="time_tracker_categories[task_status]" rows="7" cols="30" class="tt-options-form" form="tt-options"><?php
+        $ts = trim(sanitize_textarea_field($setting['task_status']));
+        if (isset( $ts )) {
+            echo esc_html($ts);
+        } else {
+            echo 'New<br>In Process<br>Waiting Client<br>Complete<br>Canceled';
+        }
+        ?></textarea><span class="tt-options-form">List the statuses you'd like to use to keep track of your tasks.<br>
+        Examples: New, In Process, Waiting Client, Complete, Canceled<br>
+        Enter one status on each line.</span></div>
+        <hr>
+    <?php
+}
+
+
 
 /**
  * Settings Field - Bill to Names
@@ -93,10 +119,9 @@ function tt_categories_bill_to_names_callback() {
     } else {
         echo '';
     }
-    ?></textarea><span class="tt-options-form">Do you always bill directly to the client? 
-    Or do white-label services where you bill to a third party? 
-    Do you perform services under different business names?<br>
-    In the section below, add your different bill to names, one per line.<br>
+    ?></textarea><span class="tt-options-form">Do you always bill directly to the client? Or do white-label services where you bill to a third party?<br>
+    Do you perform services under different business names?<br> 
+    In this section, add your different bill to names, one per line.
     Examples: Self, Client, Third Party Business Name</span></div>
     <hr>
     <?php
@@ -114,17 +139,17 @@ function tt_categories_work_categories_callback() {
     //display on menu page
     ?>
     <div class="tt-indent">
-    <textarea id="tt-categories" name="time_tracker_categories[work_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
-    $wc = trim(sanitize_textarea_field($setting['work_categories']));
-    if (isset( $wc )) {
-        echo esc_html($wc);
-    } else {
-        echo '';
-    }
-    ?></textarea><span class="tt-options-form">Time Tracker can help you keep track of different types of work.<br>
-    In the section below, add the options you'd like to see for this field when entering a new project or task.<br>
-    Examples: Website Design, Social Media Management, Website Updates.<br>
-    Enter one category on each line.</span></div>
+        <textarea id="tt-categories" name="time_tracker_categories[work_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
+        $wc = trim(sanitize_textarea_field($setting['work_categories']));
+        if (isset( $wc )) {
+            echo esc_html($wc);
+        } else {
+            echo '';
+        }
+        ?></textarea><span class="tt-options-form">Time Tracker can help you keep track of different types of work.<br>
+        In this section, add the options you'd like to see for this field when entering a new project or task.<br>
+        Examples: Website Design, Social Media Management, Website Updates.<br>
+        Enter one category on each line.</span></div>
     <hr>
     <?php
 }
@@ -149,7 +174,7 @@ function tt_categories_client_categories_callback() {
         echo '';
     }
     ?></textarea><span class="tt-options-form">Time Tracker will maintain information on each of your clients. When adding a new client you'll be asked to enter how they found you.<br>
-    In the section below, add the options you'd like to see for this field, one per line. <br>
+    In this section, add the options you'd like to see for this field, one per line.<br>
     Examples: Paid Ad, Organic Search, Referral.</span></div>
     <hr>
     <?php   
@@ -175,7 +200,7 @@ function tt_categories_client_sub_categories_callback() {
         echo '';
     }
     ?></textarea><span class="tt-options-form">You can also add a second level of information on how the client found you.<br>
-    In the section below, add the options you'd like to see for this field, one per line.<br>
+    In this section, add the options you'd like to see for this field, one per line.<br>
     Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client</span></div>
     <br>
     <?php

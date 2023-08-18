@@ -72,6 +72,14 @@ function tt_admin_settings_init() {
     );
 
     add_settings_field(
+        'time_tracker_categories[task-status]',
+        'Task Status Options',
+        'Logically_Tech\Time_Tracker\Admin\tt_categories_task_status_callback',
+        'time-tracker',
+        'time_tracker_categories_section'
+    );
+
+    add_settings_field(
         'time_tracker_categories[bill_to_names]',    //field id
         'Bill To Names',            //title
         'Logically_Tech\Time_Tracker\Admin\tt_categories_bill_to_names_callback',   //callable callback
