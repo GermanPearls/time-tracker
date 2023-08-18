@@ -45,7 +45,7 @@ function tt_categories_default_rate_callback() {
             echo " value=" . intval($dr);
         }
     }
-    ?>>Enter a default hourly billing rate. (Enter whole number only.)</div>
+    ?>><span class="tt-options-form">Enter a default hourly billing rate. (Enter whole number only.)</span></div>
     <hr>
     <?php
 }
@@ -68,7 +68,7 @@ function tt_categories_default_currency_callback() {
             echo " value=" . esc_html($cs);
         }
     }
-    ?>>Enter currency sign.</div>
+    ?>><span class="tt-options-form">Enter currency sign.</span></div>
     <hr>
     <?php
 }
@@ -93,11 +93,11 @@ function tt_categories_bill_to_names_callback() {
     } else {
         echo '';
     }
-    ?></textarea>Do you always bill directly to the client? 
+    ?></textarea><span class="tt-options-form">Do you always bill directly to the client? 
     Or do white-label services where you bill to a third party? 
     Do you perform services under different business names?<br>
     In the section below, add your different bill to names, one per line.<br>
-    Examples: Self, Client, Third Party Business Name</div>
+    Examples: Self, Client, Third Party Business Name</span></div>
     <hr>
     <?php
 }
@@ -121,10 +121,10 @@ function tt_categories_work_categories_callback() {
     } else {
         echo '';
     }
-    ?></textarea>Time Tracker can help you keep track of different types of work.<br>
+    ?></textarea><span class="tt-options-form">Time Tracker can help you keep track of different types of work.<br>
     In the section below, add the options you'd like to see for this field when entering a new project or task.<br>
     Examples: Website Design, Social Media Management, Website Updates.<br>
-    Enter one category on each line.</div>
+    Enter one category on each line.</span></div>
     <hr>
     <?php
 }
@@ -148,9 +148,9 @@ function tt_categories_client_categories_callback() {
     } else {
         echo '';
     }
-    ?></textarea>Time Tracker will maintain information on each of your clients. When adding a new client you'll be asked to enter how they found you.<br>
+    ?></textarea><span class="tt-options-form">Time Tracker will maintain information on each of your clients. When adding a new client you'll be asked to enter how they found you.<br>
     In the section below, add the options you'd like to see for this field, one per line. <br>
-    Examples: Paid Ad, Organic Search, Referral.</div>
+    Examples: Paid Ad, Organic Search, Referral.</span></div>
     <hr>
     <?php   
 }
@@ -174,9 +174,9 @@ function tt_categories_client_sub_categories_callback() {
     } else {
         echo '';
     }
-    ?></textarea>You can also add a second level of information on how the client found you.<br>
+    ?></textarea><span class="tt-options-form">You can also add a second level of information on how the client found you.<br>
     In the section below, add the options you'd like to see for this field, one per line.<br>
-    Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client</div>
+    Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client</span></div>
     <br>
     <?php
 }
