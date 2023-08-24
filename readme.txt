@@ -3,9 +3,9 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, project management, freelancer tools, billing, to-do, to do, to do list, list, task, cf7 extension, contact form 7
 Requires at least: 5.3
-Tested up to: 6.1
+Tested up to: 6.2.3
 Requires PHP: 7.0
-Stable tag: 3.0.5 (alpha)
+Stable tag: 3.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Short Description: Time Tracker enables you to manage your to do lists, recurring tasks, billable and invoiced time, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
@@ -105,6 +105,7 @@ installation and provide detailed feedback if you find features that don't work 
 
 = 3.0.5 =
 * New Feature: Allowed for yearly recurring tasks
+* New Feature: Add dropdowns within front end tables for fields which only have a few options
 * Improvement: General code cleanup throughout
 * Fix: Pagination when filtering time log - correct final page count
 * Fix: Adjusted for single quotation marks in client name or project name
