@@ -90,7 +90,8 @@ if ( ! class_exists('Time_Tracker') ) {
      */  
     private function setup_constants() {     
       //TT Home - Allow for WP Install in Sub-Directories
-      define('TT_HOME', home_url() . '/time-tracker/');
+      //define('TT_HOME', home_url() . '/time-tracker/');
+      define('TT_HOME', trailingslashit(get_permalink(get_option('page_on_front'))) . 'time-tracker');
       
       //Plugin Server Directory Path - for php files
       define('TT_PLUGIN_DIR', plugin_dir_path(__DIR__));
