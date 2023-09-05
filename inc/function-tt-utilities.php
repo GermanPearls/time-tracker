@@ -285,33 +285,29 @@ function check_page_status($page_id) {
  
 
 /**
- * Find the page ID for a form with the given name (and verify it's not in trash)
+ * Find the page ID for a page with the given name (and verify it's not in trash)
  * 
  */
 function tt_get_page_id($page_name) {
     //$forms = WPCF7_ContactForm::find(array("title" => $form_name));
-    $pages = get_page_by_title($page_name, ARRAY_A);
+    //$pages = get_page_by_title($page_name, ARRAY_A);
+    //rev 3.0.8 get_page_by_title deprecated in WordPress 6.2
+    $pages = get_posts(
+        array(
+            'post_type' => 'page',
+            'title' => $page_name
+        )
+    );
 
-    //no pages are returned
-    if (empty($pages)) {
-        return;
-
-    //one page is returned
-    } elseif (array_key_exists('post_status', $pages)) {
-        if (($pages['post_status'] == 'publish') or ($pages['post_status'] == 'draft') or ($pages['post_status'] == 'private') or ($pages['post_status'] == 'inherit')) {
-            return $pages['ID'];
-        }
-
-    //several pages must have been found - return first
-    } else {
+    //updated for get_posts (returns array of posts)
+    if ($pages) {
         foreach ($pages as $page) {
-            if (($page['post_status'] == 'publish') or ($page['post_status'] == 'draft') or ($page['post_status'] == 'private') or ($page['post_status'] == 'inherit')) {
-                return $page['ID'];
+            if (($page->post_status == 'publish') or ($page->post_status == 'draft') or ($page->post_status == 'private') or ($page->post_status == 'inherit')) {
+                return $page->ID;
             }
         }
     }
 
-    //nothing is published
     return;
 }
 
