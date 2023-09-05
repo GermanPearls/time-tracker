@@ -295,7 +295,7 @@ function tt_get_page_id($page_name) {
     $pages = get_posts(
         array(
             'post_type' => 'page',
-            'title' => $page_name
+            'post_title' => $page_name
         )
     );
 
