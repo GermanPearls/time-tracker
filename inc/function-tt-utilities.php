@@ -292,10 +292,14 @@ function tt_get_page_id($page_name) {
     //$forms = WPCF7_ContactForm::find(array("title" => $form_name));
     //$pages = get_page_by_title($page_name, ARRAY_A);
     //rev 3.0.8 get_page_by_title deprecated in WordPress 6.2
+    //get_posts only available after plugins loaded
+    //status must be specified or only published posts returned (not private)
+    //to search by title use title NOT post_title
     $pages = get_posts(
         array(
             'post_type' => 'page',
-            'post_title' => $page_name
+            'post_status' => get_post_statuses(),
+            'title' => $page_name
         )
     );
 
@@ -307,7 +311,6 @@ function tt_get_page_id($page_name) {
             }
         }
     }
-
     return;
 }
 
