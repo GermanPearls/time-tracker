@@ -379,11 +379,11 @@ function tt_add_recurring_task_icon() {
  * 
  */
 function tt_get_currency_type() {
-    $optns = get_option('time_tracker_categories');
-    if (array_key_exists('currency_sign', $optns)) {
-        return esc_html($optns['currency_sign']);
+    $curr = tt_get_user_options("time_tracker_categories", "currency_sign");
+    if ($curr != null and $curr != "") {
+        return esc_html($curr);
     }
-    return '';
+    return "";
 }
 
 
@@ -392,11 +392,9 @@ function tt_get_currency_type() {
  * 
  */
 function tt_get_default_billing_rate() {
-    $optns = get_option('time_tracker_categories');
-    if ($optns) {
-        if (array_key_exists('default_rate', $optns)) {
-            return intval($optns['default_rate']);
-        }
+    $rate = tt_get_user_options("time_tracker_categories", "default_rate");
+    if ($rate != null && $rate != "" && is_numeric($rate)) {
+        return intval($rate);
     }
     return;
 }
@@ -661,12 +659,14 @@ function tt_query_db($sql_string, $return_type="object") {
  */
 function tt_get_user_options($option_name, $sub_option_name) {
     $optns = get_option($option_name);
-    if (array_key_exists($sub_option_name, $optns)) {
-        //var_dump(nl2br($optns[$sub_option_name]));
-        //var_dump(sanitize_text_field(nl2br($optns[$sub_option_name])));
-        return $optns[$sub_option_name];
+    if ($optns) {
+        if (array_key_exists($sub_option_name, $optns)) {
+            //var_dump(nl2br($optns[$sub_option_name]));
+            //var_dump(sanitize_text_field(nl2br($optns[$sub_option_name])));
+            return $optns[$sub_option_name];
+        }
     }
-    return "";
+    return;
 }
 
 
