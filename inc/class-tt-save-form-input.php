@@ -314,7 +314,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 return get_client_id_from_name($data['client']);
             } else {
                 //use default client if one exists, if not just enter null
-                return array_key_exists('default_client', get_option('time_tracker_categories')) ? get_option('time_tracker_categories')['default_client'] : null;
+                return  tt_get_user_options("time_tracker_categories", "default_client");
             }
         }
 
@@ -349,7 +349,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 $task_number_from_string = substr($task, 0, strpos($task,'-'));
                 return $task_number_from_string;
             }
-            return array_key_exists('default_task', get_option('time_tracker_categories')) ? get_option('time_tracker_categories')['default_task'] : null;
+            return  tt_get_user_options("time_tracker_categories", "default_task");
         }
 
 

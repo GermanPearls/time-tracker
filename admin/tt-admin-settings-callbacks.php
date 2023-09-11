@@ -33,15 +33,15 @@ function tt_style_section_callback() {
  */
 function tt_categories_default_rate_callback() {
     //get the value if it's already been saved
-    $settings = get_option('time_tracker_categories');
+    $dr = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "default_rate")));
 
     //display on menu page
     ?>
     <div class="tt-indent">
     <input type="text" id="tt-default-rate" name="time_tracker_categories[default_rate]" rows=1 cols=20 class="tt-options-form" form="tt-options"
-    <?php $dr = trim(sanitize_textarea_field($settings['default_rate']));
+    <?php
     if (isset($dr)) {
-        if ($dr != null) {
+        if ($dr != null && $dr != "") {
             echo " value=" . intval($dr);
         }
     }
@@ -56,15 +56,15 @@ function tt_categories_default_rate_callback() {
  */
 function tt_categories_default_currency_callback() {
     //get the value if it's already been saved
-    $settings = get_option('time_tracker_categories');
+    $cs = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "currency_sign")));
 
     //display on menu page
     ?>
     <div class="tt-indent">
     <input type="text" id="tt-currency-sign" name="time_tracker_categories[currency_sign]" rows=1 cols=20 class="tt-options-form" form="tt-options"
-    <?php $cs = trim(sanitize_textarea_field($settings['currency_sign']));
+    <?php
     if (isset($cs)) {
-        if ($cs != null) {
+        if ($cs != null && $cs != "") {
             echo " value=" . esc_html($cs);
         }
     }
@@ -79,24 +79,25 @@ function tt_categories_default_currency_callback() {
  * Callback function
  */
 function tt_categories_task_status_callback() {
-    //get the value if it's already been saved to db
-    $setting = get_option('time_tracker_categories');
-
-    //display on admin page
-    ?>
-    <div class="tt-indent">
-        <textarea id="tt-task-status" name="time_tracker_categories[task_status]" rows="7" cols="30" class="tt-options-form" form="tt-options"><?php
-        $ts = trim(sanitize_textarea_field($setting['task_status']));
-        if (isset( $ts ) && $ts <> "") {
-            echo esc_html($ts);
-        } else {
-            $str = 'New
+    //default values
+    $str = 'New
 In Process
 Waiting Client
 Complete
 Canceled';
-			echo $str;
+    //get the value if it's already been saved to db
+    $ts = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "task_status")));
+    if (isset( $ts )) {
+        if ($ts != "" && $ts != null) {
+            $str = esc_html($ts);                
         }
+    }
+
+    //display on admin page
+    ?>
+    <div class="tt-indent">
+        <textarea id="tt-task-status" name="time_tracker_categories[task_status]" rows="7" cols="30" class="tt-options-form" form="tt-options"><?php 
+        echo $str;
         ?></textarea><span class="tt-options-form">List the statuses you'd like to use to keep track of your tasks.<br>
         Examples: New, In Process, Waiting Client, Complete, Canceled<br>
         Enter one status on each line.</span></div>
@@ -112,18 +113,17 @@ Canceled';
  */
 function tt_categories_bill_to_names_callback() {
     //get the value if it's already been entered
-    $setting = get_option('time_tracker_categories');
+    $btn = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "bill_to_names")));
+    $str = "";
+    if (isset( $btn )) {
+        $str = esc_html($btn);
+    }
 
     //display on menu page
     ?>
     <div class="tt-indent">
     <textarea id="tt-bill-to" name="time_tracker_categories[bill_to_names]" rows="5" cols="30" class="tt-options-form" form="tt-options"><?php
-    $btn = trim(sanitize_textarea_field($setting['bill_to_names']));
-    if (isset( $btn )) {
-        echo esc_html($btn);
-    } else {
-        echo '';
-    }
+    echo $str;
     ?></textarea><span class="tt-options-form">Do you always bill directly to the client? Or do white-label services where you bill to a third party?<br>
     Do you perform services under different business names?<br> 
     In this section, add your different bill to names, one per line.
@@ -139,18 +139,17 @@ function tt_categories_bill_to_names_callback() {
  */
 function tt_categories_work_categories_callback() {
     //get the value if it's already been entered
-    $setting = get_option('time_tracker_categories');
+    $wc = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "work_categories")));
+    $str = "";
+    if (isset( $wc )) {
+        $str = esc_html($wc);
+    }
 
     //display on menu page
     ?>
     <div class="tt-indent">
         <textarea id="tt-categories" name="time_tracker_categories[work_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
-        $wc = trim(sanitize_textarea_field($setting['work_categories']));
-        if (isset( $wc )) {
-            echo esc_html($wc);
-        } else {
-            echo '';
-        }
+        echo $str;
         ?></textarea><span class="tt-options-form">Time Tracker can help you keep track of different types of work.<br>
         In this section, add the options you'd like to see for this field when entering a new project or task.<br>
         Examples: Website Design, Social Media Management, Website Updates.<br>
@@ -166,18 +165,17 @@ function tt_categories_work_categories_callback() {
  */
 function tt_categories_client_categories_callback() {
     //get the value if it's already been entered
-    $setting = get_option('time_tracker_categories');
+    $cc = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "client_categories")));
+    $str = "";
+    if (isset( $cc )) {
+        $str = esc_html($cc);
+    }
 
     //display on menu page
     ?>
     <div class="tt-indent">
         <textarea id="tt-csource" name="time_tracker_categories[client_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
-        $cc = trim(sanitize_textarea_field($setting['client_categories']));
-        if (isset( $cc )) {
-            echo esc_html($cc);
-        } else {
-            echo '';
-        }
+        echo $str;
         ?></textarea><span class="tt-options-form">Time Tracker will maintain information on each of your clients.<br>
         When adding a new client you'll be asked to enter how they found you.<br>
         In this section, add the options you'd like to see for this field, one per line.<br>
@@ -193,18 +191,17 @@ function tt_categories_client_categories_callback() {
  */
 function tt_categories_client_sub_categories_callback() {
     //get the value if it's already been entered
-    $setting = get_option('time_tracker_categories');
+    $csc = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "client_categories")));
+    $str = "";
+    if (isset( $csc )) {
+        $str = esc_html($csc);
+    }
 
     //display on menu page
     ?>
     <div class="tt-indent">
     <textarea id="tt-client-sub-categories" name="time_tracker_categories[client_sub_categories]" rows="10" cols="30" class="tt-options-form" form="tt-options"><?php
-    $csc = sanitize_textarea_field($setting['client_sub_categories']);
-    if (isset( $csc )) {
-        echo esc_html($csc);
-    } else {
-        echo '';
-    }
+    echo $str;
     ?></textarea><span class="tt-options-form">You can also add a second level of information on how the client found you.<br>
     In this section, add the options you'd like to see for this field, one per line.<br>
     Examples: Google PPC, Facebook Ad, LinkedIn Ad, Name of Individual That Referred Client</span></div>
@@ -237,16 +234,14 @@ function tt_css_buttons_override_callback() {
  */
 function tt_css_button_override_value() {
     //get the value if it's already been entered
-    $styles = get_option('time_tracker_style');
-    if (is_array($styles)) {
-        if (array_key_exists('css', $styles)) {
-            if (is_array($styles['css'])) {
-                if (array_key_exists('buttons', $styles['css'])) {
-                    if (is_array($styles['css']['buttons'])) {
-                        if (array_key_exists('override', $styles['css']['buttons'])) {
-                            if (trim(sanitize_textarea_field($styles['css']['buttons']['override'])) == "on") {
-                                return true;
-                            }
+    $css = \Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_style", "css");
+    if ($css != null) {
+        if (is_array($css)) {
+            if (array_key_exists('buttons', $css)) {
+                if (is_array($css['buttons'])) {
+                    if (array_key_exists('override', $css['buttons'])) {
+                        if (trim(sanitize_textarea_field($css['buttons']['override'])) == "on") {
+                            return true;
                         }
                     }
                 }
@@ -259,19 +254,17 @@ function tt_css_button_override_value() {
 
 function tt_css_option_callback($args) {
     //get the value if it's already been entered
-    $optn = '';
-    $styles = get_option('time_tracker_style');
-    if (is_array($styles)) {
-        if (array_key_exists('css', $styles)) {
-            $optn = $styles['css'];
-            foreach ($args as $arg) {
-                if (is_array($optn)) {
-                    if (array_key_exists($arg, $optn)) {
-                        $optn = $optn[$arg];
-                    }
-                } else {
-                    $optn = trim(sanitize_text_field($optn));
+    $optn = "";
+    $css = \Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_style", "css");
+    if ($css != null) {
+        $optn = $css;
+        foreach ($args as $arg) {
+            if (is_array($optn)) {
+                if (array_key_exists($arg, $optn)) {
+                    $optn = $optn[$arg];
                 }
+            } else {
+                $optn = trim(sanitize_text_field($optn));
             }
         }
     }    

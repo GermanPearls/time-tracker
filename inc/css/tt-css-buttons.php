@@ -8,34 +8,57 @@
  * 
  **/
 
+use function Logically_Tech\Time_Tracker\Inc\tt_get_user_options;
+
 /** defaults **/
 $button_background_color = "#01375d";    //dark blue
 $button_text_color = "#fff";
 $button_hover_background_color = "#809bae";   //light gray blue
 $button_hover_text_color = "#01375d";     //dark blue
     
-$settings = get_option('time_tracker_style');
-if ($settings) {
-    if (trim(sanitize_textarea_field($settings['css']['buttons']['override'])) == "on") {
-        //override with user settings
-        if (array_key_exists('css', $settings)) {
-            if (array_key_exists('buttons', $settings['css'])) {
-                if (array_key_exists('background', $settings['css']['buttons'])) {
-                    if (array_key_exists('normal', $settings['css']['buttons']['background'])) {
-                        $button_background_color = sanitize_text_field($settings['css']['buttons']['background']['normal']);
-                    }
-                    if (array_key_exists('hover', $settings['css']['buttons']['background'])) {
-                        $button_hover_background_color = sanitize_text_field($settings['css']['buttons']['background']['hover']);
+$override = false;
+$css = tt_get_user_options("time_tracker_style", "css");
+
+if ($css) {
+    if ($css != null && $css != "") {
+        if (is_array($css)) {
+            if (array_key_exists("buttons", $css)) {
+                if (is_array($css["buttons"])) {
+                    if (array_key_exists("override", $css["buttons"])) {
+                        if (trim(sanitize_textarea_field($css["buttons"]["override"])) == "on") {
+                            $override = true;
+                        }
                     }
                 }
-                if (array_key_exists('text', $settings['css']['buttons'])) {
-                    if (array_key_exists('normal', $settings['css']['buttons']['text'])) {
-                        $button_text_color = sanitize_text_field($settings['css']['buttons']['text']['normal']);
+            }
+        }
+    }
+    if ($override) {
+        //override with user settings
+        if (is_array($css)) {
+            if (array_key_exists("buttons", $css)) {
+                if (is_array($css["buttons"])) {
+                    //button backgrounds
+                    if (array_key_exists("background", $css["buttons"])) {
+                        if (is_array($css["buttons"]["background"])) {
+                            if (array_key_exists("normal", $css["buttons"]["background"])) {
+                                $button_background_color = sanitize_text_field($css['buttons']['background']['normal']);
+                            }
+                            if (array_key_exists('hover', $css['buttons']['background'])) {
+                                $button_hover_background_color = sanitize_text_field($css['buttons']['background']['hover']);
+                            }
+                        }
                     }
-                    if (array_key_exists('hover', $settings['css']['buttons']['text'])) {
-                        $button_hover_text_color = sanitize_text_field($settings['css']['buttons']['text']['hover']);
-                    }            
-                }  
+                    //button text
+                    if (array_key_exists('text', $css['buttons'])) {
+                        if (array_key_exists('normal', $css['buttons']['text'])) {
+                            $button_text_color = sanitize_text_field($css['buttons']['text']['normal']);
+                        }
+                        if (array_key_exists('hover', $css['buttons']['text'])) {
+                            $button_hover_text_color = sanitize_text_field($css['buttons']['text']['hover']);
+                        }            
+                    }
+                }
             }
         }
     }

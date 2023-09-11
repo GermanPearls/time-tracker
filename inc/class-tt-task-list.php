@@ -214,9 +214,8 @@ if ( !class_exists( 'Task_List' ) ) {
          * 
          */
         private function get_task_status_options() {
-            $setting = get_option('time_tracker_categories');
-            $task_status = $setting['task_status'];
-            if ($task_status <> "") {
+            $task_status = tt_get_user_options("time_tracker_categories", "task_status");
+            if ($task_status != "" && $task_status != null) {
                 return explode(chr(13), $task_status);
             } else {
                 return [
