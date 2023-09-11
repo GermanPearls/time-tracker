@@ -228,9 +228,8 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
          * 
          */
         private static function get_task_status_options() {
-            $setting = get_option('time_tracker_categories');
-            $task_status = $setting['task_status'];
-            if ($task_status <> "") {
+            $task_status = \Logically_Tech\Time_Tracker\Inc\tt_get_user_options('time_tracker_categories', 'task_status');
+            if ($task_status != "" && $task_status != null) {
                 $arr = explode(chr(13), $task_status);
             } else {
                 $arr = [
