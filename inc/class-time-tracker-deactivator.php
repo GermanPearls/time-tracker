@@ -30,12 +30,11 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         public static function deactivate() {
             //self::send_deletion_warning();  WON'T NEED TO DO THIS, ONLY DURING DELETION
             self::define_plugin_variables();
-            //self::delete_tables();  DON'T REMOVE TABLES, ONLY DO THIS DURING PLUGIN DELETION ???
+            //self::delete_tables();  DON'T REMOVE TABLES, ONLY DO THIS DURING PLUGIN DELETION
             self::deactivate_crons();
-            self::deactivate_pages(); 
-            //self::delete_forms();   DON'T REMOVE FORMS, ONLY DO THIS DURING PLUGIN DELETION ???
-            
-            //WHAT NEEDS TO BE DONE HERE?
+            //self::deactivate_pages();
+            self::delete_pages(); 
+            //self::delete_forms();   DON'T REMOVE FORMS, ONLY DO THIS DURING PLUGIN DELETION
         }
 
 
@@ -77,30 +76,52 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
 
 
         /**
+		* Get Page List in Deletion Order
+		*
+		*/
+		public static function get_page_list_in_deletion_order() {
+            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(1);
+            return array_reverse($tt_pages);			
+		}
+		
+		
+		/**
+         * Delete pages
+         * 
+         */
+        public static function delete_pages() {
+			$tt_pages_delete_order = self::get_page_list_in_deletion_order();
+            foreach ($tt_pages_delete_order as $tt_page) {
+				self::delete_page($tt_page['Title']);
+            }
+			$tt_homepage = Time_Tracker_Activator_Pages::create_homepage_details_array();
+			self::delete_page($tt_homepage['Title']);
+        }
+
+
+		/**
+		* Delete Page
+		*
+		*/
+		private static function delete_page($pagename) {
+			$post_id = tt_get_page_id($pagename);
+			if ($post_id > 0) {
+				$result = wp_delete_post($post_id);
+			}			
+		}
+
+
+        /**
          * Deactivate pages
          * 
          */
         public static function deactivate_pages() {
-            $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(1);
-            $tt_pages_delete_order = array_reverse($tt_pages);
-            /**$tt_pages = array(
-                'time-tracker',
-                'clients',
-                'new-client',
-                'new-project',
-                'new-recurring-task',
-                'new-task',
-                'new-time-entry',
-                'open-task-list',
-                'pending-time',
-                'project-list',
-                'task-detail',
-                'task-list',
-                'time-log'
-            );**/
+            $tt_pages_delete_order = self::get_page_list_in_deletion_order();
             foreach ($tt_pages_delete_order as $tt_page) {
                 self::change_page_to_draft($tt_page['Slug']);
             }
+            $tt_homepage = Time_Tracker_Activator_Pages::create_homepage_details_array(); 
+            self::change_page_to_draft($tt_homepage['Slug']);
         }
 
 
