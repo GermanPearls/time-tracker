@@ -154,7 +154,12 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          */
         private function tt_update_forms($force_update = false) {
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
-            require_once(TT_PLUGIN_DIR_INC . TT_PLUGIN_FORM_TYPE . '/class-time-tracker-activator-forms-' . strtolower(TT_PLUGIN_FORM_TYPE) . '.php');
+            if (TT_PLUGIN_FORM_TYPE != null && TT_PLUGIN_FORM_TYPE != "") {
+                require_once(TT_PLUGIN_DIR_INC . TT_PLUGIN_FORM_TYPE . '/class-time-tracker-activator-forms-' . strtolower(TT_PLUGIN_FORM_TYPE) . '.php');
+            } else {
+                require_once(TT_PLUGIN_DIR_INC . "CF7" . '/class-time-tracker-activator-forms-' . strtolower(TT_PLUGIN_FORM_TYPE) . '.php');
+            }
+            
             if ($force_update) {
                 $tt_forms = Time_Tracker_Activator_Forms::force_form_updates();
             } else {
