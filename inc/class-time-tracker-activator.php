@@ -29,19 +29,57 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
         public static function activate() {
             self::define_plugin_variables();
-            if (TT_PLUGIN_FORM_TYPE == "CF7") {
-				self::setup();
-            } elseif (TT_PLUGIN_FORM_TYPE == "WPF") {
-                self::setup();
-            } else {
-                ?>
+            if (self::confirm_form_dependency_active() == false) {	
+				?>
                 <script type="text/javascript">
                 window.alert('Time Tracker requires Contact Form 7 plugin to work properly. Please install the Contact Form 7 plugin before activating Time Tracker.');
                 </script>
                 <?php
                 die('Please install the Contact Form 7 plugin before activating Time Tracker.');
-            }
+				return;
+			}
+			if (self::check_is_block_theme()) {
+				?>
+                <script type="text/javascript">
+                window.alert('Time Tracker is not yet configured to work with block themes. Please check back for a revision soon.');
+				</script>
+                <?php
+                die('Time Tracker is not yet configured to work with block themes.');
+				return;	
+			}			
+			self::setup();                                                                          
         }
+
+
+        /**
+		* Confirm form dependency active
+        * @rev 3.0.10 added
+		*
+		*/
+		private static function confirm_form_dependency_active() {
+			if (TT_PLUGIN_FORM_TYPE == "CF7") {
+				return true;
+            } elseif (TT_PLUGIN_FORM_TYPE == "WPF") {
+                return true;
+            } else {
+				return false;
+            }
+		}
+		
+        
+		/**
+		* Check for block theme
+        * @rev 3.0.10 - header/footer not yet configured for block theme and will throw error
+		*
+		*/
+		private static function check_is_block_theme() {
+			if (function_exists('wp_is_block_theme')) {
+				if (wp_is_block_theme()) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 
         /**
@@ -80,22 +118,41 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             if ( ! (get_option('time_tracker_categories')) ) {
                 add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>print_r(self::$default_client), 'default_task'=>print_r(self::$default_task), 'default_rate'=>null));
             } else {
-                //updates
                 $optns = get_option('time_tracker_categories');
-                if ($optns['default_client'] == null and self::$default_client != null) {
-                    $optns['default_client'] = self::$default_client;
-                }
-                if ($optns['default_task'] == null and self::$default_task != null) {
-                    $optns['default_task'] = self::$default_client;
-                }
-                //added in 2.5.0
-                if (!array_key_exists('default_rate', $optns)) {
-                    $optns['default_rate'] = null;
-                }
-                if (!array_key_exists('currency_sign', $optns)) {
-                    $optns['currency_sign'] = '$';
-                }
-                update_option('time_tracker_categories', $optns);
+                //if it is there but blank add defaults
+                if ($optns == null || $optns == "") {
+                    add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>print_r(self::$default_client), 'default_task'=>print_r(self::$default_task), 'default_rate'=>null));
+                } else {
+                    //add default client
+                    if (array_key_exists("default_client", $optns)) {
+                        if ($optns['default_client'] == null and self::$default_client != null) {
+                            $optns['default_client'] = self::$default_client;
+                        }
+                    } else {
+                        if (self::$default_client != null) {
+                            $optns['default_client'] = self::$default_client;
+                        }
+                    }
+                    //add default task
+                    if (array_key_exists("default_task", $optns)) {
+                        if ($optns['default_task'] == null and self::$default_task != null) {
+                            $optns['default_task'] = self::$default_task;
+                        }
+                    } else {
+                        if (self::$default_task != null) {
+                            $optns['default_task'] = self::$default_task;
+                        }                        
+                    }
+                    //added in 2.5.0 - add default rate
+                    if (!array_key_exists('default_rate', $optns)) {
+                        $optns['default_rate'] = null;
+                    }
+                    //add currency sign
+                    if (!array_key_exists('currency_sign', $optns)) {
+                        $optns['currency_sign'] = '$';
+                    }
+                    update_option('time_tracker_categories', $optns);
+                }                
             }
         }
         
