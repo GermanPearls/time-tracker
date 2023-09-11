@@ -73,42 +73,22 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
         /**
          * Check page exists, has correct status and matches current version
+         * rev 3.0.10 updated to delete any existing pages (in case multiple exist due to activation errors) and create new ones
          * 
          */
         private static function check_page_exists_and_is_up_to_date($i) {
-            //query db for page if it exists
-            $page_exists = tt_get_page_id(self::get_page_details($i)['post_title']);
-
-            //if page doesn't exist
-            if (empty($page_exists) or $page_exists == null) {
-                $page_id = self::create_page(self::get_page_details($i));
+            //delete any existing pages - check for multiple
+            $page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
+			while ($page_id > 0){
+				$result = wp_delete_post($page_id);
+            $page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
+				log_tt_misc('page ' . self::get_page_details($i)['post_title'] . ', #' . $page_id . ' should have been deleted on plugin activation');
+				$page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
+			}
             
-
-            //page exists, make sure everything is correct
-            } else {
-                
-                $page_id = $page_exists;
-                    
-                //pages are changed to draft on plugin deactivation
-                if (get_post_status($page_exists) == 'draft') {
-                    self::update_page_status($page_id);
-                }
-
-                //check content matches current version
-                $installed_page = get_post($page_id);
-                $installed_page_content = $installed_page->post_content;
-
-                $updated_content = self::get_page_details($i)['post_content'];
-                //does the content match the current version
-                if ($installed_page_content != $updated_content) {
-                    //update content of page in db
-                    $updated_page = array(
-                        'ID' => $page_id,
-                        'post_content' => $updated_content
-                    );
-                    wp_update_post($updated_page);
-                }                
-            }
+            //create new page
+			$page_id = self::create_page(self::get_page_details($i));
+			log_tt_misc(' page ' . self::get_page_details($i)['post_title'] . ' should have been created, now is #' . $page_id);
             return $page_id;
         }
 
@@ -125,13 +105,14 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
         /**
          * Update Page Status
+         * @rev 3.0.10 no longer used - pages deleted on deactivation and recreated on activation
          * 
          */
         private static function update_page_status($page_id) {
-            wp_update_post(array(
+            add_action('init', wp_update_post(array(
                 'ID' => $page_id,
                 'post_status' => 'private'
-            ));
+            )), 10, 1);
         }
 
         
@@ -169,7 +150,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
          * Create homepage page-specific properties
          * 
          */
-        private static function create_homepage_details_array() {
+        public static function create_homepage_details_array() {
             $details_all = array();
             //tt-home
             $details = array(
