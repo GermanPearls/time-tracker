@@ -27,6 +27,8 @@ if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
      */
     class Time_Tracker_Load_Page_Templates {
 
+        private $tt_templates;
+        
         
         /**
          * Constructor
