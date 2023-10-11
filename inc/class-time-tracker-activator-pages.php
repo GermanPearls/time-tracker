@@ -80,10 +80,10 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             //delete any existing pages - check for multiple
             $page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
 			while ($page_id > 0){
-				$result = wp_delete_post($page_id);
-            $page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
+				$result = wp_delete_post($page_id, true);
+                $page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
 				log_tt_misc('page ' . self::get_page_details($i)['post_title'] . ', #' . $page_id . ' should have been deleted on plugin activation');
-				$page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
+				//$page_id = tt_get_page_id(self::get_page_details($i)['post_title']);
 			}
             
             //create new page
