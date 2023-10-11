@@ -114,14 +114,17 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         /**
          * Deactivate pages
          * 
+         * @rev 3.1.0 delete pages on deactivation instead of moving to draft status
          */
         public static function deactivate_pages() {
             $tt_pages_delete_order = self::get_page_list_in_deletion_order();
             foreach ($tt_pages_delete_order as $tt_page) {
-                self::change_page_to_draft($tt_page['Slug']);
+                //self::change_page_to_draft($tt_page['Slug']);
+                self::delete_page($tt_page['Slug']);
             }
             $tt_homepage = Time_Tracker_Activator_Pages::create_homepage_details_array(); 
-            self::change_page_to_draft($tt_homepage['Slug']);
+            //self::change_page_to_draft($tt_homepage['Slug']);
+            self::delete_page($tt_homepage['Slug']);
         }
 
 
