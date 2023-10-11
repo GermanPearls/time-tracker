@@ -25,7 +25,9 @@ function tt_admin_menu_home() {
             ?>
             <div class="tt-indent">
                <h2>IMPORTANT</h2>
-               <p class="tt-important">The Contact Form 7 or WP Forms plugin must be installed and activated for Time Tracker to work properly. Please install <a href="/wp-admin/plugin-install.php?s=contact+form+7&tab=search&type=term">Contact Form 7</a> or <a href="/wp-admin/plugin-install.php?tab=search&type=term&s=wp+forms">WP Forms</a>and activate it now.</p>
+               <p class="tt-important">The Contact Form 7 or WP Forms plugin must be installed and activated for Time Tracker to work properly. Please install <a href="<?php 
+               echo admin_url("plugin-install.php?s=contact+form+7&tab=search&type=term"); ?>">Contact Form 7</a> or <a href="<?php 
+               echo admin_url("plugin-install.php?tab=search&type=term&s=wp+forms"); ?>">WP Forms</a>and activate it now.</p>
             </div>
             <?php
          }
@@ -34,21 +36,24 @@ function tt_admin_menu_home() {
             ?>
             <div class="tt-indent">
                <h2>ALERT</h2>
-				<p class="tt-important">You don't have a timezone set in your WordPress settings. All time logs will show UTC time. To use your local timezone, update your timezone in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>.</p>
+				<p class="tt-important">You don't have a timezone set in your WordPress settings. All time logs will show UTC time. To use your local timezone, update your timezone in the WordPress menu <a href="<?php 
+            echo admin_url("options-general.php"); ?>">settings->general</a>.</p>
             </div>
             <?php
          } else if ( $tz == "UTC" ) {
             ?>
             <div class="tt-indent">
                <h2>Time Zone Check</h2>
-				<p class="tt-important">You have a default time zone of <?php echo esc_textarea($tz); ?> set in WordPress.  All your time logs will show in this time. If this is not correct, please update your timezone in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>.</p>
+				<p class="tt-important">You have a default time zone of <?php echo esc_textarea($tz); ?> set in WordPress.  All your time logs will show in this time. If this is not correct, please update your timezone in the WordPress menu <a href="<?php 
+            echo admin_url("options-general.php"); ?>">settings->general</a>.</p>
             </div>
             <?php
          } else {
             ?>
             <div class="tt-indent">
                <h2>Time Zone</h2>
-				<p>Your time zone is set to <strong><?php echo esc_textarea($tz); ?></strong>. If this is not correct, please update it in the WordPress menu <a href="/wp-admin/options-general.php">settings->general</a>. All time entries will be saved in this time zone.</p>
+				<p>Your time zone is set to <strong><?php echo esc_textarea($tz); ?></strong>. If this is not correct, please update it in the WordPress menu <a href="<?php 
+            echo admin_url("options-general.php"); ?>">settings->general</a>. All time entries will be saved in this time zone.</p>
             </div>
             <?php            
          }
