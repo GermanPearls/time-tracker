@@ -92,6 +92,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
 
         private static function setup() {
+            self::log_plugin_installation();
             include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
@@ -100,9 +101,43 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             Time_Tracker_Activator_Tables::setup();
             Time_Tracker_Activator_Forms::setup();
             Time_Tracker_Activator_Pages::setup();
+            self::check_plugin_version();
             self::add_default_client();
             self::add_default_task();
             self::set_initial_database_options();
+        }
+
+
+        /**
+        * Log Install Time
+        *
+        * @rev 3.0.11 moved from class-time-tracker.php
+        **/
+        private static function log_plugin_installation() {
+            if (! get_option('time_tracker_install_time')) {
+                add_option('time_tracker_install_time', new \DateTime());
+            }
+        }
+        
+            
+        /**
+         * Check Plugin Version
+        * 
+        * @rev 3.0.11 moved from class-time-tracker.php
+        **/  
+        private static function check_plugin_version() {
+            $installed_version = get_option('time_tracker_version');
+            if ($installed_version) {
+                //updates
+                if ($installed_version != TIME_TRACKER_VERSION) {
+                    include_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-updater.php');
+                    $updater = New Time_Tracker_Updater;
+                    $new_version = $updater->tt_update_from($installed_version);
+                }
+            } else {
+                //new installations
+                add_option('time_tracker_version', TIME_TRACKER_VERSION);
+            }
         }
 		
 		
