@@ -185,45 +185,45 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Sanitize, Escape, and Display Data
          * 
+         * @since Unknown
+         * @since 3.1.0 Null display values returned as empty string.
          */
         private function display_data_in_cell($data_type, $display_value, $args=[]) {
+            if ($display_value == null) {
+                return "";
+            }
             if ($data_type == "text") {
-                $data_display = esc_html(sanitize_text_field($display_value));
+                return esc_html(sanitize_text_field($display_value));
             } elseif ($data_type == "long text") {
-                $data_display = stripslashes(wp_kses_post(nl2br($display_value)));
+                return stripslashes(wp_kses_post(nl2br($display_value)));
             } elseif ($data_type == "date") {
                 $formatted_date = tt_format_date_for_display(sanitize_text_field($display_value), "date_only");
-                $data_display = esc_html($formatted_date);
+                return esc_html($formatted_date);
             } elseif ($data_type == "date and time") {
                 $formatted_date = tt_format_date_for_display(sanitize_text_field($display_value), "date_and_time");
-                $data_display = esc_html($formatted_date);
+                return esc_html($formatted_date);
             } elseif ($data_type == "email") {
-                $data_display = esc_html(sanitize_email($display_value));
+                return esc_html(sanitize_email($display_value));
             } elseif ($data_type == "integer") {
-                if ($display_value == null) {
-                    $data_display = '';
-                } else {
-                    $data_display = intval($display_value);
-                }
+                return intval($display_value);
             } elseif ($data_type == "select") {
-                $data_display = $this->create_select_dropdown($args, $display_value);
-            } else {
-                $data_display = esc_html(sanitize_text_field($display_value));
+                return $this->create_select_dropdown($args, $display_value);
             }
-            return $data_display;
+            return esc_html(sanitize_text_field($display_value));
         }
 
 
         /**
          * Get Arguments for Data Cell
          * 
+         * @param array $details information for this cell
+         * @param array or object $item	information for this entire row
+         * @param string $sql_fieldname	this cell's fieldname in sql result
+         * @param string $table_name main database table this table data originates from
+         * @param string $table_key name of main ID column in database table to reference this record in the table
+         * 
          */
         private function get_cell_args($details, $item, $sql_fieldname, $table_name, $table_key) {
-            //@param $details	array consisting of information for this cell
-            //@param $item	array or object consisting of information for this entire row
-            //@param $sql_fieldname	string of this cell's fieldname in sql result
-            //@param $table_name	string of main database table this table data originates from
-            //@param $table_key	string containing name of main ID column in database table to reference this record in the table
             $args = [];
             $args["id"] = $details["id"];
             $args["class"] = [];
