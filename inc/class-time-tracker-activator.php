@@ -4,7 +4,7 @@
  *
  * Initial activation of Time Tracker Plugin
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -14,6 +14,7 @@ namespace Logically_Tech\Time_Tracker\Inc;
 /**
  * Check if class exists
  * 
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker_Activator') ) {
 
@@ -21,41 +22,38 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Time_Tracker_Activator {
 
         private static $default_client = null;
         private static $default_task = null;
 
+        /**
+         * Activate plugin
+         * 
+         * @since 1.0.0
+         * @since 3.0.12 removed window.alert and die functions as they were causing fatal activation error, replaced with wp_die alert
+         */
         public static function activate() {
             self::define_plugin_variables();
             if (self::confirm_form_dependency_active() == false) {	
-				?>
-                <script type="text/javascript">
-                window.alert('Time Tracker requires Contact Form 7 plugin to work properly. Please install the Contact Form 7 plugin before activating Time Tracker.');
-                </script>
-                <?php
-                die('Please install the Contact Form 7 plugin before activating Time Tracker.');
-				return;
+				wp_die("TIME TRACKER PLUGIN NOT ACTIVATED<br/><br/>Time Tracker requires either Contact Form 7 or WP Forms plugin be installed and activated. Please activate the Contact Form 7 or WP Forms plugin and try again.<br/><br/>Return to the <a href='" . esc_url( admin_url( "plugins.php" ) ) . "'>plugins page</a>.");
 			}
 			if (self::check_is_block_theme()) {
-				?>
-                <script type="text/javascript">
-                window.alert('Time Tracker is not yet configured to work with block themes. Please check back for a revision soon.');
-				</script>
-                <?php
-                die('Time Tracker is not yet configured to work with block themes.');
-				return;	
+				wp_die("TIME TRACKER PLUGIN NOT ACTIVATED<br/><br/>Time Tracker is not yet configured to work with block themes. Please check back for a revision soon.<br/><br/>Return to the <a href='" . esc_url( admin_url( "plugins.php" ) ) . "'>plugins page</a>.");
 			}			
 			self::setup();                                                                          
         }
 
 
         /**
-		* Confirm form dependency active
-        * @rev 3.0.10 added
-		*
-		*/
+         *  Confirm form dependency active
+         *  
+         * @since 3.0.10
+         * 
+         * @return boolean True if Contact Form 7 or WPForms is installed and active, false if neither form dependency found.
+		 */
 		private static function confirm_form_dependency_active() {
 			if (TT_PLUGIN_FORM_TYPE == "CF7") {
 				return true;
@@ -69,8 +67,10 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         
 		/**
 		* Check for block theme
-        * @rev 3.0.10 - header/footer not yet configured for block theme and will throw error
+        * 
+        * @since 3.0.10 Check for users using block theme. Time Tracker template not yet working with block theme and throw error about header/footer not yet configured.
 		*
+        * @return boolean True if user is using block theme, false if they are not.
 		*/
 		private static function check_is_block_theme() {
 			if (function_exists('wp_is_block_theme')) {
@@ -85,12 +85,18 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Definitions
          * 
+         * @since 1.0.0
          */
         private static function define_plugin_variables() {
 
         }
 
 
+        /**
+         * Setup Time Tracker plugin
+         * 
+         * @since 1.0.0
+         */
         private static function setup() {
             self::log_plugin_installation();
             include_once(TT_PLUGIN_DIR_INC . 'function-tt-cron-recurring-tasks.php');
@@ -109,10 +115,10 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
 
         /**
-        * Log Install Time
-        *
-        * @rev 3.0.11 moved from class-time-tracker.php
-        **/
+         * Log Install Time
+         *
+         * @since 3.0.11 Moved from class-time-tracker.php.
+         */
         private static function log_plugin_installation() {
             if (! get_option('time_tracker_install_time')) {
                 add_option('time_tracker_install_time', new \DateTime());
@@ -122,9 +128,9 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             
         /**
          * Check Plugin Version
-        * 
-        * @rev 3.0.11 moved from class-time-tracker.php
-        **/  
+         * 
+         * @since 3.0.11 moved from class-time-tracker.php
+         */  
         private static function check_plugin_version() {
             $installed_version = get_option('time_tracker_version');
             if ($installed_version) {
@@ -141,6 +147,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
 		
 		
+        /**
+         * Set initial database options
+         * 
+         * @since x.x.x
+         */
         private static function set_initial_database_options() {
             $now = new \DateTime;
             if ( ! (get_option('time_tracker_sql_result')) ) {
@@ -192,6 +203,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
         
 
+        /**
+         * Add default client to databsae
+         * 
+         * @since x.x.x
+         */
         private static function add_default_client() {
             self::get_default_client();
             $i = 0;
@@ -201,6 +217,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }          
         }
 
+        /**
+         * Get default client from database
+         * 
+         * @since x.x.x
+         */
         private static function get_default_client() {
             $client_lookup = self::lookup_record("SELECT ClientID FROM tt_client WHERE Company='Undefined'");
             if ($client_lookup) {
@@ -218,6 +239,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }
         }
 
+        /**
+         * Attempt to add default client
+         * 
+         * @since x.x.x
+         */
         private static function try_to_add_default_client() {
             $rst = self::insert_record('tt_client', array('Company'=>'Undefined', 'Billable'=>1, 'Source'=>'Default Client'), array('%s', '%d', '%s'));
             if ($rst > 0) {
@@ -226,6 +252,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         }
 
 
+        /**
+         * Add default task
+         * 
+         * @since x.x.x
+         */
         private static function add_default_task() {
             self::get_default_task();
             $i = 0;
@@ -235,6 +266,11 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }
         }
         
+        /**
+         * Get default task from database
+         * 
+         * @since x.x.x
+         */
         private static function get_default_task() {
             $task_lookup = self::lookup_record("SELECT TaskID FROM tt_task WHERE TDescription='Undefined'");
             if ($task_lookup) {
@@ -252,6 +288,12 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }
         }
         
+
+        /**
+         * Attempt to add default task to database
+         * 
+         * @since x.x.x
+         */
         private static function try_to_add_default_task() {
             $rst = self::insert_record('tt_task', array('TDescription'=>'Undefined', 'ClientID'=> self::$default_client, 'TNotes'=>'Default Task'), array('%s', '%d', '%s'));
             log_tt_misc('rst is ' . var_export($rst, true));
@@ -261,6 +303,13 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             }
         }
         
+
+        /**
+         * Insert record into database
+         * TODO: Move this function outside this class as a general plugin function
+         * 
+         * @since x.x.x
+         */
         private static function insert_record($tbl, $flds, $frmts) {
             global $wpdb;
             $wpdb->insert($tbl, $flds, $frmts);
@@ -268,6 +317,13 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             return $wpdb->last_result;
         }
 
+
+        /**
+         * Lookup record from database
+         * TODO: Move this function outside this class as a general plugin function
+         * 
+         * @since x.x.x
+         */
         private static function lookup_record($sql) {
             global $wpdb;
             $rslts = $wpdb->get_results($sql, ARRAY_A);

@@ -4,7 +4,8 @@
  *
  * Takes the data from the hours worked class (query) and summarizes the current month's data for display
  * 
- * @since 1.0
+ * @since 1.0.0
+ * @since 3.0.12 added group by today and value estimates for today and current work week
  * 
  */
 
@@ -16,6 +17,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since x.x.x
  */
 if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
 
@@ -23,6 +25,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
     /**
      * If class doesn't already exist
      * 
+     * @since x.x.x
      */
     class Class_Hours_Worked_Month_Summary extends Class_Hours_Worked_Detail
     {
@@ -31,6 +34,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Constructor
          * 
+         * @since x.x.x
          */
         public function __construct() {
             parent::__construct();
@@ -41,6 +45,10 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Reorganize data - Group by Month, then Week, then Bill To
          * 
+         * @since x.x.x
+         * @since 3.0.12 add group by today
+         * 
+         * @return array Array of hours worked, grouped by month-week-bill to.
          */        
         private function groupDataByMonthWeekAndBillTo() {
             $grouped_time = array();
@@ -51,6 +59,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                     $workmonth = sanitize_text_field($item['WorkMonth']);
                     $workweek = sanitize_text_field($item['WorkWeek']);
                     $thisweek = sanitize_text_field($item['ThisWeek']);
+                    $workday = new \DateTime(sanitize_text_field($item['StartTime']));
                     $billto = sanitize_text_field($item['BillTo']);
 
                     if ( ($workyear == date('Y')) && ( ($workmonth == date('n')) || ($workweek == $thisweek) ) ) {
@@ -65,6 +74,9 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
                             $billto = $billto;
                         }
 
+                        if (date_format($workday, "m/d/y") == date("m/d/y")) {
+                            $grouped_time['Today'][$billto][] = $item;
+                        }
                         if ($workweek == $thisweek) {
                             $grouped_time['This Week'][$billto][] = $item;
                         }
@@ -82,6 +94,9 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Calculate running totals by Month, then Week, then Bill To
          * 
+         * @since x.x.x
+         * 
+         * @return array Time totaled by month-week-bill to.
          */ 
         private function totalDataByMonthWeekAndBillTo() {
             $grouped_time = $this->groupDataByMonthWeekAndBillTo();
@@ -168,6 +183,9 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Summarize all Bill To Names included
          * 
+         * @since x.x.x
+         * 
+         * @return array List of bill-to names.
          */ 
         private function listBillToNames($dataArray) {
             $bill_to_names = array();
@@ -191,6 +209,10 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Create HTML display for front end display
          * 
+         * @since x.x.x
+         * @since 3.0.12 include today and current week value estimates in current month dashboard table
+         * 
+         * @return string Html table summarizing data.
          */ 
         public function createHTMLTable() {
             $time_summary = $this->totalDataByMonthWeekAndBillTo();
@@ -275,6 +297,36 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
             }
             $table .= "</tr>"; 
             
+            //row - today value estimate
+            $curr_sign = tt_get_currency_type();
+            $table .= "<tr><td class=\"tt-align-center tt-border-top-divider\">" . "Today's  " . $curr_sign . " Estimate</td>";
+            foreach ($bill_to_names as $bill_to_name) {
+                if ( (empty($time_summary)) or (!array_key_exists('Today', $time_summary)) ) {
+                    $table .= "<td class=\"tt-align-right tt-border-top-divider\">N/A</td>";
+                } elseif (array_key_exists($bill_to_name, $time_summary['Today']) && ($time_summary['Today'][$bill_to_name]['Billable'] == 1)) {
+                    $table .= "<td class=\"tt-align-right tt-border-top-divider\">" . $curr_sign . " " . number_format($time_summary['Today'][$bill_to_name]['PendingValue'] + $time_summary['Today'][$bill_to_name]['ValueInvoiced'], 0, '.', ',') . "</td>";
+                } else {
+                    $table .= "<td class=\"tt-align-right tt-border-top-divider\">N/A</td>";
+                }
+            }
+            $table .= "</tr>";
+            
+            
+            //row - current week value estimate
+            $curr_sign = tt_get_currency_type();
+            $table .= "<tr><td class=\"tt-align-center\">" . "Current Week's  " . $curr_sign . " Estimate</td>";
+            foreach ($bill_to_names as $bill_to_name) {
+                if ( (empty($time_summary)) or (!array_key_exists('This Week', $time_summary)) ) {
+                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                } elseif (array_key_exists($bill_to_name, $time_summary['This Week']) && ($time_summary['This Week'][$bill_to_name]['Billable'] == 1)) {
+                    $table .= "<td class=\"tt-align-right\">" . $curr_sign . " " . number_format($time_summary['This Week'][$bill_to_name]['PendingValue'] + $time_summary['This Week'][$bill_to_name]['ValueInvoiced'], 0, '.', ',') . "</td>";
+                } else {
+                    $table .= "<td class=\"tt-align-right\">N/A</td>";
+                }
+            }
+            $table .= "</tr>";
+
+
             //row - pending value estimate
             $curr_sign = tt_get_currency_type();
             $table .= "<tr><td class=\"tt-align-center tt-border-top-divider\">" . date('F') . " " . date('Y') . " " . $curr_sign . " Pending (Estimate)</td>";

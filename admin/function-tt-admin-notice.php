@@ -5,6 +5,7 @@
  * Admin dashboard notices
  * 
  * @since 2.4
+ * @since 3.0.12 fix fatal activation error from function looking for option before it was created
  * 
  */
 
@@ -159,7 +160,13 @@ function tt_add_new_admin_notice_timer($name, $nexttime) {
     }
 }
 
-tt_add_new_admin_notice_timer('tt_feedback_request', new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month"));
+if (! get_option('time_tracker_install_time')) {
+    $dt_notice = new \DateTime(date_format(new \DateTime(), 'Y-m-d H:i:s') . " + 1 month");
+} else {
+    $dt_notice = new \DateTime(date_format(get_option('time_tracker_install_time'), 'Y-m-d H:i:s') . " + 1 month");
+}
+
+tt_add_new_admin_notice_timer('tt_feedback_request', $dt_notice);
 tt_add_new_admin_notice_timer('tt_beta_tester_search', new \DateTime());
 
 add_action( 'admin_notices', 'Logically_Tech\Time_Tracker\Admin\tt_dashboard_notice' );

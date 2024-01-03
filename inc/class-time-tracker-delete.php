@@ -4,7 +4,7 @@
  *
  * Deactivation of Time Tracker Plugin
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -16,18 +16,21 @@ use Logically_Tech\Time_Tracker\Admin\tt_export_data_function as tt_export_data_
 /**
  * If class doesn't exist already
  * 
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker_Deletor') ) {
 
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Time_Tracker_Deletor {
  
         /**
          * Delete Main Function
          * 
+         * @since 1.0.0
          */
         public static function delete_all() {
             self::define_dependents();
@@ -41,6 +44,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
         /**
          * Warn user
          * 
+         * @since 1.0.0
          */
         public static function send_deletion_warning() {
             //WARNING: Deleting!
@@ -51,18 +55,22 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
         /**
          * Definitions and Dependencies
          * 
+         * @since 1.0.0
+         * @since 3.0.12 include form subclass dependency to fix fatal deletion error
          */
         public static function define_dependents() {
             require_once 'class-time-tracker-activator-tables.php';
             require_once 'class-time-tracker-activator-pages.php';
             require_once 'class-time-tracker-activator-forms.php';
+            require_once TT_PLUGIN_FORM_TYPE . '/class-time-tracker-activator-forms-' . strtolower(TT_PLUGIN_FORM_TYPE) . '.php';
             require_once __DIR__ . '/../admin/function-tt-export-tables.php';
         }
 
 
         /**
-         * Backup before deleting...just in case
+         * Backup before deleting...just in case.
          * 
+         * @since 1.0.0
          */
         public static function backup_everything() {
             \Logically_Tech\Time_Tracker\Admin\tt_export_data_function();
@@ -70,8 +78,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 
 
         /**
-         * Delete Tables - User Data - Only (From button on admin screen)
+         * Delete tables (ie: user data). From button on admin screen.
          * 
+         * @since 1.0.0
          */
         public static function delete_tables_only() {
             self::define_dependents();
@@ -81,8 +90,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 		
 		
 		/**
-         * Delete Tables
+         * Delete all tables.
          * 
+         * @since 1.0.0
          */
         public static function delete_tables() {
             self::remove_foreign_keys_from_tables();
@@ -102,8 +112,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 
 
         /**
-         * Remove Foreign Keys in Preparation for Deleting Tables
+         * Remove Foreign Keys in preparation for deleting tables.
          * 
+         * @since 1.0.0
          */
         public static function remove_foreign_keys_from_tables() {
             global $wpdb;
@@ -131,8 +142,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
         
         
         /**
-         * Delete Pages
+         * Delete all pages.
          * 
+         * @since 1.0.0
          */
         public static function delete_pages() {
             $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(0);
@@ -144,8 +156,13 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 
 
         /**
-         * Delete Page
+         * Delete one page.
          * 
+         * @since 1.0.0
+         * 
+         * @param string $pagename Friendly name of page to be deleted.
+         * 
+         * @return int The Wordpress post ID of the page deleted, or 0 on error.
          */
         private static function delete_tt_subpage($pagename) {
             $post = get_page_by_path('time-tracker/' . $pagename, ARRAY_A, 'page');
@@ -156,8 +173,11 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 
 
         /**
-         * Delete Main Page
+         * Delete main Time Tracker page.
          * 
+         * @since 1.0.0
+         * 
+         * @return int The post ID of the main homepage of the Time Tracker plugin, or 0 on error.
          */
         private static function delete_tt_main_page() {
             $post = get_page_by_path('time-tracker', ARRAY_A, 'page');
@@ -168,8 +188,9 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 
 
         /**
-         * Delete Forms
+         * Delete all forms.
          * 
+         * @since 1.0.0
          */
         public static function delete_forms() {
             $tt_forms = Time_Tracker_Activator_Forms::create_form_details_array();
@@ -184,8 +205,13 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
 
 
         /**
-         * Delete Form
+         * Delete one form.
          * 
+         * @since 1.0.0
+         * 
+         * @param int $post_id The Wordpress post ID of the form to be deleted.
+         * 
+         * @return int The post ID of the form deleted, or 0 on error.
          */
         private static function delete_form($post_id) {
             return wp_delete_post($post_id);
