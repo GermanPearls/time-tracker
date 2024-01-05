@@ -4,7 +4,8 @@
  *
  * Get projects from db and create table to display on front end
  * 
- * @since 1.0
+ * @since 1.0.0
+ * @since 3.0.13 added 'other' category for projects with statuses not in predefined list
  * 
  */
 
@@ -22,6 +23,7 @@ if ( !class_exists( 'Project_List' ) ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Project_List
     {
@@ -35,13 +37,16 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Class Variables
          * 
+         * @since x.x.x
+         * @since 3.0.13 added 'other' category for projects with statuses not in predefined list
          */
-        private $status_order = ["New", "Ongoing", "In Process", "Waiting Client", "Complete", "Canceled"];
+        private $status_order = ["New", "Ongoing", "In Process", "Waiting Client", "Complete", "Canceled", "Other"];
 
 
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
             if (isset($_GET['project'])) {
@@ -71,6 +76,9 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Create HTML table for front end display - with all statuses combined
          * 
+         * @since x.x.x
+         * 
+         * @return string Html output including multiple tables for different statuses.
          */
         public function get_table_of_all_projects() {
             return $this->get_complete_table_in_html();
@@ -80,6 +88,11 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Create HTML table for front end display
          * 
+         * @since 1.0.0
+         * 
+         * @param string $pstatus One project status to create table for.
+         * 
+         * @return string Html table showing details of one project status.
          */
         public function create_table($pstatus) {
             $fields = $this->get_table_fields();
@@ -94,6 +107,9 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Combine All Project Status Tables for One Page
          * 
+         * @since x.x.x
+         * 
+         * @return string Html output to display with heading and table for each project status.
          */
         public function get_page_html_with_each_status_in_different_table() {
             $html = "";
@@ -108,6 +124,9 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Create HTML table with ALL STATUSES COMBINED
          * 
+         * @since x.x.x
+         * 
+         * @return string Html table of all statuses combined.
          */
         public function get_complete_table_in_html() {
             $fields = $this->get_table_fields();
@@ -122,6 +141,11 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Get details from db
          * 
+         * @since 1.0.0
+         * 
+         * @param string $pstatus One project status to query projects for. Default null
+         * 
+         * @return array|object Details of projects from database query.
          */
         private function get_projects_from_db($pstatus=null) {
             $sql_string = "SELECT tt_project.*, tt_client.Company, 
@@ -145,6 +169,12 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
+         * @since x.x.x
+         * @since 3.0.13 updated to find statuses not in predefined list when 'Other' passed as pstatus
+         * 
+         * @param string $pstatus One project status to query projects for. Default null
+         * 
+         * @return string Where clause to be added to end of sql query.
          */
         private function get_where_clauses($pstatus = null) {
             global $wpdb;
@@ -157,7 +187,21 @@ if ( !class_exists( 'Project_List' ) ) {
                 array_push($where_clauses, "tt_project.ProjectID = " . $this->projectid);
             }
             if ($pstatus <> null) {
-                array_push($where_clauses, "tt_project.PStatus = '" . $pstatus . "'");
+                if ($pstatus == "Other") {
+                    $clause = "(";
+                    foreach ($this->status_order as $status) {
+                        if ($status <> "Other") {
+                            if (strlen($clause) > 1) {
+                                $clause .= " AND ";
+                            }
+                            $clause .= "tt_project.PStatus <> '" . $status . "'";
+                        }
+                    }
+                    $clause .= ")";
+                    array_push($where_clauses, $clause);
+                } else {
+                    array_push($where_clauses, "tt_project.PStatus = '" . $pstatus . "'");
+                }
             }            
             if ( ($this->startdate <> "") and ($this->startdate <> null) ) {
                 array_push($where_clauses, "tt_project.PDateStarted >= '" . $this->startdate . "'");
@@ -182,6 +226,9 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Get table column order and table fields
          * 
+         * @since x.x.x
+         * 
+         * @return array Multi-dimensional array of columns, each one having column details in key-value pairs.
          */
         private function get_table_fields() {
             $cols = [
@@ -273,6 +320,12 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Get Due Date Class
          * 
+         * @since 1.0.0
+         * 
+         * @param date|string Due date of project.
+         * @param string $projstatus Status of project.
+         * 
+         * @return string Class name to apply to project.
          */
         private function get_due_date_class($duedate, $projstatus) {
             //evaluate due date and current status, apply class based on result
@@ -297,6 +350,11 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Iterate through data and add additional information for table
          * 
+         * @since x.x.x
+         * 
+         * @param string $projstatus Status of project. Default null
+         * 
+         * @return array Multi-dimensional array of projects, each project having details for display.
         **/
         private function get_all_data_for_display($pstatus=null) {
             $projects = $this->get_projects_from_db($pstatus);
