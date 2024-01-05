@@ -9,9 +9,12 @@
  * @param $table_args   Arguments for entire table (ie: classes)
  * @param $table_name   Name for entire table (id: id)
  * @param $table_key    If data inside table is editable, this is the primary key fieldname for the table
+ * 
  * @return string       Html output including data in html table
  * 
  * @since 1.1.1
+ * @since 3.0.11 Fix null entries, display as empty text.
+ * @since 3.0.12 Fix revision number. Change data sanitization for text to remove slashes.
  * 
  */
 
@@ -27,6 +30,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
     /**
      * Class
      * 
+     * @since 1.1.1
      */
     class Time_Tracker_Display_Table {
 
@@ -37,6 +41,15 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
 		/**
          * Create Entire HTML Table
          * 
+         * @since x.x.x
+         * 
+         * @param xxx $fields xxx
+         * @param xxx $data xxx
+         * @param xxx $table_args xxx
+         * @param xxx $table_name xxx
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Html string.
          */
         public function create_html_table($fields, $data, $table_args, $table_name, $table_key) {
             if ($data) {
@@ -53,8 +66,13 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         
         
         /**
-         * Add Arguments to Table Tag
+         * Create arguments for including within html tab
          * 
+         * @since x.x.x
+         * 
+         * @param array $arguments Array of arguments to add within a tag, stored in key-value pairs of attribute name-value.
+         * 
+         * @return string String of attributes to add within an html tag.
          */
         private function add_arguments($arguments) {
             $args = "";
@@ -78,6 +96,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Table Tag
          * 
+         * @since x.x.x
+         * 
+         * @return string Html opening table tag, with attributes, if applicable.
          */
         public function start_table($head_arguments = null) {
             $tbl = "<table";
@@ -92,6 +113,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Table Tag
          * 
+         * @since x.x.x
+         * 
+         * @return string Html closing table tag.
          */
         public function close_table() {
             return "</table>";
@@ -101,6 +125,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Row
          * 
+         * @since x.x.x
+         * 
+         * @return string Html opening table row tag, tr, with attributes, if applicable.
          */
         public function start_row($row_arguments = null) {
             $row = "<tr";
@@ -115,6 +142,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Row
          * 
+         * @since x.x.x
+         * 
+         * @return string Html closing table row tag.
          */
         public function close_row() {
             return "</tr>";
@@ -124,6 +154,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Header Data
          * 
+         * @since x.x.x
+         * 
+         * @return string Html opening table header tag, with attributes if applicable.
          */
         public function start_header_data($header_data_arguments = null) {
             $th = "<th";
@@ -138,6 +171,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Header Data
          * 
+         * @since x.x.x
+         * 
+         * @return string Html closing table header tag.
          */
         public function close_header_data() {
             return "</th>";
@@ -147,6 +183,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Data
          * 
+         * @since x.x.x
+         * 
+         * @return string Html opening table cell tag, td, with attributes, if applicable.
          */
         public function start_data($data_arguments = null) {
             $td = "<td";
@@ -161,6 +200,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Data
          * 
+         * @since x.x.x
+         * 
+         * @return string Html closing table cell tag.
          */
         public function close_data() {
             return "</td>";
@@ -170,6 +212,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Header Row
          * 
+         * @since x.x.x
+         * 
+         * @return string Html of header row, including opening tag, cells, closing header tag.
          */
         private function create_header_row($fields) {
             $header_row = $this->start_row();
@@ -185,15 +230,23 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Sanitize, Escape, and Display Data
          * 
-         * @since Unknown
-         * @since 3.1.0 Null display values returned as empty string.
+         * @since x.x.x
+         * @since 3.0.11 Null display values returned as empty string.
+         * @since 3.0.13 Change data sanitization setting for text.
+         * 
+         * @param string $data_type Type of data to return.
+         * @param string $display_value Data which needs to be displayed in cell.
+         * @param array $args Additional details needed display data in cell, ex: used with select dropdown creation. 
+         * 
+         * @return varies Output to display in cell, can be string, long text, integer, more.
          */
         private function display_data_in_cell($data_type, $display_value, $args=[]) {
             if ($display_value == null) {
                 return "";
             }
             if ($data_type == "text") {
-                return esc_html(sanitize_text_field($display_value));
+                //return esc_html(sanitize_text_field($display_value));
+                return stripslashes(wp_kses_post(nl2br($display_value)));
             } elseif ($data_type == "long text") {
                 return stripslashes(wp_kses_post(nl2br($display_value)));
             } elseif ($data_type == "date") {
@@ -216,12 +269,15 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Get Arguments for Data Cell
          * 
-         * @param array $details information for this cell
-         * @param array or object $item	information for this entire row
-         * @param string $sql_fieldname	this cell's fieldname in sql result
-         * @param string $table_name main database table this table data originates from
-         * @param string $table_key name of main ID column in database table to reference this record in the table
+         * @since x.x.x
          * 
+         * @param array $details Information for this cell.
+         * @param array or object $item	Information for this entire row.
+         * @param string $sql_fieldname	This sql field name where this cell's data originated.
+         * @param string $table_name Main database table this table data originates from.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return array Array of data and arguments for creating cell.
          */
         private function get_cell_args($details, $item, $sql_fieldname, $table_name, $table_key) {
             $args = [];
@@ -289,6 +345,14 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create All Data Rows
          * 
+         * @since x.x.x
+         * 
+         * @param xxx $fields xxx
+         * @param xxx $data xxx
+         * @param string $table_name Name of table we are creating.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Html output of all data rows.
          */
         private function create_data_rows($fields, $data, $table_name, $table_key) {
             $data_rows = "";
@@ -303,6 +367,14 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Single Data Row
          * 
+         * @since x.x.x
+         * 
+         * @param array $fields xxx
+         * @param xxx $item xxx
+         * @param string $table_name Name of table we are creating.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Html output of one data row including opening row tag, data cells, and closing row tag.
          */
         private function create_data_row($fields, $item, $table_name, $table_key) {
             $row = $this->start_row();
@@ -317,6 +389,14 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Single Data Cell
          * 
+         * @since x.x.x
+         * 
+         * @param array $field_details Details on how the field should be displayed.
+         * @param array|object $item xxx
+         * @param string $table_name Name of table we are creating.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Html of one cell including opening cell tag, data, and closing cell tag.
          */
         private function create_data_cell($field_details, $item, $table_name, $table_key) {
             $sql_fieldname = $field_details["fieldname"];
@@ -340,6 +420,12 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Select Dropdown
          * 
+         * @since x.x.x
+         * 
+         * @param array $args Array of arguments in key-value pairs.
+         * @param string $val Value to show as selected in dropdown.
+         * 
+         * @return string Html for a select dropdown.
          */
         private function create_select_dropdown($args, $val) {
             $typ = array_key_exists("data_type", $args) ? $args["data_type"] : "text";
@@ -363,6 +449,11 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Add Button to Cell
          * 
+         * @since x.x.x
+         * 
+         * @param array $args Array of arguments used to create cell.
+         * 
+         * @return string Html of button.
          */
         private function add_button_to_cell($args) {
             $button = "<br/>";
@@ -382,6 +473,11 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Add Icon to Cell
          * 
+         * @since x.x.x
+         * 
+         * @param array $args Array of arguments used to create cell.
+         * 
+         * @return string Html of icon.
          */
         private function add_icon_to_cell($args) {
             $icon = "";
