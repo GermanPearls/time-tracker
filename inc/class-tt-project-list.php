@@ -5,7 +5,8 @@
  * Get projects from db and create table to display on front end
  * 
  * @since 1.0.0
- * @since 3.0.13 added 'other' category for projects with statuses not in predefined list
+ * @since 3.0.13 Added 'other' category for projects with statuses not in predefined list.
+ * @since 3.0.13 Clarified column heading.
  * 
  */
 
@@ -227,12 +228,13 @@ if ( !class_exists( 'Project_List' ) ) {
          * Get table column order and table fields
          * 
          * @since x.x.x
+         * @since 3.0.13 Clarified column heading.
          * 
          * @return array Multi-dimensional array of columns, each one having column details in key-value pairs.
          */
         private function get_table_fields() {
             $cols = [
-                "ID" => [
+                "Project ID" => [
                     "fieldname" => "ProjectID",
                     "id" => "recurring-task-id",
                     "editable" => false,

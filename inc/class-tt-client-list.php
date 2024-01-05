@@ -4,7 +4,8 @@
  *
  * Get and display client list in table on front end
  * 
- * @since 1.0
+ * @since 1.0.0
+ * @since 3.0.13 clarify column header
  * 
  */
 
@@ -22,6 +23,7 @@ if ( !class_exists( 'Client_List' ) ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Client_List
     {
@@ -33,6 +35,7 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
             if (isset($_GET['client'])) {
@@ -51,6 +54,9 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Get html result
          * 
+         * @since 1.0.0
+         * 
+         * @return string Html output string.
          */
         public function create_table() {
             return $this->get_html();
@@ -60,6 +66,7 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Get client list from db
          * 
+         * @since 1.0.0
          */
         private function get_clients_from_db() {
             $sql_string = "SELECT tt_client.*
@@ -74,6 +81,9 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
+         * @since x.x.x
+         * 
+         * @return string Where parameters for end of sql string.
          */
         private function get_where_clauses() {
             $where_clauses = array();
@@ -92,10 +102,14 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Get table column order and details
          * 
+         * @since x.x.x
+         * @since 3.0.13 clarify column header
+         * 
+         * @return array Multi-dimensional array including list of columns, with key-value pairs of column parameters.
          */
         private function get_table_fields() {
             $cols = [
-                "ID" => [
+                "Client ID" => [
                     "fieldname" => "ClientID",
                     "id" => "client-id",
                     "editable" => false,
@@ -103,7 +117,7 @@ if ( !class_exists( 'Client_List' ) ) {
                     "type" => "text",
                     "class" => ""
                 ],
-                "Client" => [
+                "Client Name" => [
                     "fieldname" => "Company",
                     "id" => "company-name",
                     "editable" => false,
@@ -191,6 +205,9 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Iterate through data and add additional information for table
          * 
+         * @since x.x.x
+         * 
+         * @return array Array of clients with information for forming html table.
         **/
         private function get_all_data_for_display() {
             $clients = $this->all_clients;
@@ -212,6 +229,9 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Create HTML table for front end display
          * 
+         * @since x.x.x
+         * 
+         * return string Html output consisting of table of clients.
          */
         public function get_html() {
             $fields = $this->get_table_fields();
@@ -222,6 +242,5 @@ if ( !class_exists( 'Client_List' ) ) {
             return $table;
         }
 
-    } //close class
-
-} //close if class exists
+    }
+}

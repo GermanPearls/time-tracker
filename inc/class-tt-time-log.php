@@ -4,7 +4,8 @@
  *
  * CLASS TO DISPLAY TIME LOG TABLE
  * 
- *  @since 1.0.0
+ * @since 1.0.0
+ * @since 3.0.13 correct typo in column heading
  * 
  */
 
@@ -32,6 +33,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */        
         public function __construct() {
             $this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
@@ -62,6 +64,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get results
          * 
+         * @since x.x.x
+         * 
+         * @return string html output
          */
         public function create_table() {
             return $this->get_html();
@@ -73,6 +78,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          * @since 3.0.5
          * 
+         * @return int Count of records to be displayed
          */
         public function get_record_count() {
             return $this->get_time_log_record_count();
@@ -83,6 +89,8 @@ if ( !class_exists( 'Time_Log' ) ) {
          * Get count of results
          * 
          * @since 3.0.5
+         * 
+         * @return int Count of records to be displayed
          * 
          */
         private function get_time_log_record_count() {
@@ -96,6 +104,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get data from db - returns object
          * 
+         * @since x.x.x
+         * 
+         * @return object Time entries from database
          */
         private function get_time_log_from_db() {
             return tt_query_db($this->create_sql_string(), "object");
@@ -105,6 +116,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get data from db - return array
          * 
+         * @since x.x.x
+         * 
+         * @return array Time entries from database
          */
         protected function get_time_log_array_from_db() {
             return tt_query_db($this->create_sql_string(), "array");
@@ -114,6 +128,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Prepare sql string
          * 
+         * @since x.x.x
+         * 
+         * @return string Complete sql string used to query database for time entries
          */
         private function create_sql_string($type="select") {   
             if ($type=="select") {
@@ -131,6 +148,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          * @since 3.0.5
          * 
+         * @return string First part of sql string, indicating which fields to return 
          */
         private function get_select_clause() {
             $selectpart = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.ProjectID, tt_task.TCategory, tt_task.RecurringTaskID, tt_task.TDescription, tt_task.TStatus, tt_task.TTimeEstimate,
@@ -145,6 +163,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          * @since 3.0.5
          * 
+         * @return string First part of sql string, indicating which fields to return, when only looking for count of records returned
          */
         private function get_count_clause() {
             $selectpart = "SELECT COUNT(tt_time.TimeID) as TimeCount";
@@ -157,6 +176,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          * @since 3.0.5
          * 
+         * @return string From part of sql string, indicating from which table(s) we are getting data
          */
         private function get_from_clause() {
             $sql_from = " FROM tt_time 
@@ -173,6 +193,7 @@ if ( !class_exists( 'Time_Log' ) ) {
          * 
          * @since 3.0.5
          * 
+         * @return string Part of sql string which indicates how records should be ordered
          */
         private function get_order_by_clause() {
             $orderby = " ORDER BY tt_time.StartTime DESC";
@@ -183,6 +204,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Prepare sql string - LIMIT parameter
          * 
+         * @since x.x.x
+         * 
+         * @return string Part of sql string which limits the number of records to be returned. Used for pagination
          */
         private function get_limit_parameter() {
             if ($this->record_limit == false) {
@@ -198,6 +222,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get where clauses depending on input
          * 
+         * @since x.x.x
+         * 
+         * @return string Part of sql string which defines criteria for records to be returned
          */
         private function get_where_clauses() {
             global $wpdb;
@@ -243,6 +270,8 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Set pagination property
          * 
+         * @since x.x.x
+         * 
          */
         protected function remove_record_limit() {
             $this->record_limit = false;
@@ -252,10 +281,14 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get table column order and table fields
          * 
+         * @since x.x.x 
+         * @since 3.0.13 correct typo in column heading
+         * 
+         * @return array Multi-dimensional array of columns (and their properties) to be displayed in front end table
          */
         private function get_table_fields() {
             $cols = [
-                " Time ID" => [
+                "Time ID" => [
                     "fieldname" => "TimeID",
                     "id" => "time-id",
                     "editable" => false,
@@ -391,6 +424,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get Data from Table and Append with Any Extra Info
          * 
+         * @since x.x.x
+         * 
+         * @return object Time entries to be displayed, with additional items to display in table (ie: buttons, icons)
          */
         private function get_all_data_for_display() {
             $time_entries = $this->get_time_log_from_db();
@@ -438,6 +474,9 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Create Table
          * 
+         * @since x.x.x
+         * 
+         * @return string Html table for display
          */
         public function get_html() {            
             $fields = $this->get_table_fields();
@@ -448,6 +487,5 @@ if ( !class_exists( 'Time_Log' ) ) {
             return $table;
         }
         
-    } //close class
-
-} //close if class exists
+    }
+}

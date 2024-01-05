@@ -4,7 +4,8 @@
  *
  * Get and display entire task list
  * 
- * 
+ * @since 1.0.0
+ * @since 3.0.13 clarify column header
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -15,6 +16,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( !class_exists( 'Task_List' ) ) {
 
@@ -22,6 +24,7 @@ if ( !class_exists( 'Task_List' ) ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Task_List
     {
@@ -43,6 +46,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
             //$this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
@@ -85,6 +89,12 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get task list for a parent item
          * 
+         * @since x.x.x
+         * 
+         * @param string $tbl_name Name of table used for filtering by parent item.
+         * @param array $parent_record Array in key-value pair with filter by field name and filter by value.
+         * 
+         * @return object Results of querying database for tasks.
          */
         public function get_task_list_for_parent_item($tbl_name, $parent_record) {
             $this->assoc_field = $tbl_name . "." . sanitize_text_field(array_key_first($parent_record));
@@ -96,6 +106,13 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get result
          * 
+         * @since 1.0.0
+         * 
+         * @param string $type Optional. Which table to display, open_tasks returns only open tasks, anything else returns all tasks. Default "".
+         * @param string $associated_field Optional. Field to filter results, if passed. Default "".
+         * @param int $associated_id Optional. ID used to filter associated field. Default 0.
+         * 
+         * @return string Html output showing details of task(s) queried.
          */
         public function create_table($type = "", $associated_field = "", $associated_id=0) {
             if ($associated_field <> "") {
@@ -109,10 +126,14 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get table column order and table fields
          * 
+         * @since x.x.x
+         * @since 3.0.13 clarify column header
+         * 
+         * @return array Multi-dimensional array of columns to display with details for each.
          */
         private function get_table_fields() {
             $cols = [
-                "ID" => [
+                "Task ID" => [
                     "fieldname" => "TaskID",
                     "id" => "task-id",
                     "editable" => false,
@@ -212,6 +233,9 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get task status options - user defined
          * 
+         * @since x.x.x
+         * 
+         * @return array List of task statuses as strings.
          */
         private function get_task_status_options() {
             $task_status = tt_get_user_options("time_tracker_categories", "task_status");
@@ -232,6 +256,9 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Query db for OPEN tasks
          * 
+         * @since 1.0.0
+         * 
+         * @return object Results of querying database for only open tasks.
          */
         private function get_open_tasks_from_db() {
             $this->status_search = "OPEN";
@@ -242,6 +269,9 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Query db for ALL tasks
          * 
+         * @since 1.0.0
+         * 
+         * @return object Results of querying database for tasks.
          */
         private function get_all_tasks_from_db() {
             $sql_string = "SELECT tt_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName,
@@ -266,6 +296,9 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get order clauses depending on type of search
          * 
+         * @since x.x.x
+         * 
+         * @return string Order by clause to be added to end of sql statement.
          */
         private function get_order_by() {
             if ($this->status_search == "OPEN") {
@@ -280,6 +313,9 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
+         * @since x.x.x
+         * 
+         * @return string Where clause to be added to end of sql statement.
          */
         private function get_where_clauses() {
             global $wpdb;
@@ -328,6 +364,11 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get Data from Table and Append with Any Extra Info
          * 
+         * @since x.x.x
+         * 
+         * @param string $type Which table to display, open_tasks returns only open tasks, anything else returns all tasks.
+         * 
+         * @return array Multi-dimensional array of tasks, with details for each task.
          */
         private function get_all_data_for_display($type) {
             $future_dates_divider_added = false;
@@ -393,6 +434,12 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Add class to cell
          * 
+         * @since 1.0.0
+         * 
+         * @param array|string $cel Details for a single cell, may be value only (string) or contain value and other cell parameters (array).
+         * @param string $cls Classname to be added to cell details.
+         * 
+         * @return array Details for a single cell in the output table, including class.
          */
         private function add_class_to_cell($cel, $cls) {
             if (is_array($cel)) {
@@ -410,16 +457,17 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Create Table
          * 
+         * @since 1.0.0
+         * 
+         * @return string Html output, table of task details.
          */
         private function get_html($type) {            
             $fields = $this->get_table_fields();
             $tasks = $this->get_all_data_for_display($type);                
             $args["class"] = ["tt-table", "task-list-table"];
             $tbl = new Time_Tracker_Display_Table();
-            $table = $tbl->create_html_table($fields, $tasks, $args, "tt_task", "TaskID");
-            return $table;
+            return $tbl->create_html_table($fields, $tasks, $args, "tt_task", "TaskID");
         }
         
-    } //close class
-
-} //close if class exists
+    }
+}
