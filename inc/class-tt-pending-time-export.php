@@ -160,11 +160,13 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
          */
         private function convert_to_qb_import_format($time_details) {
             $client = "";
+            $ticket = "";
             $i = 1;
             $eom = \date_format(new \DateTime('last day of this month'), 'm/d/Y');
             $inv_header_1 = array("!TRNS", "TRNSID", "TRNSTYPE", "DATE", "ACCNT", "NAME", "CLASS", "AMOUNT", "DOCNUM", "MEMO", "CLEAR", "TOPRINT", "ADDR1", "ADDR2", "ADDR3", "ADDR4", "ADDR5", "DUEDATE", "TERMS", "PAID", "SHIPDATE");
             $inv_header_2 = array("!SPL", "SPLID", "TRNSTYPE", "DATE", "ACCNT", "NAME", "CLASS", "AMOUNT", "DOCNUM", "MEMO", "CLEAR", "QNTY", "PRICE", "INVITEM", "PAYMETH", "TAXABLE", "REIMBEXP", "EXTRA", "", "", "");
             $inv_header_3 = array("!ENDTRNS", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            $inv_blank_line = array("SPL", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             $inv_footer = array("ENDTRNS", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             $qb_array = array($inv_header_1, $inv_header_2, $inv_header_3);
             foreach ($time_details as $time_detail) {
@@ -179,10 +181,21 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
                     $client = $time_detail["Company"];
                 }
 
+                //ticket header
+                if ($time_detail["TaskID"] != $ticket) {
+                    //if this is not the first ticket for this invoice, leave a blank line between tickets
+                    if ($qb_array[count($qb_array)-1][0] != "TRNS") {
+                        array_push($qb_array, $inv_blank_line);
+                    }
+                    $ticket_header = array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", $time_detail["TaskID"] . " - " . $time_detail["TDescription"], "", "", "", "", "", "N", "N", "", "", "", "");
+                    array_push($qb_array, $ticket_header);
+                    $ticket = $time_detail["TaskID"];
+                }
+
                 //invoice line items
                 $inv_line = array();
                 //note qty must be negative when importing into QB as invoice
-                $inv_line =  array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", $time_detail["TNotes"], "N", 
+                $inv_line =  array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", str_replace($time_detail["TNotes"], chr(13) . chr(11), "\n"), "N", 
                     (0-\Logically_Tech\Time_Tracker\Inc\tt_convert_to_decimal_time($time_detail["LoggedHours"], $time_detail["LoggedMinutes"])),
                     $time_detail["BillingRate"], "Service - TBD", "", "N", "N", "", "", "", "");
                 array_push($qb_array, $inv_line);
