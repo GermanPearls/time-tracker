@@ -346,7 +346,7 @@ div.tt-pagination-nav {
   }
 } 
 
-button.tt-export-pending-time-for-qb {
+.button.tt-export-pending-time-for-qb {
     margin-right: 10px;
 }
 
