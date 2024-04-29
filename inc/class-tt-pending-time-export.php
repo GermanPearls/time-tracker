@@ -56,6 +56,38 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
 
 
         /**
+         * Export to IIF File(s) for Import to Quickbooks Invoices
+         *
+         * @since 3.0.13
+         * 
+         * @return array List of saved files capable of being imported into QB.
+         */
+        public function export_each_billto_for_qb() {
+            $this->save_each_billto_as_a_qb_import_file();         
+            return $this->saved_files;
+        }
+        
+        
+        /**
+         * Save Each Bill To In Separate IIF File Compatible with QB Import
+         *
+         * @since 3.0.13
+         * 
+         * @return null
+         */
+        private function save_each_billto_as_a_qb_import_file() {
+            foreach ($this->original_data as $billtoname => $time_details) {
+                if (!empty($time_details)) {   
+                    $export_and_dl = New Time_Tracker_Export_To_File_And_Download($this->get_save_path(),
+                        $this->get_filename($billtoname, "quickbooks_invoice_import"), ".iif", $this->convert_to_qb_import_format($time_details), "tab");
+                    $fl = $export_and_dl->save_to_file();
+                    array_push($this->saved_files, $fl);
+                }
+            }
+            return;         
+        } 
+        
+        /**
          * Process Each Bill To Separately
          *
          * @since 2.2.0
@@ -65,7 +97,7 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
         private function save_each_billto_as_a_file() {
             foreach ($this->original_data as $billtoname => $time_details) {
                 if (!empty($time_details)) {   
-                    $export_and_dl = New Time_Tracker_Export_To_File_And_Download($this->get_save_path(),$this->get_filename($billtoname),".csv",$time_details);
+                    $export_and_dl = New Time_Tracker_Export_To_File_And_Download($this->get_save_path(), $this->get_filename($billtoname), ".csv", $time_details);
                     $fl = $export_and_dl->save_to_file();
                     array_push($this->saved_files, $fl);
                 }
@@ -116,6 +148,47 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
                 $filename = $filename . '_' . $i;
             } while (file_exists($filename));
             return $filename;      
+        }
+
+        /**
+         * Convert to Format for QB Import
+         *
+         * @since 3.0.13
+         * 
+         * @return Multi dimensional array ready for export to csv.
+         */
+        private function convert_to_qb_import_format($time_details) {
+            $client = "";
+            $i = 1;
+            $eom = \date_format(new \DateTime('last day of this month'), 'm/d/Y');
+            $inv_header_1 = array("!TRNS", "TRNSID", "TRNSTYPE", "DATE", "ACCNT", "NAME", "CLASS", "AMOUNT", "DOCNUM", "MEMO", "CLEAR", "TOPRINT", "ADDR1", "ADDR2", "ADDR3", "ADDR4", "ADDR5", "DUEDATE", "TERMS", "PAID", "SHIPDATE");
+            $inv_header_2 = array("!SPL", "SPLID", "TRNSTYPE", "DATE", "ACCNT", "NAME", "CLASS", "AMOUNT", "DOCNUM", "MEMO", "CLEAR", "QNTY", "PRICE", "INVITEM", "PAYMETH", "TAXABLE", "REIMBEXP", "EXTRA", "", "", "");
+            $inv_header_3 = array("!ENDTRNS", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            $inv_footer = array("ENDTRNS", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            $qb_array = array($inv_header_1, $inv_header_2, $inv_header_3);
+            foreach ($time_details as $time_detail) {
+                //invoice header details
+                if ($time_detail["Company"] != $client) {
+                    if (count($qb_array) != 3) {
+                        array_push($qb_array, $inv_footer);                        
+                    }
+                    $inv_header =  array("TRNS", strval($i), "INVOICE", $eom, "Accounts Receivable", $time_detail["Company"], "", "", "", "", "N", "N", "", "", "", "", "", "", "", "", "");
+                    array_push($qb_array, $inv_header);
+                    $i++;
+                    $client = $time_detail["Company"];
+                }
+
+                //invoice line items
+                $inv_line = array();
+                //note qty must be negative when importing into QB as invoice
+                $inv_line =  array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", $time_detail["TNotes"], "N", 
+                    (0-\Logically_Tech\Time_Tracker\Inc\tt_convert_to_decimal_time($time_detail["LoggedHours"], $time_detail["LoggedMinutes"])),
+                    $time_detail["BillingRate"], "Service - TBD", "", "N", "N", "", "", "", "");
+                array_push($qb_array, $inv_line);
+                $i++;
+            }
+            array_push($qb_array, $inv_footer);
+            return $qb_array;         
         }
 
     } //class

@@ -209,6 +209,28 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 return "Error: Either Contact Form 7 or WPForms must be activated to use the Time Tracker plugin.";
             }
         }
+
+        /**
+         * Create button for exporting pending time
+         * 
+         * @since 3.0.13
+         * 
+         * @return string HTML of button to export pending time as csvs.
+         */
+        private static function get_pending_time_export_button() {
+            return "<input type=\"submit\" class=\"button tt-export-pending-time tt-button tt-midpage-button float-right no-border-radius\" name=\"tt-export-pending-time\" value=\"Download Data\" />";
+        }
+
+        /**
+         * Create button for exporting pending time in Quickbooks import format
+         * 
+         * @since 3.0.13
+         * 
+         * @return string HTML of button to export pending time as iif ready for import to QB as invoices
+         */
+        private static function get_pending_time_export_for_qb_button() {
+            return "<input type=\"submit\" class=\"button tt-export-pending-time-for-qb tt-button tt-midpage-button float-right no-border-radius\" name=\"tt_export_pending_time_for_qb\" value=\"Download Quickbooks Import File\" />";
+        }
             
             
         /**
@@ -318,7 +340,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Pending Time",
                 "Parent" => $parent,
                 "Slug" => "pending-time",
-                "Content" => "<input type=\"submit\" class=\"button tt-export-pending-time tt-button tt-midpage-button float-right no-border-radius\" name=\"tt-export-pending-time\" value=\"Download Data\" />[tt_pending_time_table]",
+                "Content" => self::get_pending_time_export_button() . self::get_pending_time_export_for_qb_button() . "[tt_pending_time_table]",
 				"Paginate" => array(
 					"Flag" => false
 				)

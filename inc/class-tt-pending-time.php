@@ -99,7 +99,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
          * @return array Array of time entries as received from sql query.
          */
         private function get_pending_time_from_db() {
-            $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate, tt_task.TStatus,
+            $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_client.BillingRate, tt_task.TDescription, tt_task.TTimeEstimate, tt_task.TStatus,
                     Minute(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedMinutes,
                     Hour(TIMEDIFF(tt_time.EndTime, tt_time.StartTime)) as LoggedHours
                 FROM tt_time 

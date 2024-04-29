@@ -105,6 +105,7 @@ installation and provide detailed feedback if you find features that don't work 
 
 = 3.0.13 (alpha) =
 Fix: Removed deprecated php input filter
+Improvement: Add button for exporting pending time in IIF format, ready for importing into QuickBooks for automated Invoice creation.
 Improvement: Updated project listing to display projects with statuses not in predefined list as 'other' status
 Improvement: Misc code cleanup
 
