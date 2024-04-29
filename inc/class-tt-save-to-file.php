@@ -200,6 +200,7 @@ if ( !class_exists( 'Time_Tracker_Export_To_File_And_Download' ) ) {
          * 
          * @since 2.2.0
          * @since 3.0.13 Included delimiter and end of line character option for csv.
+         * @since 3.0.13 alpha Returned full path and file name separately.
          * 
          * @return null
          */
@@ -212,13 +213,15 @@ if ( !class_exists( 'Time_Tracker_Export_To_File_And_Download' ) ) {
                         fputcsv($csv_file, $item, $separator=$this->file_delimiter);
                     }
                     fclose($csv_file);
-                    $this->file_created['fname'] = $this->full_file_name_path;
+                    $this->file_created['fpath'] = $this->full_file_name_path;
+                    $this->file_created['fname'] = $this->file_name . $this->file_extension;
                     $this->file_created['fcontent'] = file_get_contents($this->full_file_name_path);
                 }
             //or save as string
             } else {
                 file_put_contents($this->full_file_name_path, $this->file_content);
-                $this->file_created['fname'] = $this->full_file_name_path;
+                $this->file_created['fpath'] = $this->full_file_name_path;
+                $this->file_created['fname'] = $this->file_name . $this->file_extension;
                 $this->file_created['fcontent'] = file_get_contents($this->full_file_name_path);
             }
             return;

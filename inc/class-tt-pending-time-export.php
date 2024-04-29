@@ -27,8 +27,9 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
     class Pending_Time_Export extends Pending_Time
     {
 
-        protected $original_data;
-        public $saved_files;
+        
+        protected $original_data;   //data from queried database
+        public $saved_files;        //array of files to return to ajax function and download, each file includes key-value array including fname, fpath, fcontent
 
         
         /**
