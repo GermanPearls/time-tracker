@@ -5,7 +5,7 @@
  * Hook into CF7 after data saved to save form data into Time Tracker tables in database
  * Specific to CF7 installations
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -39,6 +39,7 @@ if ( ! class_exists('Time_Tracker_Save_Form_Data_CF7') ) {
         /**
          * Save data to the db
          * 
+         * @since 2.4.7
          */ 
         public function saveTTData() {
             $form = \WPCF7_Submission::get_instance();
@@ -51,6 +52,12 @@ if ( ! class_exists('Time_Tracker_Save_Form_Data_CF7') ) {
         /**
          * Sanitize data
          * 
+         * @since 2.4.7
+         * @since 3.0.13 Updated to remove deprecated php filter
+         * 
+         * @param string|array $raw_data Raw data to be sanitized
+         * 
+         * @return string|array Sanitized data
          */
         private function clean_data($raw_data) {
             $clean_data = array();
@@ -59,18 +66,22 @@ if ( ! class_exists('Time_Tracker_Save_Form_Data_CF7') ) {
                     //$clean_data[$key] = filter_var(htmlspecialchars_decode($data[0], ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
                     //$raw = $data[0];
                     //$clean_data[$key] = htmlspecialchars_decode(filter_var($raw, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NO_QUOTES);
-                    $clean_data[$key] = filter_var($data[0], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                    //$clean_data[$key] = filter_var($data[0], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                    //FILTER_SANITIZE_STRING deprecated - https://stackoverflow.com/a/69207369/7303640
+                    $clean_data[$key] = filter_var($data[0], FILTER_UNSAFE_RAW, FILTER_FLAG_NO_ENCODE_QUOTES);
                 } else {
                     //$clean_data[$key] = filter_var(htmlspecialchars_decode($data, ENT_NOQUOTES), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
                     //$clean_data[$key] = htmlspecialchars_decode(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES), ENT_NOQUOTES);
-                    $clean_data[$key] = filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                    //$clean_data[$key] = filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                    //FILTER_SANITIZE_STRING deprecated - https://stackoverflow.com/a/69207369/7303640
+                    $clean_data[$key] = filter_var($data, FILTER_UNSAFE_RAW, FILTER_FLAG_NO_ENCODE_QUOTES);
                 }
             }
             return $clean_data;
         }
 
-    }  //close class
-} //if class exists
+    }
+}
 
 $saveddata = new Time_Tracker_Save_Form_Data_CF7();
 

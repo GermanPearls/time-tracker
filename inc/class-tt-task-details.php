@@ -4,7 +4,7 @@
  *
  * CLASS TO DISPLAY DETAILS OF TASK INCLUDING TIME WORKED
  * 
- * 
+ * @since 1.0.0
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -14,12 +14,14 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( !class_exists( 'Task_Details' ) ) {
 
     /**
      * Class
      * 
+     * @since 1.0.0
      */  
     class Task_Details
     {
@@ -28,6 +30,7 @@ if ( !class_exists( 'Task_Details' ) ) {
         /**
          * Class variables
          * 
+         * @since 1.0.0
          */ 
         private $taskid;
 
@@ -35,6 +38,7 @@ if ( !class_exists( 'Task_Details' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */ 
         public function __construct() {
             if (isset($_GET['task-id'])) {
@@ -46,6 +50,9 @@ if ( !class_exists( 'Task_Details' ) ) {
         /**
          * Get results
          * 
+         * @since 1.0.0
+         * 
+         * @return string Html output showing details of one task, including time worked.
          */ 
         public function generate_output_for_display() {
             return $this->get_html();
@@ -55,6 +62,9 @@ if ( !class_exists( 'Task_Details' ) ) {
         /**
          * Query db for task details
          * 
+         * @since 1.0.0
+         * 
+         * @return array|object Results of querying database for task details and time worked for a specific task.
          */ 
         private function get_task_details_from_db() {
             global $wpdb;
@@ -78,9 +88,12 @@ if ( !class_exists( 'Task_Details' ) ) {
         
         
         /**
-        * Add Start Work Timer Button
-        *
-        **/
+         * Add Start Work Timer Button
+         *
+         * @since 2.4.0
+         * 
+         * @return string Html button to start work for specific task.
+         */
         private function add_start_work_button($tsk_id, $tsk_desc, $company) {
             //$display .= "<button id='tt-start-work-on-task-" . $this->taskid . "' class='tt-button tt-start-work-timer' onclick='start_timer_for_task("Logically Tech", "0-Undefined");'>Start Working</button>";
             $btn = "<button ";
@@ -95,6 +108,9 @@ if ( !class_exists( 'Task_Details' ) ) {
         /**
          * Generate HTML for front end display
          * 
+         * @since 1.0.0
+         * 
+         * @return string Html output for display of one task, including time worked details.
          */ 
         private function get_html() {
             $task = $this->get_task_details_from_db();
@@ -178,6 +194,5 @@ if ( !class_exists( 'Task_Details' ) ) {
         }
 
 
-    } //close class
-
-} //close if class exists
+    }
+}

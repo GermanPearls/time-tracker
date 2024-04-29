@@ -21,6 +21,7 @@ if ( !class_exists( 'Time_Details' ) ) {
     /**
      * Class
      * 
+     * @since 3.1.0
      */  
     class Time_Details
     {
@@ -29,6 +30,7 @@ if ( !class_exists( 'Time_Details' ) ) {
         /**
          * Class variables
          * 
+         * @since 3.1.0
          */ 
         private $timeid;
 
@@ -36,6 +38,7 @@ if ( !class_exists( 'Time_Details' ) ) {
         /**
          * Constructor
          * 
+         * @since 3.1.0
          */ 
         public function __construct() {
             if (isset($_GET['time-id'])) {
@@ -47,6 +50,9 @@ if ( !class_exists( 'Time_Details' ) ) {
         /**
          * Get results
          * 
+         * @since 3.1.0
+         * 
+         * @return string Html output.
          */ 
         public function generate_output_for_display() {
             return $this->get_html();
@@ -56,6 +62,9 @@ if ( !class_exists( 'Time_Details' ) ) {
         /**
          * Query db for time details
          * 
+         * @since 3.1.0
+         * 
+         * @return object Results from querying database for details of time entry.
          */ 
         private function get_time_details_from_db() {
             global $wpdb;
@@ -82,6 +91,9 @@ if ( !class_exists( 'Time_Details' ) ) {
         /**
          * Generate HTML for front end display
          * 
+         * @since 3.1.0
+         * 
+         * @return string Html output for display.
          */ 
         private function get_html() {
             $task = $this->get_time_details_from_db();
@@ -164,7 +176,5 @@ if ( !class_exists( 'Time_Details' ) ) {
             return $display;
         }
 
-
-    } //close class
-
-} //close if class exists
+    }
+}

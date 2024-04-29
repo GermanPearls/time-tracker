@@ -13,8 +13,11 @@ namespace Logically_Tech\Time_Tracker\Inc;
 
 
 /**
+ * Delete record from Time Tracker table
  * 
+ * @since 2.2.0
  * 
+ * @return array Results including success, details, and message fields. 
  */
 function tt_delete_record_function() {
 	

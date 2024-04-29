@@ -1,7 +1,8 @@
 <?php
 /**
+ * Load dynamic stylesheet within WP so we can use get_option WP function
+ * 
  * @since 2.3.0
- * load dynamic stylesheet within WP so we can use get_option WP function
  *
  **/
 

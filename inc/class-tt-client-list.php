@@ -81,7 +81,7 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Where parameters for end of sql string.
          */
@@ -102,7 +102,7 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Get table column order and details
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * @since 3.0.13 clarify column header
          * 
          * @return array Multi-dimensional array including list of columns, with key-value pairs of column parameters.
@@ -205,7 +205,7 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Iterate through data and add additional information for table
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @return array Array of clients with information for forming html table.
         **/
@@ -229,7 +229,7 @@ if ( !class_exists( 'Client_List' ) ) {
         /**
          * Create HTML table for front end display
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * return string Html output consisting of table of clients.
          */

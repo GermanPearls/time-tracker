@@ -4,7 +4,7 @@
  *
  * Takes the data from the hours worked class (query) and summarizes it by year for display
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
 
@@ -22,6 +23,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */ 
     class Class_Hours_Worked_Year_Summary extends Class_Hours_Worked_Detail
     {
@@ -33,6 +35,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */         
         public function __construct() {
             parent::__construct();
@@ -43,6 +46,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Get Output for Display
          * 
+         * @since 2.3.0
+         * 
+         * @return string Html output.
          */
         public function getHTML() {
             $this->setYears();
@@ -60,6 +66,7 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Determine start and end years
          * 
+         * @since 2.3.0
          */
         private function setYears() {
             if ( count($this->hours_worked) == 0 ) {
@@ -75,6 +82,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Reorganize data, Group by Month, then Bill To
          * 
+         * @since 2.3.0
+         * 
+         * @return array Data grouped by month-bill to.
          */ 
         private function groupDataByMonthAndBillTo($yr) {
             $grouped_time = array();
@@ -104,6 +114,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Calculate totals by Month and Bill To
          * 
+         * @since 2.3.0
+         * 
+         * @return array Array of data, totaled by month-bill to.
          */ 
         private function totalDataByMonthAndBillTo($yr) {
             $grouped_time = $this->groupDataByMonthAndBillTo($yr);
@@ -159,6 +172,9 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Get all Bill To Names that will need to be displayed in the table
          * 
+         * @since 1.0.0
+         * 
+         * @param array $monthBillToArray Array of data summarized by bill to.
          */ 
         private function listBillToNames($monthBillToArray) {
             $bill_to_names = array();
@@ -182,6 +198,11 @@ if ( !class_exists( 'Class_Hours_Worked_Year_Summary' ) ) {
         /**
          * Create HTML table for front end display - One Year
          * 
+         * @since 2.3.0
+         * 
+         * @param xxx $yr Year to get data for.
+         * 
+         * @return string Html table for display.
          */ 
         private function createHTMLTableForOneYear($yr) {
             $time_summary = $this->totalDataByMonthAndBillTo($yr);

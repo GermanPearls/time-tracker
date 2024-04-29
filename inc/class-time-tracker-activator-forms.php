@@ -2,9 +2,9 @@
 /**
  * Class Time_Tracker_Activator_Forms
  *
- * Initial activation of Time Tracker Plugin - CREATE FRONT END FORMS
+ * Initial activation of Time Tracker Plugin. Creates front end forms.
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -14,9 +14,16 @@ namespace Logically_Tech\Time_Tracker\Inc;
 /**
  * Check if class exists
  * 
+ * @since 1.0.0
+ * 
  */
 if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
 
+    /**
+     * Create or update forms on plugin activation.
+     * 
+     * @since 1.0.0
+     */
     class Time_Tracker_Activator_Forms {
 
         public static $form_details = array();
@@ -28,6 +35,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Define form details
          * 
+         * @since 3.0.0
          */
         private static function define_forms() {
             if (self::$post_typ == "") {
@@ -48,6 +56,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Setup
          * 
+         * @since 1.0.0
          */
         public static function setup() {
             self::define_forms();
@@ -58,6 +67,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Update Version - Check for updates
          * 
+         * @since 2.2.0
          */ 
         public static function check_forms_for_updates() {
             self::setup();
@@ -68,6 +78,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Update Version - Force updates
          * 
+         * @since 2.2.0
          */ 
         public static function force_form_updates() {
             self::setup();
@@ -77,6 +88,12 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Get expected form content based on definitions herein and post id, if exists
          * 
+         * @since 3.0.0
+         * 
+         * @param int $form_index Identifies which form in array defined in create_form_details_array below.
+         * @param int $post_id Optional. Form post ID, if it already exists. 
+         *
+         * @return string Content of form, to be saved in Wordpress database.
          */
         private static function get_expected_form_content($form_index, $post_id = 0) {
             if ($form_index < count(self::$form_content)) {
@@ -94,6 +111,13 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Check form exists and matches current version
          * 
+         * @since 2.2.0
+         * 
+         * @param int $i Identifies which form in array defined in create_form_details_array.
+         * @param int $form_post_id Form post ID from Wordpress, if it already exists.
+         * @param boolean $force_update Indicates whether the form should be updated if form content in Wordpress database does not match content defined herein.
+         * 
+         * @return int Form post ID from Wordpress.
          */
         private static function check_form_is_up_to_date($i, $form_post_id, $force_update) {
             $installed_form = get_post($form_post_id);
@@ -102,7 +126,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
             if (count(self::$form_content) > $i) {
                 $updated_content = self::get_expected_form_content($i, $form_post_id);
                 
-                //does the content match the current version}              
+                //does the content match the current version
                 if ((wp_slash($installed_form_content) != $updated_content) || ($force_update == true)) {
                     $updated_form = array(
                         'ID' => $form_post_id,
@@ -119,6 +143,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Create all forms in array
          * 
+         * @since 1.0.0
+         * 
+         * @param boolean $force_update Indicates whether the form should be updated if form content in Wordpress database does not match content defined herein.
          */
         public static function create_forms($force_update) {
             $i = 0;
@@ -157,6 +184,11 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Define arguments for creating form
          * 
+         * @since 1.0.0
+         * 
+         * @param int $arr_index Identifies which form in array defined in create_form_details_array.
+         * 
+         * @return array Details to pass to Wordpress to create form (post).
          */
         public static function get_form_details($arr_index) {
             if (self::$post_typ == "") {
@@ -190,6 +222,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Create array of properties that are form dependent
          * 
+         * @since 1.0.0
+         * 
+         * @return array Multi-dimensional array containing all form details required to create Wordpress forms (posts).
          */
         public static function create_form_details_array() {
             $details = array();
@@ -253,6 +288,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Create content details array
          * 
+         * @since 1.0.0
          */
         public static function create_form_content_array() {
             if (self::$form_class == "") {
@@ -266,6 +302,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Get Post Type for WP-Posts Database Setting
          * 
+         * @since 3.0.0
+         * 
+         * @return string Post type that will be used when saving form in Wordpress database (depends on form plugin used).
          */
         public static function get_post_type() {
             if (TT_PLUGIN_FORM_TYPE == "CF7") {
@@ -281,6 +320,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms') ) {
         /**
          * Get Form Class Namespace and Class Name Based on Form Plugin Being Used
          * 
+         * @since 3.0.0
          */
         private static function get_form_class_name() {
             self::$form_class = __NAMESPACE__ . "\\" . TT_PLUGIN_FORM_TYPE . "\\" . "Time_Tracker_Activator_Forms_" . TT_PLUGIN_FORM_TYPE;

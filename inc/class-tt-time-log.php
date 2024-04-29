@@ -64,7 +64,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get results
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * 
          * @return string html output
          */
@@ -104,7 +104,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get data from db - returns object
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * 
          * @return object Time entries from database
          */
@@ -116,7 +116,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get data from db - return array
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return array Time entries from database
          */
@@ -128,7 +128,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Prepare sql string
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * 
          * @return string Complete sql string used to query database for time entries
          */
@@ -138,7 +138,6 @@ if ( !class_exists( 'Time_Log' ) ) {
             } elseif ($type=="count") {
                 $sql_string = $this->get_count_clause() . $this->get_from_clause() . $this->get_where_clauses();
             }
-			//echo $sql_string;
             return $sql_string;
         }
 
@@ -204,7 +203,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Prepare sql string - LIMIT parameter
          * 
-         * @since x.x.x
+         * @since 2.3.0
          * 
          * @return string Part of sql string which limits the number of records to be returned. Used for pagination
          */
@@ -222,7 +221,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get where clauses depending on input
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Part of sql string which defines criteria for records to be returned
          */
@@ -254,7 +253,7 @@ if ( !class_exists( 'Time_Log' ) ) {
                 array_push($where_clauses, "tt_time.EndTime <= '" . $this->enddate . " 23:59:59'");
             }
             if ( ($this->notes <> "") and (! is_null($this->notes)) ) {
-                //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
+                //Ref: developer.wordpress.org/reference/classes/wpdb/esc_like/
                 $wild = "%";
                 $search_like = "'" . $wild . $wpdb->esc_like( $this->notes ) . $wild . "'";
                 array_push($where_clauses, "tt_time.TNotes LIKE " . $search_like);
@@ -270,7 +269,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Set pagination property
          * 
-         * @since x.x.x
+         * @since 3.0.5
          * 
          */
         protected function remove_record_limit() {
@@ -281,7 +280,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get table column order and table fields
          * 
-         * @since x.x.x 
+         * @since 1.4.0
          * @since 3.0.13 correct typo in column heading
          * 
          * @return array Multi-dimensional array of columns (and their properties) to be displayed in front end table
@@ -424,7 +423,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Get Data from Table and Append with Any Extra Info
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @return object Time entries to be displayed, with additional items to display in table (ie: buttons, icons)
          */
@@ -474,7 +473,7 @@ if ( !class_exists( 'Time_Log' ) ) {
         /**
          * Create Table
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * 
          * @return string Html table for display
          */

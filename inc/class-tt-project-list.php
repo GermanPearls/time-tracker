@@ -38,7 +38,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Class Variables
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * @since 3.0.13 added 'other' category for projects with statuses not in predefined list
          */
         private $status_order = ["New", "Ongoing", "In Process", "Waiting Client", "Complete", "Canceled", "Other"];
@@ -77,7 +77,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Create HTML table for front end display - with all statuses combined
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Html output including multiple tables for different statuses.
          */
@@ -108,7 +108,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Combine All Project Status Tables for One Page
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Html output to display with heading and table for each project status.
          */
@@ -125,7 +125,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Create HTML table with ALL STATUSES COMBINED
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Html table of all statuses combined.
          */
@@ -170,7 +170,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * @since 3.0.13 updated to find statuses not in predefined list when 'Other' passed as pstatus
          * 
          * @param string $pstatus One project status to query projects for. Default null
@@ -227,7 +227,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Get table column order and table fields
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * @since 3.0.13 Clarified column heading.
          * 
          * @return array Multi-dimensional array of columns, each one having column details in key-value pairs.
@@ -352,7 +352,7 @@ if ( !class_exists( 'Project_List' ) ) {
         /**
          * Iterate through data and add additional information for table
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @param string $projstatus Status of project. Default null
          * 

@@ -4,7 +4,7 @@
  *
  * CLASS TO DISPLAY TIME LOG SUMMARY TABLE
  * 
- * 
+ * @since 2.2.0
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -21,6 +21,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
     /**
      * Class
      * 
+     * @since 2.2.0
      */  
     class Time_Log_Summary extends Time_Log
     {
@@ -29,6 +30,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Class Variables
          * 
+         * @since 2.2.0
          */ 
         private $time_summary_array;
         private $time_detail_array;
@@ -39,6 +41,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Constructor
          * 
+         * @since 2.2.0
          */        
         public function __construct() {
             //$this->get_time_log_from_db();
@@ -48,6 +51,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Get results
          * 
+         * @since 2.2.0
          */
         public function create_summary_table() {
 			$time_log = New Time_Log();
@@ -61,6 +65,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Add week start and week end dates to data
          * 
+         * @since 2.2.0
          **/
         private function add_week_start_and_end_dates() {
             $sorted_data = $this->sort_summary_data();
@@ -80,6 +85,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Group data by week and bill to, Also create bill to names array
          * 
+         * @since 2.2.0
          */
         private function group_data_by_week_and_bill_to() {
             $grouped_data = array();
@@ -110,6 +116,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Summarize and total data by week, bill to and total time worked, billed, etc
          * 
+         * @since 2.2.0
          */
         private function summarize_data() {
             $summarized = array();
@@ -162,6 +169,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Prepare display output for each bill to and week combination
          * 
+         * @since 2.2.0
          */
         private function prepare_summary_display_data($time_worked, $time_billed) {
             $output = round($time_worked, 1) . ' Worked<br/>';
@@ -180,6 +188,7 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Get Week Start Date and End Date
          * 
+         * @since 2.2.0
          */
         private function get_week_detail($start_time) {
             $time_obj = new \DateTime($start_time);
@@ -199,6 +208,9 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Sort DataArray
          * 
+         * @since 2.2.0
+         * 
+         * @return array 
          */
         private function sort_summary_data() {
             //$billto = array_column($data, 'BillTo');
@@ -214,6 +226,9 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Get table column order and table fields
          * 
+         * @since 2.2.0
+         * 
+         * @return array Multi-dimensional array of columns, with details for each.
          */
         private function get_summary_table_fields() {
             $cols = [
@@ -251,6 +266,9 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Get Data from Table and Append with Any Extra Info
          * 
+         * @since 2.2.0
+         * 
+         * @return array Multi-dimensional array of data to be displayed in table.
          */
         private function get_summary_data_for_display() {
             $table_data_item = array();
@@ -278,6 +296,9 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
         /**
          * Create Table
          * 
+         * @since 2.2.0
+         * 
+         * @return string Html output including data table surrounded by accordion div.
          */
         public function get_summary_html() {            
             $fields = $this->get_summary_table_fields();

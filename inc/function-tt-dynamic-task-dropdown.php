@@ -2,10 +2,10 @@
 /**
  * Function dynamic-task-dropdown
  *
-* Dynamically update the task dropdown list depending on client chosen
-* Called from update_task_list Javascript function triggered by client onchange event
+ * Dynamically update the task dropdown list depending on client chosen
+ * Called from update_task_list Javascript function triggered by client onchange event
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -13,25 +13,12 @@ namespace Logically_Tech\Time_Tracker\Inc;
 
 
 /**
- * Fixes call to undefined function error when calling plugin_dir_url below
+ * Update task list based on client chosen by user.
  * 
- */
-//if ( !defined('ABSPATH') ) {
-    //If wordpress isn't loaded load it up.
-    //$path = $_SERVER['DOCUMENT_ROOT'];
-    //include_once $path . '/wp-load.php';
-//}
-
-
-/**
- * Fixes call to undefined function error when calling get_client_id_from_name function
+ * @since 1.0.0
  * 
+ * @return array Results of update including success, details, and message fields.
  */
-/**if(!function_exists('get_client_id_from_name')) {
-    include_once(__DIR__ . "/time-tracker.php"); 
-}**/
-
-
 function tt_update_task_list_function() {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['client']) ) {

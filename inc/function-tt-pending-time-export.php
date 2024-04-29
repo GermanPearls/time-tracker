@@ -1,16 +1,24 @@
 <?php 
 /**
- * Funciton tt_export_pending_time
+ * Function tt_export_pending_time
  *
  * Export and download pending time as csv file
  * 
- * @since 2.2
+ * @since 2.2.0
+ * @since 3.0.13 Added function for exporting in Quickbooks format
  * 
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
 
 
+/**
+ * Export and download pending time as csv file.
+ * 
+ * @since 2.2.0
+ * 
+ * @return array Results including success, msg, and error or files, depending on result.
+ */
 function tt_export_pending_time() {
 	if ( ($_SERVER['REQUEST_METHOD'] == 'POST') and (isset($_POST['export_to_csv'])) ) {
 

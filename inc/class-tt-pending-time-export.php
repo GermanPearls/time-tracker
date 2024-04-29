@@ -22,17 +22,19 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
     /**
      * Class
      * 
+     * @since 2.2.0
      */
     class Pending_Time_Export extends Pending_Time
     {
 
-        private $original_data;
+        protected $original_data;
         public $saved_files;
 
         
         /**
          * Constructor
          * 
+         * @since 2.2.0
          */
         public function __construct() {
             $this->original_data = parent::get_data_for_export();
@@ -43,6 +45,9 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
         /**
          * Export to CSV File(s)
          *
+         * @since 2.2.0
+         * 
+         * @return array List of saved files.
          */
         public function export_each_billto() {
             $this->save_each_billto_as_a_file();         
@@ -53,6 +58,9 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
         /**
          * Process Each Bill To Separately
          *
+         * @since 2.2.0
+         * 
+         * @return null
          */
         private function save_each_billto_as_a_file() {
             foreach ($this->original_data as $billtoname => $time_details) {
@@ -69,6 +77,9 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
         /**
          * Get File Save Path
          *
+         * @since 2.2.0
+         * 
+         * @return string Path where files will be saved.
          */
         private function get_save_path() {
             $path = ABSPATH . "../tt_logs/exports";
@@ -82,12 +93,18 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
         /**
          * Get File Save Name
          *
+         * @since 2.2.0
+         * @since 3.0.13 Updated to allow more flexibility in name.
+         * 
+         * @param string $descriptor Description of file being saved.
+         * 
+         * @return string Name of file to save.
          */
-        private function get_filename($descriptor) {
+        private function get_filename($descriptor, $nm="pending_time_export") {
             if (is_null($descriptor)) {
-                $filename = 'pending_time_export_' .  date('d-M-Y');
+                $filename = $nm . "_" .  date('d-M-Y');
             } else {
-                $filename = 'pending_time_export_' .  date('Y_M_d') . '_' . $descriptor;
+                $filename = $nm . "_" . date('Y_M_d') . '_' . $descriptor;
             }
             if (!file_exists($filename)) {
                 return $filename;

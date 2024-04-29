@@ -3,7 +3,7 @@
  * Functions to add custom field to Contact Form 7
  * Field Work Category Dropdown - List Sourced from Plugin Settings in WP Database
  * 
- * @since 1.0
+ * @since 1.1.0
  * 
  */
 
@@ -27,6 +27,7 @@ add_action( 'wpcf7_init', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_add_form_t
 /**
  * Initialize work_category as a custom CF7 form tag
  * 
+ * @since 1.1.0
  */
 function custom_add_form_tag_work_category() {
   \wpcf7_add_form_tag( 'work_category', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_work_category_form_tag_handler', array('name-attr'=>true));
@@ -36,6 +37,7 @@ function custom_add_form_tag_work_category() {
 /**
  * Initialize client as a custom CF7 form tag
  * 
+ * @since 1.1.0
  */
 function custom_add_form_tag_client_category() {
     \wpcf7_add_form_tag( 'client_category', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_client_category_form_tag_handler', array('name-attr'=>true));
@@ -45,6 +47,7 @@ function custom_add_form_tag_client_category() {
 /**
  * Initialize client sub_category as a custom CF7 form tag
  * 
+ * @since 1.1.0
  */
 function custom_add_form_tag_client_sub_category() {
     \wpcf7_add_form_tag( 'client_sub_category', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_client_sub_category_form_tag_handler', array('name-attr'=>true));
@@ -54,6 +57,7 @@ function custom_add_form_tag_client_sub_category() {
 /**
  * Initialize bill to name as a custom CF7 form tag
  * 
+ * @since 1.1.0
  */
 function custom_add_form_tag_bill_to_name() {
     \wpcf7_add_form_tag( 'bill_to_name', 'Logically_Tech\Time_Tracker\Inc\CF7\custom_bill_to_name_form_tag_handler', array('name-attr'=>true));
@@ -67,6 +71,11 @@ function custom_add_form_tag_bill_to_name() {
 /**
  * Callback for work category dropdown
  * 
+ * @since 1.1.0
+ * 
+ * @param string $tag ??
+ * 
+ * @return 
  */
 function custom_work_category_form_tag_handler($tag) {
     $form_field = custom_category_form_tag_handler($tag, 'work_categories');    
@@ -77,6 +86,7 @@ function custom_work_category_form_tag_handler($tag) {
 /**
  * Callback for client category dropdown
  * 
+ * @since 1.1.0
  */
 function custom_client_category_form_tag_handler($tag) {
     $form_field = custom_category_form_tag_handler($tag, 'client_categories');    
@@ -87,6 +97,7 @@ function custom_client_category_form_tag_handler($tag) {
 /**
  * Callback for client sub_category dropdown
  * 
+ * @since 1.1.0
  */
 function custom_client_sub_category_form_tag_handler($tag) {
     $form_field = custom_category_form_tag_handler($tag, 'client_sub_categories');    
@@ -97,6 +108,7 @@ function custom_client_sub_category_form_tag_handler($tag) {
 /**
  * Callback for bill to name dropdown
  * 
+ * @since 1.1.0
  */
 function custom_bill_to_name_form_tag_handler($tag) {
     $form_field = custom_category_form_tag_handler($tag, 'bill_to_names');    
@@ -111,6 +123,7 @@ function custom_bill_to_name_form_tag_handler($tag) {
 /**
  * Get details for category form tags from Plugin settings
  * 
+ * @since 1.1.0
  */
 function custom_category_form_tag_handler( $tag, $type ) {
 

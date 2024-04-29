@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 2.0.0
  */
 if ( !class_exists( 'Time_Tracker_Updater' ) ) {
 
@@ -22,6 +23,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
     /**
      * Class
      * 
+     * @since 2.0.0
      */
     class Time_Tracker_Updater
     {
@@ -30,6 +32,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Constructor
          * 
+         * @since 2.0.0
          */
         public function __construct() {
 
@@ -39,6 +42,9 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update Version
          * 
+         * @since 2.0.0
+         * 
+         * @param string $current_ver Version currently installed - before updating, in format: x.x.x.
          */
         public function tt_update_from($current_ver) {
             //if option wasn't set in db or it was version 1.x.x update to 2.0.0
@@ -62,6 +68,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update from 1.x.x to 2.0.0
          * 
+         * @since 2.0.0
          */
         private function tt_update_to_two() {
             $this->tt_update_pages();
@@ -71,9 +78,10 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         
         
         /**
-        * Update to 2.4.0
-        *
-        **/
+         * Update to 2.4.0
+         *
+         * @since 2.0.0
+         */
         private function tt_update_to_two_four() {
             if (get_option('time-tracker-sql-result')) {
                 delete_option('time-tracker-sql-result');
@@ -98,6 +106,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update to 2.5.0
          * 
+         * @since 2.4.3
          */
         private function tt_update_to_two_five() {
             //add default rate
@@ -116,6 +125,9 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * General Plugin Update
          * 
+         * @since 2.4.3
+         * 
+         * @param string $from_version Version currently installed - before updating, in format: x.x.x. 
          */
         private function tt_update_plugin($from_version) {
             $this->tt_update_pages();
@@ -128,6 +140,9 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update version stored in database
          * 
+         * @since 2.0.0
+         * 
+         * @param string $ver Version to store in database as active version, in format: x.x.x.
          */
         private function tt_update_version_in_db($ver) {
             if (!get_option('time_tracker_version')) {
@@ -141,6 +156,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update pages so they match the current version
          * 
+         * @since 2.0.0
          */
         private function tt_update_pages() {
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-pages.php');
@@ -151,6 +167,9 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update forms so they match the current version
          * 
+         * @since 2.0.0
+         * 
+         * @param boolean $force_update True if any differences between current version and installed version should be corrected, false if they should stay as is. Default false
          */
         private function tt_update_forms($force_update = false) {
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
@@ -170,6 +189,9 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
         /**
          * Update database tables
          * 
+         * @since 2.0.0
+         * 
+         * @param string $from_version Version currently installed - before updating, in format: x.x.x. 
          */
         private function tt_update_tables($from_version) {
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');

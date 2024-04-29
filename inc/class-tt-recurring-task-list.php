@@ -5,6 +5,7 @@
  * Get and display entire task list
  * 
  * @since 1.1.1
+ * @since 3.0.13 Clarified column heading. Removed unnecessary column from display table.
  * 
  */
 
@@ -16,6 +17,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.2.1
  */
 if ( !class_exists( 'Recurring_Task_List' ) ) {
 
@@ -23,6 +25,7 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
     /**
      * Class
      * 
+     * @since 1.2.1
      */
     class Recurring_Task_List
     {
@@ -40,6 +43,7 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.2.1
          */
         public function __construct() {
             $this->rectaskid = (isset($_GET['recurring-task-id']) ? intval($_GET['recurring-task-id']) : null);
@@ -69,6 +73,12 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Get html result
          * 
+         * @since 2.2.0
+         * 
+         * @param string $associated_field xxx Default ""
+         * @param int $associated_id xxx Default 0
+         *
+         * @return string Html output.
          */
         public function create_table($associated_field = "", $associated_id=0) {
             if ($associated_field <> "") {
@@ -82,10 +92,14 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Get table column order and table fields
          * 
+         * @since 1.4.0
+         * @since 3.0.13 Clarified column header. Removed project ID column.
+         * 
+         * @return array Multi-dimensional array of columns, each with details in key-value pairs.
          */
         private function get_table_fields() {
             $cols = [
-                "ID" => [
+                "Recurring Task ID" => [
                     "fieldname" => "RecurringTaskID",
                     "id" => "recurring-task-id",
                     "editable" => false,
@@ -101,14 +115,14 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
                     "type" => "text",
                     "class" => ""
                 ],
-                "Project ID" => [
-                    "fieldname" => "ProjectID",
-                    "id" => "project-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
+                //"Project ID" => [
+                //    "fieldname" => "ProjectID",
+                //    "id" => "project-id",
+                //    "editable" => false,
+                //    "columnwidth" => "",
+                //    "type" => "text",
+                //    "class" => ""
+                //],
                 "Project" => [
                     "fieldname" => "PName",
                     "id" => "project-name",
@@ -182,6 +196,7 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Query db for recurring tasks
          * 
+         * @since 1.2.1
          */
         private function get_recurring_tasks_from_db() {
             $sql_string = "SELECT tt_recurring_task.*, tt_client.Company, tt_project.ProjectID, tt_project.PName
@@ -199,6 +214,9 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
+         * @since 2.2.0
+         * 
+         * @return string Where clause to add to end of sql string.
          */
         private function get_where_clauses() {
             global $wpdb;
@@ -233,6 +251,9 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Iterate through data and add additional information for table
          * 
+         * @since 2.2.0
+         * 
+         * @return array Array of recurring tasks with details for display.
         **/
         private function get_all_data_for_display() {
             $rectasks = $this->recurring_tasks;
@@ -254,6 +275,9 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         /**
          * Create HTML table for front end display
          * 
+         * @since 1.4.0
+         * 
+         * @return string Html table to display.
          */
         public function get_html() {
             $fields = $this->get_table_fields();
@@ -267,5 +291,4 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
             
         
     } //close class
-
 } //close if class exists

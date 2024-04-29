@@ -4,7 +4,7 @@
  *
   * The [pending-time-table] shortcode.  Accepts a parameter and will display a table of time not yet invoiced (ie: pending).
  *
- * 
+ * @since 1.0.0
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -14,12 +14,14 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
 
     /**
      * Class
      * 
+     * @since 1.0.0
      */  
     class Time_Tracker_Shortcode_Pending_Time {
 
@@ -27,6 +29,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
         /**
          * Class Variables
          * 
+         * @since 1.0.0
          */  
         public $shortcode = 'tt_pending_time_table';
         private $atts = [];
@@ -36,6 +39,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */  
         public function __construct() {
             add_shortcode( $this->shortcode, array( $this, 'pending_time_table_shortcode' ) );
@@ -45,6 +49,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
         /**
          * Get attributes of shortcode
          * 
+         * @since 1.0.0
+         * 
+         * @return string Get bill to name, passed as an attribute in the shortcode.
          */  
         private function get_attributes($atts) {
             // normalize attribute keys, lowercase
@@ -61,6 +68,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
         /**
          * Callback
          * 
+         * @since 1.0.0
+         * 
+         * @return string Shortcode output - pending time, ie: time that has not yet been invoiced.
          */  
         public function pending_time_table_shortcode($atts) {
             $this->billto = $this->get_attributes($atts);
@@ -72,12 +82,15 @@ if ( ! class_exists('Time_Tracker_Shortcode_Pending_Time') ) {
         /**
          * Return results
          * 
+         * @since 1.0.0
+         * 
+         * @return string Shortcode.
          */ 
         public function get_shortcode() {
             return $this->shortcode;
         }
     
-    } //class
-} //if class exists
+    }
+}
 
 $Time_Tracker_Shortcode_Pending_Time = new Time_Tracker_Shortcode_Pending_Time();

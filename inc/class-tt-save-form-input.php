@@ -4,7 +4,8 @@
  *
  * Save form input into db
  * 
- * 8/14/20 update - CF7(ver5.2.1) now returning select fields in an array
+ * @since 1.0.0
+ * @since 1.0.0 - 8/14/20 update - CF7(ver5.2.1) now returning select fields in an array
  * 
  */
 
@@ -15,6 +16,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( !class_exists( 'Save_Form_Input' ) ) {
     
@@ -22,6 +24,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */ 
     class Save_Form_Input
     {
@@ -30,6 +33,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Class Variables
          * 
+         * @since 1.0.0
          */ 
         //private $data;
         private $form_post_id;
@@ -43,6 +47,10 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
+         * 
+         * @param array $cleaned_data Sanitized form input, in array as key-value pairs.
+         * @param int $id Form post ID in Wordpress database, used to identify which form was submitted.
          */ 
         public function __construct($cleaned_data, $id) {
             //removed $form added insertid
@@ -91,6 +99,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Serialize data to store in db with record so we have record of original entry
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function serialize_data($data) {
             $this->original_submission = serialize($data);
@@ -101,6 +112,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Save new task into db
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_task($data) {
             global $wpdb;
@@ -134,6 +148,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Save new recurring task into db
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_recurring_task($data) {
             global $wpdb;
@@ -175,6 +192,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Save new project into db
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_project($data) {
             global $wpdb;
@@ -199,6 +219,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Save new client into db
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_client($data) {
             global $wpdb;
@@ -224,6 +247,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Save new time entry into db
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_time_entry($data) {
             global $wpdb;
@@ -265,21 +291,25 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Update task status in db
          * 
+         * @since 1.0.0
+         * @since 3.0.13 clean up code
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function update_task_status($data) {
-            //flag task as complete if user checks complete box in time entry page
-            //global $wpdb;
             $new_task_status = $data['new-task-status'];
-            $update_task_status_string = 'UPDATE tt_task SET TStatus ="' . $new_task_status . '" WHERE TaskID="' . $this->task_id . '"';
-            //$update_task_status_result = $wpdb->get_results($update_task_status_string);
-            //catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+            $update_task_status_string = "UPDATE tt_task SET TStatus ='" . $new_task_status . "' WHERE TaskID='" . $this->task_id . "'";
             $update_task_status_result = tt_query_db($update_task_status_string);
         }
 
 
         /**
-         * Update task status in db
+         * Create follow up task in database
          * 
+         * @since 1.0.0
+         * @since 3.0.13 Correct function description
+         * 
+         * @param array $data Form data saved as key-value pairs.
          */
         private function create_follow_up_task($data) {
             global $wpdb;
@@ -306,6 +336,11 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Get client id from name
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
+         * 
+         * @return string|int Client ID.
          */
         private function get_client_id($data) {
             if (array_key_exists("client-name", $data) && $data["client-name"] !="" && $data["client-name"] != null ) {
@@ -322,6 +357,11 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Get project id from name
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
+         * 
+         * @return string|int Project ID.
          */        
         private function get_project_id($data) {
             //Project field in table requires a valid Project ID or null value, won't except empty string
@@ -337,6 +377,11 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Get task id from name
          * 
+         * @since 1.0.0
+         * 
+         * @param array $data Form data saved as key-value pairs.
+         * 
+         * @return string|int Task ID.
          */
         private function get_task_id($data) {
             //Task field in table requires a valid Task ID or null value, won't except empty string
@@ -356,6 +401,11 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Get time estimate
          * 
+         * @since 2.4.7
+         * 
+         * @param array $data Form data saved as key-value pairs.
+         * 
+         * @return double Time estimate, in x.xx hours format.
          */
         private function get_time_estimate($data) {
             $time_est = 0;
@@ -373,6 +423,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Get date from field and reformat for db
          * 
+         * @since 2.4.7
+         * 
+         * @param array $data Form data saved as key-value pairs.
+         * @param string $key Name of date field we are searching for.
+         * 
+         * @return string Date, formatted as yyyy-mm-dd.
          */
         private function reformat_date($data, $key) {
             if (array_key_exists($key, $data)) {
@@ -393,11 +449,13 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
         /**
          * Get result
          * 
+         * @since 1.0.0
+         * 
+         * @return xxx Unknown. 
          */
         public function get_result() {
             return $this->result;
         }
 
     } //close class
-
 } //close if not exists

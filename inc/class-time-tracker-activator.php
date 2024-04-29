@@ -5,6 +5,7 @@
  * Initial activation of Time Tracker Plugin
  * 
  * @since 1.0.0
+ * @since 3.0.12 removed window.alert and die functions as they were causing fatal activation error, replaced with wp_die alert
  * 
  */
 
@@ -150,7 +151,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Set initial database options
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function set_initial_database_options() {
             $now = new \DateTime;
@@ -206,7 +207,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Add default client to databsae
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function add_default_client() {
             self::get_default_client();
@@ -220,7 +221,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Get default client from database
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function get_default_client() {
             $client_lookup = self::lookup_record("SELECT ClientID FROM tt_client WHERE Company='Undefined'");
@@ -242,7 +243,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Attempt to add default client
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function try_to_add_default_client() {
             $rst = self::insert_record('tt_client', array('Company'=>'Undefined', 'Billable'=>1, 'Source'=>'Default Client'), array('%s', '%d', '%s'));
@@ -255,7 +256,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Add default task
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function add_default_task() {
             self::get_default_task();
@@ -269,7 +270,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Get default task from database
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function get_default_task() {
             $task_lookup = self::lookup_record("SELECT TaskID FROM tt_task WHERE TDescription='Undefined'");
@@ -292,7 +293,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
         /**
          * Attempt to add default task to database
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function try_to_add_default_task() {
             $rst = self::insert_record('tt_task', array('TDescription'=>'Undefined', 'ClientID'=> self::$default_client, 'TNotes'=>'Default Task'), array('%s', '%d', '%s'));
@@ -308,7 +309,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
          * Insert record into database
          * TODO: Move this function outside this class as a general plugin function
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function insert_record($tbl, $flds, $frmts) {
             global $wpdb;
@@ -322,7 +323,7 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
          * Lookup record from database
          * TODO: Move this function outside this class as a general plugin function
          * 
-         * @since x.x.x
+         * @since 2.4.0
          */
         private static function lookup_record($sql) {
             global $wpdb;

@@ -8,7 +8,7 @@
  *  - stay on same page and filter data (if it's a filter form)
  *  - go to time entry form to start tracking time (if 'start working' selected) 
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -18,7 +18,8 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
 /**
  * If class doesn't already exist
- * 
+ *
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
     
@@ -26,6 +27,7 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
     /**
      * Main Plugin Class
      * 
+     * @since 1.0.0
      */
     class Time_Tracker_After_Form_Data_Saved {
 
@@ -33,6 +35,7 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
         */
         public function _construct() {
         }
@@ -41,6 +44,7 @@ if ( ! class_exists('Time_Tracker_After_Form_Data_Saved') ) {
         /**
          * Decide what to do after data saved to db (if necessary)
          * 
+         * @since 1.0.0
         */
         public function after_save() {
             if (TT_PLUGIN_FORM_TYPE == "WPF") {

@@ -4,7 +4,7 @@
  *
  * Deactivation of Time Tracker Plugin
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -20,12 +20,14 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Time_Tracker_Deactivator {
  
         /**
          * Deactivation main function
          * 
+         * @since 1.0.0
          */
         public static function deactivate() {
             //self::send_deletion_warning();  WON'T NEED TO DO THIS, ONLY DURING DELETION
@@ -41,6 +43,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         /**
          * Warn user
          * 
+         * @since 1.0.0
          */
         public static function send_deletion_warning() {
             //WARNING: Deactivating 
@@ -51,6 +54,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         /**
          * Definitions
          * 
+         * @since 1.0.0
          */
         public static function define_plugin_variables() {
             require_once 'class-time-tracker-activator-pages.php';
@@ -60,6 +64,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         /**
          * Deactivate Crons
          * 
+         * @since 1.0.0
          */
         public static function deactivate_crons() {
             wp_clear_scheduled_hook( 'tt_recurring_task_check' );
@@ -69,6 +74,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         /**
          * Delete tables
          * 
+         * @since 1.0.0
          */
         public static function deactivate_tables() {
             //don't do anything with tables on deactivation
@@ -76,9 +82,12 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
 
 
         /**
-		* Get Page List in Deletion Order
-		*
-		*/
+		 * Get Page List in Deletion Order
+		 *
+         * @since 3.0.10
+         * 
+         * @return array Array of pages to delete, in deletion order to avoid any dependency errors.
+         */
 		public static function get_page_list_in_deletion_order() {
             $tt_pages = Time_Tracker_Activator_Pages::create_subpage_details_array(1);
             return array_reverse($tt_pages);			
@@ -86,8 +95,9 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
 		
 		
 		/**
-         * Delete pages
+         * Delete all pages.
          * 
+         * @since 3.0.10
          */
         public static function delete_pages() {
 			$tt_pages_delete_order = self::get_page_list_in_deletion_order();
@@ -100,9 +110,12 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
 
 
 		/**
-		* Delete Page
-		*
-		*/
+		 * Delete one page.
+		 *
+         * @since 3.0.10
+         * 
+         * @param string $pagename Friendly name of page to delete.
+         */
 		private static function delete_page($pagename) {
 			$post_id = tt_get_page_id($pagename);
 			if ($post_id > 0) {
@@ -112,9 +125,10 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
 
 
         /**
-         * Deactivate pages
+         * Deactivate all pages.
          * 
-         * @rev 3.1.0 delete pages on deactivation instead of moving to draft status
+         * @since 1.0.0
+         * @since 3.1.0 Deprecated? Pages are being deleted on deactivation instead of moving to draft status.
          */
         public static function deactivate_pages() {
             $tt_pages_delete_order = self::get_page_list_in_deletion_order();
@@ -129,8 +143,11 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
 
 
         /**
-         * Deactivate Page
+         * Deactivate one page.
          * 
+         * @since 1.0.0
+         * 
+         * @return int Page ID of page deleted, or 0 on error.
          */
         private static function change_page_to_draft($pagename) {
             $post_id = get_page_by_path('time-tracker/' . $pagename, ARRAY_A, 'page');
@@ -144,6 +161,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         /**
          * Delete forms
          * 
+         * @since 1.0.0
          */
         public static function deactivate_forms() {
             //don't do anything with forms on deactivation

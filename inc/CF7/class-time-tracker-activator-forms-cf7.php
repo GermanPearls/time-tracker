@@ -5,7 +5,7 @@
  * Initial activation of Time Tracker Plugin - CREATE FRONT END FORMS
  * Specific to CF7 installations
  * 
- * @since 3.0
+ * @since 3.0.0
  * 
  */
 
@@ -15,6 +15,7 @@ namespace Logically_Tech\Time_Tracker\Inc\CF7;
 /**
  * Check if class exists
  * 
+ * @since 3.0.0
  */
 if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
@@ -29,6 +30,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Constructor
          * 
+         * @since 3.0.0
          */
         public function __construct() {
         }
@@ -37,6 +39,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Setup
          * 
+         * @since 3.0.0
          */
         public static function setup() {
             self::create_form_content_array();
@@ -50,6 +53,10 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Add Post Meta - specific to CF7
          * 
+         * @since 3.0.0
+         * 
+         * @param double $post_id Wordpress post id of Contact Form 7 form
+         * @param integer $i Identifier showing which form in list we are working on
          */
         public static function add_form_post_meta($post_id, $i) {
             if (self::$form_content == array() || self::$mail_meta == array() || self::$mail_2_meta == array()
@@ -68,6 +75,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create content details array
          * 
+         * @since 3.0.0
          */
         public static function create_form_content_array() {
             if (self::$form_content == array()) {
@@ -86,6 +94,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * post locale information for post meta
          * 
+         * @since 3.0.0
+         * 
+         * @return string Users location from Wordpress database (default en_US)
          */
         public static function get_user_location() {
             $users_location = "";
@@ -101,6 +112,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create form content - New Client Form
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         public static function get_form_content_new_client() {
             $html = "";
@@ -127,6 +141,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create form content - New Project
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         public static function get_form_content_new_project() {
             $html = "";
@@ -148,6 +165,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create form content - New Recurring Task
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         public static function get_form_content_new_recurring_task() {
             $html = "";
@@ -173,6 +193,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create form content - New Task
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         public static function get_form_content_new_task() {
             $html = "";
@@ -197,6 +220,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create form content - New Time Entry
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         public static function get_form_content_add_time_entry() {
             $html = "";
@@ -226,6 +252,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Get task status list
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         private static function get_task_status_options() {
             $task_status = \Logically_Tech\Time_Tracker\Inc\tt_get_user_options('time_tracker_categories', 'task_status');
@@ -251,6 +280,9 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Create form content - Time Entry Filter
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure and details in html Contact Form 7 form (post content for storage in WP db)
          */
         public static function get_form_content_filter_time() {
             $html = "";
@@ -274,8 +306,15 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
 
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - 30/30/30 row
          * 
+         * @since 3.0.0
+         * 
+         * @param string $first CF7 form field details for first field in row
+         * @param string $second CF7 form field details for second field in row
+         * @param string $third CF7 form field details for third field in row
+         * 
+         * @return Form structure in CF7 format for 3 form fields across html row
          */
         private static function create_33_33_33_row($first, $second, $third) {
             $out = self::start_form_row();
@@ -288,8 +327,13 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
         
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - 100 row
          * 
+         * @since 3.0.0
+         * 
+         * @param string $first CF7 form field details for first field in row
+         * 
+         * @return Form structure in CF7 format for 1 form fields across html row
          */
         private static function create_100_row($first) {
             $out = self::start_form_row() . $first . self::end_form_row();
@@ -298,8 +342,14 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
 
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - 33/66 row
          * 
+         * @since 3.0.0
+         * 
+         * @param string $first CF7 form field details for first field in row
+         * @param string $second CF7 form field details for second field in row
+         * 
+         * @return Form structure in CF7 format for 2 form fields across html row
          */
         private static function create_33_66_row($first, $second) {
             $out = self::start_form_row();
@@ -311,8 +361,14 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         
 
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - 66/33 row
          * 
+         * @since 3.0.0
+         * 
+         * @param string $first CF7 form field details for first field in row
+         * @param string $second CF7 form field details for second field in row
+         * 
+         * @return Form structure in CF7 format for 2 form fields across html row
          */
         private static function create_66_33_row($first, $second) {
             $out = self::start_form_row();
@@ -324,8 +380,14 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
 
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - 50/50 row
          * 
+         * @since 3.0.0
+         * 
+         * @param string $first CF7 form field details for first field in row
+         * @param string $second CF7 form field details for second field in row
+         * 
+         * @return Form structure in CF7 format for 2 form fields across html row
          */
         private static function create_50_50_row($first, $second) {
             $out = self::start_form_row();
@@ -338,8 +400,11 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         
         
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - Start CF7 row
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure for start of a row
          */
         private static function start_form_row() {
             return "<div class=\"tt-form-row\">";
@@ -347,8 +412,11 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
 
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - End CF7 row
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure for start of a row
          */
         private static function end_form_row() {
             return "</div>";
@@ -356,8 +424,11 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
 
         /**
-         * Layout Classes and Divs
+         * Layout Classes and Divs - End CF7 column
          * 
+         * @since 3.0.0
+         * 
+         * @return string Form structure for end of a column
          */
         private static function end_form_column() {
             return "</div>";
@@ -365,8 +436,13 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 
 
         /**
-         * Start Half width column
+         * Start Half width column - Start CF7 column - 50%
          * 
+         * @since 3.0.0
+         * 
+         * @param string $side Text for class specifying which column
+         * 
+         * @return string Form structure for start of a column
          */
         private static function start_col_half($side) {
             return "<div class=\"tt-form-element tt-one-half tt-col-" . $side . "\">";
@@ -374,8 +450,13 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         
 
         /**
-         * Start one third width column
+         * Start one third width column - Start CF7 column - 33%
          * 
+         * @since 3.0.0
+         * 
+         * @param string $side Text for class specifying which column
+         * 
+         * @return string Form structure for start of a column
          */
         private static function start_col_one_third($side) {
             return "<div class=\"tt-form-element tt-one-third tt-col-" . $side . "\">";
@@ -385,6 +466,11 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Start two thirds width column
          * 
+         * @since 3.0.0
+         * 
+         * @param string $side Text for class specifying which column
+         * 
+         * @return string Form structure for start of a column
          */
         private static function start_col_two_thirds($side) {
             return "<div class=\"tt-form-element tt-two-thirds tt-col-" . $side . "\">";
@@ -393,6 +479,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Get Additional Settings
          * 
+         * @since 3.0.0
          */
         public static function get_additional_settings() {
             $settings = "skip_mail: on";  
@@ -403,6 +490,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
 		/**
          * Get Mail Meta
          * 
+         * @since 3.0.0
          */
         public static function get_mail_meta() {
             $body = "";
@@ -432,6 +520,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Get Mail 2 Meta
          * 
+         * @since 3.0.0
          */
         public static function get_mail_2_meta() {
             $mail2 = array();
@@ -444,6 +533,7 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
         /**
          * Get Message Meta
          * 
+         * @since 3.0.0
          */
         public static function get_msg_meta() {
             $msg = array();
@@ -472,6 +562,5 @@ if ( ! class_exists('Time_Tracker_Activator_Forms_CF7') ) {
             self::$msg_meta = $msg;
         }
 
-    }  //close class
-
+    }
 }

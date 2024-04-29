@@ -7,7 +7,7 @@
  * Ref: https://phppot.com/php/php-mysql-inline-editing-using-jquery-ajax/
  *
  *
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -15,8 +15,11 @@ namespace Logically_Tech\Time_Tracker\Inc;
 
 
 /**
+ * Update data in table.
  * 
+ * @since 1.0.0
  * 
+ * @return array Result including success, details, and message. * 
  */
 function tt_update_table_function() {
 	

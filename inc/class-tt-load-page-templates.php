@@ -6,7 +6,7 @@
  * Ref: https://wordpress.stackexchange.com/questions/255804/how-can-i-load-a-page-template-from-a-plugin/255820
  * Ref: https://developer.wordpress.org/reference/classes/wp_theme/get_page_templates/
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @
  */
 if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
 
@@ -24,6 +25,7 @@ if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Time_Tracker_Load_Page_Templates {
 
@@ -33,6 +35,7 @@ if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
             $this->tt_templates = $this->listTTPageTemplates();
@@ -42,6 +45,9 @@ if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
         /**
          * Page Templates Added by TT
          * 
+         * @since 1.0.0
+         * 
+         * @return array List of Time Tracker page templates.
          */        
         private function listTTPageTemplates() {
             $tt_templates = array(
@@ -54,6 +60,9 @@ if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
         /**
          * Include page templates so they appear in back end, edit page dropdown selection
          * 
+         * @since 1.0.0
+         * 
+         * @return array List of all template available to a page, including Time Tracker templates.
          */ 
         public function includePageTemplatesInDropdown($page_templates) {
             //include page templates when WP "gets page templates"
@@ -65,6 +74,9 @@ if ( ! class_exists('Time_Tracker_Load_Page_Templates') ) {
         /**
          * Help WP find the page template since it'll look in the theme directory
          * 
+         * @since 1.0.0
+         * 
+         * @return string Path to template.
          */ 
         public function redirectToPluginDirectory($template) {
             //only change the directory if a Time Tracker template is being used

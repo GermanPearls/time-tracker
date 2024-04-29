@@ -89,7 +89,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get task list for a parent item
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @param string $tbl_name Name of table used for filtering by parent item.
          * @param array $parent_record Array in key-value pair with filter by field name and filter by value.
@@ -126,7 +126,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get table column order and table fields
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * @since 3.0.13 clarify column header
          * 
          * @return array Multi-dimensional array of columns to display with details for each.
@@ -233,7 +233,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get task status options - user defined
          * 
-         * @since x.x.x
+         * @since 3.0.5
          * 
          * @return array List of task statuses as strings.
          */
@@ -296,7 +296,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get order clauses depending on type of search
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Order by clause to be added to end of sql statement.
          */
@@ -313,7 +313,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get where clauses depending on input
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @return string Where clause to be added to end of sql statement.
          */
@@ -348,7 +348,7 @@ if ( !class_exists( 'Task_List' ) ) {
                 array_push($where_clauses, "tt_task.StartTime <= '" . $this->enddate . "'");
             }
             if ( ($this->notes <> "") and ($this->notes <> null) ) {
-                //Ref: https://developer.wordpress.org/reference/classes/wpdb/esc_like/
+                //Ref: developer.wordpress.org/reference/classes/wpdb/esc_like/
                 $wild = "%";
                 $search_like = "'" . $wild . $wpdb->esc_like( $this->notes ) . $wild . "'";
                 array_push($where_clauses, "tt_task.TNotes LIKE " . $search_like);
@@ -364,7 +364,7 @@ if ( !class_exists( 'Task_List' ) ) {
         /**
          * Get Data from Table and Append with Any Extra Info
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param string $type Which table to display, open_tasks returns only open tasks, anything else returns all tasks.
          * 

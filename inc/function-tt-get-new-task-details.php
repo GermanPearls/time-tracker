@@ -5,12 +5,19 @@
  * Get details of most recent task added so we can pass it along to time entry form and start entering time
  * Called by ajax when user enters task and clicks 'save and start working' button
  * 
- * @since 2.4
+ * @since 2.4.0
  * 
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
 
+/**
+ * Get details of most recent task added.
+ * 
+ * @since 2.4.0
+ * 
+ * @return array Results of query including success, msg, and details of task, if applicable.
+ */
 function tt_get_new_task_details_function() {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

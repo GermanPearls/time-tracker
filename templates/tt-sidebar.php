@@ -3,7 +3,7 @@
  * Sidebar Template for Time Tracker Pages
  *
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 

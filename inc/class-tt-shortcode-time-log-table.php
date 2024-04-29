@@ -2,15 +2,12 @@
 /**
  * Class Time_Tracker_Shortcode_Time_Log_Table
  *
- * SHORTCODE TO DISPLAY TIME LOG
- * 
- * Accepts type of log (detail vs summary) and displays resulting table
- * 9-20-2021 - added ability to display summary table
- * 
- * 
- * @param array $atts     Shortcode attributes, default empty.
- * @return string         Shortcode output.
+ * SHORTCODE TO DISPLAY TIME LOG. 
+ * Accepts type of log (detail vs summary) as an argument and outputs respective table as html.
+ *
  *  
+ * @since 1.0.0
+ * @since 2.2.0 Added ability to display summary table.  
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -20,19 +17,22 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker_Shortcode_Time_Log_Table') ) {
 
     /**
      * Class
      * 
+     * @since 1.0.0
      */  
     class Time_Tracker_Shortcode_Time_Log_Table {
 
 
         /**
-         * Class
+         * Variables
          * 
+         * @since 1.0.0
          */ 
         public $shortcode = 'tt_time_log_table';
 
@@ -40,6 +40,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Time_Log_Table') ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
             add_shortcode( $this->shortcode, array( $this, 'time_log_table_shortcode' ) );
@@ -49,6 +50,10 @@ if ( ! class_exists('Time_Tracker_Shortcode_Time_Log_Table') ) {
         /**
          * Callback
          * 
+         * @since 1.0.0
+         * @since 2.2.0 Added ability to display summary table.  
+         * 
+         * @return string Shortcode output - html table showing time log, detail or summary, as defined by arguments passed.
          */
         public function time_log_table_shortcode($atts) {
             // normalize attribute keys, lowercase
@@ -74,12 +79,15 @@ if ( ! class_exists('Time_Tracker_Shortcode_Time_Log_Table') ) {
         /**
          * Return results
          * 
+         * @since 1.0.0
+         * 
+         * @return string Shortcode.
          */
         public function get_shortcode() {
             return $this->shortcode;
         }
     
-    } //class
-} //if class exists
+    }
+} 
 
 $Time_Tracker_Shortcode_Time_Log_Table = new Time_Tracker_Shortcode_Time_Log_Table();

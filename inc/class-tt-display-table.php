@@ -41,7 +41,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
 		/**
          * Create Entire HTML Table
          * 
-         * @since x.x.x
+         * @since 2.2.0
          * 
          * @param xxx $fields xxx
          * @param xxx $data xxx
@@ -68,7 +68,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create arguments for including within html tab
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @param array $arguments Array of arguments to add within a tag, stored in key-value pairs of attribute name-value.
          * 
@@ -96,7 +96,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Table Tag
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html opening table tag, with attributes, if applicable.
          */
@@ -113,7 +113,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Table Tag
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html closing table tag.
          */
@@ -125,7 +125,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Row
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html opening table row tag, tr, with attributes, if applicable.
          */
@@ -142,7 +142,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Row
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html closing table row tag.
          */
@@ -154,7 +154,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Header Data
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html opening table header tag, with attributes if applicable.
          */
@@ -171,7 +171,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Header Data
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html closing table header tag.
          */
@@ -183,7 +183,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Start Data
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html opening table cell tag, td, with attributes, if applicable.
          */
@@ -200,7 +200,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Close Data
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html closing table cell tag.
          */
@@ -212,7 +212,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Header Row
          * 
-         * @since x.x.x
+         * @since 1.2.1
          * 
          * @return string Html of header row, including opening tag, cells, closing header tag.
          */
@@ -230,7 +230,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Sanitize, Escape, and Display Data
          * 
-         * @since x.x.x
+         * @since 3.0.5
          * @since 3.0.11 Null display values returned as empty string.
          * @since 3.0.13 Change data sanitization setting for text.
          * 
@@ -269,7 +269,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Get Arguments for Data Cell
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param array $details Information for this cell.
          * @param array or object $item	Information for this entire row.
@@ -345,7 +345,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create All Data Rows
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param xxx $fields xxx
          * @param xxx $data xxx
@@ -367,7 +367,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Single Data Row
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param array $fields xxx
          * @param xxx $item xxx
@@ -389,7 +389,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Single Data Cell
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param array $field_details Details on how the field should be displayed.
          * @param array|object $item xxx
@@ -420,7 +420,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Create Select Dropdown
          * 
-         * @since x.x.x
+         * @since 3.0.5
          * 
          * @param array $args Array of arguments in key-value pairs.
          * @param string $val Value to show as selected in dropdown.
@@ -449,7 +449,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Add Button to Cell
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param array $args Array of arguments used to create cell.
          * 
@@ -473,7 +473,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Add Icon to Cell
          * 
-         * @since x.x.x
+         * @since 1.4.0
          * 
          * @param array $args Array of arguments used to create cell.
          * 

@@ -21,6 +21,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
     /**
      * Class
      * 
+     * @since 2.2.0
      */  
     class Time_Tracker_Shortcode_Delete_Item_Confirmation {
 
@@ -28,7 +29,8 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         
         /**
          * Class variables
-         * 
+         *
+         * @since 2.2.0
          */
         public $shortcode = 'tt_delete_confirmation_content';
         private $itemtype;
@@ -44,6 +46,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Constructor
          * 
+         * @since 2.2.0
          */
         public function __construct() {
             add_shortcode( $this->shortcode, array( $this, 'show_delete_confirmation_content_shortcode' ) );
@@ -53,6 +56,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Callback
          * 
+         * @since 2.2.0
+         * 
+         * @return string Details to display for deletion confirmation. 
          */
         public function show_delete_confirmation_content_shortcode() {
             $this->get_data();
@@ -66,6 +72,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get data
          * 
+         * @since 2.2.0
          */
         private function get_data() {
             if (isset($_GET['time-id'])) {
@@ -115,6 +122,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Return results
          * 
+         * @since 2.2.0
+         * 
+         * @return string Shortcode.
          */
         public function get_shortcode() {
             return $this->shortcode;
@@ -124,6 +134,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Confirmation Message
          * 
+         * @since 2.2.0
          */
         private function get_confirmation_message() {
             $msg = "<div class='tt-delete-confirm-msg'>
@@ -144,6 +155,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Related Records Warning
          * 
+         * @since 2.2.0
          */
         private function get_related_records_warning() {
             if ($this->itemtype == "Task") {
@@ -173,6 +185,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Display - Time
          * 
+         * @since 2.2.0
+         * 
+         * @return string Details of a time entry for display.
          */
         public function get_time_details() {
             $heading = "<h3>";
@@ -198,6 +213,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Display - Task
          * 
+         * @since 2.2.0
+         * 
+         * @return string Details of a task for display.
          */
         public function get_task_details() {
             $heading = "<h3>";
@@ -215,6 +233,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Display - Recurring Task
          * 
+         * @since 2.2.0
+         * 
+         * @return string Details of a recurring task for display.
          */
         public function get_rec_task_details() {
             $heading = "<h3>";
@@ -231,6 +252,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Display - Project
          * 
+         * @since 2.2.0
+         * 
+         * @return string Details of a project for display.
          */
         public function get_project_details() {
             $heading = "<h3>";
@@ -247,6 +271,9 @@ if ( ! class_exists('Time_Tracker_Shortcode_Delete_Item_Confirmation') ) {
         /**
          * Get Display - Client
          * 
+         * @since 2.2.0
+         * 
+         * @return string Details of a client for dispaly.
          */
         public function get_client_details() {
             $heading = "<h3>";

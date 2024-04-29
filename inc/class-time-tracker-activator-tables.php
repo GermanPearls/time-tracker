@@ -2,9 +2,9 @@
 /**
  * Class Time_Tracker_Activator_Tables
  *
- * Initial activation of Time Tracker Plugin - CREATE SQL DB AND TABLES
+ * Initial activation of Time Tracker Plugin. Creates tables in Wordpress database.
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -13,12 +13,14 @@ namespace Logically_Tech\Time_Tracker\Inc;
 /**
  * If class doesn't exist
  * 
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
 
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Time_Tracker_Activator_Tables {
 
@@ -28,6 +30,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
             //self::setup_tables(self::get_table_list());
@@ -37,6 +40,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         /**
          * Setup
          * 
+         * @since 1.0.0
          */
         public static function setup() {
             self::setup_tables(self::get_table_list());
@@ -46,6 +50,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         /**
          * Define table array
          * 
+         * @since 1.0.0
          */
         public static function get_table_list() {
             $table_list = array(
@@ -61,6 +66,9 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         /**
          * Database Table Updates
          * 
+         * @since 2.5.0
+         * 
+         * @param string $old_ver Old version of Time Tracker plugin, in form x.x.x.
          */
         public static function check_tables_for_updates($old_ver) {
             $ver = explode(".", $old_ver);
@@ -72,6 +80,7 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         /**
          * Update to version 2.5.0
          * 
+         * @since 2.5.0
          */
         private static function tt_update_tables_to_two_five() {
             //add rate to client table
@@ -86,8 +95,13 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         
         
         /**
-         * Create tables in separate database
-         * Tie into WP's dbDelta to aid in updates
+         * Create tables
+         * 
+         * @since 1.0.0
+         * 
+         * @param array $table_list {
+         *      @type string Name of table.
+         * }
          */
         private static function setup_tables($table_list) {
             global $wpdb;
@@ -107,6 +121,11 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         /**
          * Table Details
          * 
+         * @since 1.0.0
+         * 
+         * @param string $table_name Name of table.
+         * 
+         * @return string SQL command to create table.
          */
         private static function sql_create_table($table_name) {
             if ($table_name == 'tt_client') {
@@ -205,5 +224,4 @@ if ( ! class_exists('Time_Tracker_Activator_Tables') ) {
         }
 
     } //close class
-
 }

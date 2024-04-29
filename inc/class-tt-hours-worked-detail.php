@@ -12,9 +12,19 @@ namespace Logically_Tech\Time_Tracker\Inc;
 
 defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 
+/**
+ * If class does not already exist
+ * 
+ * @since 1.0.0
+ */
 if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
 
  
+    /**
+     * Main class
+     * 
+     * @since 1.0.0
+     */
     class Class_Hours_Worked_Detail
     {
 
@@ -32,6 +42,7 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */     
         public function __construct() {
             $this->hours_worked = $this->query_database();
@@ -40,7 +51,11 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
 
         /**
          * Get data from db
+         * TODO: Move to external function
          * 
+         * @since 1.0.0
+         * 
+         * @return array Result of sql query.
          */ 
         private function query_database() {
             return tt_query_db($this->get_sql_string(), "array");
@@ -48,8 +63,11 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
 
 
         /**
-         * Define data query
+         * Create sql query to get data
          * 
+         * @since 1.0.0
+         * 
+         * @return string Sql string used to get data.
          */ 
         private function get_sql_string() {
             $sql_start = "SELECT tt_time.StartTime as StartTime, tt_time.EndTime as EndTime,
@@ -72,6 +90,7 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
         /**
          * Refine data by query parameters
          * 
+         * @since 2.4.0
          */      
         private function get_query_params() {
             $this->timeid = (isset($_GET['time-id']) ? intval($_GET['time-id']) : null);
@@ -102,6 +121,9 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
         /**
          * Get where clauses depending on input
          * 
+         * @since 2.4.0
+         * 
+         * @return string Sql where clause to put at end of sql string.
          */
         private function get_where_clauses() {
             global $wpdb;
@@ -144,7 +166,5 @@ if ( !class_exists( 'Class_Hours_Worked_Detail' ) ) {
             return $where_clause;
         }
         
-
-
     } //close class
 } //if class exists

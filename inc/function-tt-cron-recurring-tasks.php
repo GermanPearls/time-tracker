@@ -42,6 +42,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
         	$this->query_db_for_recurring_tasks();
@@ -50,7 +51,10 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 
         /**
          * Create new tasks
-        * 
+         * 
+         * @since 1.0.0
+         * 
+         * @return integer Number of tasks created.
         */
         public function create_new_tasks() {
             if ($this->recurring_tasks != null) {
@@ -62,8 +66,11 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 	    
 	    
         /**
-        * Create  recurring tasks
-        *
+         * Create recurring tasks
+         *
+         * @since 2.4.0
+         * 
+         * @return integer Number of tasks created.
         **/
         private function create_missing_tasks() {
             $today = new \DateTimeImmutable();
@@ -126,8 +133,9 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 	
 	    
         /**
-        * Check if any recurring tasks need to be created
-        *
+         * Check if any recurring tasks need to be created
+         *
+         * @since 2.4.0
         **/
         private function query_db_for_recurring_tasks() {
             $today = new \DateTimeImmutable();
@@ -141,8 +149,13 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 	
 	    
         /**
-        * Get Last Created Date
-        *
+         * Get Last Created Date
+         *
+         * @since 2.4.0
+         * 
+         * @param object Details of recurring task.
+         * 
+         * @return date Date of most recent child task.
         **/
         private function get_last_created_date($tsk) {
             if ($tsk->LastCreated == "0000-00-00") {
@@ -159,6 +172,17 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
         /**
          * Add new task to db
          * 
+         * @since 1.0.0
+         * 
+         * @param string $desc Description of task.
+         * @param string $client Client ID.
+         * @param string $proj Project ID.
+         * @param string $time_est Time estimate of task.
+         * @param date Due date of task to be created.
+         * @param string $notes Task notes.
+         * @param string $details Task details.
+         * @param string $category Task category.
+         * @param string $r_task_id Recurring Task ID.
          */
         private function create_new_task($desc, $client, $proj, $time_est, $due, $notes, $details, $category, $r_task_id) {
             global $wpdb;
@@ -183,6 +207,10 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
         /**
          * Updated last created date for recurring task
          * 
+         * @since 1.0.0
+         * 
+         * @param string $task_id Recurring task ID.
+         * @param date $new_date Date most recent child task created.
          */
         private function update_last_created($task_id, $new_date) {
             global $wpdb;
@@ -195,6 +223,9 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
         /**
          * Query recurring tasks table for all active recurring tasks
          * 
+         * @since 1.0.0
+         * 
+         * @return object All recurring tasks that do not have an end date before today.
          */
         private function get_recurring_tasks_from_db() {
             global $wpdb;
@@ -213,6 +244,9 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
 /**
  * Define cron callback function
  * 
+ * @since 2.4.0
+ * 
+ * @return integer Number of tasks created.
  */
 function tt_create_recurring_tasks_function() {
     $recurring_task_check = new TT_Cron_Recurring_Tasks();
@@ -223,13 +257,15 @@ function tt_create_recurring_tasks_function() {
 /**
  * Add action to cron
  * 
+ * @since 1.0.0
  */
 add_action('tt_recurring_task_check', 'Logically_Tech\Time_Tracker\Inc\tt_create_recurring_tasks_function', 10, 2);
 
 
 /**
- * schedule cron job daily, if it's not already scheduled
+ * Schedule cron job daily, if it's not already scheduled
  * 
+ * @since 1.0.0
  */
 if ( ! wp_next_scheduled('tt_recurring_task_check') ) {
     wp_schedule_event(time(), 'daily', 'tt_recurring_task_check');
@@ -239,6 +275,7 @@ if ( ! wp_next_scheduled('tt_recurring_task_check') ) {
 /**
  * Manual request to run recurring task check - via ajax call
  * 
+ * @since 2.4.0
  */
 function tt_run_recurring_task_cron() {
     if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {

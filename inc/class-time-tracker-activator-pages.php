@@ -2,11 +2,11 @@
 /**
  * Class Time_Tracker_Activator_Pages
  *
- * Initial activation of Time Tracker Plugin - CREATE FRONT END PAGES
+ * Initial activation of Time Tracker Plugin. Creates front end pages in Wordpress.
  * 
  * @since 1.0
- * 9-20-2021 - modified to allow for updating pages for version updates
- * 9-20-2021 - added timesheet detail page
+ * @since 2.2.0 9-20-2021 - modified to allow for updating pages for version updates
+ * @since 2.2.0 9-20-2021 - added timesheet detail page
  * 
  */
 
@@ -16,12 +16,14 @@ namespace Logically_Tech\Time_Tracker\Inc;
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */       
 if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
     /**
      * Class
      * 
+     * @since 1.0.0
      */ 
     class Time_Tracker_Activator_Pages {
 
@@ -30,6 +32,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */ 
         public function __construct() {
             //self::create_pages();
@@ -39,6 +42,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Setup
          * 
+         * @since 1.0.0
          */ 
         public static function setup() {
             self::create_pages();
@@ -47,7 +51,8 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
         /**
          * Update Version
-         * 
+         *
+         * @since 2.2.0
          */ 
         public static function check_pages_match_current_version() {
             self::create_pages();
@@ -57,6 +62,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Add Pages to WP
          * 
+         * @since 1.0.0
          */
         private static function create_pages() {
             $i = 0;
@@ -73,8 +79,13 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
         /**
          * Check page exists, has correct status and matches current version
-         * rev 3.0.10 updated to delete any existing pages (in case multiple exist due to activation errors) and create new ones
          * 
+         * @since 2.2.0
+         * @since 3.0.10 Delete any existing pages (in case multiple exist due to activation errors) and create new ones.
+         * 
+         * @param int $id Identifies index of page within page array created in create_subpage_details_array.
+         * 
+         * @return int Page ID, if it exists in Wordpress.
          */
         private static function check_page_exists_and_is_up_to_date($i) {
             //delete any existing pages - check for multiple
@@ -96,6 +107,11 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Create Individual Page
          * 
+         * @since 1.0.0
+         * 
+         * @param array $details Array containing details of page required to send to Wordpress for page creation.
+         * 
+         * @return int Page ID from Wordpress, 0 if it fails.
          */
         private static function create_page($details) {
             $new_page_id = wp_insert_post($details);
@@ -105,8 +121,11 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
 
         /**
          * Update Page Status
-         * @rev 3.0.10 no longer used - pages deleted on deactivation and recreated on activation
          * 
+         * @since 2.2.0
+         * @since 3.0.10 Deprecated. Pages delete on deactivation and are recreated on activation. 
+         * 
+         * @param int $page_id Wordpress page ID, if it exists.        
          */
         private static function update_page_status($page_id) {
             add_action('init', wp_update_post(array(
@@ -119,6 +138,11 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Get all arguments to add page to WP
          * 
+         * @since 1.0.0 
+         * 
+         * @param int $arr_index Identifies index of page within page array created in create_subpage_details_array.
+         * 
+         * @return array Array of details required to create page in Wordpress.
          */
         private static function get_page_details($arr_index) {
             $arr = array(
@@ -149,6 +173,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Create homepage page-specific properties
          * 
+         * @since 1.0.0 
          */
         public static function create_homepage_details_array() {
             $details_all = array();
@@ -167,6 +192,11 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Get shortcode for form
          * 
+         * @since 3.0.0
+         * 
+         * @param string $nm Readable name of form.
+         * 
+         * @return string Shortcode to display form, depending on which form plugin used, or error notice if no form plugin found.
          */
         private static function get_form_shortcode($nm) {
             if (TT_PLUGIN_FORM_TYPE == "CF7") {
@@ -184,6 +214,11 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
         /**
          * Create array of pages and page-specific properties
          * 
+         * @since 1.0.0
+         * 
+         * @param int $id Identifies index of page within page array created in create_subpage_details_array.
+         * 
+         * @return array Multi-dimensional array containing details for creation of each page. 
          */
         public static function create_subpage_details_array($id) {
             $details_all = self::$page_details;

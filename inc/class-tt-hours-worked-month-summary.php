@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
- * @since x.x.x
+ * @since 1.0.0
  */
 if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
 
@@ -25,7 +25,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
     /**
      * If class doesn't already exist
      * 
-     * @since x.x.x
+     * @since 1.0.0
      */
     class Class_Hours_Worked_Month_Summary extends Class_Hours_Worked_Detail
     {
@@ -34,7 +34,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Constructor
          * 
-         * @since x.x.x
+         * @since 1.0.0
          */
         public function __construct() {
             parent::__construct();
@@ -45,7 +45,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Reorganize data - Group by Month, then Week, then Bill To
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * @since 3.0.12 add group by today
          * 
          * @return array Array of hours worked, grouped by month-week-bill to.
@@ -94,7 +94,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Calculate running totals by Month, then Week, then Bill To
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * 
          * @return array Time totaled by month-week-bill to.
          */ 
@@ -183,7 +183,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Summarize all Bill To Names included
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * 
          * @return array List of bill-to names.
          */ 
@@ -209,7 +209,7 @@ if ( !class_exists( 'Class_Hours_Worked_Month_Summary' ) ) {
         /**
          * Create HTML display for front end display
          * 
-         * @since x.x.x
+         * @since 1.0.0
          * @since 3.0.12 include today and current week value estimates in current month dashboard table
          * 
          * @return string Html table summarizing data.

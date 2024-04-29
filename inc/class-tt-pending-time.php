@@ -4,7 +4,7 @@
  *
  * Sort pending time by bill-to and display in tables
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -22,6 +22,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
     /**
      * Class
      * 
+     * @since 1.0.0
      */
     class Pending_Time
     {
@@ -30,6 +31,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Constructor
          * 
+         * @since 1.0.0
          */
         public function __construct() {
         }
@@ -38,6 +40,9 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Public function for child class
          * 
+         * @since 2.4.0
+         * 
+         * @return array Data grouped by bill to name.
          */
         public function get_data_for_export() {
             $data = $this->get_time_grouped_by_billto();
@@ -48,6 +53,9 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Create front end display of time not yet billed
          * 
+         * @since 1.0.0
+         * 
+         * @return string Html to display as output.
          */
         public function display_pending_time() {
             $grouped_time = $this->get_time_grouped_by_billto();
@@ -85,6 +93,10 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Query db for time not yet billed
          * 
+         * @since 1.0.0
+         * @since 3.0.13 Included billing rate in query
+         * 
+         * @return array Array of time entries as received from sql query.
          */
         private function get_pending_time_from_db() {
             $sql_string = "SELECT tt_time.*, tt_client.Company, tt_client.BillTo, tt_task.TDescription, tt_task.TTimeEstimate, tt_task.TStatus,
@@ -106,9 +118,13 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Regroup data by Bill To
          * 
+         * @since 1.0.0
+         * 
+         * @return array Array of time, grouped by bill to name.
          */
         private function get_time_grouped_by_billto() {
             $pending_time = $this->get_pending_time_from_db();
+            $grouped_time = array();
             if ($pending_time) {
                 $lastbillto = "not started";
                 foreach ($pending_time as $item) {
@@ -123,8 +139,6 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     }
                     $lastbillto = $billto;
                 }
-            } else {
-                $grouped_time = array();
             }
             return $grouped_time;
         }
@@ -133,6 +147,9 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Get table column order and table fields
          * 
+         * @since 2.4.0
+         * 
+         * @return array Multi-dimensional array, list of columns, with details for each column as key-value pairs.
          */
         private function get_table_fields() {
             $cols = [
@@ -250,11 +267,17 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Get Data from Table and Append with Any Extra Info
          * 
+         * @since 2.4.0
+         * 
+         * @param array $time_entries Time entry details in array.
+         * 
+         * @return string Html output for display.
          */
         private function get_all_data_for_display($time_entries) {
             if (empty($time_entries)) {
                 return "<strong>All caught up!</strong>";
             }
+            $lastclient = "";
 			//need the ampersand to pass by reference so item gets updated since we converted time_entries from object to array
             foreach ($time_entries as $i => &$item) {
                 //style based on time logged vs estimate
@@ -293,6 +316,10 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Add class to cell
          * 
+         * @since 2.4.0
+         * 
+         * @param array|string|int $cel Value for current cell, or array defining value and details to be used to create cell.
+         * @param string $cls Class name to be added to cell.
          */
         private function add_class_to_cell($cel, $cls) {
             if (is_array($cel)) {
@@ -314,6 +341,11 @@ if ( !class_exists( 'Pending_Time' ) ) {
         /**
          * Create Table
          * 
+         * @since 1.0.0
+         * 
+         * @param array $time_entries Array of time entries.
+         * 
+         * @return string Html table to display.
          */
         private function create_table($time_entries) {            
             $fields = $this->get_table_fields();

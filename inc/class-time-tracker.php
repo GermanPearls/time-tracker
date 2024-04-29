@@ -4,7 +4,7 @@
  *
  * Include necessary files for the plugin if installed and activated
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -15,12 +15,14 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
 /**
  * If class doesn't already exist
  * 
+ * @since 1.0.0
  */
 if ( ! class_exists('Time_Tracker') ) {
 
   /**
    * Main Plugin Class
    * 
+   * @since 1.0.0
    */  
   final class Time_Tracker {
   
@@ -29,6 +31,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Main Plugin Class
      * 
+     * @since 1.0.0
      */  
     public static function instance() {
       if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Time_Tracker ) ) {
@@ -56,6 +59,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Definitions
      * 
+     * @since 1.0.0
      */  
     private function setup_constants() {     
       //TT Home - Allow for WP Install in Sub-Directories
@@ -76,6 +80,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Form Plugin Dependent Items Init
      * 
+     * @since 2.4.7
      */
     private function load_form_dependencies() {      
       //load time tracker functions based on form plugin being used
@@ -91,6 +96,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Classes, Functions
      * 
+     * @since 1.0.0
      */
     private function load_dependencies() {
       //FUNCTIONS
@@ -152,6 +158,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Dependencies - CF7
      * 
+     * @since 2.4.7
      */
     public function load_dependencies_cf7() {
       include_once(TT_PLUGIN_DIR_INC . 'CF7/function-tt-custom-cf7-field-datetime.php');
@@ -169,6 +176,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Dependencies - WPForms
      * 
+     * @since 2.4.7
      */
     public function load_dependencies_wpf() {
       include_once(TT_PLUGIN_DIR_INC . 'WPF/class-time-tracker-activator-forms-wpf.php');
@@ -182,6 +190,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Scripts
      * 
+     * @since 1.0.0
      */
     public function time_tracker_scripts() {
       //SCRIPTS
@@ -208,6 +217,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'trigger_table_cell_blur_event', TT_PLUGIN_WEB_DIR_INC . 'js/trigger_table_cell_blur_event.js', array('jquery'), null, true);
 
       wp_enqueue_script( 'export_pending_time_to_csv', TT_PLUGIN_WEB_DIR_INC . 'js/export_pending_time_to_csv.js', array('jquery'), null, true);
+      wp_enqueue_script( 'export_pending_time_to_iif', TT_PLUGIN_WEB_DIR_INC . 'js/export_pending_time_to_csv.js', array('jquery'), null, true);
       wp_enqueue_script( 'tt_download_file', TT_PLUGIN_WEB_DIR_INC . 'js/tt_download_file.js', array(), null, true);
 
       //SAVE PATH TO SCRIPTS FOR USE IN JS
@@ -217,6 +227,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_clear_sql_error_nonce')));
       wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
       wp_localize_script('export_pending_time_to_csv', 'wp_ajax_object_tt_export_pending_time', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_nonce')));
+      wp_localize_script('export_pending_time_to_iif', 'wp_ajax_object_tt_export_pending_time_for_qb', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_for_qb_nonce')));
       wp_localize_script('deleteRecord', 'wp_ajax_object_tt_delete_record', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_record_nonce')));
       wp_localize_script('tt_start_timer_for_new_task', 'wp_ajax_object_tt_start_timer_for_new_task', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_start_timer_for_new_task_nonce')));
 
@@ -232,6 +243,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Styles
      * 
+     * @since 1.0.0
      */
     public function time_tracker_styles() {
       //STYLES
@@ -244,6 +256,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Enqueue Scripts
      * 
+     * @since 1.0.0
      */
     public function add_scripts() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
@@ -252,6 +265,7 @@ if ( ! class_exists('Time_Tracker') ) {
       add_action('wp_ajax_tt_update_table', 'Logically_Tech\Time_Tracker\Inc\tt_update_table_function');
       add_action('wp_ajax_tt_clear_sql_error', 'Logically_Tech\Time_Tracker\Inc\tt_clear_sql_error_function');
       add_action('wp_ajax_tt_export_pending_time', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time');
+      add_action('wp_ajax_tt_export_pending_time_for_qb', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time_for_qb');
       add_action('wp_ajax_tt_delete_record', 'Logically_Tech\Time_Tracker\Inc\tt_delete_record_function');
       add_action('wp_ajax_tt_start_timer_for_new_task', 'Logically_Tech\Time_Tracker\Inc\tt_get_new_task_details_function');
 
@@ -263,6 +277,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Enquque Styles
      * 
+     * @since 1.0.0
      */
     public function add_styles() {
       //STYLES
@@ -273,6 +288,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Classes, Functions - Admin
      * 
+     * @since 1.0.0
      */
     private function load_dependencies_admin() {
       //PLUGIN SETTINGS
@@ -299,6 +315,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Styles - Admin
      * 
+     * @since 1.0.0
      */    
     public function time_tracker_styles_admin() {
       wp_enqueue_style( 'time-tracker-style', TT_PLUGIN_WEB_DIR_INC . 'css/time-tracker.php');
@@ -309,6 +326,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Load Scripts - Admin
      * 
+     * @since 1.0.0
      */
     public function time_tracker_scripts_admin() {
       wp_enqueue_script( 'tt_add_line_break', TT_PLUGIN_WEB_DIR_ADMIN . 'js/add_line_break.js', array(), null, true); 
@@ -322,6 +340,7 @@ if ( ! class_exists('Time_Tracker') ) {
       
       //SAVE PATH TO SCRIPTS FOR USE IN JS
       wp_localize_script('export_tt_data', 'wp_ajax_object_tt_export_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_data_nonce')));
+      wp_localize_script('export_pending_time_to_iif', 'wp_ajax_object_tt_export_pending_time_for_qb', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_for_qb_nonce')));
       wp_localize_script('delete_tt_data', 'wp_ajax_object_tt_delete_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_data_nonce')));
       wp_localize_script('run_recurring_task_cron', 'wp_ajax_object_tt_run_recurring_task_cron', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_run_recurring_task_cron_nonce')));
       wp_localize_script('dismiss_admin_notice', 'wp_ajax_object_tt_dismiss_admin_notice', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_dismiss_admin_notice_nonce')));
@@ -331,23 +350,25 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Enqueue Scripts - Admin
      * 
+     * @since 1.0.0
      */    
     public function add_scripts_admin() {
       //ADD CALLBACK FUNCTIONS FOR AJAX CALLS - ADD BEFORE SCRIPTS
 	    add_action('wp_ajax_tt_export_data', 'Logically_Tech\Time_Tracker\Admin\tt_export_button_function');
+      add_action('wp_ajax_tt_export_pending_time_for_qb', 'Logically_Tech\Time_Tracker\Inc\tt_export_pending_time_for_qb');
 	    add_action('wp_ajax_tt_delete_data', 'Logically_Tech\Time_Tracker\Admin\tt_delete_data_function');
       add_action('wp_ajax_tt_run_recurring_task_cron', 'Logically_Tech\Time_Tracker\Inc\tt_run_recurring_task_cron');
       add_action('wp_ajax_tt_dismiss_admin_notice', 'Logically_Tech\Time_Tracker\Admin\tt_dismiss_admin_notice_function');
 
       //ADMIN SCRIPTS
       add_action('admin_enqueue_scripts', array($this,'time_tracker_scripts_admin'));
-
     }
 
 
     /**
      * Enqueue Styles - Admin
      * 
+     * @since 1.0.0
      */
     public function add_styles_admin() {
       //STYLES
@@ -358,6 +379,7 @@ if ( ! class_exists('Time_Tracker') ) {
     /**
      * Add Plugin Settings
      * 
+     * @since 1.0.0
      */
     public function init_settings() {
       //SETTINGS

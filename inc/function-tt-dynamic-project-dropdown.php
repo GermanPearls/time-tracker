@@ -2,16 +2,23 @@
 /**
  * Function dynamic-project-dropdown
  *
-* Dynamically update the project dropdown list depending on client chosen
-* Called from updateProjectList Javascript function triggered by client onchange event
+ * Dynamically update the project dropdown list depending on client chosen
+ * Called from updateProjectList Javascript function triggered by client onchange event
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
 
 
+/**
+ * Update the project list based on client selected by user.
+ * 
+ * @since 1.0.0
+ * 
+ * @return array Results of update including success, details, and message fields.
+ */
 function tt_update_project_list_function() {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['client']) ) {

@@ -4,7 +4,7 @@
  *
  * Misc functions used throughout plugin
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
@@ -15,6 +15,11 @@ namespace Logically_Tech\Time_Tracker\Inc;
  * Takes a fraction time and converts it for use in SQL time format (hh:mm:ss)
  * Example: 2.75 would return 24500, (ie: 02:45:00), 24500 can be inserted into time field in SQL
  * 
+ * @since 1.0.0
+ * 
+ * @param double $fraction_time Time in x.xx hours.
+ * 
+ * @return int Time in hhmmss, which can be used in sql.
  */
 function tt_convert_fraction_to_time($fraction_time) {
     if (($fraction_time == 0) or ($fraction_time == "") or ($fraction_time == null)) {
@@ -33,6 +38,12 @@ function tt_convert_fraction_to_time($fraction_time) {
  * Correctly handles minutes over 60
  * Example: 1h + 90min would convert to: 2:30
  * 
+ * @since 1.0.0
+ * 
+ * @param int $hours Hours in integer format.
+ * @param int $minutes Minutes in integer format.
+ * 
+ * @return string Time in hh:mm format.
  */
 function tt_convert_to_string_time($hours, $minutes) {
     if ( (($hours == 0) or ($hours == null) or ($hours == "")) and (($minutes == 0) or ($minutes == null) or ($minutes == "")) ) {
@@ -61,6 +72,12 @@ function tt_convert_to_string_time($hours, $minutes) {
  * Correctly handles minutes over 60
  * Example: 1h + 90min would convert to: 2.5
  * 
+ * @since 1.0.0
+ * 
+ * @param int $hours Hours in integer format.
+ * @param int $minutes Minutes in integer format.
+ * 
+ * @return double Time in decimal format, x.x hours.
  */
 function tt_convert_to_decimal_time($hours, $minutes) {
     if ( (($hours == 0) or ($hours == null) or ($hours == "")) and (($minutes == 0) or ($minutes == null) or ($minutes == "")) ) {
@@ -85,6 +102,12 @@ function tt_convert_to_decimal_time($hours, $minutes) {
  * Can be formatted to date and time or date, depending on user passed variable
  * type = output type
  * 
+ * @since 1.0.0
+ * 
+ * @param string $date_entry Date in various formats.
+ * @param string $type What format you'd like to output.
+ * 
+ * @return string Date and time in format desired.
  */
 function tt_format_date_for_display($date_entry, $type) {
     //if date is empty - return nothing
@@ -121,6 +144,11 @@ function tt_format_date_for_display($date_entry, $type) {
 /**
  * Get Time Estimate Formatted
  * 
+ * @since 1.4.0
+ * 
+ * @param string $timeestimate Time estimate in xx:xx format.
+ * 
+ * @return double Time in decimal format, x.x hours.
  */
 function get_time_estimate_formatted($timeestimate) {
     if (($timeestimate == 0 ) or ($timeestimate == null)) {
@@ -136,6 +164,11 @@ function get_time_estimate_formatted($timeestimate) {
 /**
  * Get Time Worked vs Estimate Class
  * 
+ * @since 1.4.0
+ * 
+ * @param double $percent_time_logged Time logged as a percentage, without the percent sign.
+ * 
+ * @return string Class name to be displayed in data cell.
  */
 function get_time_estimate_class($percent_time_logged) {
     if ( ($percent_time_logged <> "") and ($percent_time_logged > 100) ) {
@@ -150,6 +183,12 @@ function get_time_estimate_class($percent_time_logged) {
 /**
  * Get Percentage of Time Logged vs Time Estimate
  * 
+ * @since 1.4.0
+ * 
+ * @param double Estimate of time.
+ * @param double Hours worked.
+ * 
+ * @return string Html string showing percent time logged with red/green status bar.
  */
 function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
     //evaluate time worked vs estimate, format data to display and apply css class based on result
@@ -176,6 +215,12 @@ function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
 /**
  * Get Due Date Class - Are We On Time, Late, Or Getting Late
  * 
+ * @since 1.0.0
+ * 
+ * @param ??? $duedate Due date.
+ * @param string $status Status of item.
+ * 
+ * @return string Class name to display with data, based on if it is on time, late, or getting late.
  */
 function get_due_date_class($duedate, $status) {
     if ( ($duedate == "0000-00-00") || ($duedate == null) ) {
@@ -205,6 +250,11 @@ function get_due_date_class($duedate, $status) {
  * Return month name from month number
  * Example: 1 returns January
  * 
+ * @since 1.0.0
+ * 
+ * @param integer $monthnumber Number of month (1=January).
+ * 
+ * @return string Full month name.
  */
 function get_month_name_from_number($monthnumber) {
     //create date object from month integer
@@ -220,6 +270,11 @@ function get_month_name_from_number($monthnumber) {
 /**
  * Find the form ID for a form with the given name
  * 
+ * @since 1.0.0
+ * 
+ * @param string $form_name Name of formm.
+ * 
+ * @return integer Post ID of form in wp database.
  */
 function tt_get_form_id($form_name) {
     //$forms = WPCF7_ContactForm::find(array("title" => $form_name));
@@ -239,6 +294,11 @@ function tt_get_form_id($form_name) {
 /**
  * Get form name from form ID
  * 
+ * @since 2.4.2
+ * 
+ * @param integer $form_id Post ID of form
+ * 
+ * @return string Name of form.
  */
 function tt_get_form_name($form_id) {
     if ( ($form_id != null) && ($form_id > 0) ) {
@@ -250,6 +310,12 @@ function tt_get_form_name($form_id) {
 /**
  * Check if this is a Time Tracker form
  * 
+ * @since 2.4.2
+ * 
+ * @param string $form_name Name of form
+ * @param integer $form_id WP Post ID of form
+ * 
+ * @return boolean True if this is a Time Tracker form, false if form not associated with TT
  */
 function tt_is_tt_form($form_name='', $form_id=0) {
     if ($form_id != 0) {
@@ -274,6 +340,11 @@ function tt_is_tt_form($form_name='', $form_id=0) {
 /**
  * Check page status to verify it's private
  * 
+ * @since 1.4.0
+ * 
+ * @param integer $page_id WP Post ID of page
+ * 
+ * @return string WP Post status of post
  */
 function check_page_status($page_id) {
     $status = get_post_status ( $page_id );
@@ -287,6 +358,11 @@ function check_page_status($page_id) {
 /**
  * Find the page ID for a page with the given name (and verify it's not in trash)
  * 
+ * @since 1.0.0
+ * 
+ * @param string $page_name Name of page.
+ * 
+ * @return integer WP Post ID of page, or null if does not exist
  */
 function tt_get_page_id($page_name) {
     //$forms = WPCF7_ContactForm::find(array("title" => $form_name));
@@ -318,6 +394,9 @@ function tt_get_page_id($page_name) {
 /**
  * Get sitename
  * 
+ * @since 1.0.0
+ * 
+ * @return Name of site from Wordpress options
  */
 function tt_get_site_name() {
     $site = esc_html(get_bloginfo( 'name' ));
@@ -328,6 +407,9 @@ function tt_get_site_name() {
 /**
  * Get site.com
  * 
+ * @since 1.0.0
+ * 
+ * @return Url of site from Wordpress options
  */
 function tt_get_site_url() {
     $url = esc_html(get_bloginfo( 'url' ));
@@ -338,6 +420,9 @@ function tt_get_site_url() {
 /**
  * Return wordpress@site.com for use with form notification settings
  * 
+ * @since 1.0.0
+ * 
+ * @return string Email address with username of wordpress and site's domain, for use as from address with email notifications
  */
 function tt_get_wordpress_email() {
     $wp_email = esc_html(get_bloginfo( 'url' ));
@@ -357,6 +442,9 @@ function tt_get_wordpress_email() {
 /**
  * Get admin email for website
  * 
+ * @since 1.0.0
+ * 
+ * @return string Admin email from Wordpress options
  */
 function tt_get_site_admin_email() {
     $email = esc_html(get_bloginfo( 'admin_email' ));
@@ -367,6 +455,9 @@ function tt_get_site_admin_email() {
 /**
  * Add Recurring Task Icon
  * 
+ * @since 1.1.0
+ * 
+ * @return string Html of recurring task icon
  */
 function tt_add_recurring_task_icon() {
     $html = "<img src=" . TT_PLUGIN_WEB_DIR_INC . "img/recurring-task-icon-150sq-blue.png class=\"tt-recurring-task-icon\" width=25 height=25>";
@@ -377,6 +468,9 @@ function tt_add_recurring_task_icon() {
 /**
  * Get Currency Type Specified by User
  * 
+ * @since 2.4.3
+ * 
+ * @return string Currency sign identified by user
  */
 function tt_get_currency_type() {
     $curr = tt_get_user_options("time_tracker_categories", "currency_sign");
@@ -390,6 +484,9 @@ function tt_get_currency_type() {
 /**
  * Get default billing rate
  * 
+ * @since 2.4.3
+ * 
+ * @return integer Default billing rate as defined by user
  */
 function tt_get_default_billing_rate() {
     $rate = tt_get_user_options("time_tracker_categories", "default_rate");
@@ -403,6 +500,9 @@ function tt_get_default_billing_rate() {
 /**
  * Check for Pagination
  * 
+ * @since 1.4.0
+ * 
+ * @return array Pagination details
  */
 function check_for_pagination() {
 	$pages = new Time_Tracker_Activator_Pages();
@@ -441,6 +541,9 @@ function check_for_pagination() {
 /**
  * Check for Pagination - Records Per Page
  * 
+ * @since 2.2.0
+ * 
+ * @return integer Number of records to show per page for pagination
  */
 function get_pagination_qty_per_page() {
     require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-pages.php');
@@ -467,6 +570,15 @@ function get_pagination_qty_per_page() {
 /**
  * Add Pagination to Page
  * 
+ * @since 1.4.0
+ * 
+ * @param double $data_count Total number of records to be displayed
+ * @param double $max_per_page Pagination setting of max number of records per page
+ * @param double $current_page_num Current page number to get records for
+ * @param string $prevtext Text to display for user to choose previous pages
+ * @param string $nexttext Text to display for user to choose next pages
+ * 
+ * @return string Echos the pagination links to display on the front end 
  */
 function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext, $nexttext) {
 	//add_pagination($data_count, $records_in_table, $current_page_num, '« Newer', '« Older')
@@ -488,6 +600,9 @@ function add_pagination($data_count, $max_per_page, $current_page_num, $prevtext
 /**
  * Get Record Numbers Based on Page Number for Pagination
  * 
+ * @since 2.2.0
+ * 
+ * @return array Array defining which records to display on this page (ie: number of records to display and offset from first record)
  */
 function get_record_numbers_for_pagination_sql_query() {
 	$records_per_page = get_pagination_qty_per_page();
@@ -510,8 +625,9 @@ function get_record_numbers_for_pagination_sql_query() {
 /**
  * Get page number from url if paginated
  * 
- * @since ver3.0.5
+ * @since 3.0.5
  * 
+ * @return integer Page number of current page if it is paginated
  **/
 function tt_get_page_number_from_url() {
 	$uri = $_SERVER['REQUEST_URI'];
@@ -529,6 +645,12 @@ function tt_get_page_number_from_url() {
 /**
  * Record to sql_log on server, and save to options table to alert user
  * 
+ * @since 1.0.0
+ * 
+ * @param string $filename Name of file that ran sql expression
+ * @param string $functiontname Name of function that ran sql expression
+ * @param string $lastquery Sql expression that failed
+ * @param string $lasterror Error details of sql failure
  */
 function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {           
     $now = new \DateTime("now", new \DateTimeZone('America/New_York'));
@@ -581,6 +703,9 @@ function catch_sql_errors($filename, $functionname, $lastquery, $lasterror) {
 /**
  * Record to sql_log on server, for error handling
  * 
+ * @since 1.0.0
+ * 
+ * @param string $msg Note to record in Time Tracker sql log
  */
 function log_sql($msg) {
     if (WP_DEBUG_LOG) {
@@ -600,6 +725,9 @@ function log_sql($msg) {
 /**
  * Record to cron_log on server, for error handling
  * 
+ * @since 1.0.0
+ * 
+ * @param string $msg Note to record in Time Tracker cron log
  */
 function log_cron($msg) {
     if (WP_DEBUG_LOG) {
@@ -619,6 +747,9 @@ function log_cron($msg) {
 /**
  * Record to misc tt_log
  * 
+ * @since 1.0.0
+ * 
+ * @param string $msg Note to log in general Time Tracker log
  */
 function log_tt_misc($msg) {
     if (WP_DEBUG_LOG) {
@@ -638,6 +769,12 @@ function log_tt_misc($msg) {
 /**
  * Query db
  * 
+ * @since 2.4.7
+ * 
+ * @param string $sql_string Sql string to run on WP database
+ * @param string optional Type of response requested (ie: object or array)
+ * 
+ * @return object|array Response from sql request
  */
 function tt_query_db($sql_string, $return_type="object") {
     global $wpdb;
@@ -656,6 +793,12 @@ function tt_query_db($sql_string, $return_type="object") {
 /**
  * Get user options
  * 
+ * @since 2.4.7
+ * 
+ * @param string $option_name Name of Wordpress database option
+ * @param string $sub_option_name If option is array of key-value pairs, key to search
+ * 
+ * @return variant|string|double|date Option setting from database
  */
 function tt_get_user_options($option_name, $sub_option_name) {
     $optns = get_option($option_name);
@@ -673,6 +816,9 @@ function tt_get_user_options($option_name, $sub_option_name) {
 /**
  * Get clients
  * 
+ * @since 2.4.7
+ * 
+ * @return object All clients in database
  */
 function tt_get_clients() {
     return tt_query_db("SELECT ClientID, Company FROM tt_client ORDER BY Company ASC");
@@ -682,6 +828,9 @@ function tt_get_clients() {
 /**
  * Get tasks
  * 
+ * @since 2.4.7
+ * 
+ * @return object All tasks in database
  */
 function tt_get_tasks() {
     return tt_query_db("SELECT TaskID, TDescription FROM tt_task ORDER BY TaskID ASC");
@@ -691,6 +840,9 @@ function tt_get_tasks() {
 /**
  * Get projects
  * 
+ * @since 2.4.7
+ * 
+ * @return object All projects in database
  */
 function tt_get_projects() {
     return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC");

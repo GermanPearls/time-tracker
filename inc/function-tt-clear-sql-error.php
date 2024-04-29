@@ -5,7 +5,7 @@
  * Update setting in options table indicating there's been a recent SQL error
  * Called by button next to error message on all TT screens
  * 
- * @since 1.0
+ * @since 1.0.0
  * 
  */
 
