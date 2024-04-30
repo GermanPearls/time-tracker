@@ -187,7 +187,7 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
                     if ($qb_array[count($qb_array)-1][0] != "TRNS") {
                         array_push($qb_array, $inv_blank_line);
                     }
-                    $ticket_header = array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", $time_detail["TaskID"] . " - " . $time_detail["TDescription"], "", "", "", "", "", "N", "N", "", "", "", "");
+                    $ticket_header = array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", "TICKET " . $time_detail["TaskID"] . " - " . strtoupper($time_detail["TDescription"]), "", "", "", "", "", "N", "N", "", "", "", "");
                     array_push($qb_array, $ticket_header);
                     $ticket = $time_detail["TaskID"];
                 }
@@ -195,7 +195,7 @@ if ( !class_exists( 'Pending_Time_Export' ) ) {
                 //invoice line items
                 $inv_line = array();
                 //note qty must be negative when importing into QB as invoice
-                $inv_line =  array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", str_replace($time_detail["TNotes"], chr(13) . chr(11), "\n"), "N", 
+                $inv_line =  array("SPL", strval($i), "INVOICE", $eom, "", "", "", "", "", str_replace("\r\n", "\\n", $time_detail["TNotes"]), "N", 
                     (0-\Logically_Tech\Time_Tracker\Inc\tt_convert_to_decimal_time($time_detail["LoggedHours"], $time_detail["LoggedMinutes"])),
                     $time_detail["BillingRate"], "Service - TBD", "", "N", "N", "", "", "", "");
                 array_push($qb_array, $inv_line);
