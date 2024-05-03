@@ -537,6 +537,11 @@ td#due-date.soon-date {
     color: #000000;
 }
 
+td#due-date.today-date {
+    background-color: rgba(255, 234, 0, 0.5);  //transparent yellow
+    color: #000000;
+}
+
 td.on-hold-date {
     background-color: rgba(136, 132, 126,0.5);  //transparent gray
     color: #000000;

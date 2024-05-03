@@ -232,6 +232,8 @@ function get_due_date_class($duedate, $status) {
         //$due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
         if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime()) {
             $due_date_class = "late-date";
+        } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) == new \DateTime(date("Y-m-d"))) {
+            $due_date_class = "today-date";
         } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime(date("Y-m-d", strtotime("+7 days")))) {
             $due_date_class = "soon-date";
 		} elseif (\DateTime::createFromFormat("Y-m-d", $duedate) >= new \DateTime(date("Y-m-d", strtotime("+365 days")))) {
