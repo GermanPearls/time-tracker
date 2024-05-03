@@ -216,6 +216,7 @@ function get_percent_time_logged($time_estimate_formatted, $hours_logged) {
  * Get Due Date Class - Are We On Time, Late, Or Getting Late
  * 
  * @since 1.0.0
+ * @since 3.0.13 Added class for due today.
  * 
  * @param ??? $duedate Due date.
  * @param string $status Status of item.
@@ -230,7 +231,7 @@ function get_due_date_class($duedate, $status) {
         $due_date_class = "ok-date";
     } else {
         //$due_date_formatted = date_format(\DateTime::createFromFormat("Y-m-d", $duedate), "n/j/y");
-        if (\DateTime::createFromFormat("Y-m-d", $duedate) <= new \DateTime()) {
+        if (\DateTime::createFromFormat("Y-m-d", $duedate) < new \DateTime()) {
             $due_date_class = "late-date";
         } elseif (\DateTime::createFromFormat("Y-m-d", $duedate) == new \DateTime(date("Y-m-d"))) {
             $due_date_class = "today-date";
