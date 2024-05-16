@@ -5,6 +5,7 @@
  * Page with Left Sidebar that Includes Links to Important Time Tracker Pages
  * 
  * @since 1.0.0
+ * @since 3.1.0 changed from sidebar to top menu
  * 
  */
 
@@ -32,13 +33,13 @@ if ($pagination['Flag'] == true) {
 <!----------begin CONTENT section----------->
 <div id="tt-all-content" class="content tt-content">
 
-	<!----------begin sidebar section----------->
-		<div id="tt-sidebar" class="sidebar tt-sidebar">
+	<!----------begin top menu section----------->
+		<div id="tt-top-menu" class="top-menu tt-top-menu">
 		<?php
-		include(TT_PLUGIN_DIR . '/templates/tt-sidebar.php');
+		include(TT_PLUGIN_DIR . '/templates/tt-top-menu.php');
 		?>
 		</div>
-	<!----------end sidebar section----------->
+	<!----------end top menu section----------->
 
 	<!----------begin mobile menu section----------->
 		<div id="tt-mobile-menu" class="tt-mobile-menu">
@@ -46,7 +47,7 @@ if ($pagination['Flag'] == true) {
 			<!-- Navigation Links -->
 			<div id="tt-nav-links">
 				<?php
-				include(TT_PLUGIN_DIR . '/templates/tt-sidebar.php')
+				include(TT_PLUGIN_DIR . '/templates/tt-top-menu.php');
 				?>
 			</div>
 		</div>

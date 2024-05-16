@@ -45,20 +45,22 @@ div#tt-all-content {
     overflow: auto;
 }
 
-div#tt-primary, div#tt-sidebar, {
-    display: inline-block;
-}
+/** REV 3.1.0 NO SIDEBAR**/
+/**div#tt-primary, div#tt-sidebar, {**/
+/**    display: inline-block;**/
+/**}**/
 
 /*** page content to the side of sidebar ***/
-div#tt-primary {
-  float: left;
-  width: 75%;
-  max-width: 75%;
-}
+/**div#tt-primary {**/
+/**  float: left;**/
+/**  width: 75%;**/
+/**  max-width: 75%;**/
+/**}**/
 
-div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:after {
-    clear:both;
-}
+/**div#tt-content, div#tt-primary:after, div#tt-sidebar:after, div#tt-mobile-menu:after {**/
+    /**clear:both;**/
+/**}**/
+/** END REV 3.1.0 NO SIDEBAR**/
 
 /**********************************/
 /********** Page Header **********/
@@ -154,9 +156,13 @@ div #tt-nav-links {
 }
 
 @media only screen and (max-width: <?php echo $menu_breakpoint; ?>) {
-	div.tt-sidebar {
+	div.tt-sidebar, .tt-top-menu {
 		display: none;
   	}
+
+    .tt-top-menu-header {
+        display: block;
+    }
 
 	.content-area {
 		width: 100%;
@@ -673,6 +679,58 @@ td.on-hold-date {
         width: 100%
 	}
 }
+
+
+/*********************************/
+/**********Top Menu**********/
+/*********************************/
+.tt-top-menu-bar {
+  background-color: <?php echo $brand_color; ?>;
+  color: <?php echo $text_color_light; ?>;
+  text-align: center;
+}
+
+.tt-top-menu-header {
+    display: inline-block;
+    position: relative;
+    padding: 10px 20px;
+    margin: 10px auto;
+}
+
+.tt-top-menu-header > ul {
+  display: none;
+  background-color: <?php echo $brand_color_minor; ?>;
+  color: <?php echo $brand_color; ?>;
+  min-width: 160px;
+  padding: 5px 10px;
+  z-index: 5;
+  list-style-type: none;
+  text-align: left;
+  text-decoration: none;
+}
+
+.tt-top-menu-header:hover > ul {
+  display: block;
+  position: absolute;
+  padding: 0;
+}
+
+.tt-top-menu-header > ul > li {
+    padding: 5px;
+}
+
+.tt-top-menu-header > ul > li:hover {
+  background-color: <?php echo $brand_color; ?>;
+}
+
+.tt-top-menu-header > ul > li:hover > a {
+  color: <?php echo $text_color_light; ?>;
+}
+
+.tt-top-menu-header a {
+    text-decoration: none;
+}
+
 
 /*********************************/
 /**********Tool Tips**********/
