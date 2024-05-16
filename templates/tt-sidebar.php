@@ -33,13 +33,13 @@ namespace Logically_Tech\Time_Tracker\Templates;
 <a href=<?php echo TT_HOME . "recurring-task-list" ?> class="tt-sidebar-button">All Recurring Tasks</a>
 </div>
 <hr class="tt-sidebar-hr"/>
-<div id="tt-time-functions">
+<div id="tt-project-functions">
 <div class="tt-sidebar-header">Projects</div>
 <a href=<?php echo TT_HOME . "new-project" ?> class="tt-sidebar-button">New Project</a>
 <a href=<?php echo TT_HOME . "projects" ?> class="tt-sidebar-button">All Projects</a>
 </div>
 <hr class="tt-sidebar-hr"/>
-<div id="tt-time-functions">
+<div id="tt-client-functions">
 <div class="tt-sidebar-header">Clients</div>
 <a href=<?php echo TT_HOME . "new-client" ?> class="tt-sidebar-button">New Client</a>
 <a href=<?php echo TT_HOME . "clients" ?> class="tt-sidebar-button">All Clients</a>
