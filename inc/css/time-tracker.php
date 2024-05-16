@@ -690,6 +690,11 @@ td.on-hold-date {
   text-align: center;
 }
 
+.tt-top-menu-bar ul li:hover {
+    background-color: <?php echo $brand_color_minor; ?>;
+    color: <?php echo $brand_color; ?>;
+}
+
 .tt-top-menu-header {
     display: inline-block;
     position: relative;
@@ -700,13 +705,16 @@ td.on-hold-date {
 .tt-top-menu-header > ul {
   display: none;
   background-color: <?php echo $brand_color_minor; ?>;
-  color: <?php echo $brand_color; ?>;
   min-width: 160px;
   padding: 5px 10px;
   z-index: 5;
   list-style-type: none;
   text-align: left;
   text-decoration: none;
+}
+
+.tt-top-menu-header ul li a {
+    color: <?php echo $brand_color; ?>;
 }
 
 .tt-top-menu-header:hover > ul {
