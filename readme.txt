@@ -104,10 +104,11 @@ installation and provide detailed feedback if you find features that don't work 
 == Changelog ==
 
 = 3.0.13 (alpha) =
-Fix: Removed deprecated php input filter
+New Feature: Add button on client table to view all tasks for the client
 Improvement: Add button for exporting pending time in IIF format, ready for importing into QuickBooks for automated Invoice creation.
 Improvement: Updated project listing to display projects with statuses not in predefined list as 'other' status
 Improvement: Misc code cleanup
+Fix: Removed deprecated php input filter
 
 = 3.0.12 =
 Fix: Fix fatal activation error related to admin notice looking for option before it was set

@@ -203,6 +203,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'tt_set_date_picker_default_value', TT_PLUGIN_WEB_DIR_INC . 'js/set_date_picker_default_value.js', array(), null, true);
       wp_enqueue_script( 'save_new_task_and_start_timer', TT_PLUGIN_WEB_DIR_INC . 'js/save_new_task_and_start_timer.js', array(), null, true);      
       wp_enqueue_script( 'open_time_entries_for_client', TT_PLUGIN_WEB_DIR_INC . 'js/open_time_entries_for_client.js', array(), null, true);
+      wp_enqueue_script( 'open_task_list_for_client', TT_PLUGIN_WEB_DIR_INC . 'js/open_task_list_for_client.js', array(), null, true);
       wp_enqueue_script( 'open_time_entries_for_project', TT_PLUGIN_WEB_DIR_INC . 'js/open_time_entries_for_project.js', array(), null, true);
       wp_enqueue_script( 'tt_open_mobile_menu', TT_PLUGIN_WEB_DIR_INC . 'js/open_mobile_menu.js', array(), null, true);
       wp_enqueue_script( 'tt_accordion', TT_PLUGIN_WEB_DIR_INC . 'js/tt_accordion.js', array(), null, true );
@@ -235,6 +236,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_localize_script( 'tt_filter_time_log', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_detail_for_task', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_time_entries_for_client', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
+      wp_localize_script( 'open_task_list_for_client', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_time_entries_for_project', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'start_timer_for_task', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
     }

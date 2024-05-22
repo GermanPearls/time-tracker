@@ -206,17 +206,20 @@ if ( !class_exists( 'Client_List' ) ) {
          * Iterate through data and add additional information for table
          * 
          * @since 1.4.0
+         * @since 3.0.13 add button for viewing all tasks
          * 
          * @return array Array of clients with information for forming html table.
         **/
         private function get_all_data_for_display() {
             $clients = $this->all_clients;
             foreach ($clients as $item) {
+                $task_details_button = "<button onclick='open_task_list_for_client(\"" . esc_attr(sanitize_textarea_field($item->Company)) . "\")' id=\"client-" . esc_attr(sanitize_text_field($item->ClientID))  . "\" class=\"open-client-detail tt-table-button\">View Tasks</button>";
                 $client_details_button = "<button onclick='open_time_entries_for_client(\"" . esc_attr(sanitize_textarea_field($item->Company)) . "\")' id=\"client-" . esc_attr(sanitize_text_field($item->ClientID))  . "\" class=\"open-client-detail tt-table-button\">View Time</button>";
                 $delete_client_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?client-id=" . esc_attr($item->ClientID) . "\"' id=\"delete-client-" . esc_attr($item->ClientID)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
                 $item->ClientID = [
                     "value" => $item->ClientID,
                     "button" => [
+                        $task_details_button,
                         $client_details_button,
                         $delete_client_button
                     ]
