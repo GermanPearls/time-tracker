@@ -851,6 +851,26 @@ function tt_get_projects() {
     return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC");
 }
 
+
+/**
+ * Check if string ends with item from array
+ * 
+ * @since 3.0.13
+ * 
+ * @param string $haystack String to check.
+ * @param array $arr Array of items to check for at end of string.
+ * 
+ * @return boolean True if the original string ends with an item from the array.
+ */
+function tt_string_ends_with($haystack, $arr) {
+    foreach ($arr as $needle) {
+        if ( str_ends_with($haystack, $needle) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Remove trailing line breaks
  * 
@@ -870,23 +890,4 @@ function tt_remove_trailing_line_breaks($str) {
         }
     }
     return trim($str);
-}
-
-/**
- * Check if string ends with item from array
- * 
- * @since 3.0.13
- * 
- * @param string $haystack String to check.
- * @param array $arr Array of items to check for at end of string.
- * 
- * @return boolean True if the original string ends with an item from the array.
- */
-function tt_string_ends_wtih($haystack, $arr) {
-    foreach ($arr as $needle) {
-        if ( str_ends_with($haystack, $needle) ) {
-            return true;
-        }
-    }
-    return false;
 }
