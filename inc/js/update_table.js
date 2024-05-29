@@ -1,5 +1,5 @@
 function updateDatabase(editableObj, tablename, tablekey, column, id) {
-	//**Ref: https://phppot.com/php/php-mysql-inline-editing-using-jquery-ajax/***/
+	//**Ref: phppot.com/php/php-mysql-inline-editing-using-jquery-ajax ***/
 	if ( editableObj.getElementsByTagName('select').length > 0 ) {
 		var val = jQuery(editableObj).find("select option:selected").val();
 	} else {
