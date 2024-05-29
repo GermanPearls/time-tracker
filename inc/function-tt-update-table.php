@@ -4,7 +4,7 @@
  * Function update table data based on user input
  *
  * Update data in SQL table based on user input in updateable html display table
- * Ref: https://phppot.com/php/php-mysql-inline-editing-using-jquery-ajax/
+ * Ref: phppot.com/php/php-mysql-inline-editing-using-jquery-ajax
  *
  *
  * @since 1.0.0
@@ -18,8 +18,9 @@ namespace Logically_Tech\Time_Tracker\Inc;
  * Update data in table.
  * 
  * @since 1.0.0
+ * @since 3.0.13 Updated to remove trailing line breaks from updated value.
  * 
- * @return array Result including success, details, and message. * 
+ * @return array Result including success, details, and message.
  */
 function tt_update_table_function() {
 	
@@ -57,13 +58,9 @@ function tt_update_table_function() {
 			//pass everything else along to the wp update function
 			} else {
 
-				//if updated value includes <br> that were automatically inserted remove them to avoid doulbe line breaks
+				//if updated value includes <br> that were automatically inserted remove them to avoid double line breaks
 				//we're using WPDB->update below so data should not be escaped
-				if ( strpos(sanitize_textarea_field($_POST['value']), '<br><br>')) {
-					$updated_value = str_replace('<br><br>','<br>',$_POST['value']);
-				} else {
-					$updated_value = $_POST['value'];
-				}
+				$updated_value = tt_remove_trailing_line_breaks(str_replace('<br><br>','<br>',$_POST['value']));
 
 				$data = [
 					sanitize_text_field($_POST['field']) => $updated_value

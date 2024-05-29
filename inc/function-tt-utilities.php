@@ -850,3 +850,43 @@ function tt_get_tasks() {
 function tt_get_projects() {
     return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC");
 }
+
+/**
+ * Remove trailing line breaks
+ * 
+ * @since 3.0.13
+ * 
+ * @param string $str String to update.
+ * 
+ * @return string Updated string with trailing line breaks removed.
+ */
+function tt_remove_trailing_line_breaks($str) {
+    $linebreaks = ['<br>', '<br/>', '<br />'];
+    while (tt_string_ends_with($str, $linebreaks)) {
+        foreach ($linebreaks as $linebreak) {
+            if ( str_ends_with($str, $linebreak) ) {
+                $str = substr($str, 0, strlen($str) - strlen($linebreak));
+            }
+        }
+    }
+    return trim($str);
+}
+
+/**
+ * Check if string ends with item from array
+ * 
+ * @since 3.0.13
+ * 
+ * @param string $haystack String to check.
+ * @param array $arr Array of items to check for at end of string.
+ * 
+ * @return boolean True if the original string ends with an item from the array.
+ */
+function tt_string_ends_wtih($haystack, $arr) {
+    foreach ($arr as $needle) {
+        if ( str_ends_with($haystack, $needle) ) {
+            return true;
+        }
+    }
+    return false;
+}
