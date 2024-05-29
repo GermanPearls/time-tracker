@@ -411,6 +411,10 @@ div.tt-pagination-nav {
     table-layout: fixed;
 }
 
+table.tt-widget-table {
+    min-width: 0;
+}
+
 .tt-table td, .tt-table td > select {
     position: inherit;
 	font-family: <?php echo $font_family; ?>;
@@ -435,7 +439,7 @@ div.tt-pagination-nav {
     line-height: 1em;
 }
 
-.tt-table td.not-editable {
+.tt-table td.not-editable:not(td.tt-table.tt-widget-table.not-editable) {
     background-color: <?php echo $neutral_background_light; ?>;
 }
 

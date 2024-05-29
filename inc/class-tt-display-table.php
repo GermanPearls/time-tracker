@@ -232,7 +232,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 3.0.5
          * @since 3.0.11 Null display values returned as empty string.
-         * @since 3.0.13 Change data sanitization setting for text.
+         * @since 3.0.13 Change data sanitization setting for text. Modified to allow for creation of widgets.
          * 
          * @param string $data_type Type of data to return.
          * @param string $display_value Data which needs to be displayed in cell.
@@ -240,7 +240,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @return varies Output to display in cell, can be string, long text, integer, more.
          */
-        private function display_data_in_cell($data_type, $display_value, $args=[]) {
+        public function display_data_in_cell($data_type, $display_value, $args=[], $itm=[]) {
             if ($display_value == null) {
                 return "";
             }
@@ -261,8 +261,21 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 return intval($display_value);
             } elseif ($data_type == "select") {
                 return $this->create_select_dropdown($args, $display_value);
+            } elseif ($data_type == "widget-invoice") {
+                return $this->create_widget_invoice($display_value, $itm);
             }
             return esc_html(sanitize_text_field($display_value));
+        }
+
+        /**
+         * Create Widget for Invoice Details
+         * 
+         * @since 3.0.13
+         * 
+         */
+        private function create_widget_invoice($dtls, $itm) {
+            $widget = new Time_Tracker_Widget_Invoice_Details($dtls, $itm);
+            return $widget->get_widget_invoice_html();
         }
 
 
@@ -270,16 +283,17 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Get Arguments for Data Cell
          * 
          * @since 1.4.0
+         * @since 3.0.13 Adjusted order to skip some logic if no sql fieldname provided.
          * 
-         * @param array $details Information for this cell.
-         * @param array or object $item	Information for this entire row.
+         * @param array $details Information about this cell and its structure (ie: html tags).
+         * @param array|object $item Data that will populate this entire row.
          * @param string $sql_fieldname	This sql field name where this cell's data originated.
          * @param string $table_name Main database table this table data originates from.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
          * 
          * @return array Array of data and arguments for creating cell.
          */
-        private function get_cell_args($details, $item, $sql_fieldname, $table_name, $table_key) {
+        public function get_cell_args($details, $item, $sql_fieldname, $table_name, $table_key) {
             $args = [];
             $args["id"] = $details["id"];
             $args["class"] = [];
@@ -295,48 +309,52 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 }
             }
             
-            if ($details["editable"]) {
-                array_push($args["class"], "editable");
-                $args["contenteditable"] = "true";
-                if ( is_object($item) ) {
-                    $table_key_value = is_array($item->$table_key) ? $item->$table_key["value"] : $item->$table_key;
-                } elseif ( is_array($item) ) {
-                    $table_key_value = is_array($item[$table_key]) ? $item[$table_key]["value"] : $item[$table_key];
-                }
-                $args["onBlur"] = "updateDatabase(this, '" . $table_name . "', '" . $table_key . "', '" . $sql_fieldname . "', '" . $table_key_value. "')";
-            } else {
-                array_push($args["class"], "not-editable");
-            }
-
             if ( strlen($details["columnwidth"]) > 0 ) {
                 array_push($args["class"], "tt-col-width-" . $details["columnwidth"] . "-pct");
             }
+            
+            if ($sql_fieldname <> "") {
+                if ($details["editable"]) {
+                    array_push($args["class"], "editable");
+                    $args["contenteditable"] = "true";
+                    if ( is_object($item) ) {
+                        $table_key_value = is_array($item->$table_key) ? $item->$table_key["value"] : $item->$table_key;
+                    } elseif ( is_array($item) ) {
+                        $table_key_value = is_array($item[$table_key]) ? $item[$table_key]["value"] : $item[$table_key];
+                    }
+                    $args["onBlur"] = "updateDatabase(this, '" . $table_name . "', '" . $table_key . "', '" . $sql_fieldname . "', '" . $table_key_value. "')";
+                } else {
+                    array_push($args["class"], "not-editable");
+                }
 
-            $item_sql_fieldname_details = is_object($item) ? $item->$sql_fieldname : $item[$sql_fieldname];
-            if ( is_array($item_sql_fieldname_details) ) {
-                if ( array_key_exists("class", $item_sql_fieldname_details) ) {
-                    array_push($args["class"], $item_sql_fieldname_details["class"]);
-                }
-                if ( array_key_exists("button", $item_sql_fieldname_details) ) {
-                    if (is_array($item_sql_fieldname_details["button"])) {
-                        $args["button"] = [];
-                        foreach ($item_sql_fieldname_details["button"] as $ind_button) {
-                            array_push($args["button"], $ind_button);
+                $item_sql_fieldname_details = is_object($item) ? $item->$sql_fieldname : (array_key_exists($sql_fieldname, $item) ? $item[$sql_fieldname] : "");
+                if ( is_array($item_sql_fieldname_details) ) {
+                    if ( array_key_exists("class", $item_sql_fieldname_details) ) {
+                        array_push($args["class"], $item_sql_fieldname_details["class"]);
+                    }
+                    if ( array_key_exists("button", $item_sql_fieldname_details) ) {
+                        if (is_array($item_sql_fieldname_details["button"])) {
+                            $args["button"] = [];
+                            foreach ($item_sql_fieldname_details["button"] as $ind_button) {
+                                array_push($args["button"], $ind_button);
+                            }
+                        } else {
+                            $args["button"] = $item_sql_fieldname_details["button"];
                         }
-                    } else {
-                        $args["button"] = $item_sql_fieldname_details["button"];
+                    }
+                    if ( array_key_exists("icon", $item_sql_fieldname_details) ) {
+                        if (is_array($item_sql_fieldname_details["icon"])) {
+                            $args["icon"] = [];
+                            foreach ($item->$item_sql_fieldname_details["icon"] as $ind_icon) {
+                                array_push($args["icon"], $ind_icon);
+                            }
+                        } else {
+                            $args["icon"] = $item_sql_fieldname_details["icon"];
+                        }
                     }
                 }
-                if ( array_key_exists("icon", $item_sql_fieldname_details) ) {
-                    if (is_array($item_sql_fieldname_details["icon"])) {
-                        $args["icon"] = [];
-                        foreach ($item->$item_sql_fieldname_details["icon"] as $ind_icon) {
-                            array_push($args["icon"], $ind_icon);
-                        }
-                    } else {
-                        $args["icon"] = $item_sql_fieldname_details["icon"];
-                    }
-                }
+            } else {
+                array_push($args["class"], "not-editable");
             }
             return $args;
         }
@@ -390,9 +408,10 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Create Single Data Cell
          * 
          * @since 1.4.0
+         * @since 3.0.13 Modified to allow for creating widgets instead of just data cells.
          * 
          * @param array $field_details Details on how the field should be displayed.
-         * @param array|object $item xxx
+         * @param array|object $item Data for this table section, which includes data for this cell.
          * @param string $table_name Name of table we are creating.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
          * 
@@ -402,14 +421,16 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $sql_fieldname = $field_details["fieldname"];
             $args = $this->get_cell_args($field_details, $item, $sql_fieldname, $table_name, $table_key);
             
-            if ( is_object($item) ) {
+            if ($field_details["type"] == "widget-invoice") {
+                $display_value = $field_details;
+            } elseif ( is_object($item) ) {
                 $display_value = is_array($item->$sql_fieldname) ? $item->$sql_fieldname["value"] : $item->$sql_fieldname;
             } elseif ( is_array($item) ) {
                 $display_value = is_array($item[$sql_fieldname]) ? $item[$sql_fieldname]["value"] : $item[$sql_fieldname];
             }
 
             $cell = $this->start_data($args);
-            $cell .= $this->display_data_in_cell($field_details["type"], $display_value, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : []);
+            $cell .= $this->display_data_in_cell($field_details["type"], $display_value, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
             $cell .= $this->add_button_to_cell($args);
             $cell .= $this->add_icon_to_cell($args);
             $cell .= $this->close_data();

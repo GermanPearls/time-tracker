@@ -148,6 +148,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
          * Get table column order and table fields
          * 
          * @since 2.4.0
+         * @since 3.0.13 Updated to convert Invoice columns to widget to conserve space.
          * 
          * @return array Multi-dimensional array, list of columns, with details for each column as key-value pairs.
          */
@@ -211,37 +212,47 @@ if ( !class_exists( 'Pending_Time' ) ) {
                     "type" => "long text",
                     "class" => ""
                 ],
-                "Invoiced?" => [
-                    "fieldname" => "Invoiced",
-                    "id" => "invoiced",
+                "Invoiced Details" => [
+                    "fieldname" => "",
+                    "id" => "invoice-details",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Invoice Number" => [
-                    "fieldname" => "InvoiceNumber",
-                    "id" => "invoice-number",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Invoiced Time" => [
-                    "fieldname" => "InvoicedTime",
-                    "id" => "invoice-time",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Invoice Comments" => [
-                    "fieldname" => "InvoiceComments",
-                    "id" => "invoice-comments",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
+                    "type" => "widget-invoice",
+                    "class" => "tt-table tt-widget-table",
+                    "widget-data" => [
+                        "Invoiced?" => [
+                            "fieldname" => "Invoiced",
+                            "id" => "invoiced",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "text",
+                            "class" => "tt-align-left"
+                        ],
+                        "Invoice Number" => [
+                            "fieldname" => "InvoiceNumber",
+                            "id" => "invoice-number",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "text",
+                            "class" => "tt-align-left"
+                        ],
+                        "Invoiced Time" => [
+                            "fieldname" => "InvoicedTime",
+                            "id" => "invoice-time",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "text",
+                            "class" => "tt-align-left"
+                        ],
+                        "Invoice Comments" => [
+                            "fieldname" => "InvoiceComments",
+                            "id" => "invoice-comments",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "long text",
+                            "class" => "tt-align-left"
+                        ]
+                    ]
                 ],
                 "Task Status" => [
                     "fieldname" => "TStatus",

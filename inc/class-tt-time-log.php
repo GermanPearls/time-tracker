@@ -367,37 +367,47 @@ if ( !class_exists( 'Time_Log' ) ) {
                     "type" => "long text",
                     "class" => "tt-align-right"
                 ],
-                "Invoiced?" => [
-                    "fieldname" => "Invoiced",
-                    "id" => "invoiced",
+                "Invoiced Details" => [
+                    "fieldname" => "",
+                    "id" => "invoice-details",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Invoice Number" => [
-                    "fieldname" => "InvoiceNumber",
-                    "id" => "invoice-number",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Invoiced Time" => [
-                    "fieldname" => "InvoicedTime",
-                    "id" => "invoice-time",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Invoice Comments" => [
-                    "fieldname" => "InvoiceComments",
-                    "id" => "invoice-comments",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
+                    "type" => "widget-invoice",
+                    "class" => "tt-table tt-widget-table",
+                    "widget-data" => [
+                        "Invoiced?" => [
+                            "fieldname" => "Invoiced",
+                            "id" => "invoiced",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "text",
+                            "class" => "tt-align-left"
+                        ],
+                        "Invoice Number" => [
+                            "fieldname" => "InvoiceNumber",
+                            "id" => "invoice-number",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "text",
+                            "class" => "tt-align-left"
+                        ],
+                        "Invoiced Time" => [
+                            "fieldname" => "InvoicedTime",
+                            "id" => "invoice-time",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "text",
+                            "class" => "tt-align-left"
+                        ],
+                        "Invoice Comments" => [
+                            "fieldname" => "InvoiceComments",
+                            "id" => "invoice-comments",
+                            "editable" => true,
+                            "columnwidth" => "",
+                            "type" => "long text",
+                            "class" => "tt-align-left"
+                        ]
+                    ]
                 ],
                 "Notes" => [
                     "fieldname" => "TNotes",

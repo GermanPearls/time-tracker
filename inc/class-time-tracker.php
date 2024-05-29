@@ -113,7 +113,8 @@ if ( ! class_exists('Time_Tracker') ) {
 	    include_once(TT_PLUGIN_DIR_INC . 'function-tt-get-new-task-details.php');
      
       //CLASSES  
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');    
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');  
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-widget-invoice-details.php');    
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-save-form-input.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-load-page-templates.php');
