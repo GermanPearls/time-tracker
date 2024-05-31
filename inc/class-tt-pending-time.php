@@ -314,7 +314,7 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 if ($i != 0) {
                     if ($item["Company"] != $lastclient) {
                         foreach ($item as &$cell) {
-                            $cell = $this->add_class_to_cell($cell, "tt-border-top-divider");
+                            $cell = $this->add_class_to_cell($cell, "tt-row-top-divider");
                         }
                     }
                 }

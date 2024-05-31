@@ -404,6 +404,10 @@ div.tt-pagination-nav {
     border: 1px solid <?php echo $neutral_background_light; ?>
 }
 
+table.tt-table.tt-widget-table, td.tt-table.tt-widget-table {
+    border: none;
+}
+
 .tt-table {
   	display: table;  
   	max-width: 100%;
@@ -448,7 +452,8 @@ table.tt-widget-table {
     background-color:  <?php echo $brand_color; ?>;
 }
 
-.tt-table td.tt-border-top-divider {
+.tt-table td.tt-border-top-divider:not(.tt-table.tt-widget-table td.tt-border-top-divider),
+.tt-table tr.tt-row-top-divider:not(.tt-table.tt-widget-table tr.tt-row-top-divider) {
     border-top: 5px solid <?php echo $brand_color; ?>;
 }
 

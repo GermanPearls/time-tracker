@@ -387,21 +387,57 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 1.4.0
          * 
-         * @param array $fields xxx
-         * @param xxx $item xxx
+         * @param array $fields Array of fields to be displayed across row
+         * @param array|object $item Data to be filled in across row
          * @param string $table_name Name of table we are creating.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
          * 
          * @return string Html output of one data row including opening row tag, data cells, and closing row tag.
          */
         private function create_data_row($fields, $item, $table_name, $table_key) {
-            $row = $this->start_row();
+            $row = $this->start_row($this->get_row_args($item));
             foreach ($fields as $header=>$field_details) {
                 $row .= $this->create_data_cell($field_details, $item, $table_name, $table_key);
             }
             $row .= $this->close_row();
             return $row;
         }
+
+        /**
+         * Get any row classes from cell data and apply to row element above.
+         * 
+         * @since 3.0.13
+         * 
+         * @param array|object $itm Data for row.
+         * 
+         * @return string Any classes to apply to row element.
+         */
+        private function get_row_args($itm) {
+            $rw_args = [];
+            foreach ($itm as $cell_data) {
+                if (is_array($cell_data)) {
+                    if (array_key_exists("class", $cell_data)) {
+                        if (str_contains($cell_data["class"], "row")) {
+                            $rw_args["class"] = $cell_data["class"];
+                        }
+                    }
+
+                    if (array_key_exists("widget-data", $cell_data)) {
+                        foreach ($cell_data["widget-data"] as $sub_cell) {
+                            if (is_array($sub_cell)) {
+                                if (array_key_exists("class", $sub_cell)) {
+                                    if (str_contains($sub_cell["class"], "row")) {
+                                        $rw_args["class"] = $sub_cell["class"];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return $rw_args;
+        }
+
 
 
         /**
