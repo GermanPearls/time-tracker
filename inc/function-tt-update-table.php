@@ -62,6 +62,9 @@ function tt_update_table_function() {
 				//we're using WPDB->update below so data should not be escaped
 				$updated_value = tt_remove_trailing_line_breaks(str_replace('<br><br>','<br>',$_POST['value']));
 
+				//if no data passed, update db with NULL instead of empty string
+				if ($updated_value == '') { $updated_value == null; }
+
 				$data = [
 					sanitize_text_field($_POST['field']) => $updated_value
 				];
