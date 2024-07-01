@@ -11,10 +11,10 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Short Description: Time Tracker enables you to manage your to do lists, recurring tasks, billable and invoiced time, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
 
 == Description ==
-Time Tracker enables you to manage your to do lists, time worked, billable time, recurring tasks, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about data privacy as you'll maintain your data within your own WordPress database.
+Time Tracker enables you to manage your to do lists, time worked, billable time, recurring tasks, and projects. Track your clients, projects, tasks, time, and billing information on private pages of your own website.  Don't worry about us looking at or seeling your data as you'll maintain your data within your own WordPress database.
 
 = Requirements =
-This plugin is an add-on and requires a form plugin to work properly.
+This plugin is an add-on and **requires either Contact Form 7 or WP Forms** plugin to work properly.
 
 **NEW:** Based on user request, this plugin now works with EITHER **Contact Form 7** OR **WP Forms**.
 
@@ -27,7 +27,7 @@ Time Tracker is a freelancer's time management tool. It keeps track of:
 
 * Clients including contact information, separate bill-to information, and how the client found you
 * Projects, which can have several related tasks
-* Recurring weekly or monthly tasks, these will automatically add new tasks to your to do list
+* Recurring weekly, monthly, or yearly tasks; Tasks will automatically be added to your to do list based on your chosen frequence
 * To do list with open items, due dates, time budget, and task status
 * Time worked including work notes and time billed
 
