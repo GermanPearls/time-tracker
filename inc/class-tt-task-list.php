@@ -142,11 +142,16 @@ if ( !class_exists( 'Task_List' ) ) {
                     "class" => ""
                 ],
                 "Client" => [
-                    "fieldname" => "Company",
+                    "fieldname" => "ClientID",
                     "id" => "client",
-                    "editable" => false,
+                    "editable" => true,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "select",
+                    "select_options" => [
+                        "title" => "client-with-id",
+                        "data_type" => "text",
+                        "options" => $this->get_client_select_options()
+                    ],
                     "class" => ""
                 ],
                 "Project ID" => [
@@ -250,6 +255,24 @@ if ( !class_exists( 'Task_List' ) ) {
                     "Canceled"
                 ];
             }
+        }
+
+        /**
+         * Get client options for a dropdown (includes client name and ID)
+         * 
+         * @since 3.0.13
+         * 
+         * @return array List of clients, with IDs as strings.
+         */
+        private function get_client_select_options() {
+            $clients = tt_get_clients();
+            $arr = [];
+            if ($clients) {
+                foreach ($clients as $client) {
+                    array_push($arr, ["id" => $client->ClientID, "display" => $client->Company]);
+                }
+            }
+            return $arr;
         }
         
         
