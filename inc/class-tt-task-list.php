@@ -167,14 +167,6 @@ if ( !class_exists( 'Task_List' ) ) {
                     ],
                     "class" => ""
                 ],
-                "Project" => [
-                    "fieldname" => "PName",
-                    "id" => "project-name",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
                 "Type" => [
                     "fieldname" => "TCategory",
                     "id" => "task-type",
