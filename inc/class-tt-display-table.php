@@ -491,7 +491,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $dropdown = "<select title=\"" . $ttl . "\" onblur=\"trigger_table_cell_blur_event(this);\">";
             if (array_key_exists("nullable", $args)) {
                 if ($args["nullable"]) {
-                    $dropdown .= "<option value=null";
+                    $dropdown .= "<option value=\"\"";
                     if (trim($val) == "" or is_null($val)) {
                         $dropdown .= " selected=\"selected\"";
                     }
