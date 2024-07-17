@@ -163,7 +163,8 @@ if ( !class_exists( 'Task_List' ) ) {
                     "select_options" => [
                         "title" => "project-with-id",
                         "data_type" => "text",
-                        "options" => $this->get_project_select_options()
+                        "options" => $this->get_project_select_options(),
+                        "nullable" => true
                     ],
                     "class" => ""
                 ],
