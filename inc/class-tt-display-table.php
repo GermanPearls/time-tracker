@@ -495,7 +495,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                     if (trim($val) == "" or is_null($val)) {
                         $dropdown .= " selected=\"selected\"";
                     }
-                    $dropdown .= "></select>";
+                    $dropdown .= ">";
                 }
             }
             foreach ($optns as $optn) {
