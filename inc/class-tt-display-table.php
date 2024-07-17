@@ -241,7 +241,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * @return varies Output to display in cell, can be string, long text, integer, more.
          */
         public function display_data_in_cell($data_type, $display_value, $args=[], $itm=[]) {
-            if ($display_value == null) {
+            if ($display_value == null && $data_type != "select") {
                 return "";
             }
             if ($data_type == "text") {
@@ -489,6 +489,15 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $optns = array_key_exists("options", $args) ? $args["options"] : [];
             $ttl = array_key_exists("title", $args) ? $args["title"] : "";
             $dropdown = "<select title=\"" . $ttl . "\" onblur=\"trigger_table_cell_blur_event(this);\">";
+            if (array_key_exists("nullable", $args)) {
+                if ($args["nullable"]) {
+                    $dropdown .= "<option value=null";
+                    if (trim($val) == "" or is_null($val)) {
+                        $dropdown .= " selected=\"selected\"";
+                    }
+                    $dropdown .= "></select>";
+                }
+            }
             foreach ($optns as $optn) {
                 //if option display value different than ID options may be passed as a k-v array
                 if (gettype($optn) === gettype([])) {
