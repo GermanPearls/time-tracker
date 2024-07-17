@@ -127,7 +127,7 @@ if ( !class_exists( 'Task_List' ) ) {
          * Get table column order and table fields
          * 
          * @since 1.4.0
-         * @since 3.0.13 clarify column header
+         * @since 3.0.13 clarify column header, change client to dropdown, change project to dropdown
          * 
          * @return array Multi-dimensional array of columns to display with details for each.
          */
@@ -159,7 +159,12 @@ if ( !class_exists( 'Task_List' ) ) {
                     "id" => "project-id",
                     "editable" => true,
                     "columnwidth" => "",
-                    "type" => "text",
+                    "type" => "select",
+                    "select_options" => [
+                        "title" => "project-with-id",
+                        "data_type" => "text",
+                        "options" => $this->get_project_select_options()
+                    ],
                     "class" => ""
                 ],
                 "Project" => [
@@ -270,6 +275,25 @@ if ( !class_exists( 'Task_List' ) ) {
             if ($clients) {
                 foreach ($clients as $client) {
                     array_push($arr, ["id" => $client->ClientID, "display" => $client->Company]);
+                }
+            }
+            return $arr;
+        }
+
+
+        /**
+         * Get project options for a dropdown (includes project name and ID)
+         * 
+         * @since 3.0.13
+         * 
+         * @return array List of projects, with IDs as strings.
+         */
+        private function get_project_select_options() {
+            $projects = tt_get_projects();
+            $arr = [];
+            if ($projects) {
+                foreach ($projects as $project) {
+                    array_push($arr, ["id" => $project->ProjectID, "display" => $project->PName]);
                 }
             }
             return $arr;

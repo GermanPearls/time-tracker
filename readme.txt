@@ -1,7 +1,7 @@
 === Time Tracker ===
 Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
-Tags: time tracker, time management, project management, freelancer tools, billing, to-do, to do, to do list, list, task, cf7 extension, contact form 7
+Tags: time tracker, time management, project management, freelancer tools, billing, to do, to do list, list, task, cf7 extension, contact form 7, wp forms extension
 Requires at least: 5.3
 Tested up to: 6.4.2
 Requires PHP: 7.0
@@ -105,6 +105,8 @@ installation and provide detailed feedback if you find features that don't work 
 
 = 3.0.13 (alpha) =
 New Feature: Add button on client table to view all tasks for the client
+Improvement: Adjust display of client on front end to allow user to change client for a task via dropdown
+Improvement: Adjust display of project on front end to allow user to change project for a task via dropdown
 Improvement: Adjust time display to view Invoice details more compact
 Improvement: Moved sidebar menu to top menu
 Improvement: Clean up Time Tracker menu (sidebar and top menu)
@@ -112,6 +114,7 @@ Improvement: Add button for exporting pending time in IIF format, ready for impo
 Improvement: Updated project listing to display projects with statuses not in predefined list as 'other' status
 Improvement: Misc code cleanup
 Fix: Removed deprecated php input filter
+Fix: Update database to null if empty string passed
 
 = 3.0.12 =
 Fix: Fix fatal activation error related to admin notice looking for option before it was set
