@@ -69,6 +69,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Create arguments for including within html tab
          * 
          * @since 1.2.1
+         * @since 3.0.13 Remove button and icon from showing up as td attributes on front end.
          * 
          * @param array $arguments Array of arguments to add within a tag, stored in key-value pairs of attribute name-value.
          * 
@@ -77,17 +78,19 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         private function add_arguments($arguments) {
             $args = "";
             foreach ($arguments as $type=>$value) {
-                $args .= $type . "='";
-                
-                if (is_array($value)) {
-                    foreach ($value as $ind_value) {
-                        $args .= esc_attr($ind_value) . " ";
+                if ($type != "button" && $type != "icon") {
+                    $args .= $type . "='";
+                    
+                    if (is_array($value)) {
+                        foreach ($value as $ind_value) {
+                            $args .= esc_attr($ind_value) . " ";
+                        }
+                    } else {
+                        $args .= esc_attr($value) . " ";
                     }
-                } else {
-                    $args .= esc_attr($value) . " ";
+                    
+                    $args = trim($args) . "' ";
                 }
-                
-                $args = trim($args) . "' ";
             }
             return " " . trim($args);
         }

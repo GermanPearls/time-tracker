@@ -313,7 +313,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "fieldname" => "TimeID",
                 "id" => "time-id",
                 "editable" => false,
-                "columnwidth" => "",
+                "columnwidth" => "five",
                 "type" => "text",
                 "class" => ""
             ];
