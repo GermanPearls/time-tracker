@@ -228,92 +228,23 @@ if ( !class_exists( 'Project_List' ) ) {
          * Get table column order and table fields
          * 
          * @since 1.4.0
-         * @since 3.0.13 Clarified column heading.
+         * @since 3.0.13 Clarified column heading. Updated to use new field definition class.
          * 
          * @return array Multi-dimensional array of columns, each one having column details in key-value pairs.
          */
         private function get_table_fields() {
+            $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Project ID" => [
-                    "fieldname" => "ProjectID",
-                    "id" => "recurring-task-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Project" => [
-                    "fieldname" => "PName",
-                    "id" => "company-name",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Client" => [
-                    "fieldname" => "Company",
-                    "id" => "project-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Category" => [
-                    "fieldname" => "PCategory",
-                    "id" => "project-name",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Status" => [
-                    "fieldname" => "PStatus",
-                    "id" => "task-category",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Date Added" => [
-                    "fieldname" =>"PDateStarted",
-                    "id" => "recurring-task-name",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "Last Worked" => [
-                    "fieldname" => "LastEntry",
-                    "id" => "frequency",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "Due Date" => [
-                    "fieldname" => "PDueDate",
-                    "id" => "last-created",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "Notes" => [
-                    "fieldname" => "PDetails",
-                    "id" => "end-repeat",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Time Logged vs Estimate" => [
-                    "fieldname" => "TimeLoggedVsEstimate",
-                    "id" => "recurring-task-description",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ]
+                "Project ID" => $flds->projectid,
+                "Project" => $flds->project_name,
+                "Client" => $flds->client_select,
+                "Category" => $flds->project_category,
+                "Status" => $flds->project_status,
+                "Date Added" => $flds->project_date_started,
+                "Last Worked" => $flds->project_last_worked,
+                "Due Date" => $flds->project_due_date,
+                "Notes" => $flds->project_details,
+                "Time Logged vs Estimate" => $flds->time_logged_v_estimate
             ];
             return $cols;
         }

@@ -103,100 +103,24 @@ if ( !class_exists( 'Client_List' ) ) {
          * Get table column order and details
          * 
          * @since 1.4.0
-         * @since 3.0.13 clarify column header
+         * @since 3.0.13 Clarify column header. Modify to use new field definition class.
          * 
          * @return array Multi-dimensional array including list of columns, with key-value pairs of column parameters.
          */
         private function get_table_fields() {
+            $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Client ID" => [
-                    "fieldname" => "ClientID",
-                    "id" => "client-id",
-                    "editable" => false,
-                    "columnwidth" => "five",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Client Name" => [
-                    "fieldname" => "Company",
-                    "id" => "company-name",
-                    "editable" => false,
-                    "columnwidth" => "ten",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Contact" => [
-                    "fieldname" => "Contact",
-                    "id" => "contact-name",
-                    "editable" => true,
-                    "columnwidth" => "ten",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Email" => [
-                    "fieldname" => "Email",
-                    "id" => "contact-email",
-                    "editable" => true,
-                    "columnwidth" => "ten",
-                    "type" => "email",
-                    "class" => ""
-                ],
-                "Phone" => [
-                    "fieldname" => "Phone",
-                    "id" => "contact-phone",
-                    "editable" => true,
-                    "columnwidth" => "ten",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Bill To" => [
-                    "fieldname" => "BillTo",
-                    "id" => "bill-to",
-                    "editable" => false,
-                    "columnwidth" => "ten",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Billing Rate " . tt_get_currency_type() => [
-                    "fieldname" => "BillingRate",
-                    "id" => "billing-rate",
-                    "editable" => true,
-                    "columnwidth" => "five",
-                    "type" => "integer",
-                    "class" => "tt-align-right"
-                ],
-                "Source" => [
-                    "fieldname" => "Source",
-                    "id" => "source",
-                    "editable" => false,
-                    "columnwidth" => "ten",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Source Details" => [
-                    "fieldname" => "SourceDetails",
-                    "id" => "source-details",
-                    "editable" => false,
-                    "columnwidth" => "ten",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Comments" => [
-                    "fieldname" => "CComments",
-                    "id" => "client-comments",
-                    "editable" => true,
-                    "columnwidth" => "fifteen",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Date Added" => [
-                    "fieldname" => "DateAdded",
-                    "id" => "date-added",
-                    "editable" => false,
-                    "columnwidth" => "five",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ]
+                "Client ID" =>$flds->clientid,
+                "Client Name" => $flds->client_name,
+                "Contact" => $flds->contact,
+                "Email" => $flds->client_email,
+                "Phone" => $flds->client_phone,
+                "Bill To" => $flds->client_bill_to,
+                "Billing Rate " . tt_get_currency_type() => $flds->client_billing_rate,
+                "Source" => $flds->client_source,
+                "Source Details" => $flds->client_source_details,
+                "Comments" => $flds->client_comments,
+                "Date Added" => $flds->client_date_added
             ];
             return $cols;
         }

@@ -97,6 +97,7 @@ if ( ! class_exists('Time_Tracker') ) {
      * Load Classes, Functions
      * 
      * @since 1.0.0
+     * @since 3.0.13 added class-tt-display-fields
      */
     private function load_dependencies() {
       //FUNCTIONS
@@ -114,6 +115,7 @@ if ( ! class_exists('Time_Tracker') ) {
      
       //CLASSES  
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-table.php');  
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-display-fields.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-widget-invoice-details.php');    
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-save-form-input.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-tool-tips.php');

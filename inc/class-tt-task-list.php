@@ -5,7 +5,7 @@
  * Get and display entire task list
  * 
  * @since 1.0.0
- * @since 3.0.13 clarify column header
+ * @since 3.0.13 clarify column header, use new class to define table fields
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -128,169 +128,26 @@ if ( !class_exists( 'Task_List' ) ) {
          * 
          * @since 1.4.0
          * @since 3.0.13 clarify column header, change client to dropdown, change project to dropdown
+         * @since 3.0.13 use new class to insert field definitions
          * 
          * @return array Multi-dimensional array of columns to display with details for each.
          */
         private function get_table_fields() {
+            $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Task ID" => [
-                    "fieldname" => "TaskID",
-                    "id" => "task-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Client" => [
-                    "fieldname" => "ClientID",
-                    "id" => "client",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "select",
-                    "select_options" => [
-                        "title" => "client-with-id",
-                        "data_type" => "text",
-                        "options" => $this->get_client_select_options()
-                    ],
-                    "class" => ""
-                ],
-                "Project ID" => [
-                    "fieldname" => "ProjectID",
-                    "id" => "project-id",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "select",
-                    "select_options" => [
-                        "title" => "project-with-id",
-                        "data_type" => "text",
-                        "options" => $this->get_project_select_options(),
-                        "nullable" => true
-                    ],
-                    "class" => ""
-                ],
-                "Type" => [
-                    "fieldname" => "TCategory",
-                    "id" => "task-type",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Task" => [
-                    "fieldname" =>"TDescription",
-                    "id" => "task-description",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Due Date" => [
-                    "fieldname" => "TDueDate",
-                    "id" => "due-date",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "Status" => [
-                    "fieldname" => "TStatus",
-                    "id" => "task-status",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "select",
-                    "select_options" => [
-                        "title" => "task-status",
-                        "data_type" => "text",
-                        "options" => $this->get_task_status_options()
-                    ],
-                    "class" => ""
-                ],
-                "Date Added" => [
-                    "fieldname" => "TDateAdded",
-                    "id" => "date-added",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "Time Logged v Estimate" => [
-                    "fieldname" => "TimeLoggedVsEstimate",
-                    "id" => "time-worked",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => "tt-align-right"
-                ],
-                "Notes" => [
-                    "fieldname" => "TNotes",
-                    "id" => "task-notes",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ]
+                "Task ID" => $flds->taskid,
+                "Task" => $flds->task,
+                "Client" => $flds->client_select,
+                "Project ID" => $flds->project_select,
+                "Type" => $flds->work_type,
+                "Due Date" => $flds->due_date,
+                "Status" => $flds->status,
+                "Date Added" => $flds->date_added,
+                "Time Logged v Estimate" => $flds->time_logged_v_estimate,
+                "Notes" => $flds->notes
             ];
             return $cols;
-        }
-
-        /**
-         * Get task status options - user defined
-         * 
-         * @since 3.0.5
-         * 
-         * @return array List of task statuses as strings.
-         */
-        private function get_task_status_options() {
-            $task_status = tt_get_user_options("time_tracker_categories", "task_status");
-            if ($task_status != "" && $task_status != null) {
-                return explode(chr(13), $task_status);
-            } else {
-                return [
-                    "New",
-                    "In Process",
-                    "Waiting Client",
-                    "Complete",
-                    "Canceled"
-                ];
-            }
-        }
-
-        /**
-         * Get client options for a dropdown (includes client name and ID)
-         * 
-         * @since 3.0.13
-         * 
-         * @return array List of clients, with IDs as strings.
-         */
-        private function get_client_select_options() {
-            $clients = tt_get_clients();
-            $arr = [];
-            if ($clients) {
-                foreach ($clients as $client) {
-                    array_push($arr, ["id" => $client->ClientID, "display" => $client->Company]);
-                }
-            }
-            return $arr;
-        }
-
-
-        /**
-         * Get project options for a dropdown (includes project name and ID)
-         * 
-         * @since 3.0.13
-         * 
-         * @return array List of projects, with IDs as strings.
-         */
-        private function get_project_select_options() {
-            $projects = tt_get_projects();
-            $arr = [];
-            if ($projects) {
-                foreach ($projects as $project) {
-                    array_push($arr, ["id" => $project->ProjectID, "display" => $project->PName]);
-                }
-            }
-            return $arr;
-        }
+        }    
         
         
         /**

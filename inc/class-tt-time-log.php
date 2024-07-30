@@ -6,6 +6,7 @@
  * 
  * @since 1.0.0
  * @since 3.0.13 correct typo in column heading
+ * @since 3.0.13 using new class to define table fields
  * 
  */
 
@@ -281,153 +282,27 @@ if ( !class_exists( 'Time_Log' ) ) {
          * Get table column order and table fields
          * 
          * @since 1.4.0
-         * @since 3.0.13 correct typo in column heading
+         * @since 3.0.13 Clarify column header. Change client to dropdown. Change project to dropdown. Use new field definition class.
          * 
-         * @return array Multi-dimensional array of columns (and their properties) to be displayed in front end table
+         * @return array Multi-dimensional array of columns to display with details for each.
          */
         private function get_table_fields() {
+            $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Time ID" => [
-                    "fieldname" => "TimeID",
-                    "id" => "time-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                //"Client ID" => [
-                //    "fieldname" => "ClientID",
-                //    "id" => "client-id",
-                //    "editable" => false,
-                //    "columnwidth" => "",
-                //    "type" => "text",
-                //    "class" => ""
-                //],
-                "Client" => [
-                    "fieldname" => "Company",
-                    "id" => "client-name",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Task ID" => [
-                    "fieldname" => "TaskID",
-                    "id" => "task-id",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Type" => [
-                    "fieldname" => "TCategory",
-                    "id" => "task-type",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Task" => [
-                    "fieldname" =>"TDescription",
-                    "id" => "task-description",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Start Time" => [
-                    "fieldname" => "StartTime",
-                    "id" => "start-time",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "date and time",
-                    "class" => "tt-align-right"
-                ],
-                "End Time" => [
-                    "fieldname" => "EndTime",
-                    "id" => "end-time",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "date and time",
-                    "class" => ""
-                ],
-                "Time Logged Vs Estimate" => [
-                    "fieldname" => "TimeLoggedVsEstimate",
-                    "id" => "time-logged-vs-estimate",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => "tt-align-right"
-                ],
-                "Status" => [
-                    "fieldname" => "TStatus",
-                    "id" => "task-status",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => "tt-align-right"
-                ],
-                "Invoiced Details" => [
-                    "fieldname" => "",
-                    "id" => "invoice-details",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "widget-invoice",
-                    "class" => "tt-table tt-widget-table",
-                    "widget-data" => [
-                        "Invoiced?" => [
-                            "fieldname" => "Invoiced",
-                            "id" => "invoiced",
-                            "editable" => true,
-                            "columnwidth" => "",
-                            "type" => "text",
-                            "class" => "tt-align-left"
-                        ],
-                        "Invoice Number" => [
-                            "fieldname" => "InvoiceNumber",
-                            "id" => "invoice-number",
-                            "editable" => true,
-                            "columnwidth" => "",
-                            "type" => "text",
-                            "class" => "tt-align-left"
-                        ],
-                        "Invoiced Time" => [
-                            "fieldname" => "InvoicedTime",
-                            "id" => "invoice-time",
-                            "editable" => true,
-                            "columnwidth" => "",
-                            "type" => "text",
-                            "class" => "tt-align-left"
-                        ],
-                        "Invoice Comments" => [
-                            "fieldname" => "InvoiceComments",
-                            "id" => "invoice-comments",
-                            "editable" => true,
-                            "columnwidth" => "",
-                            "type" => "long text",
-                            "class" => "tt-align-left"
-                        ]
-                    ]
-                ],
-                "Notes" => [
-                    "fieldname" => "TNotes",
-                    "id" => "task-notes",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Follow Up" => [
-                    "fieldname" => "FollowUp",
-                    "id" => "follow-up",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ]
+                "Time ID" => $flds->timeid,
+                "Client" => $flds->client_select,
+                "Task" => $flds->task,
+                "Type" => $flds->work_type,
+                "Start Time" => $flds->start_time,
+                "End Time" => $flds->end_time,
+                "Time Logged v Estimate" => $flds->time_logged_v_estimate,                
+                "Status" => $flds->status,
+                "Invoice Details" => $flds->invoice_details,
+                "Notes" => $flds->notes,
+                "Follow Up" => $flds->follow_up
             ];
             return $cols;
-        }
+        } 
 
 
         /**

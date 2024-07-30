@@ -108,6 +108,7 @@ New Feature: Add button on client table to view all tasks for the client
 Improvement: Adjust display of client on front end to allow user to change client for a task via dropdown
 Improvement: Adjust display of project on front end to allow user to change project for a task via dropdown
 Improvement: Adjust time display to view Invoice details more compact
+Improvement: Consolidate table field definitions into class for consistency and brevity.
 Improvement: Moved sidebar menu to top menu
 Improvement: Clean up Time Tracker menu (sidebar and top menu)
 Improvement: Add button for exporting pending time in IIF format, ready for importing into QuickBooks for automated Invoice creation.

@@ -365,7 +365,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 1.4.0
          * 
-         * @param xxx $fields xxx
+         * @param array $fields Array of fields to be displayed across row
          * @param xxx $data xxx
          * @param string $table_name Name of table we are creating.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
@@ -478,6 +478,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Create Select Dropdown
          * 
          * @since 3.0.5
+         * @since 3.0.13 resolve deprecated - cannot pass null to trim function
          * 
          * @param array $args Array of arguments in key-value pairs.
          * @param string $val Value to show as selected in dropdown.
@@ -492,7 +493,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             if (array_key_exists("nullable", $args)) {
                 if ($args["nullable"]) {
                     $dropdown .= "<option value=\"\"";
-                    if (trim($val) == "" or is_null($val)) {
+                    if (is_null($val)) {
                         $dropdown .= " selected=\"selected\"";
                     }
                     $dropdown .= ">";
@@ -508,8 +509,10 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                     $display = $optn;
                 }
                 $dropdown .= "<option value=\"" . trim($id) . "\"";
-                if (trim($id) == trim($val)) {
-                    $dropdown .= " selected=\"selected\"";
+                if (! is_null($val)) {
+                    if (trim($id) == trim($val)) {
+                        $dropdown .= " selected=\"selected\"";
+                    }
                 }
                 $dropdown .= ">";
                 $dropdown .= $this->display_data_in_cell($typ, trim($display));

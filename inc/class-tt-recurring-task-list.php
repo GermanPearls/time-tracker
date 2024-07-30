@@ -89,105 +89,26 @@ if ( !class_exists( 'Recurring_Task_List' ) ) {
         }
 
 
-        /**
+         /**
          * Get table column order and table fields
          * 
          * @since 1.4.0
-         * @since 3.0.13 Clarified column header. Removed project ID column.
+         * @since 3.0.13 Clarified column header. Removed project ID column. Updated to use new field definition class.
          * 
          * @return array Multi-dimensional array of columns, each with details in key-value pairs.
          */
         private function get_table_fields() {
+            $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Recurring Task ID" => [
-                    "fieldname" => "RecurringTaskID",
-                    "id" => "recurring-task-id",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Client" => [
-                    "fieldname" => "Company",
-                    "id" => "company-name",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                //"Project ID" => [
-                //    "fieldname" => "ProjectID",
-                //    "id" => "project-id",
-                //    "editable" => false,
-                //    "columnwidth" => "",
-                //    "type" => "text",
-                //    "class" => ""
-                //],
-                "Project" => [
-                    "fieldname" => "PName",
-                    "id" => "project-name",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Type" => [
-                    "fieldname" => "RTCategory",
-                    "id" => "task-category",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "text",
-                    "class" => ""
-                ],
-                "Task" => [
-                    "fieldname" =>"RTName",
-                    "id" => "recurring-task-name",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ],
-                "Frequency" => [
-                    "fieldname" => "Frequency",
-                    "id" => "frequency",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "select",
-                    "select_options" => [
-                        "title" => "recurring-frequency",
-                        "data_type" => "text",
-                        "options" => [
-                            "Weekly",
-                            "Monthly",
-                            "Yearly"
-                        ]
-                    ],
-                    "class" => ""
-                ],
-                "Last Created" => [
-                    "fieldname" => "LastCreated",
-                    "id" => "last-created",
-                    "editable" => false,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "End Repeat" => [
-                    "fieldname" => "EndRepeat",
-                    "id" => "end-repeat",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "date",
-                    "class" => "tt-align-right"
-                ],
-                "Notes" => [
-                    "fieldname" => "RTDescription",
-                    "id" => "recurring-task-description",
-                    "editable" => true,
-                    "columnwidth" => "",
-                    "type" => "long text",
-                    "class" => ""
-                ]
+                "Recurring Task ID" => $flds->recurring_taskid,
+                "Client" => $flds->client_select,
+                "Project" => $flds->project_select,
+                "Type" => $flds->recurring_task_category,
+                "Task" => $flds->recurring_task_description,
+                "Frequency" => $flds->recurring_frequency,
+                "Last Created" => $flds->recurring_last_created,
+                "End Repeat" => $flds->recurring_end_repeat,
+                "Notes" => $flds->recurring_task_description
             ];
             return $cols;
         }
