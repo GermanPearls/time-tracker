@@ -43,10 +43,10 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 2.2.0
          * 
-         * @param xxx $fields xxx
-         * @param xxx $data xxx
-         * @param xxx $table_args xxx
-         * @param xxx $table_name xxx
+         * @param array $fields Details on data to be displayed across each row with info on how to display them.
+         * @param xxx $data Actual data to be shown in table.
+         * @param xxx $table_args Arguments to be added to html table tag.
+         * @param string $table_name Name of table to be used for editing live data.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
          * 
          * @return string Html string.
@@ -317,7 +317,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             }
             
             if ($sql_fieldname <> "") {
-                if ($details["editable"]) {
+                if ($details["editable"] && (!array_key_exists("table", $details) || $details["table"] == $table_name)) {
                     array_push($args["class"], "editable");
                     $args["contenteditable"] = "true";
                     if ( is_object($item) ) {
@@ -368,8 +368,8 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 1.4.0
          * 
-         * @param array $fields Array of fields to be displayed across row
-         * @param xxx $data xxx
+         * @param array $fields Array of fields to be displayed across each row with details on how to display them.
+         * @param xxx $data Data to be shown in table.
          * @param string $table_name Name of table we are creating.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
          * 
@@ -390,8 +390,8 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 1.4.0
          * 
-         * @param array $fields Array of fields to be displayed across row
-         * @param array|object $item Data to be filled in across row
+         * @param array $fields Array of fields to be displayed across row with details on how to display them.
+         * @param array|object $item Data to be filled in across row.
          * @param string $table_name Name of table we are creating.
          * @param string $table_key Name of main ID column in database table to reference this record in the table.
          * 

@@ -127,6 +127,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_taskid() {
             $this->taskid = [
                 "fieldname" => "TaskID",
+                "table" => "tt_task",
                 "id" => "task-id",
                 "editable" => false,
                 "columnwidth" => "",
@@ -143,6 +144,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_task() {
             $this->task = [
                 "fieldname" =>"TDescription",
+                "table" => "tt_task",
                 "id" => "task-description",
                 "editable" => true,
                 "columnwidth" => "",
@@ -159,6 +161,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_select() {
             $this->project_select = [
                 "fieldname" => "ProjectID",
+                "table" => "tt_project",
                 "id" => "project-id",
                 "editable" => true,
                 "columnwidth" => "",
@@ -181,6 +184,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_select() {
             $this->client_select = [
                 "fieldname" => "ClientID",
+                "table" => "tt_client",
                 "id" => "client",
                 "editable" => true,
                 "columnwidth" => "",
@@ -203,6 +207,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_work_type() {
             $this->work_type = [
                 "fieldname" => "TCategory",
+                "table" => "tt_task",
                 "id" => "task-type",
                 "editable" => false,
                 "columnwidth" => "",
@@ -220,6 +225,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_due_date() {
             $this->due_date = [
                 "fieldname" => "TDueDate",
+                "table" => "tt_task",
                 "id" => "due-date",
                 "editable" => true,
                 "columnwidth" => "",
@@ -237,6 +243,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_status() {
             $this->status =[
                 "fieldname" => "TStatus",
+                "table" => "tt_task",
                 "id" => "task-status",
                 "editable" => true,
                 "columnwidth" => "",
@@ -259,6 +266,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_date_added() {
             $this->date_added = [
                 "fieldname" => "TDateAdded",
+                "table" => "tt_task",
                 "id" => "date-added",
                 "editable" => false,
                 "columnwidth" => "",
@@ -293,6 +301,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_notes() {
             $this->notes = [
                 "fieldname" => "TNotes",
+                "table" => "tt_task",
                 "id" => "task-notes",
                 "editable" => true,
                 "columnwidth" => "",
@@ -311,6 +320,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_timeid() {
             $this->timeid = [
                 "fieldname" => "TimeID",
+                "table" => "tt_time",
                 "id" => "time-id",
                 "editable" => false,
                 "columnwidth" => "five",
@@ -328,6 +338,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_start_time() {
             $this->start_time = [
                 "fieldname" => "StartTime",
+                "table" => "tt_time",
                 "id" => "start-time",
                 "editable" => true,
                 "columnwidth" => "",
@@ -345,6 +356,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_end_time() {
             $this->end_time = [
                 "fieldname" => "EndTime",
+                "table" => "tt_time",
                 "id" => "end-time",
                 "editable" => true,
                 "columnwidth" => "",
@@ -362,6 +374,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_invoice_details() {
             $this->invoice_details = [
                 "fieldname" => "",
+                "table" => "tt_time",
                 "id" => "invoice-details",
                 "editable" => true,
                 "columnwidth" => "",
@@ -370,6 +383,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "widget-data" => [
                     "Invoiced?" => [
                         "fieldname" => "Invoiced",
+                        "table" => "tt_time",
                         "id" => "invoiced",
                         "editable" => true,
                         "columnwidth" => "",
@@ -378,6 +392,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                     ],
                     "Invoice Number" => [
                         "fieldname" => "InvoiceNumber",
+                        "table" => "tt_time",
                         "id" => "invoice-number",
                         "editable" => true,
                         "columnwidth" => "",
@@ -386,6 +401,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                     ],
                     "Invoiced Time" => [
                         "fieldname" => "InvoicedTime",
+                        "table" => "tt_time",
                         "id" => "invoice-time",
                         "editable" => true,
                         "columnwidth" => "",
@@ -394,6 +410,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                     ],
                     "Invoice Comments" => [
                         "fieldname" => "InvoiceComments",
+                        "table" => "tt_time",
                         "id" => "invoice-comments",
                         "editable" => true,
                         "columnwidth" => "",
@@ -413,6 +430,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_follow_up() {
             $this->follow_up = [
                 "fieldname" => "FollowUp",
+                "table" => "tt_time",
                 "id" => "follow-up",
                 "editable" => true,
                 "columnwidth" => "",
@@ -430,6 +448,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_taskid() {
             $this->recurring_taskid = [
                 "fieldname" => "RecurringTaskID",
+                "table" => "tt_recurring_task",
                 "id" => "recurring-task-id",
                 "editable" => false,
                 "columnwidth" => "",
@@ -447,6 +466,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_frequency() {
             $this->recurring_frequency = [
                 "fieldname" => "Frequency",
+                "table" => "tt_recurring_task",
                 "id" => "frequency",
                 "editable" => true,
                 "columnwidth" => "",
@@ -473,6 +493,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_last_created() {
             $this->recurring_last_created = [
                 "fieldname" => "LastCreated",
+                "table" => "tt_recurring_task",
                 "id" => "last-created",
                 "editable" => false,
                 "columnwidth" => "",
@@ -490,6 +511,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_end_repeat() {
             $this->recurring_end_repeat = [
                 "fieldname" => "EndRepeat",
+                "table" => "tt_recurring_task",
                 "id" => "end-repeat",
                 "editable" => true,
                 "columnwidth" => "",
@@ -507,6 +529,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_task_description() {
             $this->recurring_task_description = [
                 "fieldname" => "RTDescription",
+                "table" => "tt_recurring_task",
                 "id" => "recurring-task-description",
                 "editable" => true,
                 "columnwidth" => "",
@@ -524,6 +547,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_task_name() {
             $this->recurring_task_name = [
                 "fieldname" =>"RTName",
+                "table" => "tt_recurring_task",
                 "id" => "recurring-task-name",
                 "editable" => true,
                 "columnwidth" => "",
@@ -541,6 +565,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_recurring_task_category() {
             $this->recurring_task_category = [
                 "fieldname" => "RTCategory",
+                "table" => "tt_recurring_task",
                 "id" => "task-category",
                 "editable" => false,
                 "columnwidth" => "",
@@ -558,6 +583,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_projectid() {
             $this->projectid = [
                 "fieldname" => "ProjectID",
+                "table" => "tt_project",
                 "id" => "project-id",
                 "editable" => false,
                 "columnwidth" => "",
@@ -575,6 +601,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_name() {
             $this->project_name = [
                 "fieldname" => "PName",
+                "table" => "tt_project",
                 "id" => "project-name",
                 "editable" => true,
                 "columnwidth" => "",
@@ -592,6 +619,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_category() {
             $this->project_category = [
                 "fieldname" => "PCategory",
+                "table" => "tt_project",
                 "id" => "project-category",
                 "editable" => false,
                 "columnwidth" => "",
@@ -608,6 +636,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_status() {
             $this->project_status = [
                 "fieldname" => "PStatus",
+                "table" => "tt_project",
                 "id" => "project-status",
                 "editable" => true,
                 "columnwidth" => "",
@@ -641,6 +670,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_due_date() {
             $this->project_due_date = [
                 "fieldname" => "PDueDate",
+                "table" => "tt_project",
                 "id" => "project-due-date",
                 "editable" => false,
                 "columnwidth" => "",
@@ -658,6 +688,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_date_started() {
             $this->project_date_started = [
                 "fieldname" =>"PDateStarted",
+                "table" => "tt_project",
                 "id" => "project-date-started",
                 "editable" => false,
                 "columnwidth" => "",
@@ -675,6 +706,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_project_details() {
             $this->project_details = [
                 "fieldname" => "PDetails",
+                "table" => "tt_project",
                 "id" => "end-repeat",
                 "editable" => true,
                 "columnwidth" => "",
@@ -692,6 +724,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_email() {
             $this->client_email = [
                 "fieldname" => "Email",
+                "table" => "tt_client",
                 "id" => "contact-email",
                 "editable" => true,
                 "columnwidth" => "ten",
@@ -709,6 +742,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_phone() {
             $this->client_phone = [
                 "fieldname" => "Phone",
+                "table" => "tt_client",
                 "id" => "contact-phone",
                 "editable" => true,
                 "columnwidth" => "ten",
@@ -726,6 +760,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_clientid() {
             $this->clientid = [
                 "fieldname" => "ClientID",
+                "table" => "tt_client",
                 "id" => "client-id",
                 "editable" => false,
                 "columnwidth" => "five",
@@ -743,6 +778,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_name() {
             $this->client_name = [
                 "fieldname" => "Company",
+                "table" => "tt_client",
                 "id" => "company-name",
                 "editable" => false,
                 "columnwidth" => "ten",
@@ -760,6 +796,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_contact() {
             $this->contact = [
                 "fieldname" => "Contact",
+                "table" => "tt_client",
                 "id" => "contact-name",
                 "editable" => true,
                 "columnwidth" => "ten",
@@ -777,6 +814,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_bill_to() {
             $this->client_bill_to = [
                 "fieldname" => "BillTo",
+                "table" => "tt_client",
                 "id" => "bill-to",
                 "editable" => false,
                 "columnwidth" => "ten",
@@ -794,6 +832,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_billing_rate() {
             $this->client_billing_rate = [
                 "fieldname" => "BillingRate",
+                "table" => "tt_client",
                 "id" => "billing-rate",
                 "editable" => true,
                 "columnwidth" => "five",
@@ -811,6 +850,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_source() {
             $this->client_source = [
                 "fieldname" => "Source",
+                "table" => "tt_client",
                 "id" => "source",
                 "editable" => false,
                 "columnwidth" => "ten",
@@ -828,6 +868,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_source_details() {
             $this->client_source_details = [
                 "fieldname" => "SourceDetails",
+                "table" => "tt_client",
                 "id" => "source-details",
                 "editable" => false,
                 "columnwidth" => "ten",
@@ -845,6 +886,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         private function set_client_comments() {
             $this->client_comments = [
                 "fieldname" => "CComments",
+                "table" => "tt_client",
                 "id" => "client-comments",
                 "editable" => true,
                 "columnwidth" => "fifteen",
@@ -862,6 +904,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          private function set_client_date_added() {
             $this->client_date_added = [
                 "fieldname" => "DateAdded",
+                "table" => "tt_client",
                 "id" => "date-added",
                 "editable" => false,
                 "columnwidth" => "five",
