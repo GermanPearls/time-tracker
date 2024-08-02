@@ -468,6 +468,13 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 $display_value = is_array($item[$sql_fieldname]) ? $item[$sql_fieldname]["value"] : $item[$sql_fieldname];
             }
 
+            //if it is a select dropdown field but it is NOT editable, convert it back to simply text so it does not appear editable to user
+            if ($field_details["type"] == "select") {
+                if (!$field_details["editable"] || (array_key_exists("table", $field_details) && $field_details["table"] != $table_name)) {
+                    $field_details["type"] = "text";
+                }
+            }
+
             $cell = $this->start_data($args);
             $cell .= $this->display_data_in_cell($field_details["type"], $display_value, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
             $cell .= $this->add_button_to_cell($args);
