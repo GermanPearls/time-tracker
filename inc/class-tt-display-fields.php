@@ -76,12 +76,12 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          */
         public function __construct() {
             $this->set_taskid();
-            $this->set_task();
+            $this->set_task_description();
             $this->set_project_select();
             $this->set_client_select();
             $this->set_work_type();
             $this->set_due_date();
-            $this->set_status();
+            $this->set_task_status();
             $this->set_date_added();
             $this->set_time_logged_v_estimate();
             $this->set_notes();
@@ -140,11 +140,15 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * 
          * @since 3.0.13
          */
-        private function set_task() {
+        private function set_task_description() {
             $this->task = [
                 "fieldname" =>"TDescription",
                 "id" => "task-description",
                 "editable" => true,
+                "edit-details" => [
+                    "table" => "tt-task",
+                    "ref-field" => "TaskID"
+                ],
                 "columnwidth" => "",
                 "type" => "long text",
                 "class" => ""
@@ -234,11 +238,15 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * 
          * @since 3.0.13
          */
-        private function set_status() {
+        private function set_task_status() {
             $this->status =[
                 "fieldname" => "TStatus",
                 "id" => "task-status",
                 "editable" => true,
+                "edit-details" => [
+                    "table" => "tt-task",
+                    "ref-field" => "TaskID"
+                ],
                 "columnwidth" => "",
                 "type" => "select",
                 "select_options" => [

@@ -320,12 +320,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 if ($details["editable"]) {
                     array_push($args["class"], "editable");
                     $args["contenteditable"] = "true";
-                    if ( is_object($item) ) {
-                        $table_key_value = is_array($item->$table_key) ? $item->$table_key["value"] : $item->$table_key;
-                    } elseif ( is_array($item) ) {
-                        $table_key_value = is_array($item[$table_key]) ? $item[$table_key]["value"] : $item[$table_key];
-                    }
-                    $args["onBlur"] = "updateDatabase(this, '" . $table_name . "', '" . $table_key . "', '" . $sql_fieldname . "', '" . $table_key_value. "')";
+                    $args["onBlur"] = $this->build_edit_action($details, $item, $table_name, $table_key, $sql_fieldname);
                 } else {
                     array_push($args["class"], "not-editable");
                 }
@@ -360,6 +355,34 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 array_push($args["class"], "not-editable");
             }
             return $args;
+        }
+
+
+        /**
+         * Build edit details
+         * 
+         * @since 3.0.13
+         * 
+         * @param array $details Information about this cell and its structure (ie: html tags).
+         * @param array|object $item Data that will populate this entire row.
+         * @param string $sql_fieldname	This sql field name where this cell's data originated.
+         * @param string $table_name Main database table this table data originates from.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Function with parameters to paste into onBlur action of data cell.
+         */
+        private function build_edit_action($details, $item, $table_name, $table_key_name, $sql_fieldname) {
+            //allow for manually set table name, ref field, and ref value (vs default for entire table)
+            if (array_key_exists("edit-details", $details)) {
+                $table_name = $details["edit-details"]["table"];
+                $table_key_name = $details["edit-details"]["ref-field"];
+            }
+            if ( is_object($item) ) {
+                $table_key_value = is_array($item->$table_key_name) ? $item->$table_key_name["value"] : $item->$table_key_name;
+            } elseif ( is_array($item) ) {
+                $table_key_value = is_array($item[$table_key_name]) ? $item[$table_key_name]["value"] : $item[$table_key_name];
+            }
+            return "updateDatabase(this, '" . $table_name . "', '" . $table_key_name . "', '" . $sql_fieldname . "', '" . $table_key_value. "')";
         }
 
 
