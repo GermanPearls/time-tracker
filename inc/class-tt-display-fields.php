@@ -146,7 +146,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "id" => "task-description",
                 "editable" => true,
                 "edit-details" => [
-                    "table" => "tt-task",
+                    "table" => "tt_task",
                     "ref-field" => "TaskID"
                 ],
                 "columnwidth" => "",
@@ -244,7 +244,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "id" => "task-status",
                 "editable" => true,
                 "edit-details" => [
-                    "table" => "tt-task",
+                    "table" => "tt_task",
                     "ref-field" => "TaskID"
                 ],
                 "columnwidth" => "",
