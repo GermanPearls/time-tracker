@@ -44,10 +44,13 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
         /**
          * Add actions and filters
          * 
+         * @since x.x.x
+         * @since 3.0.13 Added admin menu bar links
          */
         public static function add_actions() {
             add_action( 'admin_menu', array(__CLASS__, 'tt_menu') );
-            add_filter('plugin_action_links_' . TIME_TRACKER_PLUGIN_BASENAME, array(__CLASS__, 'tt_settings_link') );
+            add_filter( 'plugin_action_links_' . TIME_TRACKER_PLUGIN_BASENAME, array(__CLASS__, 'tt_settings_link') );
+            add_action( 'admin_bar_menu', array(__CLASS__, 'tt_add_toolbar_items'), 100);
         }
 
 
@@ -108,6 +111,57 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
                 $function,                  
                 $position
             );
+        }
+
+
+        /**
+         * Add admin header bar links
+         *
+         * @since 3.0.13 Added links to admin header bar for ease of use
+         * 
+         */
+        function tt_add_toolbar_items($admin_bar){
+            $admin_bar->add_menu( array(
+                'id'    => 'tt-admin-bar-home',
+                'title' => 'Time Tracker',
+                'href'  => TT_HOME,
+                'meta'  => array(
+                    'title' => __('Time Tracker'),            
+                ),
+            ));
+            $admin_bar->add_menu( array(
+                'id'    => 'tt-admin-bar-new-task',
+                'parent' => 'tt-admin-bar-home',
+                'title' => 'New Task',
+                'href'  => TT_HOME . '/new-task',
+                'meta'  => array(
+                    'title' => __('New Task'),
+                    'target' => '',
+                    'class' => ''
+                ),
+            ));
+            $admin_bar->add_menu( array(
+                'id'    => 'tt-admin-bar-time-entry',
+                'parent' => 'tt-admin-bar-home',
+                'title' => 'New Time Entry',
+                'href'  => TT_HOME . '/new-time-entry',
+                'meta'  => array(
+                    'title' => __('New Time Entry'),
+                    'target' => '',
+                    'class' => ''
+                ),
+            ));
+            $admin_bar->add_menu( array(
+                'id'    => 'tt-admin-bar-dashboard',
+                'parent' => 'tt-admin-bar-dashboard',
+                'title' => 'Dashboard',
+                'href'  => TT_HOME,
+                'meta'  => array(
+                    'title' => __('Dashboard'),
+                    'target' => '',
+                    'class' => ''
+                ),
+            ));
         }
 
     }  //close class
