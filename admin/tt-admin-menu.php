@@ -153,7 +153,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
             ));
             $admin_bar->add_menu( array(
                 'id'    => 'tt-admin-bar-dashboard',
-                'parent' => 'tt-admin-bar-dashboard',
+                'parent' => 'tt-admin-bar-home',
                 'title' => 'Dashboard',
                 'href'  => TT_HOME,
                 'meta'  => array(
