@@ -120,7 +120,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
          * @since 3.0.13 Added links to admin header bar for ease of use
          * 
          */
-        function tt_add_toolbar_items($admin_bar){
+        public static function tt_add_toolbar_items($admin_bar){
             $admin_bar->add_menu( array(
                 'id'    => 'tt-admin-bar-home',
                 'title' => 'Time Tracker',
