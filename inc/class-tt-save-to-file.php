@@ -200,7 +200,7 @@ if ( !class_exists( 'Time_Tracker_Export_To_File_And_Download' ) ) {
          * 
          * @since 2.2.0
          * @since 3.0.13 Included delimiter and end of line character option for csv.
-         * @since 3.0.13 alpha Returned full path and file name separately.
+         * @since 3.0.13 Returned full path and file name separately.
          * 
          * @return null
          */
