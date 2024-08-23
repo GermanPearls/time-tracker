@@ -98,6 +98,7 @@ if ( ! class_exists('Time_Tracker') ) {
      * 
      * @since 1.0.0
      * @since 3.0.13 added class-tt-display-fields
+     * @since 3.0.14 Add admin menu dep to load top bar links on front end
      */
     private function load_dependencies() {
       //FUNCTIONS
@@ -156,6 +157,9 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php'); 
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-delete-confirmation-content.php');
       require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php');  
+
+      //ADMIN MENUS - TOP MENU FRONT END
+      include_once(TT_PLUGIN_DIR_ADMIN . 'tt-admin-menu.php');
     } 
 
     /**

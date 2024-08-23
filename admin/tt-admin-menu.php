@@ -118,10 +118,11 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
          * Add admin header bar links
          *
          * @since 3.0.13 Added links to admin header bar for ease of use
+         * @since 3.0.14 Update add_menu to add_node
          * 
          */
         public static function tt_add_toolbar_items($admin_bar){
-            $admin_bar->add_menu( array(
+            $admin_bar->add_node( array(
                 'id'    => 'tt-admin-bar-home',
                 'title' => 'Time Tracker',
                 'href'  => TT_HOME,
@@ -129,7 +130,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
                     'title' => __('Time Tracker'),            
                 ),
             ));
-            $admin_bar->add_menu( array(
+            $admin_bar->add_node( array(
                 'id'    => 'tt-admin-bar-new-task',
                 'parent' => 'tt-admin-bar-home',
                 'title' => 'New Task',
@@ -140,7 +141,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
                     'class' => ''
                 ),
             ));
-            $admin_bar->add_menu( array(
+            $admin_bar->add_node( array(
                 'id'    => 'tt-admin-bar-time-entry',
                 'parent' => 'tt-admin-bar-home',
                 'title' => 'New Time Entry',
@@ -151,7 +152,7 @@ if ( ! class_exists('Time_Tracker_Menu') ) {
                     'class' => ''
                 ),
             ));
-            $admin_bar->add_menu( array(
+            $admin_bar->add_node( array(
                 'id'    => 'tt-admin-bar-dashboard',
                 'parent' => 'tt-admin-bar-home',
                 'title' => 'Dashboard',
