@@ -300,7 +300,7 @@ button.clear-error:hover {
     width: 100%;
     padding: 0.2em;
     margin-right: 0.1em;
-    margin-bottom: 0.1em;
+    margin-bottom: 20px;
     font-size: 0.8em;
     font-weight: normal;
     text-decoration: none;
