@@ -300,7 +300,8 @@ button.clear-error:hover {
     width: 100%;
     padding: 0.2em;
     margin-right: 0.1em;
-    margin-bottom: 20px;
+    margin-top:10px;
+    margin-bottom: 10px;
     font-size: 0.8em;
     font-weight: normal;
     text-decoration: none;
@@ -434,6 +435,7 @@ table.tt-widget-table {
 
 .tt-table td > select {
     padding: 0;
+    margin-bottom: 10px;
 }
 
 .tt-table th {
