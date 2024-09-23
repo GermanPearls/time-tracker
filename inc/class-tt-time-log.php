@@ -291,7 +291,7 @@ if ( !class_exists( 'Time_Log' ) ) {
             $cols = [
                 "Time ID" => $flds->timeid,
                 "Client" => $flds->client_select,
-                "Task" => $flds->task,
+                "Task" => $flds->task_select,
                 "Type" => $flds->work_type,
                 "Start Time" => $flds->start_time,
                 "End Time" => $flds->end_time,

@@ -32,7 +32,6 @@ if ( !class_exists( 'Task_List' ) ) {
         private $clientid;
         private $rectaskid;
         private $taskid;
-        private $timeid;
         private $notes;
         private $projectid;
         private $startdate;
@@ -129,14 +128,14 @@ if ( !class_exists( 'Task_List' ) ) {
          * @since 1.4.0
          * @since 3.0.13 clarify column header, change client to dropdown, change project to dropdown
          * @since 3.0.13 use new class to insert field definitions
+         * @since 3.0.14 use new task dropdown field display
          * 
          * @return array Multi-dimensional array of columns to display with details for each.
          */
         private function get_table_fields() {
             $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Task ID" => $flds->taskid,
-                "Task" => $flds->task,
+                "Task" => $flds->task_select,
                 "Client" => $flds->client_select,
                 "Project ID" => $flds->project_select,
                 "Type" => $flds->work_type,

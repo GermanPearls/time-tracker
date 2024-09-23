@@ -30,6 +30,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         public $task;
         public $project_select;
         public $client_select;
+        public $task_select;
         public $work_type;
         public $due_date;
         public $status;
@@ -79,6 +80,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             $this->set_task_description();
             $this->set_project_select();
             $this->set_client_select();
+            $this->set_task_select();
             $this->set_work_type();
             $this->set_due_date();
             $this->set_task_status();
@@ -193,6 +195,28 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                     "title" => "client-with-id",
                     "data_type" => "text",
                     "options" => $this->get_client_select_options()
+                ],
+                "class" => ""
+            ];
+        }
+
+
+        /**
+         * Define field display
+         * 
+         * @since 3.0.14
+         */
+        private function set_task_select() {
+            $this->task_select = [
+                "fieldname" => "TaskID",
+                "id" => "task",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "select",
+                "select_options" => [
+                    "title" => "task-with-id",
+                    "data_type" => "text",
+                    "options" => $this->get_task_select_options()
                 ],
                 "class" => ""
             ];
@@ -919,6 +943,26 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             }
             return $arr;
         }
+
+
+        /**
+         * Get task options for a dropdown (includes task name and ID)
+         * 
+         * @since 3.0.14
+         * 
+         * @return array List of tasks, with IDs as strings.
+         */
+        private function get_task_select_options() {
+            $tasks = tt_get_tasks();
+            $arr = [];
+            if ($tasks) {
+                foreach ($tasks as $task) {
+                    array_push($arr, ["id" => $task->TaskID, "display" => $task->TDescription]);
+                }
+            }
+            return $arr;
+        }
+
 
         /**
          * Get task status options - user defined
