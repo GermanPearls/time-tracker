@@ -905,7 +905,7 @@ function tt_remove_trailing_line_breaks($str) {
 function tt_remove_all_line_breaks($str) {
     $linebreaks = ['<br>', '<br/>', '<br />'];
     foreach ($linebreaks as $linebreak) {
-        $str = str_replace($str, "", $linebreak);
+        $str = str_replace($linebreak, "", $str);
     }
     return trim($str);
 }
