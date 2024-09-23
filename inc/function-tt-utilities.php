@@ -891,3 +891,21 @@ function tt_remove_trailing_line_breaks($str) {
     }
     return trim($str);
 }
+
+
+/**
+ * Remove all line breaks
+ * 
+ * @since 3.0.14
+ * 
+ * @param string $str String to update.
+ * 
+ * @return string Updated string with all line breaks removed.
+ */
+function tt_remove_all_line_breaks($str) {
+    $linebreaks = ['<br>', '<br/>', '<br />'];
+    foreach ($linebreaks as $linebreak) {
+        $str = str_replace($str, "", $linebreak);
+    }
+    return trim($str);
+}

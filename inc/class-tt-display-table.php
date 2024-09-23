@@ -505,6 +505,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 3.0.5
          * @since 3.0.13 resolve deprecated - cannot pass null to trim function
+         * @since 3.0.14 updated to strip <br> from select value to prevent console notices
          * 
          * @param array $args Array of arguments in key-value pairs.
          * @param string $val Value to show as selected in dropdown.
@@ -541,7 +542,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                     }
                 }
                 $dropdown .= ">";
-                $dropdown .= $this->display_data_in_cell($typ, trim($display));
+                $dropdown .= tt_remove_all_line_breaks($this->display_data_in_cell($typ, trim($display)));
                 $dropdown .= "</option>";
             }
             $dropdown .= "</select>";
