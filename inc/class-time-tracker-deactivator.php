@@ -102,10 +102,16 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
         public static function delete_pages() {
 			$tt_pages_delete_order = self::get_page_list_in_deletion_order();
             foreach ($tt_pages_delete_order as $tt_page) {
-				self::delete_page($tt_page['Title']);
+                if (array_key_exists('Title', $tt_page)) {
+                    self::delete_page($tt_page['Title']);
+                }
             }
 			$tt_homepage = Time_Tracker_Activator_Pages::create_homepage_details_array();
-			self::delete_page($tt_homepage['Title']);
+			if ($tt_homepage) {
+                if (array_key_exists('Title', $tt_homepage)) {
+                    self::delete_page($tt_homepage['Title']);
+                }
+            }
         }
 
 

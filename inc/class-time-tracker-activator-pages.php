@@ -186,6 +186,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             );
             array_push($details_all, $details);
             self::$page_details = $details_all;
+            return $details_all;
         }
 
 
