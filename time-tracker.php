@@ -119,11 +119,11 @@ function tt_form_dependency() {
  */
 function tt_queue_load() {
 	if (class_exists( 'WPCF7' )) {
-		add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11);
+		add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load');
 	} 		
 	elseif (class_exists( 'WPForms' )) {
 		//add_action( 'wp_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load' );
-		add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load', 11 );
+		add_action( 'plugins_loaded', 'Logically_Tech\Time_Tracker\time_tracker_load');
 	}
 }
 
