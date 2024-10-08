@@ -77,7 +77,6 @@ if ( !class_exists( 'Time_Log_Summary' ) ) {
                 $sorted_data[$k]['Time Worked'] = tt_convert_to_decimal_time($entry['LoggedHours'], $entry['LoggedMinutes']);
                 $sorted_data[$k]['Time Billed'] = is_null($entry['InvoicedTime']) ? 0 : $entry['InvoicedTime'];
             }
-            //var_dump($sorted_data);
             return $sorted_data;                        
         }
 

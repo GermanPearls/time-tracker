@@ -807,8 +807,6 @@ function tt_get_user_options($option_name, $sub_option_name) {
     $optns = get_option($option_name);
     if ($optns) {
         if (array_key_exists($sub_option_name, $optns)) {
-            //var_dump(nl2br($optns[$sub_option_name]));
-            //var_dump(sanitize_text_field(nl2br($optns[$sub_option_name])));
             return $optns[$sub_option_name];
         }
     }
