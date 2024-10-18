@@ -205,14 +205,21 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * Define field display
          * 
          * @since 3.0.14
+         * @since 3.0.15 Now displays select dropdown with Task ID, followed by task description as text.
          */
         private function set_task_select() {
             $this->task_select = [
-                "fieldname" => "TaskID",
+                "fieldname" => [
+                    "TaskID",
+                    "TDescription"
+                ],
                 "id" => "task",
                 "editable" => true,
                 "columnwidth" => "",
-                "type" => "select",
+                "type" => [
+                    "select", 
+                    "text"
+                ],
                 "select_options" => [
                     "title" => "task-with-id",
                     "data_type" => "text",
@@ -949,6 +956,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * Get task options for a dropdown (includes task name and ID)
          * 
          * @since 3.0.14
+         * @since 3.0.15 update to show task ID in dropdown (description to be displayed after dropdown element)
          * 
          * @return array List of tasks, with IDs as strings.
          */
@@ -957,7 +965,8 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             $arr = [];
             if ($tasks) {
                 foreach ($tasks as $task) {
-                    array_push($arr, ["id" => $task->TaskID, "display" => $task->TDescription]);
+                    //array_push($arr, ["id" => $task->TaskID, "display" => $task->TDescription]);
+                    array_push($arr, ["id" => $task->TaskID, "display" => $task->TaskID]);
                 }
             }
             return $arr;

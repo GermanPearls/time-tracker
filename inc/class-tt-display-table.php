@@ -270,6 +270,9 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             return esc_html(sanitize_text_field($display_value));
         }
 
+
+
+
         /**
          * Create Widget for Invoice Details
          * 
@@ -471,6 +474,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @since 1.4.0
          * @since 3.0.13 Modified to allow for creating widgets instead of just data cells.
+         * @since 3.0.15 Split out portion to function add_content_to_cell.
          * 
          * @param array $field_details Details on how the field should be displayed.
          * @param array|object $item Data for this table section, which includes data for this cell.
@@ -480,9 +484,60 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * @return string Html of one cell including opening cell tag, data, and closing cell tag.
          */
         private function create_data_cell($field_details, $item, $table_name, $table_key) {
+            $args = $this->get_cell_args($field_details, $item, $field_details["fieldname"], $table_name, $table_key);
+            $cell = $this->start_data($args);
+            $cell = $this->add_content_to_cell($field_details, $item);
+            $cell .= $this->add_button_to_cell($args);
+            $cell .= $this->add_icon_to_cell($args);
+            $cell .= $this->close_data();
+            return $cell;
+        }
+
+
+        /**
+         * Add Data to Single Cell
+         * 
+         * @since 3.0.15 Split out from function create_data_cell.
+         * @since 3.0.15 Modified to allow for multiple data types in one cell (ie: field details type is an array).
+         * 
+         * @param array $field_details Details on how the field should be displayed.
+         * @param array|object $item Data for this table section, which includes data for this cell.
+         * @param string $table_name Name of table we are creating.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Html of one cell including opening cell tag, data, and closing cell tag.
+         */
+        private function add_content_to_cell($field_details, $item) {
+            $content = "";
+            if (gettype($field_details["type"]) == gettype([])) {
+                foreach ($field_details["type"] as $typ) {
+                    $disp_val = get_display_value_for_cell($field_details, $item);
+                    $content .= $this->display_data_in_cell($typ, $disp_val, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
+                }
+            } elseif  (gettype($field_details["type"]) == gettype("string"))  {
+                $disp_val = get_display_value_for_cell($field_details, $item);
+                $content .= $this->display_data_in_cell($field_details["type"], $disp_val, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
+            } else {
+                //log error
+            }
+            return $content;
+        }
+
+
+        /**
+         * Get Display Value for Single Cell
+         * 
+         * @since 3.0.15 Split out from function create_data_cell.
+         * 
+         * @param array $field_details Details on how the field should be displayed.
+         * @param array|object $item Data for this table section, which includes data for this cell.
+         * @param string $table_name Name of table we are creating.
+         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * 
+         * @return string Html of one cell including opening cell tag, data, and closing cell tag.
+         */
+        private function get_display_value_for_cell($field_details, $item) {
             $sql_fieldname = $field_details["fieldname"];
-            $args = $this->get_cell_args($field_details, $item, $sql_fieldname, $table_name, $table_key);
-            
             if ($field_details["type"] == "widget-invoice") {
                 $display_value = $field_details;
             } elseif ( is_object($item) ) {
@@ -490,13 +545,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             } elseif ( is_array($item) ) {
                 $display_value = is_array($item[$sql_fieldname]) ? $item[$sql_fieldname]["value"] : $item[$sql_fieldname];
             }
-
-            $cell = $this->start_data($args);
-            $cell .= $this->display_data_in_cell($field_details["type"], $display_value, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
-            $cell .= $this->add_button_to_cell($args);
-            $cell .= $this->add_icon_to_cell($args);
-            $cell .= $this->close_data();
-            return $cell;
+            return $display_value;
         }
 
 
