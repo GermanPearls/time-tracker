@@ -528,6 +528,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                         $args = $field_details["select_options"];
                     }
                     $content .= $this->display_data_in_cell($typ, $disp_val, $args, $item);
+                    $content .= "<br/>";
                 }
             } elseif  (gettype($field_details["type"]) == gettype("string"))  {
                 $disp_val = $this->get_display_value_for_cell($field_details["fieldname"], $field_details["type"], $item, $field_details);

@@ -966,7 +966,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             if ($tasks) {
                 foreach ($tasks as $task) {
                     //array_push($arr, ["id" => $task->TaskID, "display" => $task->TDescription]);
-                    array_push($arr, ["id" => $task->TaskID, "display" => $task->TaskID]);
+                    array_push($arr, ["id" => $task->TaskID, "display" => $task->TaskID . " - " . $task->TDescription]);
                 }
             }
             return $arr;
