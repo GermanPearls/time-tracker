@@ -512,6 +512,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $disp_val = null;
             $args = [];
             if (gettype($field_details["type"]) == gettype([])) {
+                $content = "";
                 foreach ($field_details["type"] as $ky => $typ) {
                     //if a separate type of data defined for each piece of content
                     if (gettype($field_details["type"] == gettype([]))) {
@@ -526,16 +527,17 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                     if (($typ == "select") && array_key_exists("select_options", $field_details)) {
                         $args = $field_details["select_options"];
                     }
+                    $content .= $this->display_data_in_cell($typ, $disp_val, $args, $item);
                 }
             } elseif  (gettype($field_details["type"]) == gettype("string"))  {
                 $disp_val = $this->get_display_value_for_cell($field_details["fieldname"], $field_details["type"], $item, $field_details);
                 if (array_key_exists("select_options", $field_details)) {
                     $args = $field_details["select_options"];
                 }
+                $content = $this->display_data_in_cell($field_details["type"], $disp_val, $args, $item);
             } else {
                 //TODO - log error - type of field to display (ie: string, number, long text) is unclear, data passed to this argument is not a string or an array
             }
-            $content = $this->display_data_in_cell($typ, $disp_val, $args, $item);
             return $content;
         }
 
