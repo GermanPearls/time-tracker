@@ -511,11 +511,11 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             $content = "";
             if (gettype($field_details["type"]) == gettype([])) {
                 foreach ($field_details["type"] as $typ) {
-                    $disp_val = get_display_value_for_cell($field_details, $item);
+                    $disp_val = $this->get_display_value_for_cell($field_details, $item);
                     $content .= $this->display_data_in_cell($typ, $disp_val, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
                 }
             } elseif  (gettype($field_details["type"]) == gettype("string"))  {
-                $disp_val = get_display_value_for_cell($field_details, $item);
+                $disp_val = $this->get_display_value_for_cell($field_details, $item);
                 $content .= $this->display_data_in_cell($field_details["type"], $disp_val, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
             } else {
                 //log error
