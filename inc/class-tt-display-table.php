@@ -508,18 +508,34 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * @return string Html of one cell including opening cell tag, data, and closing cell tag.
          */
         private function add_content_to_cell($field_details, $item) {
-            $content = "";
+            //if more than one piece of content in cell loop through them all appending to cell content
+            $disp_val = null;
+            $args = [];
             if (gettype($field_details["type"]) == gettype([])) {
-                foreach ($field_details["type"] as $typ) {
-                    $disp_val = $this->get_display_value_for_cell($field_details, $item);
-                    $content .= $this->display_data_in_cell($typ, $disp_val, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
+                foreach ($field_details["type"] as $ky => $typ) {
+                    //if a separate type of data defined for each piece of content
+                    if (gettype($field_details["type"] == gettype([]))) {
+                        if (array_key_exists($ky, $field_details["type"])) {
+                            $disp_val = $this->get_display_value_for_cell($field_details["type"][$ky], $item);
+                        } else {
+                            //TODO - log error - number of fields defined for this cell does not match number of types defined for this cell
+                        }
+                    } else {
+                        $disp_val = $this->get_display_value_for_cell($field_details, $item);
+                    }
+                    if (($typ == "select") && array_key_exists("select_options", $field_details)) {
+                        $args = $field_details["select_options"];
+                    }
                 }
             } elseif  (gettype($field_details["type"]) == gettype("string"))  {
                 $disp_val = $this->get_display_value_for_cell($field_details, $item);
-                $content .= $this->display_data_in_cell($field_details["type"], $disp_val, array_key_exists("select_options", $field_details) ? $field_details["select_options"] : [], $item);
+                if (array_key_exists("select_options", $field_details)) {
+                    $args = $field_details["select_options"];
+                }
             } else {
-                //log error
+                //TODO - log error - type of field to display (ie: string, number, long text) is unclear, data passed to this argument is not a string or an array
             }
+            $content = $this->display_data_in_cell($typ, $disp_val, $args, $item);
             return $content;
         }
 
