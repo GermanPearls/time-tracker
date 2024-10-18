@@ -515,20 +515,20 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 foreach ($field_details["type"] as $ky => $typ) {
                     //if a separate type of data defined for each piece of content
                     if (gettype($field_details["type"] == gettype([]))) {
-                        if (array_key_exists($ky, $field_details["type"])) {
-                            $disp_val = $this->get_display_value_for_cell($field_details["type"][$ky], $item);
+                        if (array_key_exists($ky, $field_details["fieldname"])) {
+                            $disp_val = $this->get_display_value_for_cell($field_details["fieldname"][$ky], $typ, $item, $field_details);
                         } else {
                             //TODO - log error - number of fields defined for this cell does not match number of types defined for this cell
                         }
                     } else {
-                        $disp_val = $this->get_display_value_for_cell($field_details, $item);
+                        $disp_val = $this->get_display_value_for_cell($field_details["fieldname"], $typ, $item, $field_details);
                     }
                     if (($typ == "select") && array_key_exists("select_options", $field_details)) {
                         $args = $field_details["select_options"];
                     }
                 }
             } elseif  (gettype($field_details["type"]) == gettype("string"))  {
-                $disp_val = $this->get_display_value_for_cell($field_details, $item);
+                $disp_val = $this->get_display_value_for_cell($field_details["fieldname"], $field_details["type"], $item, $field_details);
                 if (array_key_exists("select_options", $field_details)) {
                     $args = $field_details["select_options"];
                 }
@@ -552,14 +552,13 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * 
          * @return string Html of one cell including opening cell tag, data, and closing cell tag.
          */
-        private function get_display_value_for_cell($field_details, $item) {
-            $sql_fieldname = $field_details["fieldname"];
-            if ($field_details["type"] == "widget-invoice") {
+        private function get_display_value_for_cell($fieldname, $fieldtype, $item, $field_details=[]) {
+            if ($fieldtype == "widget-invoice") {
                 $display_value = $field_details;
             } elseif ( is_object($item) ) {
-                $display_value = is_array($item->$sql_fieldname) ? $item->$sql_fieldname["value"] : $item->$sql_fieldname;
+                $display_value = is_array($item->$fieldname) ? $item->$fieldname["value"] : $item->$fieldname;
             } elseif ( is_array($item) ) {
-                $display_value = is_array($item[$sql_fieldname]) ? $item[$sql_fieldname]["value"] : $item[$sql_fieldname];
+                $display_value = is_array($item[$fieldname]) ? $item[$fieldname]["value"] : $item[$fieldname];
             }
             return $display_value;
         }
