@@ -486,7 +486,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         private function create_data_cell($field_details, $item, $table_name, $table_key) {
             $args = $this->get_cell_args($field_details, $item, $field_details["fieldname"], $table_name, $table_key);
             $cell = $this->start_data($args);
-            $cell = $this->add_content_to_cell($field_details, $item);
+            $cell .= $this->add_content_to_cell($field_details, $item);
             $cell .= $this->add_button_to_cell($args);
             $cell .= $this->add_icon_to_cell($args);
             $cell .= $this->close_data();
