@@ -163,12 +163,12 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
 
             //initial setup
             if ( ! (get_option('time_tracker_categories')) ) {
-                add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>self::$default_client, 'default_task'=>self::$default_task, 'default_rate'=>null));
+                add_option('time_tracker_categories', array('bill_to_names'=>'Client', 'work_categories'=>'Uncategorized', 'client_categories'=>'Uncategorized', 'client_sub_categories'=>'Uncategorized', 'default_client'=>self::$default_client, 'default_task'=>self::$default_task, 'default_rate'=>null));
             } else {
                 $optns = get_option('time_tracker_categories');
                 //if it is there but blank add defaults
                 if ($optns == null || $optns == "") {
-                    add_option('time_tracker_categories', array('bill-to-names'=>'Client', 'work-categories'=>'Uncategorized', 'client-categories'=>'Uncategorized', 'client-sub-categories'=>'Uncategorized', 'default-client'=>self::$default_client, 'default_task'=>self::$default_task, 'default_rate'=>null));
+                    add_option('time_tracker_categories', array('bill_to_names'=>'Client', 'work_categories'=>'Uncategorized', 'client_categories'=>'Uncategorized', 'client_sub_categories'=>'Uncategorized', 'default_client'=>self::$default_client, 'default_task'=>self::$default_task, 'default_rate'=>null));
                 } else {
                     //add default client
                     if (array_key_exists("default_client", $optns)) {
