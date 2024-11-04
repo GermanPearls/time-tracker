@@ -72,13 +72,14 @@ function custom_add_form_tag_bill_to_name() {
  * Callback for work category dropdown
  * 
  * @since 1.1.0
+ * @since 3.0.15 Corrected name of option from using underscore (_) to using hyphen (-)
  * 
  * @param string $tag ??
  * 
  * @return 
  */
 function custom_work_category_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'work_categories');    
+    $form_field = custom_category_form_tag_handler($tag, 'work-categories');    
     return $form_field;
 }
 
@@ -87,9 +88,10 @@ function custom_work_category_form_tag_handler($tag) {
  * Callback for client category dropdown
  * 
  * @since 1.1.0
+ * @since 3.0.15 Corrected name of option from using underscore (_) to using hyphen (-)
  */
 function custom_client_category_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'client_categories');    
+    $form_field = custom_category_form_tag_handler($tag, 'client-categories');    
     return $form_field;
 }
 
@@ -98,9 +100,10 @@ function custom_client_category_form_tag_handler($tag) {
  * Callback for client sub_category dropdown
  * 
  * @since 1.1.0
+ * @since 3.0.15 Corrected name of option from using underscore (_) to using hyphen (-)
  */
 function custom_client_sub_category_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'client_sub_categories');    
+    $form_field = custom_category_form_tag_handler($tag, 'client-sub-categories');    
     return $form_field;
 }
 
@@ -109,9 +112,10 @@ function custom_client_sub_category_form_tag_handler($tag) {
  * Callback for bill to name dropdown
  * 
  * @since 1.1.0
+ * @since 3.0.15 Corrected name of option from using underscore (_) to using hyphen (-)
  */
 function custom_bill_to_name_form_tag_handler($tag) {
-    $form_field = custom_category_form_tag_handler($tag, 'bill_to_names');    
+    $form_field = custom_category_form_tag_handler($tag, 'bill-to-names');    
     return $form_field;
 }
 
@@ -124,13 +128,17 @@ function custom_bill_to_name_form_tag_handler($tag) {
  * Get details for category form tags from Plugin settings
  * 
  * @since 1.1.0
+ * @since 3.0.15 Fixed as tag handlers have underscores (_) and wp_options fields have hyphens (-). Allow for backwards compatibility.
  */
 function custom_category_form_tag_handler( $tag, $type ) {
-
-    //Get work categories from Time Tracker settings page
+    //Get categories from Time Tracker settings page
     $settings = get_option('time_tracker_categories');
-    $list = $settings[$type];
 	if ($settings) {
+        if (array_key_exists($type, $settings)) {
+            $list = $settings[$type];
+        } elseif (array_key_exists(str_replace('-', '_', $type), $settings)) {
+            $list = $settings[str_replace('-', '_', $type)];        
+        }
 		$array = explode("\r\n", $list);
 	} else {
 		$array = array("N/A");
