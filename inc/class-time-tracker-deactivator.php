@@ -98,6 +98,7 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
          * Delete all pages.
          * 
          * @since 3.0.10
+         * @since 3.0.15 update to include homepage if passed in array inside another array
          */
         public static function delete_pages() {
 			$tt_pages_delete_order = self::get_page_list_in_deletion_order();
@@ -108,7 +109,13 @@ if ( ! class_exists('Time_Tracker_Deactivator') ) {
             }
 			$tt_homepage = Time_Tracker_Activator_Pages::create_homepage_details_array();
 			if ($tt_homepage) {
-                if (array_key_exists('Title', $tt_homepage)) {
+                if (is_array($tt_homepage)) {
+                    foreach ($tt_homepage as $pg_details) {
+                        if (array_key_exists('Title', $pg_details)) {
+                            self::delete_page($pg_details['Title']);
+                        }                        
+                    }
+                } elseif (array_key_exists('Title', $tt_homepage)) {
                     self::delete_page($tt_homepage['Title']);
                 }
             }
