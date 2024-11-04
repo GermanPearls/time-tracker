@@ -41,9 +41,9 @@ if ( ! class_exists('Time_Tracker_Activator') ) {
             if (self::confirm_form_dependency_active() == false) {	
 				wp_die("TIME TRACKER PLUGIN NOT ACTIVATED<br/><br/>Time Tracker requires either Contact Form 7 or WP Forms plugin be installed and activated. Please activate the Contact Form 7 or WP Forms plugin and try again.<br/><br/>Return to the <a href='" . esc_url( admin_url( "plugins.php" ) ) . "'>plugins page</a>.");
 			}
-			if (self::check_is_block_theme()) {
-				wp_die("TIME TRACKER PLUGIN NOT ACTIVATED<br/><br/>Time Tracker is not yet configured to work with block themes. Please check back for a revision soon.<br/><br/>Return to the <a href='" . esc_url( admin_url( "plugins.php" ) ) . "'>plugins page</a>.");
-			}			
+			//if (self::check_is_block_theme()) {
+			//	wp_die("TIME TRACKER PLUGIN NOT ACTIVATED<br/><br/>Time Tracker is not yet configured to work with block themes. Please check back for a revision soon.<br/><br/>Return to the <a href='" . esc_url( admin_url( "plugins.php" ) ) . "'>plugins page</a>.");
+			//}			
 			self::setup();                                                                          
         }
 
