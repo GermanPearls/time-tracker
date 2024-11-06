@@ -615,7 +615,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             $this->project_name = [
                 "fieldname" => "PName",
                 "id" => "project-name",
-                "editable" => true,
+                "editable" => false,
                 "columnwidth" => "",
                 "type" => "text",
                 "class" => ""

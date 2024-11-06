@@ -290,8 +290,8 @@ if ( !class_exists( 'Time_Log' ) ) {
             $flds = new Time_Tracker_Display_Fields();
             $cols = [
                 "Time ID" => $flds->timeid,
-                "Client" => $flds->client_select,
-                "Task" => $flds->task_select,
+                "Client" => $flds->client_name,
+                "Task" => $flds->taskid,
                 "Type" => $flds->work_type,
                 "Start Time" => $flds->start_time,
                 "End Time" => $flds->end_time,

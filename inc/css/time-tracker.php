@@ -565,6 +565,16 @@ td.on-hold-date {
 }
 
 /***************************/
+/********** Editable Fields **********/
+/***************************/
+.tt-editable-field:not(:has(select)) {
+    border: 1px solid <?php echo $neutral_background_light; ?>;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+/***************************/
 /********** Forms **********/
 /***************************/
 .tt-form {

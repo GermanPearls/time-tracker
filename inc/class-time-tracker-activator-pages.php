@@ -440,6 +440,20 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                     "Flag" => false
                 )
             );
+            array_push($details_all, $details);
+
+            //task detail
+            //@since 3.1.0
+            $details = array(
+                "Title" => "Edit Task Details",
+                "Parent" => $parent,
+                "Slug" => "task-edit",
+                "Content" => "[tt_edit_task_details]",
+                "Paginate" => array(
+                    "Flag" => false
+                )
+            );
+            array_push($details_all, $details);
             
             self::$page_details = $details_all;
             return $details_all;

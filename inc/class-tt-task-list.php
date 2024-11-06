@@ -135,9 +135,10 @@ if ( !class_exists( 'Task_List' ) ) {
         private function get_table_fields() {
             $flds = new Time_Tracker_Display_Fields();
             $cols = [
-                "Task" => $flds->task_select,
-                "Client" => $flds->client_select,
-                "Project ID" => $flds->project_select,
+                "Task" => $flds->taskid,
+                "Name" => $flds->task,
+                "Client" => $flds->client_name,
+                "Project ID" => $flds->project_name,
                 "Type" => $flds->work_type,
                 "Due Date" => $flds->due_date,
                 "Status" => $flds->status,
@@ -281,12 +282,14 @@ if ( !class_exists( 'Task_List' ) ) {
 
                 $start_work_button = "<button onclick='start_timer_for_task(\"" . esc_attr(sanitize_text_field($item->Company)) . "\", \"" . esc_attr($taskid . "-" . sanitize_text_field($item->TDescription)) . "\")' id=\"start-task-" . esc_attr($taskid)  . "\" class=\"start-work-timer tt-table-button\">Start</button>";
                 $task_details_button = "<button onclick='open_detail_for_task(\"" . esc_attr($taskid) . "\")' id=\"view-task-" . esc_attr($taskid)  . "\" class=\"open-task-detail tt-table-button\">View</button>";
+                $task_edit_button = "<button onclick='open_task_edit_screen(\"" . esc_attr($taskid) . "\")' id=\"view-task-" . esc_attr($taskid)  . "\" class=\"open-task-detail tt-table-button\">Edit</button>";
                 $delete_task_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?task-id=" . esc_attr($taskid) . "\"' id=\"delete-task-" . esc_attr($taskid)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
                 $item->TaskID = [
                     "value" => $taskid,
                     "button" => [
                         $start_work_button,
                         $task_details_button,
+                        $task_edit_button,
                         $delete_task_button
                     ]
                 ];

@@ -132,6 +132,7 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-list.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details-edit.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php'); 
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
 
@@ -151,6 +152,7 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-recurring-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-show-task-details.php');
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-edit-task-details.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-project-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-time-log-table.php');
@@ -206,6 +208,7 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'update_end_timer', TT_PLUGIN_WEB_DIR_INC . 'js/update_end_timer.js', array(), null, true);
       wp_enqueue_script( 'start_timer_for_task', TT_PLUGIN_WEB_DIR_INC . 'js/start_timer_for_task.js', array(), null, true);
       wp_enqueue_script( 'open_detail_for_task', TT_PLUGIN_WEB_DIR_INC . 'js/open_detail_for_task.js', array(), null, true);
+      wp_enqueue_script( 'open_task_edit_screen', TT_PLUGIN_WEB_DIR_INC . 'js/open_task_edit.js', array(), null, true);
       wp_enqueue_script( 'tt_filter_time_log', TT_PLUGIN_WEB_DIR_INC . 'js/filter_time_log.js', array(), null, true);
       wp_enqueue_script( 'tt_set_date_picker_default_value', TT_PLUGIN_WEB_DIR_INC . 'js/set_date_picker_default_value.js', array(), null, true);
       wp_enqueue_script( 'save_new_task_and_start_timer', TT_PLUGIN_WEB_DIR_INC . 'js/save_new_task_and_start_timer.js', array(), null, true);      
@@ -242,6 +245,7 @@ if ( ! class_exists('Time_Tracker') ) {
       //pass time tracker homepage to functions - to work better with wordpress subfolder installs
       wp_localize_script( 'tt_filter_time_log', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_detail_for_task', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
+      wp_localize_script( 'open_task_edit_screen', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_time_entries_for_client', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_task_list_for_client', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
       wp_localize_script( 'open_time_entries_for_project', 'scriptDetails', array( 'tthomeurl' => TT_HOME));

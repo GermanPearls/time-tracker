@@ -62,7 +62,28 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 $html_out = "<p style='font-weight:bold;padding-left:20px;'>Nothing to Display</p>";
             }
             return $html_out;
-        }	 
+        }
+        
+        /**
+         * Create HTML Output
+         * 
+         * @since 3.1.0
+         * 
+         * @param array $field_details Details about HOW to display on the front end.
+         * @param array $item_data Data from query that includes data to display on front end.
+         * @param array $args Array of optional arguments.
+         * 
+         * @return string Html string.
+         */
+        public function create_html_output($field_details, $item_data, $args=[], $table_name='', $table_key_name='') {
+            $args = $this->update_args_with_editable_details($field_details, $item_data, $field_details["fieldname"], $table_name, $table_key_name);
+            $html_out = "<span ";
+            $html_out .= $this->add_arguments($args);
+            $html_out .= ">";
+            $html_out .= $this->add_content_to_cell($field_details, $item_data, $args);
+            $html_out .= "</span>";
+            return $html_out;
+        }
         
         
         /**
@@ -320,13 +341,14 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             }
             
             if ($sql_fieldname <> "") {
-                if ($details["editable"]) {
-                    array_push($args["class"], "editable");
-                    $args["contenteditable"] = "true";
-                    $args["onBlur"] = $this->build_edit_action($details, $item, $table_name, $table_key, $sql_fieldname);
-                } else {
-                    array_push($args["class"], "not-editable");
-                }
+                //if ($details["editable"]) {
+                //    array_push($args["class"], "editable");
+                //    $args["contenteditable"] = "true";
+                //    $args["onBlur"] = $this->build_edit_action($details, $item, $table_name, $table_key, $sql_fieldname);
+                //} else {
+                //    array_push($args["class"], "not-editable");
+                //}
+                $args = $this->update_args_with_editable_details($details, $item, $sql_fieldname, $table_name, $table_key, $args);
 
                 $item_sql_fieldname_details = is_object($item) ? $item->$sql_fieldname : (array_key_exists($sql_fieldname, $item) ? $item[$sql_fieldname] : "");
                 if ( is_array($item_sql_fieldname_details) ) {
@@ -362,15 +384,39 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
 
 
         /**
+         * Add Editable Details
+         * 
+         * @since 3.1.0 Broke out from funciton get_cell_args
+         */
+        private function update_args_with_editable_details($details, $item, $sql_fieldname, $table_name, $table_key, $args=[]) {
+            if ($sql_fieldname <> "") {
+                if ( !array_key_exists('class', $args)) {
+                    $args['class'] = [];
+                }
+                if ($details["editable"]) {
+                    array_push($args["class"], "editable");
+                    $args["contenteditable"] = "true";
+                    $args["onBlur"] = $this->build_edit_action($details, $item, $table_name, $table_key, $sql_fieldname);
+                } else {
+                    array_push($args["class"], "not-editable");
+                }
+            }
+            return $args;
+        }
+
+
+
+
+        /**
          * Build edit details
          * 
          * @since 3.0.13
          * 
          * @param array $details Information about this cell and its structure (ie: html tags).
          * @param array|object $item Data that will populate this entire row.
-         * @param string $sql_fieldname	This sql field name where this cell's data originated.
          * @param string $table_name Main database table this table data originates from.
-         * @param string $table_key Name of main ID column in database table to reference this record in the table.
+         * @param string $table_key_name Name of main ID column in database table to reference this record in the table.
+         * @param string $sql_fieldname	This sql field name where this cell's data originated.
          * 
          * @return string Function with parameters to paste into onBlur action of data cell.
          */
@@ -381,6 +427,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                 $table_key_name = $details["edit-details"]["ref-field"];
             }
             if ( is_object($item) ) {
+                //believe this is object
                 $table_key_value = is_array($item->$table_key_name) ? $item->$table_key_name["value"] : $item->$table_key_name;
             } elseif ( is_array($item) ) {
                 $table_key_value = is_array($item[$table_key_name]) ? $item[$table_key_name]["value"] : $item[$table_key_name];
@@ -559,6 +606,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             if ($fieldtype == "widget-invoice") {
                 $display_value = $field_details;
             } elseif ( is_object($item) ) {
+                //this is usually object
                 $display_value = is_array($item->$fieldname) ? $item->$fieldname["value"] : $item->$fieldname;
             } elseif ( is_array($item) ) {
                 $display_value = is_array($item[$fieldname]) ? $item[$fieldname]["value"] : $item[$fieldname];
