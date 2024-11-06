@@ -364,7 +364,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             $details = array(
                 "Title" => "Task Detail",
                 "Parent" => $parent,
-                "Slug" => "task-detail",
+                "Slug" => "view-task",
                 "Content" => "[tt_view_task_details]",
 				"Paginate" => array(
 					"Flag" => false
@@ -447,7 +447,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             $details = array(
                 "Title" => "Edit Task",
                 "Parent" => $parent,
-                "Slug" => "task-edit",
+                "Slug" => "edit-task",
                 "Content" => "[tt_edit_task_details]",
                 "Paginate" => array(
                     "Flag" => false
@@ -459,7 +459,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             $details = array(
                 "Title" => "Edit Time Entry",
                 "Parent" => $parent,
-                "Slug" => "time-edit",
+                "Slug" => "edit-time",
                 "Content" => "[tt_edit_time_entry]",
                 "Paginate" => array(
                     "Flag" => false

@@ -336,8 +336,8 @@ if ( !class_exists( 'Time_Log' ) ) {
                     ]
                 ];
 
-                $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "task-detail/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"view-task-detail-" . esc_attr($item->TaskID) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
-                $edit_task_button = "<button onclick='location.href=\"" . TT_HOME . "task-edit/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"edit-task-" . esc_attr($item->TaskID) . "'\" class=\"open-task-edit-page tt-button tt-table-button\">Edit</button>";
+                $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "view-task/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"view-task-detail-" . esc_attr($item->TaskID) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
+                $edit_task_button = "<button onclick='location.href=\"" . TT_HOME . "edit-task/?task-id=" . esc_attr($item->TaskID) . "\"' id=\"edit-task-" . esc_attr($item->TaskID) . "'\" class=\"open-task-edit-page tt-button tt-table-button\">Edit</button>";
                 $item->TaskID = [
                     "value" => $item->TaskID,
                     "button" => [
