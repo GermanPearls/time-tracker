@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  * If class doesn't already exist
  * 
  */
-if ( !class_exists( 'Time_Details' ) ) {
+if ( !class_exists( 'Time_Details_View' ) ) {
 
     /**
      * Class
      * 
      * @since 3.1.0
      */  
-    class Time_Details
+    class Time_Details_View
     {
         
         
