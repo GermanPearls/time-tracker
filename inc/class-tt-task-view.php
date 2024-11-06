@@ -151,6 +151,11 @@ if ( !class_exists( 'Task_Details' ) ) {
             $display .= "<strong>Notes:</strong>  " . wp_kses_post(nl2br($task[0]->TaskNotes)) . "<br/>";
             $display .= "<strong>Total Time:</strong>  " . $total_time_display . "<br/>";
             $display .= $this->add_start_work_button(intval($this->taskid), esc_textarea($task[0]->TDescription), sanitize_text_field($task[0]->Company));
+
+            $task_edit_button = "<button onclick='open_task_edit_screen(\"" . esc_attr($this->taskid) . "\")' id=\"view-task-" . esc_attr($this->taskid)  . "\" class=\"open-task-detail tt-table-button\">Edit</button>";
+            $delete_task_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?task-id=" . esc_attr($this->taskid) . "\"' id=\"delete-task-" . esc_attr($this->taskid)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
+            
+            $display .= $task_edit_button . $delete_task_button;
             $display .= "<br/><hr/>";
 
             $display .= "<h2>Time Entries for Task # " . esc_textarea(sanitize_text_field($this->taskid)) . "</h2>";
