@@ -141,7 +141,7 @@ if ( !class_exists( 'Task_Details' ) ) {
             $date_added_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDateAdded), "date_and_time"); 
             $due_date_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDueDate), "date_only");
 
-            $display = "<h2>Task # " . esc_textarea(sanitize_text_field($this->taskid)) . " Overview</h2>";
+            $display = "<h2>Task # " . esc_textarea(sanitize_text_field($task[0]->TaskID)) . " Overview</h2>";
             $display .= "<strong>Description:</strong>  " . wp_kses_post(nl2br($task[0]->TDescription)) . "<br/>";
             $display .= "<strong>Client:</strong>  " . esc_textarea(sanitize_text_field($task[0]->Company)) . "<br/>";
             $display .= "<strong>Project:</strong> " . esc_textarea(sanitize_text_field($task[0]->ProjectID)) . " - " . esc_textarea(sanitize_text_field($task[0]->PName)) . "<br/>";
@@ -152,8 +152,8 @@ if ( !class_exists( 'Task_Details' ) ) {
             $display .= "<strong>Total Time:</strong>  " . $total_time_display . "<br/>";
             $display .= $this->add_start_work_button(intval($this->taskid), esc_textarea($task[0]->TDescription), sanitize_text_field($task[0]->Company));
 
-            $task_edit_button = "<button onclick='open_task_edit_screen(\"" . esc_attr($this->taskid) . "\")' id=\"view-task-" . esc_attr($this->taskid)  . "\" class=\"open-task-detail tt-table-button\">Edit</button>";
-            $delete_task_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?task-id=" . esc_attr($this->taskid) . "\"' id=\"delete-task-" . esc_attr($this->taskid)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
+            $task_edit_button = "<button onclick='open_task_edit_screen(\"" . esc_attr($task[0]->TaskID) . "\")' id=\"view-task-" . esc_attr($task[0]->TaskID)  . "\" class=\"open-task-detail tt-table-button\">Edit</button>";
+            $delete_task_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?task-id=" . esc_attr($task[0]->TaskID) . "\"' id=\"delete-task-" . esc_attr($task[0]->TaskID)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
             
             $display .= $task_edit_button . $delete_task_button;
             $display .= "<br/><hr/>";
