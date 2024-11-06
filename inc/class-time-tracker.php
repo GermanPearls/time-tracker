@@ -130,9 +130,11 @@ if ( ! class_exists('Time_Tracker') ) {
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-pending-time-export.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-list.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-view.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-edit.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-time-view.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-client-list.php');
-      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-details-edit.php');
+      include_once(TT_PLUGIN_DIR_INC . 'class-tt-task-edit.php');
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-project-list.php'); 
       include_once(TT_PLUGIN_DIR_INC . 'class-tt-recurring-task-list.php');
 
@@ -151,7 +153,7 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-open-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-recurring-task-list-table.php');
-      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-show-task-details.php');
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-view-task-details.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-edit-task-details.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-project-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');

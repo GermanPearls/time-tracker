@@ -1,11 +1,10 @@
 <?php
 /**
- * Class Time_Tracker_Shortcode_Show_Time_Details
+ * Class Time_Tracker_Shortcode_Edit_Time_Entry
  *
- * SHORTCODE TO DISPLAY DETAILS OF INDIVIDUAL TIME ENTRY
+ * SHORTCODE TO EDIT TIME ENTRY
  * 
  * @since 3.1.0
- * 
  */
 
 namespace Logically_Tech\Time_Tracker\Inc;
@@ -17,14 +16,14 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  * 
  * @since 3.1.0
  */
-if ( ! class_exists('Time_Tracker_Shortcode_Show_Time_Details') ) {
+if ( ! class_exists('Time_Tracker_Shortcode_Edit_Time_Entry') ) {
 
     /**
      * Class
      * 
      * @since 3.1.0
      */  
-    class Time_Tracker_Shortcode_Show_Time_Details {
+    class Time_Tracker_Shortcode_Edit_Time_Entry {
 
         
         
@@ -33,7 +32,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Time_Details') ) {
          * 
          * @since 3.1.0
          */
-        public $shortcode = 'tt_show_time_details';
+        public $shortcode = 'tt_edit_time_entry';
 
 
         /**
@@ -42,7 +41,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Time_Details') ) {
          * @since 3.1.0
          */
         public function __construct() {
-            add_shortcode( $this->shortcode, array( $this, 'show_time_details_shortcode' ) );
+            add_shortcode( $this->shortcode, array( $this, 'edit_time_entry_shortcode' ) );
         }
 
 
@@ -51,10 +50,10 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Time_Details') ) {
          * 
          * @since 3.1.0
          * 
-         * @return string Shortcode output - html showing details of an individual time entry.
+         * @return string Shortcode output - time entry details on editable form.
          */
-        public function show_time_details_shortcode() {
-            $time = new Time_Details;
+        public function edit_time_entry_shortcode() {
+            $time = new Time_Details_Edit;
             return $time->generate_output_for_display();
         }
     
@@ -73,4 +72,4 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Time_Details') ) {
     }
 } 
 
-$tt_Shortcode_Show_Time_Details = new Time_Tracker_Shortcode_Show_Time_Details();
+$tt_Shortcode_Edit_Time_Entry = new Time_Tracker_Shortcode_Edit_Time_Entry();

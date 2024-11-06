@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Time_Tracker_Shortcode_Show_Task_Details
+ * Class Time_Tracker_Shortcode_view_Task_Details
  *
  * SHORTCODE TO DISPLAY ENTIRE TASK LIST
  * 
@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) or die( 'Nope, not accessing this' );
  * 
  * @since 1.0.0
  */
-if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
+if ( ! class_exists('Time_Tracker_Shortcode_View_Task_Details') ) {
 
     /**
      * Class
      * 
      * @since 1.0.0
      */  
-    class Time_Tracker_Shortcode_Show_Task_Details {
+    class Time_Tracker_Shortcode_View_Task_Details {
 
         
         
@@ -32,7 +32,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
          * 
          * @since 1.0.0
          */
-        public $shortcode = 'tt_show_task_details';
+        public $shortcode = 'tt_view_task_details';
 
 
         /**
@@ -41,7 +41,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
          * @since 1.0.0
          */
         public function __construct() {
-            add_shortcode( $this->shortcode, array( $this, 'show_task_details_shortcode' ) );
+            add_shortcode( $this->shortcode, array( $this, 'view_task_details_shortcode' ) );
         }
 
 
@@ -52,7 +52,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
          * 
          * @return string Shortcode output - details of all tasks.
          */
-        public function show_task_details_shortcode() {
+        public function view_task_details_shortcode() {
             $task = new Task_Details;
             return $task->generate_output_for_display();
         }
@@ -72,4 +72,4 @@ if ( ! class_exists('Time_Tracker_Shortcode_Show_Task_Details') ) {
     }
 } 
 
-$tt_Shortcode_Show_Task_Details = new Time_Tracker_Shortcode_Show_Task_Details();
+$tt_Shortcode_Show_Task_Details = new Time_Tracker_Shortcode_View_Task_Details();

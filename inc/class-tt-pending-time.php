@@ -186,6 +186,16 @@ if ( !class_exists( 'Pending_Time' ) ) {
             $lastclient = "";
 			//need the ampersand to pass by reference so item gets updated since we converted time_entries from object to array
             foreach ($time_entries as $i => &$item) {
+                $edit_time_button = "<button onclick='location.href = \"" . TT_HOME . "edit-time/?time-id=" . esc_attr($item["TimeID"]) . "\"' id=\"edit-time-" . esc_attr($item["TimeID"])  . "'\" class=\"open-time-edit-page tt-button tt-table-button\">Edit</button>";
+                $delete_time_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?time-id=" . esc_attr($item["TimeID"]) . "\"' id=\"delete-time-" . esc_attr($item["TimeID"])  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
+                $item["TimeID"] = [
+                    "value" => $item["TimeID"],
+                    "button" => [
+                        $edit_time_button,
+                        $delete_time_button
+                    ]
+                ];
+                
                 //style based on time logged vs estimate
                 $time_estimate_formatted = get_time_estimate_formatted(sanitize_text_field($item["TTimeEstimate"]));
                 $hours_logged = tt_convert_to_decimal_time(sanitize_text_field($item["LoggedHours"]), sanitize_text_field($item["LoggedMinutes"]));
@@ -198,10 +208,12 @@ if ( !class_exists( 'Pending_Time' ) ) {
                 
                 //add view task detail button
                 $view_task_detail_button = "<button onclick='location.href=\"" . TT_HOME . "task-detail/?task-id=" . esc_attr($item["TaskID"]) . "\"' id=\"view-task-detail-" . esc_attr($item["TaskID"]) . "'\" class=\"open-task-detail-page tt-button tt-table-button\">View</button>";
+                $edit_task_button = "<button onclick='location.href=\"" . TT_HOME . "task-edit/?task-id=" . esc_attr($item["TaskID"]) . "\"' id=\"edit-task-detail-" . esc_attr($item["TaskID"]) . "'\" class=\"open-task-edit-page tt-button tt-table-button\">Edit</button>";
                 $item["TaskID"] = [
                     "value" => $item["TaskID"],
                     "button" => [
-                        $view_task_detail_button
+                        $view_task_detail_button,
+                        $edit_task_button
                     ]
                 ];
 

@@ -365,7 +365,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Task Detail",
                 "Parent" => $parent,
                 "Slug" => "task-detail",
-                "Content" => "[tt_show_task_details]",
+                "Content" => "[tt_view_task_details]",
 				"Paginate" => array(
 					"Flag" => false
 				)
@@ -435,20 +435,32 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
                 "Title" => "Time Detail",
                 "Parent" => $parent,
                 "Slug" => "time-detail",
-                "Content" => "[tt_show_time_details]",
+                "Content" => "[tt_view_time_details]",
                 "Paginate" => array(
                     "Flag" => false
                 )
             );
             array_push($details_all, $details);
 
-            //task detail
+            //edit task
             //@since 3.1.0
             $details = array(
-                "Title" => "Edit Task Details",
+                "Title" => "Edit Task",
                 "Parent" => $parent,
                 "Slug" => "task-edit",
                 "Content" => "[tt_edit_task_details]",
+                "Paginate" => array(
+                    "Flag" => false
+                )
+            );
+            array_push($details_all, $details);
+
+            //@since 3.1.0
+            $details = array(
+                "Title" => "Edit Time Entry",
+                "Parent" => $parent,
+                "Slug" => "time-edit",
+                "Content" => "[tt_edit_time_entry]",
                 "Paginate" => array(
                     "Flag" => false
                 )
