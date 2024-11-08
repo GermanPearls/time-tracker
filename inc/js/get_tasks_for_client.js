@@ -2,11 +2,17 @@ function tt_update_task_dropdown() {
   var taskField = jQuery(".tt-form").find("[name='task-name']")[0];
   if (!taskField) {
     taskField = document.getElementById(jQuery(".tt-form").find("label:contains(Task)").prop("for"));
+    if (!taskField) {
+      taskField = document.getElementById(jQuery(".tt-editable-field").children("select.task-with-id"));
+    }
   }
 
   var clientField = jQuery(".tt-form").find("[name='client-name']")[0];
   if (!clientField) {
     clientField = document.getElementById(jQuery(".tt-form").find("label:contains(Client)").prop("for"));
+    if (!clientField) {
+      clientField = document.getElementById(jQuery(".tt-editable-field").children("select.client-with-id"));
+    }
   }   
 
   if (clientField && taskField) {
@@ -31,5 +37,13 @@ function tt_update_task_dropdown() {
         }
       }
     });
+  } else {
+    console.log("Could not update task dropdown based on client choice.");
+    if (!clientField) {
+      console.log("Could not locate client field.");
+    }
+    if (!taskField) {
+      console.log("Could not locate task field to update.");
+    }
   }
 }
