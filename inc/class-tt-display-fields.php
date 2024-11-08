@@ -25,6 +25,8 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
      */
     class Time_Tracker_Display_Fields
     {
+        private $arg_clientid;
+        private $arg_projectid;
 
         public $taskid;
         public $task;
@@ -82,11 +84,14 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * @since 3.0.13
          */
         public function __construct($clientid=null, $projectid=null) {
+            $this->arg_clientid = $clientid;
+            $this->arg_projectid = $projectid;
+
             $this->set_taskid();
             $this->set_task_description();
-            $this->set_project_select($clientid=null);
+            $this->set_project_select();
             $this->set_client_select();
-            $this->set_task_select(clientid: $clientid, projectid: $projectid);
+            $this->set_task_select();
             $this->set_work_type();
             $this->set_due_date();
             $this->set_task_status();
@@ -175,7 +180,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * @since 3.0.13
          * @since 3.1.0 Add capability to filter by client.
          */
-        private function set_project_select($clientid=null) {
+        private function set_project_select() {
             $this->project_select = [
                 "fieldname" => "ProjectID",
                 "id" => "project-id",
@@ -221,7 +226,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * @since 3.0.15 Now displays select dropdown with Task ID, followed by task description as text.
          * @since 3.1.0 Add capability to filter by client or project.
          */
-        private function set_task_select($clientid=null, $projectid=null) {
+        private function set_task_select() {
             $this->task_select = [
                 "fieldname" => "TaskID",
                 "id" => "task",
@@ -231,7 +236,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "select_options" => [
                     "title" => "task-with-id",
                     "data_type" => "text",
-                    "options" => $this->get_task_select_options(clientid: $clientid, projectid: $projectid)
+                    "options" => $this->get_task_select_options()
                 ],
                 "class" => ""
             ];
@@ -1023,8 +1028,8 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * 
          * @return array List of projects, with IDs as strings.
          */
-        private function get_project_select_options($clientid=null) {
-            $projects = tt_get_projects(clientid: $clientid);
+        private function get_project_select_options() {
+            $projects = tt_get_projects($this->arg_clientid);
             $arr = [];
             if ($projects) {
                 foreach ($projects as $project) {
@@ -1043,8 +1048,8 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * 
          * @return array List of tasks, with IDs as strings.
          */
-        private function get_task_select_options($clientid=null, $projectid=null) {
-            $tasks = tt_get_tasks(clientid: $clientid, projectid: $projectid);
+        private function get_task_select_options() {
+            $tasks = tt_get_tasks($this->arg_clientid, $this->arg_projectid);
             $arr = [];
             if ($tasks) {
                 foreach ($tasks as $task) {
