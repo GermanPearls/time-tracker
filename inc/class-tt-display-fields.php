@@ -86,7 +86,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             $this->set_task_description();
             $this->set_project_select($clientid=null);
             $this->set_client_select();
-            $this->set_task_select($clientid=null, $projectid=null);
+            $this->set_task_select(clientid: $clientid, projectid: $projectid);
             $this->set_work_type();
             $this->set_due_date();
             $this->set_task_status();
@@ -237,7 +237,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "select_options" => [
                     "title" => "task-with-id",
                     "data_type" => "text",
-                    "options" => $this->get_task_select_options($clientid=null, $projectid=null)
+                    "options" => $this->get_task_select_options(clientid: $clientid, projectid: $projectid)
                 ],
                 "class" => ""
             ];
@@ -1029,8 +1029,8 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * 
          * @return array List of projects, with IDs as strings.
          */
-        private function get_project_select_options() {
-            $projects = tt_get_projects();
+        private function get_project_select_options($clientid=null) {
+            $projects = tt_get_projects(clientid: $clientid);
             $arr = [];
             if ($projects) {
                 foreach ($projects as $project) {
@@ -1050,7 +1050,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          * @return array List of tasks, with IDs as strings.
          */
         private function get_task_select_options($clientid=null, $projectid=null) {
-            $tasks = tt_get_tasks($clientid=null, $projectid=null);
+            $tasks = tt_get_tasks(clientid: $clientid, projectid: $projectid);
             $arr = [];
             if ($tasks) {
                 foreach ($tasks as $task) {
