@@ -69,7 +69,7 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
         private function get_time_details_from_db() {
             global $wpdb;
 
-            $sql_string_format = "SELECT tt_time.TimeID, tt_task.TaskID, tt_task.ClientID, tt_task.ProjectID,
+            $sql_string_format = "SELECT tt_time.TimeID, tt_task.TaskID, tt_task.TDescription, tt_task.ClientID, tt_task.ProjectID,
                     tt_task.TStatus, tt_task.TTimeEstimate, tt_task.TDateAdded, tt_task.TDueDate,
                     tt_task.TNotes TaskNotes, tt_client.Company, tt_project.ProjectID, tt_project.PName,
                     tt_time.TimeID, tt_time.StartTime, tt_time.EndTime, tt_time.TNotes TNotes, tt_time.FollowUp,
