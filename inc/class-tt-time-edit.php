@@ -102,7 +102,7 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
                 $total_time_display = "";           
             }
 
-            $flds = new Time_Tracker_Display_Fields();
+            $flds = new Time_Tracker_Display_Fields($clientid=$task[0]->ClientID);
             $output = new Time_Tracker_Display_Table();
 
             $display = "<h3>Time Entry ID: " . esc_textarea(sanitize_text_field($task[0]->TimeID)) . "</h3>";

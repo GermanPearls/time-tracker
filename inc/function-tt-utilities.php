@@ -830,11 +830,20 @@ function tt_get_clients() {
  * Get tasks
  * 
  * @since 2.4.7
+ * @since 3.1.0 Added capability to filter by client or project.
  * 
  * @return object All tasks in database
  */
-function tt_get_tasks() {
-    return tt_query_db("SELECT TaskID, TDescription FROM tt_task ORDER BY TaskID ASC");
+function tt_get_tasks($clientid=null, $projectid=null) {
+    $strWhere = "";
+    if ($clientid) {
+        $strWhere .= " WHERE ClientID=" . intval($clientid);
+    }
+    if ($projectid) {
+        if ($strWhere <> "") { $strWhere .= " AND "; }
+        $strWhere .= " ProjectID=" . intval($projectid);
+    }
+    return tt_query_db("SELECT TaskID, TDescription FROM tt_task ORDER BY TaskID ASC " . $strWhere);
 }
 
 
@@ -842,11 +851,16 @@ function tt_get_tasks() {
  * Get projects
  * 
  * @since 2.4.7
+ * @since 3.1.0 Added capability to filter by client.
  * 
  * @return object All projects in database
  */
-function tt_get_projects() {
-    return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC");
+function tt_get_projects($clientid=null) {
+    $strWhere = "";
+    if ($clientid) {
+        $strWhere .= " WHERE ClientID=" . intval($clientid);
+    }
+    return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC " . $strWhere);
 }
 
 
