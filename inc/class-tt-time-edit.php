@@ -109,52 +109,52 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
 
             $client = "<strong>Client:</strong><br/>  ";
             $fld = $flds->client_select;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $client .= $this->style_editable_field($out)  . "<br/><br/>";
 
             $taskdescription = "<strong>Task:</strong><br/>  ";
             $fld = $flds->task_select;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $taskdescription .= $this->style_editable_field($out) . "<br/><br/>";
 
             $starttime = "<strong>Start Time:</strong><br/>  ";
             $fld = $flds->start_time;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $starttime .= $this->style_editable_field($out) . "<br/><br/>";
 
             $endtime = "<strong>End Time:</strong><br/>  ";
             $fld = $flds->end_time;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $endtime .= $this->style_editable_field($out) . "<br/><br/>";
 
             $timenotes = "<strong>Time Notes:</strong><br/>  ";
             $fld = $flds->time_notes;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $timenotes .= $this->style_editable_field($out) . "<br/><br/>";
 
             $followup = "<strong>Follow Up:</strong><br/>  ";
             $fld = $flds->time_follow_up;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $followup .= $this->style_editable_field($out) . "<br/><br/>";
 
             $invoiced = "<strong>Invoiced:</strong><br/>  ";
             $fld = $flds->time_invoiced;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $invoiced .= $this->style_editable_field($out) . "<br/><br/>";
 
             $invoicenumber = "<strong>Invoice Number:</strong><br/>  ";
             $fld = $flds->time_invoice_number;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $invoicenumber .= $this->style_editable_field($out) . "<br/><br/>";
 
             $invoicedtime = "<strong>Invoiced Time:</strong><br/>  ";
             $fld = $flds->time_invoice_amount;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $invoicedtime .= $this->style_editable_field($out) . "<br/><br/>";
 
             $invoicedcomments = "<strong>Invoice Comments:</strong><br/>  ";
             $fld = $flds->time_invoice_notes;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $invoicedcomments .= $this->style_editable_field($out) . "<br/><br/>";
 
             $display .= $client . $taskdescription . $starttime . $endtime . $timenotes . $followup . $invoiced . $invoicenumber . $invoicedtime . $invoicedcomments;
