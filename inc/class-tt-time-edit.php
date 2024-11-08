@@ -69,7 +69,7 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
         private function get_time_details_from_db() {
             global $wpdb;
 
-            $sql_string_format = "SELECT tt_time.TimeID, tt_task.TDescription, tt_task.ClientID, tt_task.ProjectID,
+            $sql_string_format = "SELECT tt_time.TimeID, tt_task.TaskID, tt_task.ClientID, tt_task.ProjectID,
                     tt_task.TStatus, tt_task.TTimeEstimate, tt_task.TDateAdded, tt_task.TDueDate,
                     tt_task.TNotes TaskNotes, tt_client.Company, tt_project.ProjectID, tt_project.PName,
                     tt_time.TimeID, tt_time.StartTime, tt_time.EndTime, tt_time.TNotes TimeNotes, tt_time.FollowUp,
@@ -98,138 +98,68 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
         private function get_html() {
             $task = $this->get_time_details_from_db();
 
-            $hrs_worked = 0;
-            $hrs_invoiced = 0;
-
-            if ( $task[0]->TimeID === NULL ) {   
+            if ( !$task ) {   
                 $total_time_display = "";           
-            } else {
-                //foreach ($task as $time_entry) {
-                    $time_entry = $task[0];
-                    $start_time = date_create_from_format('Y-m-d H:i:s', $time_entry->StartTime);
-                    $end_time = date_create_from_format('Y-m-d H:i:s', $time_entry->EndTime);
-                    $elapsed_time = date_diff($start_time, $end_time);
-                    $hrs_this_entry = $elapsed_time->format('%h');
-                    $mins_this_entry = $elapsed_time->format('%i');
-                    $hrs_worked = $hrs_worked + $hrs_this_entry + round(($mins_this_entry / 60),2);
-                    $inv_time = sanitize_text_field($time_entry->InvoicedTime) ? sanitize_text_field($time_entry->InvoicedTime) : 0;
-                    $hrs_invoiced = $hrs_invoiced + $inv_time;
-                //} //loop through all time entries to total time worked and invoiced
-                if ($hrs_worked >0) {
-                    $total_time_display = $hrs_worked . " hrs worked  /  " . $hrs_invoiced . " hrs invoiced  /  " . round($hrs_invoiced / $hrs_worked*100,0) . " % invoiced";
-                } else {
-                    $total_time_display = "0 hrs worked";
-                }
             }
 
-            $date_added_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDateAdded), "date_and_time"); 
-            $due_date_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDueDate), "date_only");
+            $flds = new Time_Tracker_Display_Fields();
+            $output = new Time_Tracker_Display_Table();
 
-            $display = "<h2>Time Entry # " . esc_textarea(sanitize_text_field($this->timeid)) . " Overview</h2>";
-            $display .= "<strong>Description:</strong>  " . wp_kses_post(nl2br($task[0]->TDescription)) . "<br/>";
-            $display .= "<strong>Client:</strong>  " . esc_textarea(sanitize_text_field($task[0]->Company)) . "<br/>";
-            $display .= "<strong>Project:</strong> " . esc_textarea(sanitize_text_field($task[0]->ProjectID)) . " - " . esc_textarea(sanitize_text_field($task[0]->PName)) . "<br/>";
-            $display .= "<strong>Status:</strong>  " . esc_textarea(sanitize_text_field($task[0]->TStatus)) . "<br/>";
-            $display .= "<strong>Date Added:</strong>  " . $date_added_formatted . "<br/>";
-            $display .= "<strong>Due Date:</strong>  " . $due_date_formatted . "<br/>";
-            $display .= "<strong>Notes:</strong>  " . wp_kses_post(nl2br($task[0]->TaskNotes)) . "<br/>";
-            $display .= "<strong>Total Time:</strong>  " . $total_time_display . "<br/>";
-            $display .= "<br/><hr/>";
+            $display = "<h3>Time Entry ID: " . esc_textarea(sanitize_text_field($task[0]->TimeID)) . "</h3>";
 
-            $display .= "<h2>Time Entry Details</h2>";
+            $client = "<strong>Client:</strong><br/>  ";
+            $fld = $flds->client_select;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $client .= $this->style_editable_field($out)  . "<br/><br/>";
 
-            if ($task[0]->TimeID === NULL) {
-                $display .= "     No time entry was chosen.";
-            } else {
-                $display .= "<div id='time-entries' style='padding-left:40px;'>";
-                foreach ($task as $time_entry) {
-                    $start_time = date_create_from_format('Y-m-d H:i:s', sanitize_text_field($time_entry->StartTime));
-                    $end_time = date_create_from_format('Y-m-d H:i:s', sanitize_text_field($time_entry->EndTime));
-                    $start_time_formatted = tt_format_date_for_display(sanitize_text_field($time_entry->StartTime), "date_and_time");
-                    $end_time_formatted = tt_format_date_for_display(sanitize_text_field($time_entry->EndTime), "date_and_time");                    
-                    $elapsed_time = date_diff($start_time, $end_time);
-                    $hrs_this_entry = $elapsed_time->format('%h');
-                    $mins_this_entry = $elapsed_time->format('%i');
-                    $hrs_worked = $hrs_this_entry + round(($mins_this_entry / 60),2);
-                    $invoiced_time = ($time_entry->InvoicedTime == null) ? 0 : sanitize_text_field($time_entry->InvoicedTime);  
-                    if ( ($hrs_worked == 0) or ($hrs_worked == null) ) {
-                        $inv_percent = "-";
-                    } else {
-                        $inv_percent = round($invoiced_time / $hrs_worked*100,0);
-                    }
+            $taskdescription = "<strong>Task:</strong><br/>  ";
+            $fld = $flds->task;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $taskdescription .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $flds = new Time_Tracker_Display_Fields();
-                    $output = new Time_Tracker_Display_Table();
+            $starttime = "<strong>Start Time:</strong><br/>  ";
+            $fld = $flds->start_time;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $starttime .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $display .= "<h3>Time Entry ID: " . esc_textarea(sanitize_text_field($time_entry->TimeID)) . "</h3>";
+            $endtime = "<strong>End Time:</strong><br/>  ";
+            $fld = $flds->end_time;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $endtime .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $client = "<strong>Client:</strong><br/>  ";
-                    $fld = $flds->client_select;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $client .= $this->style_editable_field($out)  . "<br/><br/>";
+            $timenotes = "<strong>Time Notes:</strong><br/>  ";
+            $fld = $flds->time_notes;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $timenotes .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $task = "<strong>Task:</strong><br/>  ";
-                    $fld = $flds->task;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $task .= $this->style_editable_field($out) . "<br/><br/>";
+            $followup = "<strong>Follow Up:</strong><br/>  ";
+            $fld = $flds->time_follow_up;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $followup .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $starttime = "<strong>Start Time:</strong><br/>  ";
-                    $fld = $flds->start_time;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $starttime .= $this->style_editable_field($out) . "<br/><br/>";
+            $invoiced = "<strong>Invoiced:</strong><br/>  ";
+            $fld = $flds->time_invoiced;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $invoiced .= $this->style_editable_field($out) . "<br/><br/>";
 
+            $invoicenumber = "<strong>Invoice Number:</strong><br/>  ";
+            $fld = $flds->time_invoice_number;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $invoicenumber .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $endtime = "<strong>End Time:</strong><br/>  ";
-                    $fld = $flds->end_time;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $endtime .= $this->style_editable_field($out) . "<br/><br/>";
+            $invoicedtime = "<strong>Invoiced Time:</strong><br/>  ";
+            $fld = $flds->time_invoice_amount;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $invoicedtime .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $timenotes = "<strong>Time Notes:</strong><br/>  ";
-                    $fld = $flds->time_notes;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $timenotes .= $this->style_editable_field($out) . "<br/><br/>";
+            $invoicedcomments = "<strong>Invoice Comments:</strong><br/>  ";
+            $fld = $flds->time_invoice_notes;
+            $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
+            $invoicedcomments .= $this->style_editable_field($out) . "<br/><br/>";
 
-                    $followup = "<strong>Follow Up:</strong><br/>  ";
-                    $fld = $flds->time_follow_up;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $followup .= $this->style_editable_field($out) . "<br/><br/>";
+            $display .= $client . $taskdescription . $starttime . $endtime . $timenotes . $followup . $invoiced . $invoicenumber . $invoicedtime . $invoicedcomments;
+            $display .= "</div>";
 
-                    $invoiced = "<strong>Invoiced:</strong><br/>  ";
-                    $fld = $flds->time_invoiced;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $invoiced .= $this->style_editable_field($out) . "<br/><br/>";
-
-                    $invoicenumber = "<strong>Invoice Number:</strong><br/>  ";
-                    $fld = $flds->time_invoice_number;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $invoicenumber .= $this->style_editable_field($out) . "<br/><br/>";
-
-                    $invoicedtime = "<strong>Invoiced Time:</strong><br/>  ";
-                    $fld = $flds->time_invoice_amount;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $invoicedtime .= $this->style_editable_field($out) . "<br/><br/>";
-
-                    $invoicedcomments = "<strong>Invoice Comments:</strong><br/>  ";
-                    $fld = $flds->time_invoice_notes;
-                    $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
-                    $invoicedcomments .= $this->style_editable_field($out) . "<br/><br/>";
-
-                    $display .= $client . $task . $starttime . $endtime . $timenotes . $followup . $invoiced . $invoicenumber . $invoicedtime . $invoicedcomments;
-
-                    //$display .= "<strong>Time Worked:</strong>  " . $start_time_formatted . " - " . $end_time_formatted . "<br/>";
-                    //$display .= "<strong>Time Invoiced:</strong>  " . $hrs_worked . " hrs worked / " . esc_textarea($invoiced_time) . " hrs invoiced / " . $inv_percent . " % invoiced<br/>";
-                    //$invnumber = sanitize_text_field($time_entry->InvoiceNumber);
-                    //if ($invnumber === NULL OR $invnumber == "") {
-                    //    $display .= "<strong>Invoiced:</strong>  " . esc_textarea(sanitize_text_field($time_entry->Invoiced)) . "<br/>";
-                    //} else {
-                    //    $display .= "<strong>Invoiced:</strong>  " . esc_textarea(sanitize_text_field($time_entry->Invoiced)) . ", Invoice # " . esc_textarea($invnumber) . "<br/>";
-                    //}
-                    //$display .= "<strong>Invoice Comments:</strong>  " . wp_kses_post(nl2br($time_entry->InvoiceComments)) . "<br/>";
-                    //$display .= "<strong>Time Notes:</strong>  " . wp_kses_post(nl2br($time_entry->TimeNotes)) . "<br/>";
-                    //$display .= "<hr/>";
-                } //end looping through time entries
-                $display .= "</div>";
-            } //end if count of time entries 
             return $display;
         }
 
