@@ -72,7 +72,7 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
             $sql_string_format = "SELECT tt_time.TimeID, tt_task.TaskID, tt_task.ClientID, tt_task.ProjectID,
                     tt_task.TStatus, tt_task.TTimeEstimate, tt_task.TDateAdded, tt_task.TDueDate,
                     tt_task.TNotes TaskNotes, tt_client.Company, tt_project.ProjectID, tt_project.PName,
-                    tt_time.TimeID, tt_time.StartTime, tt_time.EndTime, tt_time.TNotes TimeNotes, tt_time.FollowUp,
+                    tt_time.TimeID, tt_time.StartTime, tt_time.EndTime, tt_time.TNotes TNotes, tt_time.FollowUp,
                     tt_time.Invoiced, tt_time.InvoiceNumber, tt_time.InvoicedTime, tt_time.InvoiceComments
                 FROM tt_time
                 LEFT JOIN tt_client
@@ -113,7 +113,7 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
             $client .= $this->style_editable_field($out)  . "<br/><br/>";
 
             $taskdescription = "<strong>Task:</strong><br/>  ";
-            $fld = $flds->task;
+            $fld = $flds->task_select;
             $out = $output->create_html_output($fld, $task[0], [], 'tt-time', 'TimeID');
             $taskdescription .= $this->style_editable_field($out) . "<br/><br/>";
 

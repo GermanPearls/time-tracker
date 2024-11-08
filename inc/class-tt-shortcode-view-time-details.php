@@ -54,7 +54,7 @@ if ( ! class_exists('Time_Tracker_Shortcode_View_Time_Details') ) {
          * @return string Shortcode output - html showing details of an individual time entry.
          */
         public function view_time_details_shortcode() {
-            $time = new Time_Details;
+            $time = new Time_Details_View;
             return $time->generate_output_for_display();
         }
     

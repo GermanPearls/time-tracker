@@ -114,7 +114,6 @@ if ( !class_exists( 'Task_Edit' ) ) {
             if (!$task) {
                 return;
             }
-
             $date_added_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDateAdded), "date_and_time"); 
             $due_date_formatted = tt_format_date_for_display(sanitize_text_field($task[0]->TDueDate), "date_only");
             $flds = new Time_Tracker_Display_Fields();
