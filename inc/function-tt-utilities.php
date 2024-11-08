@@ -843,7 +843,7 @@ function tt_get_tasks($clientid=null, $projectid=null) {
         if ($strWhere <> "") { $strWhere .= " AND "; }
         $strWhere .= " ProjectID=" . intval($projectid);
     }
-    return tt_query_db("SELECT TaskID, TDescription FROM tt_task ORDER BY TaskID ASC " . $strWhere);
+    return tt_query_db("SELECT TaskID, TDescription FROM tt_task " . $strWhere . " ORDER BY TaskID ASC");
 }
 
 
@@ -860,7 +860,7 @@ function tt_get_projects($clientid=null) {
     if ($clientid) {
         $strWhere .= " WHERE ClientID=" . intval($clientid);
     }
-    return tt_query_db("SELECT ProjectID, PName FROM tt_project ORDER BY ProjectID ASC " . $strWhere);
+    return tt_query_db("SELECT ProjectID, PName FROM tt_project " . $strWhere . " ORDER BY ProjectID ASC");
 }
 
 
