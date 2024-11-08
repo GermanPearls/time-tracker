@@ -109,11 +109,13 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
             $display = "<h3>Time Entry ID: " . esc_textarea(sanitize_text_field($task[0]->TimeID)) . "</h3>";
 
             $client = "<strong>Client:</strong><br/>  ";
+            $client .= "<span>Please note that changing the client may have an effect on the task selected below.</span>";
             $fld = $flds->client_select;
             $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $client .= $this->style_editable_field($out)  . "<br/><br/>";
 
             $taskdescription = "<strong>Task:</strong><br/>  ";
+            $taskdescription .= "<span>Task # " . $task[0]->TaskID . "</span>";
             $fld = $flds->task_select;
             $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $taskdescription .= $this->style_editable_field($out) . "<br/><br/>";
