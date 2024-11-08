@@ -155,6 +155,7 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-recurring-task-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-view-task-details.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-edit-task-details.php');
+      require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-edit-time-entry.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-project-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-client-list-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-time-log-table.php');
