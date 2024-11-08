@@ -430,7 +430,7 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          */
         private function set_time_follow_up() {
             $this->time_follow_up = [
-                "fieldname" => "TFollowUp",
+                "fieldname" => "FollowUp",
                 "id" => "time-follow-up",
                 "editable" => true,
                 "columnwidth" => "",

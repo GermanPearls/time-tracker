@@ -72,4 +72,4 @@ if ( ! class_exists('Time_Tracker_Shortcode_View_Task_Details') ) {
     }
 } 
 
-$tt_Shortcode_Show_Task_Details = new Time_Tracker_Shortcode_View_Task_Details();
+$tt_Shortcode_View_Task_Details = new Time_Tracker_Shortcode_View_Task_Details();

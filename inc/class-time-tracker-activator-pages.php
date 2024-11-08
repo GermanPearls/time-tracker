@@ -434,7 +434,7 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
             $details = array(
                 "Title" => "Time Detail",
                 "Parent" => $parent,
-                "Slug" => "time-detail",
+                "Slug" => "view-time",
                 "Content" => "[tt_view_time_details]",
                 "Paginate" => array(
                     "Flag" => false
