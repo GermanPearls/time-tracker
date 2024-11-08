@@ -223,17 +223,11 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
          */
         private function set_task_select($clientid=null, $projectid=null) {
             $this->task_select = [
-                "fieldname" => [
-                    "TaskID",
-                    "TDescription"
-                ],
+                "fieldname" => "TaskID",
                 "id" => "task",
                 "editable" => true,
                 "columnwidth" => "",
-                "type" => [
-                    "select", 
-                    "text"
-                ],
+                "type" => "select",
                 "select_options" => [
                     "title" => "task-with-id",
                     "data_type" => "text",
