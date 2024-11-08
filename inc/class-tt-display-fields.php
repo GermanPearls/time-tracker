@@ -40,6 +40,12 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         public $timeid;
         public $start_time;
         public $end_time;
+        public $time_notes;
+        public $time_follow_up;
+        public $time_invoiced;
+        public $time_invoice_number;
+        public $time_invoice_amount;
+        public $time_invoice_notes;
         public $invoice_details;
         public $follow_up;
         public $recurring_taskid;
@@ -90,6 +96,12 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
             $this->set_timeid();
             $this->set_start_time();
             $this->set_end_time();
+            $this->set_time_notes();
+            $this->set_time_follow_up();
+            $this->set_time_invoiced();
+            $this->set_time_invoice_number();
+            $this->set_time_invoice_amount();
+            $this->set_time_invoice_notes();
             $this->set_invoice_details();
             $this->set_follow_up();
             $this->set_recurring_taskid();
@@ -396,6 +408,109 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
         /**
          * Define field display
          * 
+         * @since 3.1.0
+         */
+        private function set_time_notes() {
+            $this->time_notes = [
+                "fieldname" => "TNotes",
+                "id" => "time-notes",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "long text",
+                "class" => ""
+            ];
+        }
+
+
+
+        /**
+         * Define field display
+         * 
+         * @since 3.1.0
+         */
+        private function set_time_follow_up() {
+            $this->time_follow_up = [
+                "fieldname" => "TFollowUp",
+                "id" => "time-follow-up",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "long text",
+                "class" => ""
+            ];
+        }
+        
+
+        /**
+         * Define field display
+         * 
+         * @since 3.1.0
+         */
+        private function set_time_invoiced() {
+            $this->time_invoiced = [
+                "fieldname" => "Invoiced",
+                "id" => "invoiced",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "text",
+                "class" => "tt-align-left"
+            ];
+        }
+
+
+        /**
+         * Define field display
+         * 
+         * @since 3.1.0
+         */
+        private function set_time_invoice_number() {
+            $this->time_invoice_number = [
+                "fieldname" => "InvoiceNumber",
+                "id" => "invoice-number",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "text",
+                "class" => "tt-align-left"
+            ];
+        }
+
+
+        /**
+         * Define field display
+         * 
+         * @since 3.1.0
+         */
+        private function set_time_invoice_amount() {
+            $this->time_invoice_amount = [
+                "fieldname" => "InvoicedTime",
+                "id" => "invoice-time",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "text",
+                "class" => "tt-align-left"
+            ];
+        }
+        
+
+        /**
+         * Define field display
+         * 
+         * @since 3.1.0
+         */
+        private function set_time_invoice_notes() {
+            $this->time_invoice_notes = [
+                "fieldname" => "InvoiceComments",
+                "id" => "invoice-comments",
+                "editable" => true,
+                "columnwidth" => "",
+                "type" => "long text",
+                "class" => "tt-align-left"
+            ];
+        }
+
+
+        /**
+         * Define field display
+         * 
          * @since 3.0.13
          */
         private function set_invoice_details() {
@@ -407,38 +522,10 @@ if ( !class_exists( 'Time_Tracker_Display_Fields' ) ) {
                 "type" => "widget-invoice",
                 "class" => "tt-table tt-widget-table",
                 "widget-data" => [
-                    "Invoiced?" => [
-                        "fieldname" => "Invoiced",
-                        "id" => "invoiced",
-                        "editable" => true,
-                        "columnwidth" => "",
-                        "type" => "text",
-                        "class" => "tt-align-left"
-                    ],
-                    "Invoice Number" => [
-                        "fieldname" => "InvoiceNumber",
-                        "id" => "invoice-number",
-                        "editable" => true,
-                        "columnwidth" => "",
-                        "type" => "text",
-                        "class" => "tt-align-left"
-                    ],
-                    "Invoiced Time" => [
-                        "fieldname" => "InvoicedTime",
-                        "id" => "invoice-time",
-                        "editable" => true,
-                        "columnwidth" => "",
-                        "type" => "text",
-                        "class" => "tt-align-left"
-                    ],
-                    "Invoice Comments" => [
-                        "fieldname" => "InvoiceComments",
-                        "id" => "invoice-comments",
-                        "editable" => true,
-                        "columnwidth" => "",
-                        "type" => "long text",
-                        "class" => "tt-align-left"
-                    ]
+                    "Invoiced?" => $this->time_invoiced,
+                    "Invoice Number" => $this->time_invoice_number,
+                    "Invoiced Time" => $this->time_invoice_amount,
+                    "Invoice Comments" => $this->time_invoice_notes
                 ]
             ];
         }
