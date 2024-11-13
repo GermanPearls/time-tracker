@@ -109,13 +109,16 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
             $display = "<h3>Time Entry ID: " . esc_textarea(sanitize_text_field($task[0]->TimeID)) . "</h3>";
 
             $client = "<strong>Client:</strong><br/>  ";
-            $client .= "<p>Please note that changing the client may have an effect on the task selected below.</p>";
+            $client .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom:0px;'>Note: Changing the client may affect the task selections below.</p>";
+            $client .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom: 0px;'>Client was '" . $task[0]->Company . "'.</p>";
             $fld = $flds->client_select;
             $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $client .= $this->style_editable_field($out)  . "<br/><br/>";
 
             $taskdescription = "<strong>Task:</strong><br/>  ";
             $taskdescription .= "<p>Task # " . $task[0]->TaskID . "</p>";
+            $taskdescription .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom:0px;'>Note: Task options may change based on client changes above.</p>";
+            $taskdescription .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom: 0px;'>Task was '" . $task[0]->TDescription . "' (ID " . $task[0]->TaskID . ").</p>";
             $fld = $flds->task_select;
             $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $taskdescription .= $this->style_editable_field($out) . "<br/><br/>";

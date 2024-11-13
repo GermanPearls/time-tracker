@@ -152,8 +152,8 @@ if ( !class_exists( 'Task_Details' ) ) {
             $display .= "<strong>Total Time:</strong>  " . $total_time_display . "<br/>";
             $display .= $this->add_start_work_button(intval($this->taskid), esc_textarea($task[0]->TDescription), sanitize_text_field($task[0]->Company));
 
-            $task_edit_button = "<button onclick='open_task_edit_screen(\"" . esc_attr($task[0]->TaskID) . "\")' id=\"view-task-" . esc_attr($task[0]->TaskID)  . "\" class=\"open-task-detail tt-table-button\">Edit</button>";
-            $delete_task_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?task-id=" . esc_attr($task[0]->TaskID) . "\"' id=\"delete-task-" . esc_attr($task[0]->TaskID)  . "'\" class=\"open-delete-page tt-button tt-table-button\">Delete</button>";
+            $task_edit_button = "<button onclick='open_task_edit_screen(\"" . esc_attr($task[0]->TaskID) . "\")' id=\"view-task-" . esc_attr($task[0]->TaskID)  . "\" class=\"open-task-detail tt-button tt-midpage-button\">Edit Task</button>";
+            $delete_task_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?task-id=" . esc_attr($task[0]->TaskID) . "\"' id=\"delete-task-" . esc_attr($task[0]->TaskID)  . "'\" class=\"open-delete-page tt-button tt-midpage-button\">Delete Task</button>";
             
             $display .= $task_edit_button . $delete_task_button;
             $display .= "<br/><hr/>";
@@ -191,6 +191,11 @@ if ( !class_exists( 'Task_Details' ) ) {
                     }
                     $display .= "<strong>Invoice Comments:</strong>  " . wp_kses_post(nl2br($time_entry->InvoiceComments)) . "<br/>";
                     $display .= "<strong>Time Notes:</strong>  " . wp_kses_post(nl2br($time_entry->TimeNotes)) . "<br/>";
+
+                    $time_edit_button = "<button onclick='location.href = \"" . TT_HOME . "edit-time/?time-id=" . esc_attr($task[0]->TimeID) . "\"' id=\"edit-time-" . esc_attr($task[0]->TimeID)  . "\" class=\"edit-time-detail tt-button tt-midpage-button\">Edit Time Entry</button>";
+                    $delete_time_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?time-id=" . esc_attr($task[0]->TimeID) . "\"' id=\"delete-time-" . esc_attr($task[0]->TimeID)  . "'\" class=\"open-delete-page tt-button tt-midpage-button\">Delete Time Entry</button>";
+                    
+                    $display .= $time_edit_button . $delete_time_button;
                     $display .= "<hr/>";
                 } //end looping through time entries
                 $display .= "</div>";

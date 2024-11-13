@@ -124,32 +124,38 @@ if ( !class_exists( 'Task_Edit' ) ) {
             $description = "<strong>Description:</strong><br/>";
             // . wp_kses_post(nl2br($task[0]->TDescription)) . "<br/>";
             $fld = $flds->task;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-task', 'TaskID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_task', 'TaskID');
             $description .= $this->style_editable_field($out) . "<br/><br/>";
 
             $client = "<strong>Client:</strong><br/>  ";
+            $client .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom:0px;'>Note: Changing the client may affect the project selections.</p>";
+            $client .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom: 0px;'>Client was '" . $task[0]->Company . "'.</p>";
             $fld = $flds->client_select;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-task', 'TaskID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_task', 'TaskID');
             $client .= $this->style_editable_field($out)  . "<br/><br/>";
 
             $project = "<strong>Project:</strong><br/>  ";
+            $project .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom:0px;'>Note: Project options may change based on client changes above.</p>";
+            if ($task[0]->PName) {
+                $project .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom: 0px;'>Project was '" . $task[0]->PName . "'.</p>";
+            }
             $fld = $flds->project_select;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-project', 'ProjectID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_project', 'ProjectID');
             $project .= $this->style_editable_field($out) . "<br/><br/>";
 
             $status = "<strong>Status:</strong><br/>  ";
             $fld = $flds->status;
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-task', 'TaskID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_task', 'TaskID');
             $status .= $this->style_editable_field($out) . "<br/><br/>";
             
-            $date_added = "<strong>Date Added::</strong><br/>  " . $date_added_formatted . "<br/><br/>";
+            $date_added = "<strong>Date Added:</strong><br/>  " . $date_added_formatted . "<br/><br/>";
 
             $due_date = "<strong>Due Date:</strong><br/>  " . $due_date_formatted . "<br/><br/>";
 
             $notes = "<strong>Notes:</strong><br/>  ";
             $fld = $flds->notes;
             $fld["fieldname"] = "TaskNotes";       //changed to disambiguate with Time Notes
-            $out = $output->create_html_output($fld, $task[0], [], 'tt-task', 'TaskID');
+            $out = $output->create_html_output($fld, $task[0], [], 'tt_task', 'TaskID');
             $notes .= $this->style_editable_field($out) . "<br/><br/>";
 
             $start_work_button = $this->add_start_work_button(intval($this->taskid), esc_textarea($task[0]->TDescription), sanitize_text_field($task[0]->Company)) . "<br/>";

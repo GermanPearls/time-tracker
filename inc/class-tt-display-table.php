@@ -394,7 +394,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
                     $args['class'] = [];
                 }
                 if ($details["editable"]) {
-                    array_push($args["class"], "editable");
+                    array_push($args["class"], "editable tt-type-" . str_replace(" ", "-", $details["type"]));
                     $args["contenteditable"] = "true";
                     $args["onBlur"] = $this->build_edit_action($details, $item, $table_name, $table_key, $sql_fieldname);
                 } else {
@@ -411,6 +411,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          * Build edit details
          * 
          * @since 3.0.13
+         * @since 3.1.0 add action to update task and/or project based on user changes
          * 
          * @param array $details Information about this cell and its structure (ie: html tags).
          * @param array|object $item Data that will populate this entire row.
@@ -422,6 +423,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
          */
         private function build_edit_action($details, $item, $table_name, $table_key_name, $sql_fieldname) {
             //allow for manually set table name, ref field, and ref value (vs default for entire table)
+            $actn = "";
             if (array_key_exists("edit-details", $details)) {
                 $table_name = $details["edit-details"]["table"];
                 $table_key_name = $details["edit-details"]["ref-field"];
@@ -432,7 +434,13 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
             } elseif ( is_array($item) ) {
                 $table_key_value = is_array($item[$table_key_name]) ? $item[$table_key_name]["value"] : $item[$table_key_name];
             }
-            return "updateDatabase(this, '" . $table_name . "', '" . $table_key_name . "', '" . $sql_fieldname . "', '" . $table_key_value. "')";
+            $actn .= "updateDatabase(this, '" . $table_name . "', '" . $table_key_name . "', '" . $sql_fieldname . "', '" . $table_key_value. "');";
+            if ($sql_fieldname == "ClientID") {
+                $actn .= " tt_update_project_dropdown(); tt_update_task_dropdown();";
+            } else if ($sql_fieldname == "ProjectID") {
+                $actn .= " tt_update_task_dropdown();";
+            }
+            return $actn;
         }
 
 

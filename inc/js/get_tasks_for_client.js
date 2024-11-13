@@ -1,22 +1,35 @@
 function tt_update_task_dropdown() {
   var taskField = jQuery(".tt-form").find("[name='task-name']")[0];
+  //cf7
   if (!taskField) {
+    //wp forms
     taskField = document.getElementById(jQuery(".tt-form").find("label:contains(Task)").prop("for"));
     if (!taskField) {
-      taskField = document.getElementById(jQuery(".tt-editable-field").children("select.task-with-id"));
+      //edit pages
+      taskField = jQuery("span.editable").find("select[title*='task']")[0];
     }
   }
 
+  var clientName = "";
   var clientField = jQuery(".tt-form").find("[name='client-name']")[0];
-  if (!clientField) {
+  //cf7 forms
+  if (clientField) {
+    clientName =  encodeURIComponent(clientField.value);
+  } else {
+    //wpforms
     clientField = document.getElementById(jQuery(".tt-form").find("label:contains(Client)").prop("for"));
-    if (!clientField) {
-      clientField = document.getElementById(jQuery(".tt-editable-field").children("select.client-with-id"));
+    if (clientField) {
+      clientName = encodeURIComponent(clientField.value);
+    } else {
+      //edit pages
+      clientField = jQuery("span.editable").find("select[title*='client']");
+      if (clientField) {
+        clientName = clientField.children("option:selected").text();
+      }
     }
   }   
 
-  if (clientField && taskField) {
-    var clientName =  encodeURIComponent(clientField.value);
+  if (clientName && taskField) {
     var send = {
         'security': wp_ajax_object_tt_update_task_list.security,
         'action': 'tt_update_task_list',
@@ -38,12 +51,14 @@ function tt_update_task_dropdown() {
       }
     });
   } else {
-    console.log("Could not update task dropdown based on client choice.");
-    if (!clientField) {
-      console.log("Could not locate client field.");
-    }
-    if (!taskField) {
-      console.log("Could not locate task field to update.");
+    if (!clientName) {
+      if (!taskField) {
+        console.log("Could not update task dropdown based on client choice. - Could not locate client or task field.");
+      } else {
+        console.log("Could not update task dropdown based on client choice. - Could not locate client field.");
+      }
+    } else if (!taskField) {
+      console.log("Could not update task dropdown based on client choice. - Could not locate task field to update.");
     }
   }
 }

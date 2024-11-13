@@ -201,6 +201,10 @@ div #tt-nav-links {
 /*****************************/
 /********** Buttons **********/
 /****************************/
+button.tt-button {
+    min-width: 100px;
+}
+
 .tt-buton a {
     margin: 10px 10px 10px 20px;
     display: block;
@@ -294,12 +298,11 @@ button.clear-error:hover {
     padding: 20px;
 }
 
+/********** General Buttons Mid-Page **********/
 /********** Button to Start Work Timer **********/
 /********** Button to View Task Detail **********/
-.start-work-timer, .open-task-detail, .tt-table-button {
-    width: 100%;
-    padding: 0.2em;
-    margin-right: 0.1em;
+.start-work-timer, .open-task-detail, .tt-table-button, .end-work-timer, .tt-midpage-button {
+    padding: 5px;
     margin-top:10px;
     margin-bottom: 10px;
     font-size: 0.8em;
@@ -309,20 +312,15 @@ button.clear-error:hover {
     box-shadow: 3px 3px 4px #888888;
 }
 
-.start-work-timer:hover, .open-task-detail:hover, .tt-table-button:hover, .tt-table-button:focus  {
-    padding: 0.2em;
+.tt-table-button {
+    width: 100%;
+    margin-right: 0.1em;
+}
+
+.start-work-timer:hover, .open-task-detail:hover, .tt-table-button:hover, .tt-table-button:focus, .end-work-timer:hover, .tt-midpage-button:hover  {
+    padding: 5px;
     text-decoration: none;
     font-weight: bold;
-}
-
-/********** General Buttons Mid-Page **********/
-.end-work-timer, .tt-midpage-button {
-    padding: 5px;
-    margin-bottom: 10px;
-}
-
-.end-work-timer:hover, .tt-midpage-button:hover {
-    text-decoration: none;
 }
 
 /********** Page Navigation Buttons **********/
@@ -567,13 +565,27 @@ td.on-hold-date {
 /***************************/
 /********** Editable Fields **********/
 /***************************/
-span.tt-editable-field > span:not(:has(select)) {
-    border: 1px solid <?php echo $neutral_background_light; ?>;
+span.tt-editable-field > span:not(:has(select)), span.tt-editable-field > span.editable.tt-type-select > select {
     padding-left: 5px;
     padding-right: 5px;
     display: inline-block;
     min-width: 25%;
-    min-height: 30px;
+    min-height: 25px;
+}
+
+span.tt-editable-field > span:not(:has(select)) {
+    border: 1px solid <?php echo $neutral_background_light; ?>;
+}
+
+span.tt-editable-field > span.editable.tt-type-select > select {
+    font-size: inherit;
+    border: 1px solid <?php echo $neutral_background_light; ?>;
+    padding: 5px;
+}
+
+span.tt-editable-field > span.editable.tt-type-long-text {
+    min-height: 200px;
+    mid-width: 50%
 }
 
 /***************************/
