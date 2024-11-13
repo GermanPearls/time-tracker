@@ -386,7 +386,7 @@ if ( ! class_exists('Time_Tracker_Display_Table') ) {
         /**
          * Add Editable Details
          * 
-         * @since 3.1.0 Broke out from funciton get_cell_args
+         * @since 3.1.0 Broke out from function get_cell_args
          */
         private function update_args_with_editable_details($details, $item, $sql_fieldname, $table_name, $table_key, $args=[]) {
             if ($sql_fieldname <> "") {
