@@ -215,11 +215,12 @@ if ( ! class_exists('Time_Tracker_Activator_Pages') ) {
          * Create button for exporting pending time
          * 
          * @since 3.0.13
+         * @since 3.1.1 Remove class from button.
          * 
          * @return string HTML of button to export pending time as csvs.
          */
         private static function get_pending_time_export_button() {
-            return "<input type=\"submit\" class=\"button tt-export-pending-time tt-button tt-midpage-button float-right no-border-radius\" name=\"tt-export-pending-time\" value=\"Download Data\" />";
+            return "<input type=\"submit\" class=\"button tt-export-pending-time tt-button float-right no-border-radius\" name=\"tt-export-pending-time\" value=\"Download Data\" />";
         }
 
         /**
