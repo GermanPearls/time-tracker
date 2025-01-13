@@ -192,8 +192,8 @@ if ( !class_exists( 'Task_Details' ) ) {
                     $display .= "<strong>Invoice Comments:</strong>  " . wp_kses_post(nl2br($time_entry->InvoiceComments)) . "<br/>";
                     $display .= "<strong>Time Notes:</strong>  " . wp_kses_post(nl2br($time_entry->TimeNotes)) . "<br/>";
 
-                    $time_edit_button = "<button onclick='location.href = \"" . TT_HOME . "edit-time/?time-id=" . esc_attr($task[0]->TimeID) . "\"' id=\"edit-time-" . esc_attr($task[0]->TimeID)  . "\" class=\"edit-time-detail tt-button tt-midpage-button\">Edit Time Entry</button>";
-                    $delete_time_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?time-id=" . esc_attr($task[0]->TimeID) . "\"' id=\"delete-time-" . esc_attr($task[0]->TimeID)  . "'\" class=\"open-delete-page tt-button tt-midpage-button\">Delete Time Entry</button>";
+                    $time_edit_button = "<button onclick='location.href = \"" . TT_HOME . "edit-time/?time-id=" . esc_attr($time_entry->TimeID) . "\"' id=\"edit-time-" . esc_attr($task[0]->TimeID)  . "\" class=\"edit-time-detail tt-button tt-midpage-button\">Edit Time Entry</button>";
+                    $delete_time_button = "<button onclick='location.href = \"" . TT_HOME . "delete-item/?time-id=" . esc_attr($time_entry->TimeID) . "\"' id=\"delete-time-" . esc_attr($task[0]->TimeID)  . "'\" class=\"open-delete-page tt-button tt-midpage-button\">Delete Time Entry</button>";
                     
                     $display .= $time_edit_button . $delete_time_button;
                     $display .= "<hr/>";

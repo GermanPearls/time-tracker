@@ -118,7 +118,7 @@ if ( !class_exists( 'Time_Details_Edit' ) ) {
             $taskdescription = "<strong>Task:</strong><br/>  ";
             $taskdescription .= "<p>Task # " . $task[0]->TaskID . "</p>";
             $taskdescription .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom:0px;'>Note: Task options may change based on client changes above.</p>";
-            $taskdescription .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom: 0px;'>Task was '" . $task[0]->TDescription . "' (ID " . $task[0]->TaskID . ").</p>";
+            $taskdescription .= "<p style='padding-left: 5px; font-size:11px; margin-top: 0px; margin-bottom: 0px;'>Task was '" . $task[0]->TDescription . "' (Task ID " . $task[0]->TaskID . ").</p>";
             $fld = $flds->task_select;
             $out = $output->create_html_output($fld, $task[0], [], 'tt_time', 'TimeID');
             $taskdescription .= $this->style_editable_field($out) . "<br/><br/>";
