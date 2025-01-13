@@ -3,9 +3,9 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, freelancer tools,  to do list, billing hours
 Requires at least: 5.3
-Tested up to: 6.6.1
+Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 3.0.14
+Stable tag: 3.1.0 (alpha)
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Time Tracker enables freelancers to clients, projects, tasks (including recurring), time, billing info and more on private pages of their website.
@@ -16,20 +16,18 @@ Time Tracker enables you to manage your to do lists, time worked, billable time,
 = Requirements =
 This plugin is an add-on and **requires either Contact Form 7 or WP Forms** plugin to work properly.
 
-**NEW:** Based on user request, this plugin now works with EITHER **Contact Form 7** OR **WP Forms**.
-
 One of these form plugins must be installed and activated before installing Time Tracker.
 
-Note that Time Tracker is in no way affiliated with Contact Form 7 or WP Forms.
+Time Tracker is in no way affiliated with Contact Form 7 or WP Forms.
 
 = Time Tracker Features =
 Time Tracker is a freelancer's time management tool. It keeps track of:
 
 * Clients including contact information, separate bill-to information, and how the client found you
-* Projects, which can have several related tasks
-* Recurring weekly, monthly, or yearly tasks; Tasks will automatically be added to your to do list based on your chosen frequence
+* Projects and their related tasks
+* Recurring weekly, monthly, or yearly tasks; Tasks will automatically be added to your to do list based on your chosen frequency
 * To do list with open items, due dates, time budget, and task status
-* Time worked including work notes and time billed
+* Time worked including work notes and billing details
 
 Time Tracker helps to:
 
@@ -43,7 +41,7 @@ Time Tracker helps to:
 
 == Installation ==
  
-**Please Note: This plugin requires a form plugin to function properly. (Contact Form 7 or WP Forms are currently supported prerequisites. One of these must be installed and activated prior to activating Time Tracker.)**
+**Please Note: This plugin requires a form plugin to function properly. Contact Form 7 or WP Forms are currently supported prerequisites. One of these must be installed and activated prior to activating Time Tracker.**
 
 1. Install and activate the Contact Form 7 or WP Forms plugin, if you don't have either already installed
 2. Install and activate the Time Tracker plugin
@@ -58,9 +56,11 @@ All of the information you enter on a Time Tracker screen is stored in your Word
  
 = How can I backup my Time Tracker information? =
  
-To manually backup your Time Tracker client, project, task, time, etc. data, go to the Time Tracker Tools page in your WordPress admin area and click the backup button.
+To manually backup your Time Tracker data, go to the Time Tracker Tools page in your WordPress admin area and click the backup button.
+
 This will create a backup of your information and place it on your server. (The file will be dated and located in your user's directory in a folder named 'tt_logs'.)
-Note: If you use a plugin or service to backup your WordPress database regularly, this will also backup your Time Tracker information.
+
+Your Time Tracker data will also be backed up anytime you backup your WordPress database (ie: with a backup plugin or backup automation built into your web host).
 
 = Will this work if I perform white label services or bill to third parties? =
  
@@ -80,7 +80,7 @@ No, to set up Time Tracker simply install it and setup your options like work ca
 
 = What if I make a mistake when I enter a task, can I correct it? =
  
-Yes, the screens of Time Tracker display your information in easy to read tables where you can easily edit information. All items can also be deleted from the user interface.
+Yes, the screens of Time Tracker display your information in tables where you can easily edit information. For more control, use the Edit buttons found on various screens. All items can also be deleted from the user interface.
 
 = Can I use Time Tracker on a multi-site installation? =
  
@@ -88,8 +88,7 @@ Time Tracker hasn't yet been tested on a multi-site application.
 
 = WordPress is installed in a subfolder / subdirectory, will Time Tracker still work? =
  
-Recent updates have improved the capability of this plugin to work in a subfolder/subdirectory installation. We welcome you to test it in your
-installation and provide detailed feedback if you find features that don't work so we can work to improve this capability.
+Recent updates have improved the capability of this plugin to work in a subfolder/subdirectory installation. We welcome you to test it in your installation and provide detailed feedback if you find features that don't work so we can work to improve this capability.
 
 == Screenshots ==
  
@@ -103,6 +102,9 @@ installation and provide detailed feedback if you find features that don't work 
  
 == Changelog ==
 
+= 3.1.0 -
+New Feature: New pages for easier editing of task and time entries
+
 = 3.0.14 =
 New Feature: Added Time Tracker links to admin header bar on front end
 
@@ -115,7 +117,7 @@ Improvement: Adjust time display to view Invoice details more compact
 Improvement: Consolidate table field definitions into class for consistency and brevity.
 Improvement: Moved sidebar menu to top menu
 Improvement: Clean up Time Tracker menu (sidebar and top menu)
-Improvement: Add button for exporting pending time in IIF format, ready for importing into QuickBooks for automated Invoice creation.
+Improvement: QuickBooks export - New button on Pending Time screen exports time not yet billed into a QuickBooks import file (.IIF) for faster invoice creation
 Improvement: Updated project listing to display projects with statuses not in predefined list as 'other' status
 Improvement: Misc code cleanup
 Fix: Removed deprecated php input filter
