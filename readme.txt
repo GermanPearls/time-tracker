@@ -5,7 +5,7 @@ Tags: time tracker, time management, freelancer tools,  to do list, billing hour
 Requires at least: 5.3
 Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 3.1.0 (alpha)
+Stable tag: 3.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Time Tracker enables freelancers to clients, projects, tasks (including recurring), time, billing info and more on private pages of their website.
@@ -104,6 +104,7 @@ Recent updates have improved the capability of this plugin to work in a subfolde
 
 = 3.1.0 -
 New Feature: New pages for easier editing of task and time entries
+Fix: Resolve issue where client categories were showing in sub-categories section in option page
 
 = 3.0.14 =
 New Feature: Added Time Tracker links to admin header bar on front end
