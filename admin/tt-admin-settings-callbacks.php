@@ -188,10 +188,12 @@ function tt_categories_client_categories_callback() {
 /**
  * Settings Field - Client Sub-Categories
  * Callback Function
+ * 
+ * @since 3.1.0 fixed to specify sub-categories instead of duplicating categories
  */
 function tt_categories_client_sub_categories_callback() {
     //get the value if it's already been entered
-    $csc = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "client_categories")));
+    $csc = trim(sanitize_textarea_field(\Logically_Tech\Time_Tracker\Inc\tt_get_user_options("time_tracker_categories", "client_sub_categories")));
     $str = "";
     if (isset( $csc )) {
         $str = esc_html($csc);
