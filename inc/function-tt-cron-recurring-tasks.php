@@ -173,6 +173,7 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
          * Add new task to db
          * 
          * @since 1.0.0
+         * @since 3.2.0 Add extra security to only allow insert into tt_task table.
          * 
          * @param string $desc Description of task.
          * @param string $client Client ID.
@@ -186,9 +187,8 @@ if ( !class_exists( 'TT_Cron_Recurring_Tasks' ) ) {
          */
         private function create_new_task($desc, $client, $proj, $time_est, $due, $notes, $details, $category, $r_task_id) {
             global $wpdb;
-            $table_name = 'tt_task';
             //wpdb->insert columns and values should be raw (not escaped) per https://developer.wordpress.org/reference/classes/wpdb/insert/#parameters
-            $result = $wpdb->insert( $table_name, array(
+            $result = $wpdb->insert('tt_task', array(
                 'TDescription' => $desc,
                 'ClientID'   => $client,
                 'ProjectID'    => $proj,
