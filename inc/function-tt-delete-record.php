@@ -16,6 +16,7 @@ namespace Logically_Tech\Time_Tracker\Inc;
  * Delete record from Time Tracker table
  * 
  * @since 2.2.0
+ * @since 3.2.0 Added security check to confirm editing tt table.
  * 
  * @return array Results including success, details, and message fields. 
  */
@@ -70,6 +71,8 @@ function tt_delete_record_function() {
                             }
 
                         } else {
+                            if (str_contains($tbl_list[$i], "tt_")) {
+                            }   //confirm tt table
 
                             $result = $wpdb->delete($tbl_list[$i], $record);
                             catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
