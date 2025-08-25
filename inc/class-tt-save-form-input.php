@@ -113,14 +113,13 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Save new task into db
          * 
          * @since 1.0.0
+         * @since 3.2.0 Add extra security to only allow insert into tt_task table.
          * 
          * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_task($data) {
             global $wpdb;
-            $table_name = 'tt_task';
 
-            //Add New Record to Database
             //wpdb class prepares this so it doesn't need to be SQL escaped
             foreach ($data as $key => $val) {
                 //supports task-category and category
@@ -128,8 +127,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                     $cat = $val;
                 }
             }
-
-            $wpdb->insert( $table_name, array(
+            $wpdb->insert( 'tt_task', array(
                 'TDescription' => $data['task-description'],
                 'ClientID'   => $this->client_id,
                 'ProjectID'    => $this->project_id,
@@ -149,12 +147,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Save new recurring task into db
          * 
          * @since 1.0.0
+         * @since 3.2.0 Add extra security to only allow insert into tt_recurring_task table.
          * 
          * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_recurring_task($data) {
             global $wpdb;
-            $table_name = 'tt_recurring_task';
 
             //Add New Record to Database
             //wpdb class prepares this so it doesn't need to be SQL escaped
@@ -174,7 +172,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
                 $desc = $data["task-notes"];
             }            
 
-            $wpdb->insert( $table_name, array(
+            $wpdb->insert( 'tt_recurring_task', array(
                 'RTName' => $data['task-name'],
                 'ClientID'   => $this->client_id,
                 'ProjectID'    => $this->project_id,
@@ -193,15 +191,13 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Save new project into db
          * 
          * @since 1.0.0
+         * @since 3.2.0 Add extra security to only allow insert into tt_project table.
          * 
          * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_project($data) {
             global $wpdb;
-            $table_name = 'tt_project';
-
-            //Add New Record to Database
-            $wpdb->insert( $table_name, array(
+            $wpdb->insert( 'tt_project', array(
                 'PName' => $data['project-name'],
                 'ClientID'   => $this->client_id,
                 'PCategory'    => $data['project-category'],
@@ -220,15 +216,13 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Save new client into db
          * 
          * @since 1.0.0
+         * @since 3.2.0 Add extra security to only allow insert into tt_client table.
          * 
          * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_client($data) {
             global $wpdb;
-            $table_name = 'tt_client';
-
-            //Add New Record to Database
-            $wpdb->insert( $table_name, array(
+            $wpdb->insert( 'tt_client', array(
                 'Company'   => $data['company'],
                 'Contact'    => $data['contact-name'],
                 'Email' => $data['contact-email'],
@@ -248,12 +242,12 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * Save new time entry into db
          * 
          * @since 1.0.0
+         * @since 3.2.0 Add extra security to only allow insert into tt_time table.
          * 
          * @param array $data Form data saved as key-value pairs.
          */
         private function save_new_time_entry($data) {
             global $wpdb;
-            $table_name = 'tt_time';
 
             //Convert Start and End Times to Date Formats (from text)
             $start = \DateTime::createFromFormat('n/j/y g:i A', $data['start-time'])->format('Y-m-d H:i:ss');
@@ -270,7 +264,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             }
 
             //Add New Record to Database
-            $wpdb->insert( $table_name, array(
+            $wpdb->insert( 'tt_time', array(
                 'StartTime' => $start,
                 'EndTime'   => $end,
                 'TNotes'    => $data['time-notes'],
@@ -308,6 +302,7 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
          * 
          * @since 1.0.0
          * @since 3.0.13 Correct function description
+         * @since 3.2.0 Add extra security to only allow insert into tt_task table.
          * 
          * @param array $data Form data saved as key-value pairs.
          */
@@ -316,11 +311,9 @@ if ( !class_exists( 'Save_Form_Input' ) ) {
             $start = date('Y-m-d H:i', strtotime($data['start-time']));
             $end = date('Y-m-d H:i', strtotime($data['end-time']));
             $follow_up_task_notes = "Created as a follow up to task id " . $this->task_id . " work completed between " . $start . " and " . $end;
-            $table_name = 'tt_task';
 
-            //Add New Record to Database
             //wpdb class prepares this so it doesn't need to be SQL escaped
-            $wpdb->insert( $table_name, array(
+            $wpdb->insert( 'tt_task', array(
                 'TDescription' => $data['follow-up'],
                 'ClientID'   => $this->client_id,
                 'TStatus' => "New",
