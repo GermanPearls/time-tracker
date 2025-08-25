@@ -19,6 +19,7 @@ namespace Logically_Tech\Time_Tracker\Inc;
  * 
  * @since 1.0.0
  * @since 3.0.13 Updated to remove trailing line breaks from updated value.
+ * @since 3.2.0 Updated to restrict db operations to time tracker tables.
  * 
  * @return array Result including success, details, and message.
  */
@@ -30,65 +31,73 @@ function tt_update_table_function() {
 					
 			global $wpdb;
 
-			$record = [
-				sanitize_text_field($_POST['id_field']) => sanitize_text_field($_POST['id'])
-			];
+			//restrict changes to time tracker tables
+			$tt_tbl = sanitize_text_field($_POST['table']);
+			if (string_contains($tt_tbl, "tt_")) {
 
-			//deal with date entries, must be inserted into database in yyyy-mm-dd format
-			if ( ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'date') OR strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') OR strtolower(sanitize_text_field($_POST['field'])) == 'endrepeat' ) AND !(sanitize_text_field($_POST['field']) == 'InvoicedTime') ) {
+				$id_fld = sanitize_text_field($_POST['id_field']);
+				$id_val = sanitize_text_field($_POST['id']);
+				$edit_fld = sanitize_text_field($_POST['field']);
+				$record = [
+					$id_fld => $id_val
+				];
 
-				//convert the date entered from a string to a date/time object
-				$date_entered = new \DateTime(sanitize_text_field($_POST['value']));
+				//deal with date entries, must be inserted into database in yyyy-mm-dd format
+				if ( ( strpos(strtolower($edit_fld), 'date') OR strpos(strtolower($edit_fld), 'time') OR strtolower($edit_fld) == 'endrepeat' ) AND !($edit_fld == 'InvoicedTime') ) {
 
-				//use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
-				$date_in_sql_format = $date_entered->format('Y') . "-" . $date_entered->format('m') . "-" . $date_entered->format('d');
-				
-				//deal with date and time entires, must be inserted into db in yyyy-mm-dd hh:mm:ss format
-				if ( strpos(strtolower(sanitize_text_field($_POST['field'])), 'time') ) {
-					$date_in_sql_format .= " " . $date_entered->format('H') . ":" . $date_entered->format('i') . ":" . $date_entered->format('s');
+					//convert the date entered from a string to a date/time object
+					$date_entered = new \DateTime(sanitize_text_field($_POST['value']));
+
+					//use date/time object to convert back to a string of standard SQL format yyyy-mm-dd
+					$date_in_sql_format = $date_entered->format('Y') . "-" . $date_entered->format('m') . "-" . $date_entered->format('d');
+					
+					//deal with date and time entires, must be inserted into db in yyyy-mm-dd hh:mm:ss format
+					if ( strpos(strtolower($edit_fld), 'time') ) {
+						$date_in_sql_format .= " " . $date_entered->format('H') . ":" . $date_entered->format('i') . ":" . $date_entered->format('s');
+					}
+
+					$data = [
+						$edit_fld => $date_in_sql_format
+					];
+					//the last argument, %s, tells the function to keep the data in string format
+					$result = $wpdb->update($tt_tbl, $data, $record);
+					catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
+						
+				//pass everything else along to the wp update function
+				} else {
+
+					//if updated value includes <br> that were automatically inserted remove them to avoid double line breaks
+					//we're using WPDB->update below so data should not be escaped
+					$updated_value = tt_remove_trailing_line_breaks(str_replace('<br><br>','<br>',$_POST['value']));
+
+					//if no data passed, update db with NULL instead of empty string
+					if ($updated_value == '') { $updated_value = NULL; }
+
+					$data = [
+						$edit_fld => $updated_value
+					];
+					$result = $wpdb->update($tt_tbl, $data, $record);
+					catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
 				}
 
-				$data = [
-					sanitize_text_field($_POST['field']) => $date_in_sql_format
-				];
-				//the last argument, %s, tells the function to keep the data in string format
-				$result = $wpdb->update(sanitize_text_field($_POST['table']), $data, $record);
-				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-					
-			//pass everything else along to the wp update function
-			} else {
+				//return result to ajax call
+				if ($wpdb->last_error !== "") {
+					$return = array(
+						'success' => 'false',
+						'details' => 'update table: ' . $tt_tbl. ', where  ' . $id_fld . "=" . $id_val . ', update field: ' . $edit_fld . " to value: " . $updated_value,
+						'message' => $wpdb->last_error
+					);
+					wp_send_json_error($return, 500);
+				} else {
+					$return = array(
+						'success' => 'true',
+						'details' => 'private',
+						'message' => 'Success, database updated.'
+					);
+					wp_send_json_success($return, 200);			
+				}
 
-				//if updated value includes <br> that were automatically inserted remove them to avoid double line breaks
-				//we're using WPDB->update below so data should not be escaped
-				$updated_value = tt_remove_trailing_line_breaks(str_replace('<br><br>','<br>',$_POST['value']));
-
-				//if no data passed, update db with NULL instead of empty string
-				if ($updated_value == '') { $updated_value = NULL; }
-
-				$data = [
-					sanitize_text_field($_POST['field']) => $updated_value
-				];
-				$result = $wpdb->update(sanitize_text_field($_POST['table']), $data, $record);
-				catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-			}
-
-			//return result to ajax call
-			if ($wpdb->last_error !== "") {
-				$return = array(
-					'success' => 'false',
-					'details' => 'update table: ' . sanitize_text_field($_POST['table']). ', where  ' . sanitize_text_field($_POST['id_field']) . "=" . sanitize_text_field($_POST['id']) . ', update field: ' . sanitize_text_field($_POST['field']) . " to value: " . $updated_value,
-					'message' => $wpdb->last_error
-				);
-				wp_send_json_error($return, 500);
-			} else {
-				$return = array(
-					'success' => 'true',
-					'details' => 'private',
-					'message' => 'Success, database updated.'
-				);
-				wp_send_json_success($return, 200);			
-			}
-			
+			}	//time tracker table
 		} //was _POST request
 	} //check nonce
 	die();
