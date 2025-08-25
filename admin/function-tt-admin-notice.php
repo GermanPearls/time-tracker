@@ -161,6 +161,21 @@ function tt_add_new_admin_notice_timer($name, $nexttime) {
     }
 }
 
+function tt_delete_admin_notice($name_to_delete) {
+    if (! get_option('time_tracker_admin_notices')) {
+        //no notices
+    } else {
+        $notices = get_option('time_tracker_admin_notices');
+        $updated_notices = array();
+        foreach ($notices as $existing_name => $next_time) {
+            if ($existing_name !== $name_to_delete) {
+                $updated_notices[$existing_name] = $next_time;
+            }
+        }
+		update_option('time_tracker_admin_notices', $updated_notices);
+    }    
+}
+
 if (! get_option('time_tracker_install_time')) {
     $dt_notice = new \DateTime(date_format(new \DateTime(), 'Y-m-d H:i:s') . " + 1 month");
 } else {
@@ -168,6 +183,6 @@ if (! get_option('time_tracker_install_time')) {
 }
 
 tt_add_new_admin_notice_timer('tt_feedback_request', $dt_notice);
-//tt_add_new_admin_notice_timer('tt_beta_tester_search', new \DateTime());
+tt_delete_admin_notice('tt_beta_tester_search');
 
 add_action( 'admin_notices', 'Logically_Tech\Time_Tracker\Admin\tt_dashboard_notice' );
