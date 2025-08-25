@@ -126,12 +126,13 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          * General Plugin Update
          * 
          * @since 2.4.3
+         * @since 3.1.1 Modified to force update forms
          * 
          * @param string $from_version Version currently installed - before updating, in format: x.x.x. 
          */
         private function tt_update_plugin($from_version) {
             $this->tt_update_pages();
-            $this->tt_update_forms();
+            $this->tt_update_forms(true);
             $this->tt_update_tables($from_version);
             $this->tt_update_version_in_db(TIME_TRACKER_VERSION);
         }
@@ -169,7 +170,7 @@ if ( !class_exists( 'Time_Tracker_Updater' ) ) {
          * 
          * @since 2.0.0
          * 
-         * @param boolean $force_update True if any differences between current version and installed version should be corrected, false if they should stay as is. Default false
+         * @param boolean $force_update True overwrites current forms if there are differences, false leaves existing forms as is. Default false
          */
         private function tt_update_forms($force_update = false) {
             require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-forms.php');
