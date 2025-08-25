@@ -93,6 +93,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * Delete all tables.
          * 
          * @since 1.0.0
+         * @since 3.2.0 Extra check to only allow time tracker tables to be deleted.
          */
         public static function delete_tables() {
             self::remove_foreign_keys_from_tables();
@@ -102,7 +103,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
             foreach ($tt_tables_delete_order as $tt_table) {
                 $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $tt_table));
                 catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-                if ($table_exists) {
+                if (($table_exists) && str_contains($tt_table, "tt_")) {
                     $sql = "DROP TABLE " . $tt_table;
                     $wpdb->query( $sql );
                     catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
@@ -115,6 +116,7 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
          * Remove Foreign Keys in preparation for deleting tables.
          * 
          * @since 1.0.0
+         * @since 3.2.0 Added check to only allow alterations to time tracker tables.
          */
         public static function remove_foreign_keys_from_tables() {
             global $wpdb;
@@ -125,12 +127,12 @@ if ( ! class_exists('Time_Tracker_Deletor') ) {
                 "tt_task" => array("FK_TaskTableToRecurringTaskTable", "FK_TaskTableToProjectTable", "FK_TaskTableToClientTable"),
                 "tt_project" => array("FK_ProjectTableToClientTable") 
             );
-            foreach($foreign_keys as $table => $keys) {
-                $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $table));
+            foreach($foreign_keys as $tt_table => $keys) {
+                $table_exists = $wpdb->query($wpdb->prepare('SHOW TABLES LIKE %s', $tt_table));
                 catch_sql_errors(__FILE__, __FUNCTION__, $wpdb->last_query, $wpdb->last_error);
-                if ($table_exists) {
+                if (($table_exists) && str_contains($tt_table, "tt_")) {
                     foreach($keys as $key) {
-                        $altertable = "ALTER TABLE " . $table;
+                        $altertable = "ALTER TABLE " . $tt_table;
                         $altertable .= " DROP FOREIGN KEY IF EXISTS " . $key;
                         //dbDelta($removeFK);
                         $wpdb->query($altertable);
