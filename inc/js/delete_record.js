@@ -23,6 +23,5 @@ function deleteRecord(tablename, idfield, itemid) {
             document.getElementById('tt-delete-confirmation-result').innerHTML = "there was a problem - " + idfield.replace("-", " ") + itemid + " was not deleted";
             console.log('Record deletion failed for table ' + tablename + ', ID ' + itemid + '. Response ' + response.textStatus);            
         }
-
 	});
   }

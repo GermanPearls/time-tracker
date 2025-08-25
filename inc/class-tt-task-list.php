@@ -247,7 +247,7 @@ if ( !class_exists( 'Task_List' ) ) {
             if ( ($this->notes <> "") and ($this->notes <> null) ) {
                 //Ref: developer.wordpress.org/reference/classes/wpdb/esc_like/
                 $wild = "%";
-                $search_like = "'" . $wild . $wpdb->esc_like( $this->notes ) . $wild . "'";
+                $search_like = "'" . $wild . $wpdb->esc_like($this->notes) . $wild . "'";
                 array_push($where_clauses, "tt_task.TNotes LIKE " . $search_like);
             }
             if ( (count($where_clauses) > 1) or ((count($where_clauses) == 1) and ($where_clauses[0] <> "")) ) {

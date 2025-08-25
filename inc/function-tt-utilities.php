@@ -489,7 +489,7 @@ function tt_get_currency_type() {
  * 
  * @since 2.4.3
  * 
- * @return integer Default billing rate as defined by user
+ * @return integer Default billing rate as defined by user, returns null if missing or error
  */
 function tt_get_default_billing_rate() {
     $rate = tt_get_user_options("time_tracker_categories", "default_rate");
@@ -775,7 +775,7 @@ function log_tt_misc($msg) {
  * @since 2.4.7
  * 
  * @param string $sql_string Sql string to run on WP database
- * @param string optional Type of response requested (ie: object or array)
+ * @param string Optional Type of response requested (ie: object or array)
  * 
  * @return object|array Response from sql request
  */
