@@ -28,7 +28,7 @@ function tt_delete_record_function() {
             $requested_id_fld = str_replace("_", "-", str_replace("tt_", "", $_POST['table'])) . "-id";
             $requested_id = $_POST['id'];
             //confirm request matches what is currently shown to user in browser, table and id match
-            if ($_GET[$requested_id_fld] == $requested_id) {
+            if (strpos($_SERVER['HTTP_REFERER'], $requested_id_fld . "=" . $requested_id) !== false) {
 					
                 global $wpdb;
                 $record = [
