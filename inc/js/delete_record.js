@@ -13,14 +13,14 @@ function deleteRecord(tablename, idfield, itemid) {
 	    data: send ,
         success: function(response){
             if (response.success) {
-                document.getElementById('tt-delete-confirmation-result').innerHTML = idfield.replace("-", " ") + itemid + " has been successfully deleted";
+                document.getElementById('tt-delete-confirmation-result').innerHTML = idfield.replace("-", " ") + " " + itemid + " has been successfully deleted";
             } else {
-                document.getElementById('tt-delete-confirmation-result').innerHTML = "there was a problem - " + idfield.replace("-", " ") + itemid + " was not deleted";
+                document.getElementById('tt-delete-confirmation-result').innerHTML = "there was a problem - " + idfield.replace("-", " ") + " " + itemid + " was not deleted";
                 console.log('Record deletion failed for table ' + tablename + ', ID ' + itemid + '. Attempt ' + response.details + '. Error: ' + response.message);
             }
         },
         fail: function(response) {
-            document.getElementById('tt-delete-confirmation-result').innerHTML = "there was a problem - " + idfield.replace("-", " ") + itemid + " was not deleted";
+            document.getElementById('tt-delete-confirmation-result').innerHTML = "there was a problem - " + idfield.replace("-", " ") + " " + itemid + " was not deleted.";
             console.log('Record deletion failed for table ' + tablename + ', ID ' + itemid + '. Response ' + response.textStatus);            
         }
 	});
