@@ -120,8 +120,32 @@ function tt_delete_record_function() {
                     wp_send_json_success($return, 200);		
                     die();
                 }
-            }   //confirm delete request matches current page displayed to user (restrict from rogue console delete requests)
-		} //nonce check
-	} //POST request
+            } else {
+                $return = array(
+                    'success' => 'false',
+                    'details' => 'private',
+                    'message' => 'SUCCESS: Record deleted for table: ' . sanitize_text_field($_POST['table']). ', where  ' . sanitize_text_field($_POST['field']) . "=" . sanitize_text_field($_POST['id']) . ". This is not the record for which the user requested deletion. Ajax requested id field and id were: " . $requested_id_fld . "=" . $requested_id . " but active url is " . $_SERVER['HTTP_REFERER'],
+                );
+                wp_send_json_success($return, 500);		
+                die();				
+            }  //confirm delete request matches current page displayed to user (restrict from rogue console delete requests)
+		} else {
+            $return = array(
+				'success' => 'false',
+				'details' => 'private',
+				'message' => 'SUCCESS: Record deleted for table: ' . sanitize_text_field($_POST['table']). ', where  ' . sanitize_text_field($_POST['field']) . "=" . sanitize_text_field($_POST['id']) . ". Failed security (nonce) check.",
+			);
+			wp_send_json_success($return, 500);		
+			die();            
+        }   //nonce check
+	} else {
+        $return = array(
+			'success' => 'false',
+			'details' => 'private',
+			'message' => 'SUCCESS: Record deleted for table: ' . sanitize_text_field($_POST['table']). ', where  ' . sanitize_text_field($_POST['field']) . "=" . sanitize_text_field($_POST['id']) . ". We only accept POST reqeusts.",
+		);
+		wp_send_json_success($return, 500);		
+		die();
+    }    //POST request
 die();
 }
