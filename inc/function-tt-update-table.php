@@ -33,7 +33,7 @@ function tt_update_table_function() {
 
 			//restrict changes to time tracker tables
 			$tt_tbl = sanitize_text_field($_POST['table']);
-			if (string_contains($tt_tbl, "tt_")) {
+			if (str_contains($tt_tbl, "tt_")) {
 
 				$id_fld = sanitize_text_field($_POST['id_field']);
 				$id_val = sanitize_text_field($_POST['id']);
