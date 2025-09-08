@@ -341,6 +341,30 @@ function tt_is_tt_form($form_name='', $form_id=0) {
 
 
 /**
+ * Check if this is a Time Tracker form
+ * 
+ * @since 3.2.0
+ * 
+ * @param string $table_name Name of table
+ * 
+ * @return boolean True if this is a Time Tracker table, false if table not associated with TT
+ */
+function tt_is_tt_table($table_name='') {
+    if ( ($table_name == '') or ($table_name == null) ) {
+        return false;
+    }
+    require_once(TT_PLUGIN_DIR_INC . 'class-time-tracker-activator-tables.php');
+	$tt_tables_arr = Time_Tracker_Activator_Tables::get_table_list();
+    foreach ($tt_tables_arr as $tt_table) {
+        if ($table_name == $tt_table) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
  * Check page status to verify it's private
  * 
  * @since 1.4.0
