@@ -53,12 +53,14 @@ if ( ! class_exists('Time_Tracker_Save_Form_Data_WPF') ) {
         /**
          * Sanitize data
          * 
+         * @since 3.2.0 Changed FILTER_SANITIZE_STRING (deprecated) to HTMLSPECIALCHARS
+         * 
          */
         private function clean_data($raw_data) {
             $clean_data = array();
             foreach ($raw_data as $id => $data) {            
                 $name = str_replace(" ", "-", strtolower($data["name"]));
-                $clean_data[$name] = filter_var($data['value'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                $clean_data[$name] = htmlspecialchars($data['value'], ENT_NOQUOTES);
             }
             return $clean_data;
         }
