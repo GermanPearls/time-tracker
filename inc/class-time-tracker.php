@@ -32,20 +32,24 @@ if ( ! class_exists('Time_Tracker') ) {
      * Main Plugin Class
      * 
      * @since 1.0.0
+     * @since 3.2.0 Only load Time Tracker for editors and administrators
      */  
     public static function instance() {
-      if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Time_Tracker ) ) {
-        self::$instance = new Time_Tracker;
-        self::$instance->setup_constants();
-        self::$instance->load_dependencies();
-        self::$instance->load_form_dependencies();
-        self::$instance->add_scripts();
-        self::$instance->add_styles();
-	      //self::$instance->log_plugin_installation();
-        //self::$instance->check_plugin_version();
-        //add_action( 'init', array( self::$instance, 'init' ) );
+      //only load time tracker for editors and administrators
+      if ( current_user_can('edit_others_posts') ) {
+        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Time_Tracker ) ) {
+          self::$instance = new Time_Tracker;
+          self::$instance->setup_constants();
+          self::$instance->load_dependencies();
+          self::$instance->load_form_dependencies();
+          self::$instance->add_scripts();
+          self::$instance->add_styles();
+          //self::$instance->log_plugin_installation();
+          //self::$instance->check_plugin_version();
+          //add_action( 'init', array( self::$instance, 'init' ) );
+        }
       }
-      //ADMIN
+      //TT ADMIN
       if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
         self::$instance->load_dependencies_admin();
         self::$instance->add_scripts_admin();
@@ -161,6 +165,7 @@ if ( ! class_exists('Time_Tracker') ) {
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-time-log-table.php');
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-pending-time.php'); 
       require_once(TT_PLUGIN_DIR_INC . 'class-tt-shortcode-delete-confirmation-content.php');
+
       require_once(TT_PLUGIN_DIR_ADMIN . 'class-tt-shortcode-error-alert.php');  
 
       //ADMIN MENUS - TOP MENU FRONT END
@@ -205,8 +210,6 @@ if ( ! class_exists('Time_Tracker') ) {
      * @since 1.0.0
      */
     public function time_tracker_scripts() {
-      //SCRIPTS
-
       //wp_enqueue_script( 'update_project_list', TT_PLUGIN_WEB_DIR_INC . 'js/get_projects_for_client.js', array(), null, true);
       wp_enqueue_script( 'update_end_timer', TT_PLUGIN_WEB_DIR_INC . 'js/update_end_timer.js', array(), null, true);
       wp_enqueue_script( 'start_timer_for_task', TT_PLUGIN_WEB_DIR_INC . 'js/start_timer_for_task.js', array(), null, true);
