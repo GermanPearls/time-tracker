@@ -82,6 +82,10 @@ No, to set up Time Tracker simply install it and setup your options like work ca
  
 Yes, the screens of Time Tracker display your information in tables where you can easily edit information. For more control, use the Edit buttons found on various screens. All items can also be deleted from the user interface.
 
+= Will my time tracker data be visible to the public? =
+ 
+Time Tracker pages and the data are only visible to users who are editors, administrators, or super administrators.
+
 = Can I use Time Tracker on a multi-site installation? =
  
 Time Tracker hasn't yet been tested on a multi-site application.
@@ -103,9 +107,12 @@ Recent updates have improved the capability of this plugin to work in a subfolde
 == Changelog ==
 
 = 3.2.0 alpha =
-Fix: Added security checks to restrict database changes to time tracker tables.
-Fix: Added security check to restrict deletion to item currently displayed for which user confirmed deletion. 
+Fix: Add security checks to restrict database changes to time tracker tables
+Fix: Add security check to restrict deletion to item currently displayed for which user confirmed deletion
 Fix: Correct default pay rate on new client form (update forms on each activation or update)
+Improvement: Only load Time Tracker for editors and administrators
+Improvement: Restrict nonce creation to editors and administrators
+Improvement: Code cleanup
 
 = 3.1.0 =
 New Feature: New pages for easier editing of task and time entries
