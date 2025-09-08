@@ -239,14 +239,14 @@ if ( ! class_exists('Time_Tracker') ) {
 
       //SAVE PATH TO SCRIPTS FOR USE IN JS
       //wp_localize_script('update_task_list', 'getDirectory', array('pluginURL' => plugins_url('',__FILE__)));
-      wp_localize_script('tt_update_project_dropdown', 'wp_ajax_object_tt_update_project_list', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => wp_create_nonce('tt_update_project_list_nonce')));
-      wp_localize_script('tt_update_task_dropdown', 'wp_ajax_object_tt_update_task_list', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => wp_create_nonce('tt_update_task_list_nonce')));
-      wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_clear_sql_error_nonce')));
-      wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_update_table_nonce')));
-      wp_localize_script('export_pending_time_to_csv', 'wp_ajax_object_tt_export_pending_time', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_nonce')));
-      wp_localize_script('export_pending_time_to_iif', 'wp_ajax_object_tt_export_pending_time_for_qb', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_for_qb_nonce')));
-      wp_localize_script('deleteRecord', 'wp_ajax_object_tt_delete_record', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_record_nonce')));
-      wp_localize_script('tt_start_timer_for_new_task', 'wp_ajax_object_tt_start_timer_for_new_task', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_start_timer_for_new_task_nonce')));
+      wp_localize_script('tt_update_project_dropdown', 'wp_ajax_object_tt_update_project_list', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => tt_create_nonce('tt_update_project_list_nonce')));
+      wp_localize_script('tt_update_task_dropdown', 'wp_ajax_object_tt_update_task_list', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => tt_create_nonce('tt_update_task_list_nonce')));
+      wp_localize_script('tt_clear_sql_error', 'wp_ajax_object_tt_clear_sql_error', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_clear_sql_error_nonce')));
+      wp_localize_script('updateDatabase', 'wp_ajax_object_tt_update_table', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_update_table_nonce')));
+      wp_localize_script('export_pending_time_to_csv', 'wp_ajax_object_tt_export_pending_time', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_export_pending_time_nonce')));
+      wp_localize_script('export_pending_time_to_iif', 'wp_ajax_object_tt_export_pending_time_for_qb', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_export_pending_time_for_qb_nonce')));
+      wp_localize_script('deleteRecord', 'wp_ajax_object_tt_delete_record', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_delete_record_nonce')));
+      wp_localize_script('tt_start_timer_for_new_task', 'wp_ajax_object_tt_start_timer_for_new_task', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_start_timer_for_new_task_nonce')));
 
       //pass time tracker homepage to functions - to work better with wordpress subfolder installs
       wp_localize_script( 'tt_filter_time_log', 'scriptDetails', array( 'tthomeurl' => TT_HOME));
@@ -358,11 +358,11 @@ if ( ! class_exists('Time_Tracker') ) {
       wp_enqueue_script( 'dismiss_admin_notice', TT_PLUGIN_WEB_DIR_ADMIN . 'js/dismiss_admin_notice.js', array('jquery'), null, true);
       
       //SAVE PATH TO SCRIPTS FOR USE IN JS
-      wp_localize_script('export_tt_data', 'wp_ajax_object_tt_export_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_data_nonce')));
-      wp_localize_script('export_pending_time_to_iif', 'wp_ajax_object_tt_export_pending_time_for_qb', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_export_pending_time_for_qb_nonce')));
-      wp_localize_script('delete_tt_data', 'wp_ajax_object_tt_delete_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_delete_data_nonce')));
-      wp_localize_script('run_recurring_task_cron', 'wp_ajax_object_tt_run_recurring_task_cron', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_run_recurring_task_cron_nonce')));
-      wp_localize_script('dismiss_admin_notice', 'wp_ajax_object_tt_dismiss_admin_notice', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce('tt_dismiss_admin_notice_nonce')));
+      wp_localize_script('export_tt_data', 'wp_ajax_object_tt_export_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_export_data_nonce')));
+      wp_localize_script('export_pending_time_to_iif', 'wp_ajax_object_tt_export_pending_time_for_qb', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_export_pending_time_for_qb_nonce')));
+      wp_localize_script('delete_tt_data', 'wp_ajax_object_tt_delete_data', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_delete_data_nonce')));
+      wp_localize_script('run_recurring_task_cron', 'wp_ajax_object_tt_run_recurring_task_cron', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_run_recurring_task_cron_nonce')));
+      wp_localize_script('dismiss_admin_notice', 'wp_ajax_object_tt_dismiss_admin_notice', array('ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => tt_create_nonce('tt_dismiss_admin_notice_nonce')));
     }
 
     

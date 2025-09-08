@@ -945,3 +945,19 @@ function tt_remove_all_line_breaks($str) {
     }
     return trim($str);
 }
+
+
+/**
+ * Create nonce if user is an editor or administrator
+ * 
+ * @since 3.2.0
+ * 
+ * @param string $str Label for nonce.
+ * 
+ * @return string Nonce.
+ */
+function tt_create_nonce($str) {
+    if ( current_user_can( 'edit_others_posts' ) ) {
+        return wp_create_nonce($str);
+    }
+}
