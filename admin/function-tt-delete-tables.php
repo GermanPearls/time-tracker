@@ -7,6 +7,7 @@
  * Called by button on admin screen, after user confirmed
  * 
  * @since 1.0
+ * @since 3.2.0 Cleaned up code
  * 
  */
 
@@ -17,41 +18,45 @@ use Logically_Tech\Time_Tracker\Inc\Time_Tracker_Deletor;
 
 function tt_delete_data_function() {
 
-	if ( ($_SERVER['REQUEST_METHOD'] = 'POST') && isset($_POST['type']) ){
+	if ( ($_SERVER['REQUEST_METHOD'] !== 'POST') || !(isset($_POST['type'])) ) {
+		$return = array(
+			'success' => false,
+			'msg' => 'Incorrect request, action aborted.'
+		);
+		wp_send_json_error($return, 500);
+	}
 
-		$type = sanitize_text_field($_POST['type']);
 
-    	if ($type == 'confirmed') {
-    	
-			if (check_ajax_referer('tt_delete_data_nonce', 'security')) {
+	if ( ! check_ajax_referer('tt_delete_data_nonce', 'security') ) {
+		$return = array(
+			'success' => false,
+			'msg' => 'Failed security check.'
+		);
+		wp_send_json_error($return, 500);
+	}
 
-				$e_before = error_get_last();
-				
-				require_once __DIR__ . '/../inc/class-time-tracker-delete.php';
-				Time_Tracker_Deletor::delete_tables_only();
+	$type = sanitize_text_field($_POST['type']);
 
-				$e_after = error_get_last();
-				
-				if ($e_before !== $e_after) {
-					$return = array(
-						'success' => false,
-						'msg' => 'There was an error deleting your data. Error Message: ' . $e_after['message']
-					);
-					wp_send_json_error($return, 500);
-				} else {
-					$return = array(
-						'success' => true,
-						'msg' => 'Your data was deleted.'
-					);
-					wp_send_json_success($return, 200);
-				}
-				
-				wp_die();
-				
-			} //security check
-        
-    	} //post type confirmed
+	if ($type == 'confirmed') {	
+		$e_before = error_get_last();
+		
+		require_once __DIR__ . '/../inc/class-time-tracker-delete.php';
+		Time_Tracker_Deletor::delete_tables_only();
 
-	} //if post with type set
-	
-} //function
+		$e_after = error_get_last();
+		
+		if ($e_before !== $e_after) {
+			$return = array(
+				'success' => false,
+				'msg' => 'There was an error deleting your data. Error Message: ' . $e_after['message']
+			);
+			wp_send_json_error($return, 500);
+		} else {
+			$return = array(
+				'success' => true,
+				'msg' => 'Your data was deleted.'
+			);
+			wp_send_json_success($return, 200);
+		}	
+	}	
+}

@@ -7,6 +7,7 @@
  * @since 2.4
  * @since 3.0.12 fix fatal activation error from function looking for option before it was created
  * @since 3.0.13 turned off beta tester request notice
+ * @since 3.2.0 Cleaned up code
  * 
  */
 
@@ -92,32 +93,38 @@ function tt_time_to_display_notice($tm) {
 
 
 function tt_dismiss_admin_notice_function() {
-    if ($_SERVER['REQUEST_METHOD'] = 'POST'){
-        if (check_ajax_referer('tt_dismiss_admin_notice_nonce', 'security')) {
-            $name = isset($_POST['nm']) ? $_POST['nm'] : '';
-            $months_out = isset($_POST['mnths']) ? \intval($_POST['mnths']) : 0;
-            if ( ($months_out > 0) and ($name != '') ) {
-                tt_update_admin_notice_timer($name, strtotime("+" . $months_out . "months", time()));
-                $return = array(
-                    'success' => true,
-                    'msg' => 'Admin notice delayed for ' . strval($months_out) . ' months.'
-                );
-                wp_send_json_success($return, 200);
-            } else {
-                tt_update_admin_notice_timer($name, strtotime("+1month", time()));
-                $return = array(
-                    'success' => false,
-                    'msg' => 'Error delaying admin notice, no delay time frame specified. Delayed for default of 1 month'
-                );
-                wp_send_json_error($return, 500);
-            }
-        } else {
-            $return = array(
-                'success' => false,
-                'msg' => 'Error delaying admin notice, security check failed.'
-            );
-            wp_send_json_error($return, 500);
-        }
+    if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+        $return = array(
+            'success' => false,
+            'msg' => 'Incorrect request, action aborted.'
+        );
+        wp_send_json_error($return, 500);
+    }
+
+    if ( ! check_ajax_referer('tt_dismiss_admin_notice_nonce', 'security') ) {
+        $return = array(
+            'success' => false,
+            'msg' => 'Error delaying admin notice, security check failed.'
+        );
+        wp_send_json_error($return, 500);
+    }
+
+    $name = isset($_POST['nm']) ? $_POST['nm'] : '';
+    $months_out = isset($_POST['mnths']) ? \intval($_POST['mnths']) : 0;
+    if ( ($months_out > 0) and ($name != '') ) {
+        tt_update_admin_notice_timer($name, strtotime("+" . $months_out . "months", time()));
+        $return = array(
+            'success' => true,
+            'msg' => 'Admin notice delayed for ' . strval($months_out) . ' months.'
+        );
+        wp_send_json_success($return, 200);
+    } else {
+        tt_update_admin_notice_timer($name, strtotime("+1month", time()));
+        $return = array(
+            'success' => false,
+            'msg' => 'Error delaying admin notice, no delay time frame specified. Delayed for default of 1 month'
+        );
+        wp_send_json_error($return, 500);
     }
 }
 
