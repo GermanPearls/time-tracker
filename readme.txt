@@ -3,9 +3,9 @@ Contributors: germanpearls
 Donate link: https://www.paypal.com/paypalme/germanpearls
 Tags: time tracker, time management, freelancer tools,  to do list, billing hours
 Requires at least: 5.3
-Tested up to: 6.6.2
+Tested up to: 6.8.2
 Requires PHP: 7.0
-Stable tag: 3.2.0 alpha
+Stable tag: 3.2.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Time Tracker enables freelancers to clients, projects, tasks (including recurring), time, billing info and more on private pages of their website.
@@ -108,7 +108,7 @@ Recent updates have improved the capability of this plugin to work in a subfolde
  
 == Changelog ==
 
-= 3.2.0 alpha =
+= 3.2.0 =
 Fix: Add security checks to restrict database changes to time tracker tables
 Fix: Add security check to restrict deletion to item currently displayed for which user confirmed deletion
 Fix: Correct default pay rate on new client form (update forms on each activation or update)
