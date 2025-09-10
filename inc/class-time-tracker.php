@@ -37,6 +37,7 @@ if ( ! class_exists('Time_Tracker') ) {
     public static function instance() {
       //only load time tracker for editors and administrators
       if ( current_user_can('edit_others_posts') ) {
+        //TT FUNCTIONALITY
         if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Time_Tracker ) ) {
           self::$instance = new Time_Tracker;
           self::$instance->setup_constants();
@@ -48,13 +49,13 @@ if ( ! class_exists('Time_Tracker') ) {
           //self::$instance->check_plugin_version();
           //add_action( 'init', array( self::$instance, 'init' ) );
         }
-      }
-      //TT ADMIN
-      if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-        self::$instance->load_dependencies_admin();
-        self::$instance->add_scripts_admin();
-        self::$instance->add_styles_admin();
-        self::$instance->init_settings();
+        //TT ADMIN
+        if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+          self::$instance->load_dependencies_admin();
+          self::$instance->add_scripts_admin();
+          self::$instance->add_styles_admin();
+          self::$instance->init_settings();
+        }
       }
       return self::$instance;
     }  //end public function instance
