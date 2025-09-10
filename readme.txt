@@ -39,6 +39,8 @@ Time Tracker helps to:
 * manage third party (or white label) work by organizing work by "bill to"
 * monitor weekly and monthly time to compare against goals
 
+Time Tracker pages and data can be viewed by all website Editors and Administrators.  
+
 == Installation ==
  
 **Please Note: This plugin requires a form plugin to function properly. Contact Form 7 or WP Forms are currently supported prerequisites. One of these must be installed and activated prior to activating Time Tracker.**
